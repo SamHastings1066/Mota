@@ -8,11 +8,26 @@
 import SwiftUI
 
 struct EmailTextField: View {
+    @Binding var email: String
+    var focusState: FocusState<FocusableField?>.Binding
+    var placeholder = "Email"
+
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        HStack {
+            Image(systemName: "at")
+            TextField(placeholder, text: $email)
+                .textInputAutocapitalization(.never)
+                .disableAutocorrection(true)
+                .focused(focusState, equals: .email)
+                .submitLabel(.next)
+        }
+        .padding(.vertical, 6)
+        .background(Divider(), alignment: .bottom)
+        .padding(.bottom, 4)
     }
 }
 
 #Preview {
-    EmailTextField()
+    @FocusState var focus: FocusableField?
+    return EmailTextField(email: .constant("Email"), focusState: $focus)
 }

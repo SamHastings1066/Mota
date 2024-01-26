@@ -1,45 +1,51 @@
 //
-//  AuthService.swift
+//  FirebaseAuthService.swift
 //  Mota
 //
-//  Created by sam hastings on 19/01/2024.
+//  Created by sam hastings on 25/01/2024.
 //
 
 import Foundation
 import FirebaseAuth
 
-@Observable
-final class AuthService {
+extension AppUser {
+    init(firebaseUser: FirebaseAuth.User) {
+        self.uid = firebaseUser.uid
+        self.email = firebaseUser.email
+    }
+}
+
+@Observable class FirebaseAuthService: AuthenticationService {
     
-    // TODO: The next two lines should be wrapped in conditional: if the current env is test then assign UserMock? and AuthserviceMock(). Now need to create user mock and authservice mock
-    var currentUser: FirebaseAuth.User?
+    var currentUser: AppUser?
+    var firebaseUser: FirebaseAuth.User?
     private let auth = Auth.auth()
-    static let shared = AuthService()
-    
     private var authStateHandler: AuthStateDidChangeListenerHandle?
     
     func registerAuthStateHandler() {
         if authStateHandler == nil {
-            authStateHandler = Auth.auth().addStateDidChangeListener { auth, user in
-                self.currentUser = user
+            authStateHandler = auth.addStateDidChangeListener { auth, user in
+                self.firebaseUser = user
+                if self.firebaseUser != nil {
+                    self.currentUser = AppUser(firebaseUser: self.firebaseUser!)
+                }
             }
         }
     }
     
-    private init() {
-        //currentUser = auth.currentUser
-        // see https://firebase.google.com/docs/auth/ios/manage-users for explanation of why setting a listener on the Auth object is better than using auth.currentUser directly.
+    init() {
         registerAuthStateHandler()
     }
     
     func signUpWithEmailPassword(email: String, password: String) async throws {
         let result = try await auth.createUser(withEmail: email, password: password)
-        currentUser = result.user
+        currentUser = AppUser(firebaseUser: result.user)
     }
     
     func signInWithEmailPassword(email: String, password: String) async throws {
+        print("WE GOT HERE")
         let result = try await auth.signIn(withEmail: email, password: password)
-        currentUser = result.user
+        currentUser = AppUser(firebaseUser: result.user)
     }
     
     func signOut() throws {
@@ -48,7 +54,7 @@ final class AuthService {
     }
     
     func deleteAccount() async throws {
-        try await currentUser?.delete()
+        try await firebaseUser?.delete()
         currentUser = nil
     }
     

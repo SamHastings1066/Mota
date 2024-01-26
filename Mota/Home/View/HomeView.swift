@@ -8,8 +8,19 @@
 import SwiftUI
 
 struct HomeView: View {
+    
+    var username = AuthService.shared.currentUser?.email
+    
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        NavigationStack {
+            VStack {
+                Text("You're logged in as \(username ?? "").")
+                    .accessibilityIdentifier("homeScreenGreetingText")
+                NavigationLink("View Profile") {
+                    UserView(viewModel: UserViewModel())
+                }
+            }
+        }
     }
 }
 

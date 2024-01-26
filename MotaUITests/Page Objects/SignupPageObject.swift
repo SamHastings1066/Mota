@@ -6,3 +6,17 @@
 //
 
 import Foundation
+import XCTest
+
+struct SignupPageObject: PageObject {
+    let app: XCUIApplication
+    
+    var signUpTitle: XCUIElement {
+        app.staticTexts["signUpTitle"]
+    }
+    
+    func verifySignUpTitleExists() -> Self {
+        XCTAssertTrue(signUpTitle.waitForExistence(timeout: 0.5))
+        return self
+    }
+}
