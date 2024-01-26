@@ -48,7 +48,7 @@ struct ResetPasswordView: View {
 
 #Preview {
     //Delete
-    //@Environment(FirebaseAuthService.self) var authService
-    //return ResetPasswordView(viewModel: LoginViewModel(authService: authService))
-    ResetPasswordView(viewModel: LoginViewModel())
+    @Environment(FirebaseAuthService.self) var authService
+    return ResetPasswordView(viewModel: LoginViewModel(authService: authService))
+    //ResetPasswordView(viewModel: LoginViewModel())
 }

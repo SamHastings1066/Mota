@@ -44,13 +44,11 @@ class LoginViewModel {
     var flow: AuthenticationFlow = .login
     var errorMessage = ""
     
-    //Delete
-    //var authService: AuthenticationService
+    var authService: AuthenticationService
     
-    // Delete
-//    init(authService: AuthenticationService) {
-//        self.authService = authService
-//    }
+    init(authService: AuthenticationService) {
+        self.authService = authService
+    }
     
     
     func validateSignUpForm() throws {
@@ -63,7 +61,8 @@ class LoginViewModel {
         authenticationState = .authenticating
         Task {
             do {
-                try await AuthService.shared.signInWithEmailPassword(email: email, password: password)
+                //try await AuthService.shared.signInWithEmailPassword(email: email, password: password)
+                try await authService.signInWithEmailPassword(email: email, password: password)
                 //authenticationState = .authenticated
             } catch {
                 print(error)
@@ -79,7 +78,8 @@ class LoginViewModel {
         Task {
             do {
                 try validateSignUpForm()
-                try await AuthService.shared.signUpWithEmailPassword(email: email, password: password)
+                //try await AuthService.shared.signUpWithEmailPassword(email: email, password: password)
+                try await authService.signUpWithEmailPassword(email: email, password: password)
             }
             catch AuthError.mismatchedPasswords {
                 print("Passwords do not match.")
@@ -97,7 +97,8 @@ class LoginViewModel {
     func resetPassword() async -> Bool {
         
             do {
-                try await AuthService.shared.resetPassword(email: emailForPasswordReset)
+                //try await AuthService.shared.resetPassword(email: emailForPasswordReset)
+                try await authService.resetPassword(email: emailForPasswordReset)
                 errorMessage = "A password reset link has been sent to the email provided."
                 return true
             } catch {

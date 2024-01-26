@@ -10,7 +10,6 @@ import SwiftUI
 struct UserView: View {
     
     var viewModel: UserViewModel
-    var username = AuthService.shared.currentUser?.email
     @State var presentingConfirmationDialog = false
     
     
@@ -45,7 +44,7 @@ struct UserView: View {
         }
         .listRowBackground(Color(UIColor.systemGroupedBackground))
         Section("Email") {
-          Text(username ?? "")
+          Text(viewModel.username ?? "")
         }
         Section {
             Button(role: .cancel, action: viewModel.signOut) {
@@ -78,5 +77,6 @@ struct UserView: View {
 }
 
 #Preview {
-    UserView(viewModel: UserViewModel())
+    @Environment(FirebaseAuthService.self) var authService
+    return UserView(viewModel: UserViewModel(authService: authService))
 }

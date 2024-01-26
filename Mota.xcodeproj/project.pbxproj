@@ -11,7 +11,7 @@
 		8469DE2D2B582E6D00D617D2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8469DE2C2B582E6D00D617D2 /* Assets.xcassets */; };
 		8469DE302B582E6D00D617D2 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8469DE2F2B582E6D00D617D2 /* Preview Assets.xcassets */; };
 		8469DE3A2B582E6D00D617D2 /* MotaUnitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8469DE392B582E6D00D617D2 /* MotaUnitTests.swift */; };
-		8469DE442B582E6D00D617D2 /* LoginTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8469DE432B582E6D00D617D2 /* LoginTests.swift */; };
+		8469DE442B582E6D00D617D2 /* LoginUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8469DE432B582E6D00D617D2 /* LoginUITests.swift */; };
 		8469DE462B582E6D00D617D2 /* MotaUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8469DE452B582E6D00D617D2 /* MotaUITestsLaunchTests.swift */; };
 		8469DE5D2B583CB900D617D2 /* AuthenticationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8469DE5C2B583CB900D617D2 /* AuthenticationViewModel.swift */; };
 		8469DE5F2B58409900D617D2 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8469DE5E2B58409800D617D2 /* GoogleService-Info.plist */; };
@@ -36,6 +36,8 @@
 		84C5ACFD2B6348C30002AAE3 /* AppUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C5ACFC2B6348C30002AAE3 /* AppUser.swift */; };
 		84C5ACFF2B6349080002AAE3 /* AuthenticationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C5ACFE2B6349080002AAE3 /* AuthenticationService.swift */; };
 		84C5AD012B634A450002AAE3 /* FirebaseAuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C5AD002B634A450002AAE3 /* FirebaseAuthService.swift */; };
+		84C5AD032B640D640002AAE3 /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C5AD022B640D640002AAE3 /* HomeViewModel.swift */; };
+		84C5AD052B64657A0002AAE3 /* MockAuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C5AD042B64657A0002AAE3 /* MockAuthService.swift */; };
 		84DD2D9B2B60086300633123 /* EmailTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84DD2D9A2B60086300633123 /* EmailTextField.swift */; };
 		84DD2D9D2B600D1A00633123 /* PasswordSecureField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84DD2D9C2B600D1A00633123 /* PasswordSecureField.swift */; };
 		84DD2D9F2B60199600633123 /* ResetPasswordView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84DD2D9E2B60199600633123 /* ResetPasswordView.swift */; };
@@ -66,7 +68,7 @@
 		8469DE352B582E6D00D617D2 /* MotaTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MotaTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		8469DE392B582E6D00D617D2 /* MotaUnitTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MotaUnitTests.swift; sourceTree = "<group>"; };
 		8469DE3F2B582E6D00D617D2 /* MotaUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MotaUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		8469DE432B582E6D00D617D2 /* LoginTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginTests.swift; sourceTree = "<group>"; };
+		8469DE432B582E6D00D617D2 /* LoginUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginUITests.swift; sourceTree = "<group>"; };
 		8469DE452B582E6D00D617D2 /* MotaUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MotaUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		8469DE5C2B583CB900D617D2 /* AuthenticationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationViewModel.swift; sourceTree = "<group>"; };
 		8469DE5E2B58409800D617D2 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
@@ -87,6 +89,8 @@
 		84C5ACFC2B6348C30002AAE3 /* AppUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppUser.swift; sourceTree = "<group>"; };
 		84C5ACFE2B6349080002AAE3 /* AuthenticationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationService.swift; sourceTree = "<group>"; };
 		84C5AD002B634A450002AAE3 /* FirebaseAuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseAuthService.swift; sourceTree = "<group>"; };
+		84C5AD022B640D640002AAE3 /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
+		84C5AD042B64657A0002AAE3 /* MockAuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockAuthService.swift; sourceTree = "<group>"; };
 		84DD2D9A2B60086300633123 /* EmailTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailTextField.swift; sourceTree = "<group>"; };
 		84DD2D9C2B600D1A00633123 /* PasswordSecureField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordSecureField.swift; sourceTree = "<group>"; };
 		84DD2D9E2B60199600633123 /* ResetPasswordView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResetPasswordView.swift; sourceTree = "<group>"; };
@@ -178,7 +182,7 @@
 				84C5ACF82B61858D0002AAE3 /* Utils */,
 				8469DE6B2B5ABB1500D617D2 /* Mocks */,
 				8469DE6A2B5ABB0900D617D2 /* Page Objects */,
-				8469DE432B582E6D00D617D2 /* LoginTests.swift */,
+				8469DE432B582E6D00D617D2 /* LoginUITests.swift */,
 				8469DE452B582E6D00D617D2 /* MotaUITestsLaunchTests.swift */,
 				8469DE702B5AC7A500D617D2 /* UITestCase.swift */,
 			);
@@ -235,6 +239,7 @@
 				8469DE792B5AF35E00D617D2 /* AuthService.swift */,
 				84C5ACFE2B6349080002AAE3 /* AuthenticationService.swift */,
 				84C5AD002B634A450002AAE3 /* FirebaseAuthService.swift */,
+				84C5AD042B64657A0002AAE3 /* MockAuthService.swift */,
 			);
 			path = Service;
 			sourceTree = "<group>";
@@ -271,6 +276,7 @@
 			isa = PBXGroup;
 			children = (
 				8469DE8E2B5C53C200D617D2 /* UserViewModel.swift */,
+				84C5AD022B640D640002AAE3 /* HomeViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -449,6 +455,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8469DE952B5D6B0A00D617D2 /* AuthenticationView.swift in Sources */,
+				84C5AD032B640D640002AAE3 /* HomeViewModel.swift in Sources */,
 				84C5ACFD2B6348C30002AAE3 /* AppUser.swift in Sources */,
 				8469DE8A2B5C510100D617D2 /* HomeView.swift in Sources */,
 				8469DE912B5C54D000D617D2 /* UserView.swift in Sources */,
@@ -463,6 +470,7 @@
 				84DD2D9F2B60199600633123 /* ResetPasswordView.swift in Sources */,
 				8469DE932B5D646E00D617D2 /* SignupView.swift in Sources */,
 				8469DE8F2B5C53C200D617D2 /* UserViewModel.swift in Sources */,
+				84C5AD052B64657A0002AAE3 /* MockAuthService.swift in Sources */,
 				84DD2D9D2B600D1A00633123 /* PasswordSecureField.swift in Sources */,
 				8469DE292B582E6900D617D2 /* MotaApp.swift in Sources */,
 			);
@@ -481,7 +489,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8469DE762B5AD65300D617D2 /* FirebaseAuthMock.swift in Sources */,
-				8469DE442B582E6D00D617D2 /* LoginTests.swift in Sources */,
+				8469DE442B582E6D00D617D2 /* LoginUITests.swift in Sources */,
 				8469DE462B582E6D00D617D2 /* MotaUITestsLaunchTests.swift in Sources */,
 				8469DE6D2B5ABDC100D617D2 /* LoginPageObject.swift in Sources */,
 				8469DE712B5AC7A500D617D2 /* UITestCase.swift in Sources */,

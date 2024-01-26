@@ -13,11 +13,20 @@ import Foundation
 class UserViewModel {
     
     var errorMessage = ""
-    var username = AuthService.shared.currentUser?.displayName
+    //var username = AuthService.shared.currentUser?.displayName
+    var username: String? {
+        authService.currentUser?.email
+    }
+    var authService: AuthenticationService
+    
+    init(authService: AuthenticationService) {
+        self.authService = authService
+    }
     
     func signOut() {
             do {
-                try AuthService.shared.signOut()
+                //try AuthService.shared.signOut()
+                try authService.signOut()
             } catch {
                 print(error)
                 errorMessage = error.localizedDescription
@@ -26,7 +35,8 @@ class UserViewModel {
     
     func deleteAccount() async -> Bool {
         do {
-            try await AuthService.shared.deleteAccount()
+            //try await AuthService.shared.deleteAccount()
+            try await authService.deleteAccount()
             return true
         } catch {
             errorMessage = error.localizedDescription
