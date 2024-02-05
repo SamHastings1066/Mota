@@ -7,10 +7,8 @@
 
 import XCTest
 
+/// Tests the login flow UI using a mocked auhentication service.
 final class LoginUITests: UITestCase {
-
-
-
 
     func test_should_disable_login_button_if_email_field_is_empty() {
         
@@ -35,7 +33,7 @@ final class LoginUITests: UITestCase {
     
     func test_should_display_error_message_if_login_attempted_with_unknown_user() {
         
-        // N.B. The error message when using a real firebase instance is different than the message from the emulator instance.
+//        // N.B. The error message when using a real firebase instance is different than the message from the emulator instance.
         _ = LoginPageObject(app: app)
             .typeEmail("Fatima@gmail.com")
             .typePassword("123")

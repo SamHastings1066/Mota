@@ -114,9 +114,6 @@ struct SignupView: View {
 }
 
 #Preview {
-    //Delete
-    @Environment(FirebaseAuthService.self) var authService
-    @State var viewModel = LoginViewModel(authService: authService)
-    //@State var viewModel = LoginViewModel()
+    @State var viewModel = LoginViewModel(authService: FirebaseAuthService())
     return SignupView(viewModel: $viewModel)
 }

@@ -24,10 +24,6 @@ enum FocusableField: Hashable {
   case confirmPassword
 }
 
-enum AuthError: Error {
-    case mismatchedPasswords
-}
-
 @Observable
 class LoginViewModel {
     var email = ""
@@ -64,6 +60,10 @@ class LoginViewModel {
                 //try await AuthService.shared.signInWithEmailPassword(email: email, password: password)
                 try await authService.signInWithEmailPassword(email: email, password: password)
                 //authenticationState = .authenticated
+            } catch let error as AuthError {
+                print(error)
+                errorMessage = error.localizedDescription
+                authenticationState = .unauthenticated
             } catch {
                 print(error)
                 errorMessage = error.localizedDescription

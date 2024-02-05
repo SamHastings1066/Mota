@@ -11,12 +11,6 @@ import FirebaseAuth
 
 
 
-// TODO: Update UI tests so that I have both an end-to-end test that uses teh firebase emulator and a pure UI test that uses a mock service
-// Think about how I can switch the using the mock service if the env variable is test.
-// Create another file called LoginEndToEndTests and a new EndToEndTestCase that launches with an "endtoend" var set. These tests should use the real firebase instance
-// Move all of your current tests in LoginUItests file into this new file. Keep only the test_should_navigate_to_home_screen_when_authenticated test in the LoginUITest file
-
-
 // TODO: delete unused files and clean up names of files:
 // delete the old ViewModel folder
 // - LoginViewModel -> AuthenticationViewModel
@@ -50,8 +44,6 @@ struct MotaApp: App {
         } else {
             authService = FirebaseAuthService()
         }
-        
-//        authService = FirebaseAuthService()
         
         if CommandLine.arguments.contains("reset") {
             // Ensure app launches in logged out state

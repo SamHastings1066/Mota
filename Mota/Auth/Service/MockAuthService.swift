@@ -11,20 +11,37 @@ import Foundation
 enum MockError: Error {
     case wrongPassword
 }
-
+//1:44:26
 @Observable
 class MockAuthService: AuthenticationService {
     var currentUser: AppUser?
+    
+    func validateForm(email: String, password: String) throws {
+        if !email.isValidEmail() {
+            throw AuthError.invalidEmail
+        } else if email != "sam@example.com" {
+            throw AuthError.userNotFound
+        }
+        else if email != "sam@example.com" || password != "123456" {
+            throw AuthError.wrongPassword
+        }
+        
+    }
     
     func signUpWithEmailPassword(email: String, password: String) async throws {
         throw MockError.wrongPassword
     }
     
     func signInWithEmailPassword(email: String, password: String) async throws {
-        func signUp(email: String, password: String) throws -> String{
-            if email != "sam@example.com" || password != "123456" {
-                throw MockError.wrongPassword
-            }
+        func signUp(email: String, password: String) throws -> String {
+//            if email != "sam@example.com" || password != "123456" {
+//                throw MockError.wrongPassword
+//            }
+            try validateForm(email: email, password: password)
+//            if !email.isValidEmail() {
+//                throw AuthError.invalidEmail
+//            }
+            
             return email
         }
         let userEmail = try signUp(email: email, password: password)

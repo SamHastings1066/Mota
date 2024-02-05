@@ -77,6 +77,5 @@ struct UserView: View {
 }
 
 #Preview {
-    @Environment(FirebaseAuthService.self) var authService
-    return UserView(viewModel: UserViewModel(authService: authService))
+    return UserView(viewModel: UserViewModel(authService: FirebaseAuthService()))
 }

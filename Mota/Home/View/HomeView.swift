@@ -8,30 +8,27 @@
 import SwiftUI
 
 struct HomeView: View {
-    
-    //var username = AuthService.shared.currentUser?.email
-    
+        
     var viewModel: HomeViewModel
-    //@Environment(FirebaseAuthService.self) var authService
-    
-//    var authService: AuthenticationService
-//    
-//    if ProcessInfo.processInfo.arguments.contains("UITest") {
-//        @Environment(MockAuthService.self) var authService
-//    } else {
-//        @Environment(FirebaseAuthService.self) var authService
-//    }
+
     
     var body: some View {
-        NavigationStack {
-            VStack {
-                //Text("You're logged in as \(username ?? "").")
-                Text("You're logged in as \(viewModel.authService.currentUser?.email ?? "").")
-                    .accessibilityIdentifier("homeScreenGreetingText")
-                NavigationLink("View Profile") {
-                    UserView(viewModel: UserViewModel(authService: viewModel.authService))
+        TabView {
+            FeedView(viewModel: FeedViewModel(authService: viewModel.authService))
+                .badge(2)
+                .tabItem {
+                    Label("Workouts", systemImage: "tray.and.arrow.down.fill")
                 }
-            }
+            EditWorkoutView()
+                .tabItem {
+                    Label("Create workout", systemImage: "plus.app.fill")
+                }
+                .navigationTitle("My Title")
+            UserView(viewModel: UserViewModel(authService: viewModel.authService))
+                .badge("!")
+                .tabItem {
+                    Label("Profile", systemImage: "person.crop.circle.fill")
+                }
         }
     }
 }

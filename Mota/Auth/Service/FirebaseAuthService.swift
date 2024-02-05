@@ -15,6 +15,8 @@ extension AppUser {
     }
 }
 
+
+
 @Observable class FirebaseAuthService: AuthenticationService {
     
     var currentUser: AppUser?
@@ -43,9 +45,17 @@ extension AppUser {
     }
     
     func signInWithEmailPassword(email: String, password: String) async throws {
-        print("WE GOT HERE")
-        let result = try await auth.signIn(withEmail: email, password: password)
-        currentUser = AppUser(firebaseUser: result.user)
+//        do {
+            let result = try await auth.signIn(withEmail: email, password: password)
+            currentUser = AppUser(firebaseUser: result.user)
+//        } catch {
+//            let error = error as NSError
+//            switch error.code {
+//            case AuthErrorCode.invalidEmail:
+//            default:
+//                
+//            }
+//        }
     }
     
     func signOut() throws {
