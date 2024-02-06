@@ -88,10 +88,10 @@ final class WhenCreatingExerciseObject: XCTestCase {
     """.data(using: .utf8)!
     
     func testShouldCreateThreeObjects() throws {
-        let exercisesTemp = try JSONDecoder().decode([Exercise].self, from: jsonData)
+        let exercisesTemp = try JSONDecoder().decode([DatabaseExercise].self, from: jsonData)
         XCTAssertEqual(exercisesTemp.count, 3)
         XCTAssertEqual(exercisesTemp[0].name, "3/4 Sit-Up")
-        XCTAssertEqual(exercisesTemp[0].mechanic, Exercise.Mechanic.compound)
+        XCTAssertEqual(exercisesTemp[0].mechanic, DatabaseExercise.Mechanic.compound)
         XCTAssertEqual(exercisesTemp[1].mechanic, nil)
     }
 
@@ -101,7 +101,7 @@ final class WhenUsingLoadFunction: XCTestCase {
     
     func testExerciseObjectExists() throws {
         XCTAssertEqual(exercises[0].name, "3/4 Sit-Up")
-        XCTAssertEqual(exercises[0].mechanic, Exercise.Mechanic.compound)
+        XCTAssertEqual(exercises[0].mechanic, DatabaseExercise.Mechanic.compound)
         XCTAssertEqual(exercises[1].mechanic, nil)
         XCTAssertEqual(exercises[3].name, "Ab Roller")
     }

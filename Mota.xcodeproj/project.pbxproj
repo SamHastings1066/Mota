@@ -53,6 +53,8 @@
 		84DD2D9B2B60086300633123 /* EmailTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84DD2D9A2B60086300633123 /* EmailTextField.swift */; };
 		84DD2D9D2B600D1A00633123 /* PasswordSecureField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84DD2D9C2B600D1A00633123 /* PasswordSecureField.swift */; };
 		84DD2D9F2B60199600633123 /* ResetPasswordView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84DD2D9E2B60199600633123 /* ResetPasswordView.swift */; };
+		84DE653F2B7276FD009A9D40 /* WorkoutTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84DE653E2B7276FD009A9D40 /* WorkoutTests.swift */; };
+		84DE65412B72784B009A9D40 /* Workout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84DE65402B72784B009A9D40 /* Workout.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -118,6 +120,8 @@
 		84DD2D9A2B60086300633123 /* EmailTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailTextField.swift; sourceTree = "<group>"; };
 		84DD2D9C2B600D1A00633123 /* PasswordSecureField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordSecureField.swift; sourceTree = "<group>"; };
 		84DD2D9E2B60199600633123 /* ResetPasswordView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResetPasswordView.swift; sourceTree = "<group>"; };
+		84DE653E2B7276FD009A9D40 /* WorkoutTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutTests.swift; sourceTree = "<group>"; };
+		84DE65402B72784B009A9D40 /* Workout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Workout.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -198,6 +202,7 @@
 			children = (
 				8469DE392B582E6D00D617D2 /* MotaUnitTests.swift */,
 				84C5AD1E2B69677A0002AAE3 /* ExerciseTests.swift */,
+				84DE653E2B7276FD009A9D40 /* WorkoutTests.swift */,
 			);
 			path = MotaUnitTests;
 			sourceTree = "<group>";
@@ -362,6 +367,7 @@
 			children = (
 				84C5AD1C2B69635B0002AAE3 /* Exercise.swift */,
 				847E349E2B6A8F890004864D /* ExerciseData.swift */,
+				84DE65402B72784B009A9D40 /* Workout.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -538,6 +544,7 @@
 				84C5AD1D2B69635B0002AAE3 /* Exercise.swift in Sources */,
 				8469DE932B5D646E00D617D2 /* SignupView.swift in Sources */,
 				8469DE8F2B5C53C200D617D2 /* UserViewModel.swift in Sources */,
+				84DE65412B72784B009A9D40 /* Workout.swift in Sources */,
 				84C5AD052B64657A0002AAE3 /* MockAuthService.swift in Sources */,
 				84DD2D9D2B600D1A00633123 /* PasswordSecureField.swift in Sources */,
 				84C5AD0D2B65C9890002AAE3 /* String+Ext.swift in Sources */,
@@ -551,6 +558,7 @@
 			files = (
 				8469DE3A2B582E6D00D617D2 /* MotaUnitTests.swift in Sources */,
 				84C5AD1F2B69677A0002AAE3 /* ExerciseTests.swift in Sources */,
+				84DE653F2B7276FD009A9D40 /* WorkoutTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

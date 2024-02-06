@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct ExerciseRowView: View {
-    var exercise: Exercise
+    var exercise: DatabaseExercise
     
     var body: some View {
         HStack {

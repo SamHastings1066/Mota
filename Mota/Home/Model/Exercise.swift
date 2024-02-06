@@ -1,5 +1,5 @@
 //
-//  Exercise.swift
+//  DatabaseExercise.swift
 //  Mota
 //
 //  Created by sam hastings on 30/01/2024.
@@ -9,7 +9,15 @@
 
 import Foundation
 
-struct Exercise: Codable, Hashable, Identifiable {
+protocol Exercise {
+    var name: String { get }
+}
+
+struct UserDefinedExercise: Exercise {
+    let name: String    
+}
+
+struct DatabaseExercise: Codable, Hashable, Identifiable, Exercise {
     let id: String
     let name: String
     let force: Force?
@@ -52,8 +60,8 @@ struct Exercise: Codable, Hashable, Identifiable {
     }
 }
 
-extension Exercise {
-    static var sampleData: [Exercise] {
+extension DatabaseExercise {
+    static var sampleExercises: [DatabaseExercise] {
         let jsonData = """
         [
             {
@@ -132,7 +140,7 @@ extension Exercise {
         """.data(using: .utf8)!
 
         do {
-            let exercises = try JSONDecoder().decode([Exercise].self, from: jsonData)
+            let exercises = try JSONDecoder().decode([DatabaseExercise].self, from: jsonData)
             return exercises
         } catch {
             print("Error decoding sample data: \(error)")
