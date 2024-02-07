@@ -17,12 +17,25 @@ struct EditWorkoutView: View {
     
     @State var isAddExercisePresented = false
     @State var path: NavigationPath = NavigationPath()
+    var workout: Workout {
+        let set1 =  SingleSet(exercise: UserDefinedExercise(name: "Squat"), weight: 100, reps: 5)
+        let set2 = SingleSet(exercise: UserDefinedExercise(name: "Bench"), weight: 50, reps: 6)
+        let superSet1 = SuperSet(sets: [set1, set2], rest: 50, numRounds: 8)
+        
+        // Create second superset
+        let set3 =  SingleSet(exercise: DatabaseExercise.sampleExercises[0], weight: 120, reps: 8)
+        let set4 = SingleSet(exercise: DatabaseExercise.sampleExercises[1], weight: 30, reps: 9)
+        let superSet2 = SuperSet(sets: [set3, set4], rest: 120, numRounds: 8)
+        
+        return Workout(supersets: [superSet1, superSet2])
+    }
     
     var body: some View {
         NavigationStack {
             Form {
                 Section(header: Text("Exercise 1") ) {
-                    Text("Squat")
+                    //SupersetCollapsedView(superset: workout.supersets[0])
+                    SupersetCollapsedView(viewModel: SuperSetViewModel(superset: workout.supersets[0]))
                 }
                 Section(header: Text("Exercise 2") ) {
                     Text("Bench press")
@@ -69,6 +82,21 @@ struct EditWorkoutView: View {
     }
 }
 
+// TODO: Create VM for SupersetCollapsedView - this will convert the superset given to it into a list of subsets - a subset will have name, optional reps, optional weight
+struct SupersetCollapsedView: View {
+    var viewModel: SuperSetViewModel
+    //var superset: SuperSet
+    var body: some View {
+        HStack {
+            Text(viewModel.sets[0].name)
+            //Text(superset.sets[0][0].exercise.name)
+        }
+    }
+}
+
+
 #Preview {
     EditWorkoutView()
 }
+
+

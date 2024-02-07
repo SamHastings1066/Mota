@@ -55,6 +55,7 @@
 		84DD2D9F2B60199600633123 /* ResetPasswordView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84DD2D9E2B60199600633123 /* ResetPasswordView.swift */; };
 		84DE653F2B7276FD009A9D40 /* WorkoutTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84DE653E2B7276FD009A9D40 /* WorkoutTests.swift */; };
 		84DE65412B72784B009A9D40 /* Workout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84DE65402B72784B009A9D40 /* Workout.swift */; };
+		84DE65442B7292AF009A9D40 /* SuperSetViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84DE65432B7292AF009A9D40 /* SuperSetViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -122,6 +123,7 @@
 		84DD2D9E2B60199600633123 /* ResetPasswordView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResetPasswordView.swift; sourceTree = "<group>"; };
 		84DE653E2B7276FD009A9D40 /* WorkoutTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutTests.swift; sourceTree = "<group>"; };
 		84DE65402B72784B009A9D40 /* Workout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Workout.swift; sourceTree = "<group>"; };
+		84DE65432B7292AF009A9D40 /* SuperSetViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SuperSetViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -297,6 +299,7 @@
 		8469DE8C2B5C530100D617D2 /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
+				84DE65422B729294009A9D40 /* EditWorkout */,
 				8469DE8E2B5C53C200D617D2 /* UserViewModel.swift */,
 				84C5AD022B640D640002AAE3 /* HomeViewModel.swift */,
 				84C5AD102B6822F00002AAE3 /* FeedViewModel.swift */,
@@ -379,6 +382,14 @@
 				84DD2D9C2B600D1A00633123 /* PasswordSecureField.swift */,
 			);
 			path = "Common Views";
+			sourceTree = "<group>";
+		};
+		84DE65422B729294009A9D40 /* EditWorkout */ = {
+			isa = PBXGroup;
+			children = (
+				84DE65432B7292AF009A9D40 /* SuperSetViewModel.swift */,
+			);
+			path = EditWorkout;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -536,6 +547,7 @@
 				84C5AD112B6822F00002AAE3 /* FeedViewModel.swift in Sources */,
 				8469DE802B5AF6CC00D617D2 /* LoginViewModel.swift in Sources */,
 				84C5AD132B68266C0002AAE3 /* EditWorkoutView.swift in Sources */,
+				84DE65442B7292AF009A9D40 /* SuperSetViewModel.swift in Sources */,
 				8440DCE92B6C61DA006D4EFC /* EditSetView.swift in Sources */,
 				84C5AD012B634A450002AAE3 /* FirebaseAuthService.swift in Sources */,
 				847E349F2B6A8F890004864D /* ExerciseData.swift in Sources */,
