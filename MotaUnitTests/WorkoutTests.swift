@@ -71,8 +71,44 @@ final class WhenCreatingWorkoutObject: XCTestCase {
 
 }
 
-final class WhenCreatingCollapsedSupersetRepresentation {
+final class WhenCreatingCollapsedSuperset: XCTestCase {
     
-    //test
+    func testShouldPopulateAllCollapsedSupersetValuesWhenTheyAreTheSameForEachRoundInTheSuperSet() throws {
+        let set1 =  SingleSet(exercise: UserDefinedExercise(name: "Squat"), weight: 100, reps: 5)
+        let set2 = SingleSet(exercise: UserDefinedExercise(name: "Bench"), weight: 50, reps: 6)
+        let superSet = SuperSet(sets: [set1, set2], rest: 50, numRounds: 8)
+        
+        let collapsedSuperSet = CollapsedSuperset(superSet)
+        XCTAssertEqual(collapsedSuperSet.setRepresentation.rest, 50)
+        XCTAssertEqual(collapsedSuperSet.numRounds, 8)
+        XCTAssertEqual(collapsedSuperSet.setRepresentation.rounds[0].exercise.name, "Squat")
+        XCTAssertEqual(collapsedSuperSet.setRepresentation.rounds[0].weight, 100)
+        XCTAssertEqual(collapsedSuperSet.setRepresentation.rounds[0].reps, 5)
+        XCTAssertEqual(collapsedSuperSet.setRepresentation.rounds[1].exercise.name, "Bench")
+        XCTAssertEqual(collapsedSuperSet.setRepresentation.rounds[1].weight, 50)
+        XCTAssertEqual(collapsedSuperSet.setRepresentation.rounds[1].reps, 6)
+        
+    }
+    
+    func testShouldOnlyPopulateCollapsedSupersetValuesIfTheyAreTheSameForEachRoundInTheSuperSet() throws {
+        let set1 =  SingleSet(exercise: UserDefinedExercise(name: "Squat"), weight: 100, reps: 5)
+        let set2 = SingleSet(exercise: UserDefinedExercise(name: "Bench"), weight: 50, reps: 6)
+        let set3 =  SingleSet(exercise: UserDefinedExercise(name: "Squat"), weight: 100, reps: 4)
+        let set4 = SingleSet(exercise: UserDefinedExercise(name: "Bench"), weight: 40, reps: 6)
+        let superSet = SuperSet(sets: [(set: [set1, set2], rest:40), (set: [set3,set4], rest: 50)])
+        
+        let collapsedSuperSet = CollapsedSuperset(superSet)
+        XCTAssertEqual(collapsedSuperSet.setRepresentation.rest, nil)
+        XCTAssertEqual(collapsedSuperSet.numRounds, 2)
+        XCTAssertEqual(collapsedSuperSet.setRepresentation.rounds[0].exercise.name, "Squat")
+        XCTAssertEqual(collapsedSuperSet.setRepresentation.rounds[0].weight, 100)
+        XCTAssertEqual(collapsedSuperSet.setRepresentation.rounds[0].reps, nil)
+        XCTAssertEqual(collapsedSuperSet.setRepresentation.rounds[1].exercise.name, "Bench")
+        XCTAssertEqual(collapsedSuperSet.setRepresentation.rounds[1].weight, nil)
+        XCTAssertEqual(collapsedSuperSet.setRepresentation.rounds[1].reps, 6)
+        
+    }
+    
+    
     
 }

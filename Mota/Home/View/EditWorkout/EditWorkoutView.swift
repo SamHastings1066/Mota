@@ -18,38 +18,41 @@ struct EditWorkoutView: View {
     @State var isAddExercisePresented = false
     @State var path: NavigationPath = NavigationPath()
     var workout: Workout {
-        let set1 =  SingleSet(exercise: UserDefinedExercise(name: "Squat"), weight: 100, reps: 5)
+        // Create first superset
+        let set1 =  SingleSet(exercise: exercises.first(where: { $0.id == "Barbell_Squat" }) ?? exercises[0], weight: 100, reps: 5)
         let set2 = SingleSet(exercise: UserDefinedExercise(name: "Bench"), weight: 50, reps: 6)
         let superSet1 = SuperSet(sets: [set1, set2], rest: 50, numRounds: 8)
         
         // Create second superset
-        let set3 =  SingleSet(exercise: DatabaseExercise.sampleExercises[0], weight: 120, reps: 8)
-        let set4 = SingleSet(exercise: DatabaseExercise.sampleExercises[1], weight: 30, reps: 9)
-        let superSet2 = SuperSet(sets: [set3, set4], rest: 120, numRounds: 8)
+        let set3 =  SingleSet(exercise: UserDefinedExercise(name: "Deadlift"), weight: 100, reps: 5)
+        let set4 = SingleSet(exercise: UserDefinedExercise(name: "Bench"), weight: 50, reps: 6)
+        let set5 =  SingleSet(exercise: UserDefinedExercise(name: "Deadlift"), weight: 100, reps: 4)
+        let set6 = SingleSet(exercise: UserDefinedExercise(name: "Bench"), weight: 40, reps: 6)
+        let superSet2 = SuperSet(sets: [(set: [set3, set4], rest:40), (set: [set5,set6], rest: 50)])
         
         return Workout(supersets: [superSet1, superSet2])
     }
     
     var body: some View {
         NavigationStack {
-            Form {
-                Section(header: Text("Exercise 1") ) {
-                    //SupersetCollapsedView(superset: workout.supersets[0])
-                    SupersetCollapsedView(viewModel: SuperSetViewModel(superset: workout.supersets[0]))
-                }
-                Section(header: Text("Exercise 2") ) {
-                    Text("Bench press")
-                }
-                
-                Button {
-                    isAddExercisePresented.toggle()
-                } label: {
-                    HStack{
-                        Image(systemName: "plus.circle.fill")
-                        Text("Add exercise")
+            
+            
+            List {
+                ForEach(Array(workout.supersets.enumerated()), id: \.element.id) { (index, superset) in
+                    Section(header: Text("Exercise \(index + 1)" )) {
+                        CollapsedSupersetView(collapsedSuperset: SuperSetViewModel(superset: superset).collapsedSuperset)
                     }
                 }
-                
+            }
+            
+            
+            Button {
+                isAddExercisePresented.toggle()
+            } label: {
+                HStack{
+                    Image(systemName: "plus.circle.fill")
+                    Text("Add exercise")
+                }
             }
             .fullScreenCover(isPresented: $isAddExercisePresented)
             {
@@ -60,15 +63,8 @@ struct EditWorkoutView: View {
                                 isAddExercisePresented.toggle()
                             }) {
                                 Text("Cancel")
-                            }//,
-//                            trailing: Button(action: {
-//                                // Add "Done" action here
-//                            }) {
-//                                
-//                                Text("Done")
-//                            }
-//                                .disabled(false)
- 
+                            }
+                            
                         )
                         .navigationBarTitle("Add Exercise", displayMode: .inline)
                 }
@@ -82,15 +78,38 @@ struct EditWorkoutView: View {
     }
 }
 
-// TODO: Create VM for SupersetCollapsedView - this will convert the superset given to it into a list of subsets - a subset will have name, optional reps, optional weight
-struct SupersetCollapsedView: View {
-    var viewModel: SuperSetViewModel
-    //var superset: SuperSet
+
+struct CollapsedSupersetView: View {
+    var collapsedSuperset: CollapsedSuperset
     var body: some View {
         HStack {
-            Text(viewModel.sets[0].name)
-            //Text(superset.sets[0][0].exercise.name)
+            VStack(alignment: .leading) {
+                
+                ForEach(collapsedSuperset.setRepresentation.rounds) { singleSet in
+                    SingleSetRowView(singleSet: singleSet)
+                }
+                
+            }
+            
+            Spacer()
+            VStack(alignment: .center){
+                VStack {
+                    Text("Rounds")
+                        .font(.headline)
+                    Text("\(collapsedSuperset.numRounds)")
+                }
+                
+                VStack {
+                    Text("Rest")
+                        .font(.headline)
+                    Text("\(collapsedSuperset.setRepresentation.rest.map{ "\($0)" } ?? "-")")
+                }
+            }
+            .padding(.all, 10)
+            .background(Color(UIColor.systemGray5))
+            .cornerRadius(10)
         }
+        .frame(maxWidth: .infinity)
     }
 }
 

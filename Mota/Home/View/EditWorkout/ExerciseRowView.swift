@@ -8,7 +8,14 @@
 import SwiftUI
 
 struct ExerciseRowView: View {
-    var exercise: DatabaseExercise
+    var exercise: Exercise
+    var imageName: String? {
+        if let databaseExercise = exercise as? DatabaseExercise, !databaseExercise.imageURLs.isEmpty {
+            return databaseExercise.imageURLs[0]
+        } else {
+            return nil
+        }
+    }
     
     var body: some View {
         HStack {
@@ -18,7 +25,8 @@ struct ExerciseRowView: View {
 
             
             // TODO: Add thumbnail image animating back and forth between the two images
-            SafeImage(imageName: exercise.imageURLs[0])
+            //SafeImage(imageName: exercise.imageURLs[0])
+            SafeImage(imageName: imageName)
                         .frame(width: 50, height: 50)
 
             Text(exercise.name)
@@ -29,18 +37,7 @@ struct ExerciseRowView: View {
     }
 }
 
-struct SafeImage: View {
-    let imageName: String
-    var body: some View {
-        if UIImage(named: imageName) != nil {
-            Image(imageName)
-                .resizable()
-        } else {
-            Image(systemName: "figure.run.circle.fill")
-                .resizable()
-        }
-    }
-}
+
 
 
 #Preview {

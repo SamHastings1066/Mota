@@ -31,6 +31,8 @@
 		8469DE932B5D646E00D617D2 /* SignupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8469DE922B5D646E00D617D2 /* SignupView.swift */; };
 		8469DE952B5D6B0A00D617D2 /* AuthenticationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8469DE942B5D6B0A00D617D2 /* AuthenticationView.swift */; };
 		847E349F2B6A8F890004864D /* ExerciseData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 847E349E2B6A8F890004864D /* ExerciseData.swift */; };
+		84ACF9D62B76EA9000DDB3F7 /* SingleSetRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84ACF9D52B76EA9000DDB3F7 /* SingleSetRowView.swift */; };
+		84ACF9D82B770D7C00DDB3F7 /* CollapsableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84ACF9D72B770D7C00DDB3F7 /* CollapsableView.swift */; };
 		84C5ACF72B6173A10002AAE3 /* HomePageObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C5ACF62B6173A10002AAE3 /* HomePageObject.swift */; };
 		84C5ACFA2B61859E0002AAE3 /* SpringBoard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C5ACF92B61859E0002AAE3 /* SpringBoard.swift */; };
 		84C5ACFD2B6348C30002AAE3 /* AppUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C5ACFC2B6348C30002AAE3 /* AppUser.swift */; };
@@ -99,6 +101,8 @@
 		8469DE922B5D646E00D617D2 /* SignupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignupView.swift; sourceTree = "<group>"; };
 		8469DE942B5D6B0A00D617D2 /* AuthenticationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationView.swift; sourceTree = "<group>"; };
 		847E349E2B6A8F890004864D /* ExerciseData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseData.swift; sourceTree = "<group>"; };
+		84ACF9D52B76EA9000DDB3F7 /* SingleSetRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SingleSetRowView.swift; sourceTree = "<group>"; };
+		84ACF9D72B770D7C00DDB3F7 /* CollapsableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollapsableView.swift; sourceTree = "<group>"; };
 		84C5ACF62B6173A10002AAE3 /* HomePageObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomePageObject.swift; sourceTree = "<group>"; };
 		84C5ACF92B61859E0002AAE3 /* SpringBoard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpringBoard.swift; sourceTree = "<group>"; };
 		84C5ACFC2B6348C30002AAE3 /* AppUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppUser.swift; sourceTree = "<group>"; };
@@ -361,6 +365,8 @@
 				84C5AD172B6962750002AAE3 /* ExerciseRowView.swift */,
 				84D045882B6AAA19005CA5BE /* ExerciseDetailView.swift */,
 				8440DCE82B6C61DA006D4EFC /* EditSetView.swift */,
+				84ACF9D52B76EA9000DDB3F7 /* SingleSetRowView.swift */,
+				84ACF9D72B770D7C00DDB3F7 /* CollapsableView.swift */,
 			);
 			path = EditWorkout;
 			sourceTree = "<group>";
@@ -538,6 +544,7 @@
 				84D045892B6AAA19005CA5BE /* ExerciseDetailView.swift in Sources */,
 				8469DE8A2B5C510100D617D2 /* HomeView.swift in Sources */,
 				84C5AD182B6962750002AAE3 /* ExerciseRowView.swift in Sources */,
+				84ACF9D82B770D7C00DDB3F7 /* CollapsableView.swift in Sources */,
 				8469DE912B5C54D000D617D2 /* UserView.swift in Sources */,
 				8469DE822B5AF75400D617D2 /* LoginView.swift in Sources */,
 				84C5ACFF2B6349080002AAE3 /* AuthenticationService.swift in Sources */,
@@ -550,6 +557,7 @@
 				84DE65442B7292AF009A9D40 /* SuperSetViewModel.swift in Sources */,
 				8440DCE92B6C61DA006D4EFC /* EditSetView.swift in Sources */,
 				84C5AD012B634A450002AAE3 /* FirebaseAuthService.swift in Sources */,
+				84ACF9D62B76EA9000DDB3F7 /* SingleSetRowView.swift in Sources */,
 				847E349F2B6A8F890004864D /* ExerciseData.swift in Sources */,
 				84C5AD152B682F550002AAE3 /* AddExerciseView.swift in Sources */,
 				84DD2D9F2B60199600633123 /* ResetPasswordView.swift in Sources */,

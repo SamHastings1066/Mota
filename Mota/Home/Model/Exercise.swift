@@ -14,7 +14,8 @@ protocol Exercise {
 }
 
 struct UserDefinedExercise: Exercise {
-    let name: String    
+    let name: String
+
 }
 
 struct DatabaseExercise: Codable, Hashable, Identifiable, Exercise {
