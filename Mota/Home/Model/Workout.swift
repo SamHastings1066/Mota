@@ -8,34 +8,49 @@
 import Foundation
 
 /// A collection of supersets.
-struct Workout {
+@Observable
+class Workout {
     var supersets: [SuperSet]
-    //var numRounds: Int { supersets.count } // TODO: write test for this
     
-    mutating func addSuperset(_ superSet: SuperSet) {
-        supersets.append(superSet)
+    init(supersets: [SuperSet]) {
+        self.supersets = supersets
     }
     
+    func addSuperset(_ superSet: SuperSet) {
+        //print(supersets.count)
+        supersets.append(superSet)
+        //print(supersets.count)
+    }
 }
 
+
+struct ExerciseRound: Identifiable {
+    var id = UUID()
+    
+    var round: [SingleSet]
+    var rest: Int
+}
 
 
 /// A collection of (round, rest) tuples. Each round is a collection of `SingleSet` instances. A round is therefore all of the exercises done back-ro-back before a rest is taken.
 struct SuperSet: Identifiable {
-    var id = UUID() // TODO: Change this to something more sensible
+    var id = UUID() 
     
     //var rest: Int
-    var sets: [(round: [SingleSet], rest: Int)]
+    //var sets: [(round: [SingleSet], rest: Int)]
+    var sets: [ExerciseRound]
     
     /// Initial all superset parameters explicitly
-    init(sets: [([SingleSet], Int)]) {
+    //init(sets: [([SingleSet], Int)]) {
+    init(sets: [ExerciseRound]) {
         self.sets = sets
     }
     
     /// Initialise with one representative [SingleSet], a single rest time, and the number of rounds.
     init(sets: [SingleSet], rest: Int, numRounds: Int) {
-        self.sets = [([SingleSet], Int)](repeating: (sets, rest), count: numRounds)
+        self.sets = (0..<numRounds).map { _ in ExerciseRound(round: sets, rest: rest) }
     }
+
 }
 
 /// `CollapsedSuperset` represents a simplified version of a `SuperSet`, focusing on the commonalities of exercises across multiple rounds.
@@ -43,7 +58,7 @@ struct SuperSet: Identifiable {
 /// This struct collapses the details of a `SuperSet` into a format where only the consistent attributes (weight and reps) across all rounds are preserved. If any attribute (weight or reps) varies across rounds for a given exercise, that attribute is set to `nil` in the final representation. The `rest` period is also simplified to a single value if it is consistent across all rounds; otherwise, it is set to `nil`.
 ///
 /// The primary use of `CollapsedSuperset` is to provide a concise summary of a `SuperSet` for display or analysis, where the focus is on identifying what is common across all rounds, thereby simplifying the complexity of the workout structure for certain views or logic within the app.
-struct CollapsedSuperset {
+class CollapsedSuperset {
     var setRepresentation: (rounds: [SingleSet], rest: Int?)
     var numRounds: Int
     

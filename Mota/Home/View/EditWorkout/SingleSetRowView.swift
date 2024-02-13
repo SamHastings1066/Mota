@@ -60,13 +60,16 @@ struct SafeImage: View {
             if UIImage(named: imageName) != nil {
                 Image(imageName)
                     .resizable()
+                    .scaledToFit()
             } else {
                 Image(systemName: "figure.run.circle.fill")
                     .resizable()
+                    .scaledToFit()
             }
         } else {
             Image(systemName: "figure.run.circle.fill")
                 .resizable()
+                .scaledToFit()
         }
     }
 }

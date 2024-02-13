@@ -10,7 +10,6 @@ import SwiftUI
 struct AddExerciseView: View {
     
     @State var exerciseList = ["Squat", "Bench press", "Deadlift"]
-    @Binding var path: NavigationPath
 
     
     var body: some View {
@@ -42,7 +41,7 @@ struct ExerciseList: View {
 }
 
 #Preview {
-    AddExerciseView(path: .constant(NavigationPath()))
+    AddExerciseView()
 }
 
 

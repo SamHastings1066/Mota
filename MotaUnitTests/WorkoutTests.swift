@@ -25,14 +25,15 @@ final class WhenCreatingWorkoutObject: XCTestCase {
         let set2 = SingleSet(exercise: UserDefinedExercise(name: "Bench"), weight: 50, reps: 6)
         let set3 =  SingleSet(exercise: UserDefinedExercise(name: "Squat"), weight: 120, reps: 4)
         let set4 = SingleSet(exercise: UserDefinedExercise(name: "Bench"), weight: 40, reps: 7)
-        let superSet1 = SuperSet(sets: [(set: [set1, set2], rest:50), (set: [set3,set4], rest: 50)])
+        let superSet1 = SuperSet(sets: [ExerciseRound(round: [set1, set2], rest:50), ExerciseRound(round: [set3,set4], rest: 50)])
+        
         
         // Create second superset
         let set5 =  SingleSet(exercise: UserDefinedExercise(name: "Deadlift"), weight: 100, reps: 11)
         let set6 = SingleSet(exercise: UserDefinedExercise(name: "Shoulder press"), weight: 15, reps: 30)
         let set7 =  SingleSet(exercise: UserDefinedExercise(name: "Deadlift"), weight: 120, reps: 8)
         let set8 = SingleSet(exercise: DatabaseExercise.sampleExercises[1], weight: 30, reps: 9)
-        let superSet2 = SuperSet(sets: [(set: [set5, set6], rest:120), (set: [set7,set8], rest: 130)])
+        let superSet2 = SuperSet(sets: [ExerciseRound(round: [set5, set6], rest:120), ExerciseRound(round: [set7,set8], rest: 130)])
         let workout = Workout(supersets: [superSet1, superSet2])
         XCTAssertEqual(workout.supersets.count, 2)
         XCTAssertEqual(workout.supersets[0].sets.count, 2)
@@ -65,6 +66,25 @@ final class WhenCreatingWorkoutObject: XCTestCase {
         XCTAssertEqual(workout.supersets[1].sets[0].round[0].exercise.name, DatabaseExercise.sampleExercises[0].name)
     }
     
+    func testShouldAddSuperset() throws {
+        // Create first superset
+        let set1 =  SingleSet(exercise: UserDefinedExercise(name: "Squat"), weight: 100, reps: 5)
+        let set2 = SingleSet(exercise: UserDefinedExercise(name: "Bench"), weight: 50, reps: 6)
+        let superSet1 = SuperSet(sets: [set1, set2], rest: 50, numRounds: 8)
+        
+        // Create second superset
+        let set3 =  SingleSet(exercise: DatabaseExercise.sampleExercises[0], weight: 120, reps: 8)
+        let set4 = SingleSet(exercise: DatabaseExercise.sampleExercises[1], weight: 30, reps: 9)
+        let superSet2 = SuperSet(sets: [set3, set4], rest: 120, numRounds: 8)
+        
+        let workout = Workout(supersets: [superSet1])
+        XCTAssertEqual(workout.supersets.count, 1)
+        
+        workout.addSuperset(superSet2)
+        XCTAssertEqual(workout.supersets.count, 2)
+        
+    }
+    
     
 
 
@@ -95,7 +115,7 @@ final class WhenCreatingCollapsedSuperset: XCTestCase {
         let set2 = SingleSet(exercise: UserDefinedExercise(name: "Bench"), weight: 50, reps: 6)
         let set3 =  SingleSet(exercise: UserDefinedExercise(name: "Squat"), weight: 100, reps: 4)
         let set4 = SingleSet(exercise: UserDefinedExercise(name: "Bench"), weight: 40, reps: 6)
-        let superSet = SuperSet(sets: [(set: [set1, set2], rest:40), (set: [set3,set4], rest: 50)])
+        let superSet = SuperSet(sets: [ExerciseRound(round: [set1, set2], rest:40), ExerciseRound(round: [set3,set4], rest: 50)])
         
         let collapsedSuperSet = CollapsedSuperset(superSet)
         XCTAssertEqual(collapsedSuperSet.setRepresentation.rest, nil)
