@@ -14,34 +14,19 @@ import SwiftUI
 struct EditWorkoutView: View {
     
     @State var isAddExercisePresented = false
-    
     @State var viewModel = WorkoutViewModel()
     
     // TODO: remove - this is for debugging purposes
     var dummySuperset: SuperSet {
         let set1 =  SingleSet(exercise: exercises.first(where: { $0.id == "Bench_Press_-_Powerlifting" }) ?? exercises[0], weight: 100, reps: 5)
         let set2 = SingleSet(exercise: exercises.first(where: { $0.id == "Barbell_Deadlift" }) ?? exercises[0], weight: 50, reps: 6)
-        return SuperSet(sets: [set1, set2], rest: 50, numRounds: 8)
+        return SuperSet(singleSets: [set1, set2], rest: 50, numRounds: 8)
     }
-
-    //var workout: Workout { viewModel.workout }
-    
-    //@State var workout2 = WorkoutViewModel().workout
-    //@State var viewModel2 = WorkoutViewModel()
-    //var workout2: Workout { viewModel2.workout }
-    
-    
-    
+   
     var body: some View {
         NavigationStack {
-            
-            
             ExerciseListView(workout: $viewModel.workout)
                 .environment(viewModel)
-                //.environment(workout2)
-
-            
-            
             Button {
                 //isAddExercisePresented.toggle()
                 //print(viewModel.workout.supersets.count)
@@ -68,11 +53,7 @@ struct EditWorkoutView: View {
                         .navigationBarTitle("Add Exercise", displayMode: .inline)
                 }
             }
-            
             .navigationTitle("New Workout")
-            
-            
-            
         }
     }
 }
@@ -81,11 +62,7 @@ struct ExerciseListView: View {
     @Binding var workout: Workout
     var body: some View {
         List {
-//            ForEach(Array(workout.supersets.enumerated()), id: \.element.id) { (index, superset) in
-//                Section(header: Text("Exercise \(index + 1)" )) {
-//                    ExerciseView(superset: superset)
-//                }
-//            }
+
             ForEach(workout.supersets.indices, id: \.self) { index in
                 Section(header: Text("Exercise \(index + 1)")) {
                     // Create a binding to the individual superset
@@ -113,6 +90,7 @@ struct ExerciseView: View {
             EditButton(isEditting: $isEditting)
         }
         if isChevronTapped {
+            // TODO: add ExpandedSupersetEditView in the same way as right below.
             ExpandedSupersetView(superset: superset)
         } else {
             if isEditting {
@@ -133,13 +111,10 @@ struct CollapsedSupersetView: View {
         HStack {
             VStack(alignment: .leading) {
                 
-                ForEach(collapsedSuperset.setRepresentation.rounds) { singleSet in
+                ForEach(collapsedSuperset.superSetRepresentation.singleSets) { singleSet in
                     SingleSetRowView(singleSet: singleSet)
                 }
-
-                
             }
-            
             Spacer()
             VStack(alignment: .center){
                 VStack {
@@ -151,7 +126,7 @@ struct CollapsedSupersetView: View {
                 VStack {
                     Text("Rest")
                         .font(.headline)
-                    Text("\(collapsedSuperset.setRepresentation.rest.map{ "\($0)" } ?? "-")")
+                    Text("\(collapsedSuperset.superSetRepresentation.rest.map{ "\($0)" } ?? "-")")
                 }
             }
             .padding(.all, 10)
@@ -159,33 +134,27 @@ struct CollapsedSupersetView: View {
             .cornerRadius(10)
         }
         .frame(maxWidth: .infinity)
-    
     }
-    
 }
 
 struct CollapsedSupersetEditView: View {
     @Binding var collapsedSuperset: CollapsedSuperset
-    //@Environment(WorkoutViewModel.self) private var workout2
+    // TODO: remove this vr, only for experimentation purposes.
     @Environment(WorkoutViewModel.self) private var viewModel
     
     var body: some View {
 
         HStack {
             VStack(alignment: .leading) {
-                
-                ForEach(collapsedSuperset.setRepresentation.rounds) { singleSet in
+                ForEach(collapsedSuperset.superSetRepresentation.singleSets) { singleSet in
                     SingleSetRowView(singleSet: singleSet)
                 }
-                
             }
-            
             Spacer()
             VStack(alignment: .center){
                 VStack {
                     Text("Rounds")
                         .font(.headline)
-                    //Text("\(collapsedSuperset.numRounds)")
                     TextField("", value: $collapsedSuperset.numRounds, formatter: NumberFormatter())
                         .textFieldStyle(RoundedBorderTextFieldStyle())
                         .keyboardType(.numberPad)
@@ -194,9 +163,9 @@ struct CollapsedSupersetEditView: View {
                 VStack {
                     Text("Rest")
                         .font(.headline)
-                    //Text("\(collapsedSuperset.setRepresentation.rest.map{ "\($0)" } ?? "-")")
-                    //TextField("", value: $collapsedSuperset.setRepresentation)
-                    TextField("", value: $collapsedSuperset.setRepresentation.rest, formatter: NumberFormatter())
+                    //Text("\(collapsedSuperset.superSetRepresentation.rest.map{ "\($0)" } ?? "-")")
+                    //TextField("", value: $collapsedSuperset.superSetRepresentation)
+                    TextField("", value: $collapsedSuperset.superSetRepresentation.rest, formatter: NumberFormatter())
                         .textFieldStyle(RoundedBorderTextFieldStyle())
                         .keyboardType(.numberPad)
                 }
@@ -206,13 +175,8 @@ struct CollapsedSupersetEditView: View {
             .cornerRadius(10)
         }
         .frame(maxWidth: .infinity)
-    
     }
-    
 }
-
-
-
 
 struct ChevronButton: View {
     @Binding var isChevronTapped: Bool
@@ -250,36 +214,25 @@ struct EditButton: View {
     }
 }
 
-
-
 struct ExpandedSupersetView: View {
     var superset: SuperSet
     var body: some View {
-        ForEach(superset.sets) { set in
-            ForEach(set.round) { singleset in
+        ForEach(superset.exerciseRounds) { exerciseRound in
+            ForEach(exerciseRound.singleSets) { singleset in
                 SingleSetRowView(singleSet: singleset)
             }
-            
             HStack {
                 Spacer()
                 VStack {
                     Text("Rest")
                         .font(.headline)
-                    Text("\(set.rest)")
+                    Text("\(exerciseRound.rest.map{ "\($0)" } ?? "-")")
                 }
                 Spacer()
             }
-            
         }
     }
 }
-
-
-
-
-
-
-
 
 #Preview {
     EditWorkoutView()
