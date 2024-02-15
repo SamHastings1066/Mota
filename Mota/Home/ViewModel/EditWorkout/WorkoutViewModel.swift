@@ -7,6 +7,7 @@
 
 import Foundation
 
+@Observable
 class WorkoutViewModel {
     
     var workout: Workout

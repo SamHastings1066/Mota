@@ -24,21 +24,33 @@ class Workout {
 }
 
 
-struct ExerciseRound: Identifiable {
-    var id = UUID()
-    
-    var round: [SingleSet]
-    var rest: Int
-}
 
 
-/// A collection of (round, rest) tuples. Each round is a collection of `SingleSet` instances. A round is therefore all of the exercises done back-ro-back before a rest is taken.
+/// A superset is a collection of ExerciseRounds.
 struct SuperSet: Identifiable {
     var id = UUID() 
     
     //var rest: Int
     //var sets: [(round: [SingleSet], rest: Int)]
     var sets: [ExerciseRound]
+    
+    var collapsedRepresentation: CollapsedSuperset {
+        get {
+            //print("IS GET")
+            return CollapsedSuperset(self)
+        }
+        set {
+            print("IS SET")
+            print(newValue.setRepresentation.rest ?? "nil")
+            // Here I have to change the value of the sets: [ExerciseRound]
+            // I need a function which takes a collapsed representation and generates [ExerciseRound] and then I need to use that function to set self.sets when this collapsed rep is changed.
+            // First option: a function that takes the first round of the current sets and replicates it newValue.numRounds times
+            // Ok so this is a solution, but it's not a great one. You need to think carefully about how you want to update the expanded view from the contracted view.
+            
+            sets = (0..<newValue.numRounds).map {_ in sets[0]}
+
+        }
+    }
     
     /// Initial all superset parameters explicitly
     //init(sets: [([SingleSet], Int)]) {
@@ -53,13 +65,27 @@ struct SuperSet: Identifiable {
 
 }
 
-/// `CollapsedSuperset` represents a simplified version of a `SuperSet`, focusing on the commonalities of exercises across multiple rounds.
+/// An exerciseRound is a group of SingleSets plus rest
+struct ExerciseRound: Identifiable {
+    var id = UUID()
+    
+    // TODO: Should be called set - a set is a group of singlesets
+    var round: [SingleSet]
+    // TODO: This should be optoinal int
+    var rest: Int
+}
+
+/// `CollapsedSuperset` is a superset represented by a single ExerciseRound.
+/// `CollapsedSuperset` focuses on the commonalities of exercises across multiple rounds.
 ///
 /// This struct collapses the details of a `SuperSet` into a format where only the consistent attributes (weight and reps) across all rounds are preserved. If any attribute (weight or reps) varies across rounds for a given exercise, that attribute is set to `nil` in the final representation. The `rest` period is also simplified to a single value if it is consistent across all rounds; otherwise, it is set to `nil`.
 ///
 /// The primary use of `CollapsedSuperset` is to provide a concise summary of a `SuperSet` for display or analysis, where the focus is on identifying what is common across all rounds, thereby simplifying the complexity of the workout structure for certain views or logic within the app.
+@Observable
 class CollapsedSuperset {
     var setRepresentation: (rounds: [SingleSet], rest: Int?)
+    // TODO: Ucomment this line and redo this using setrepresentation instead of the current implementation.
+    //var setRepresentation: ExerciseRound
     var numRounds: Int
     
     init(_ superset: SuperSet) {
