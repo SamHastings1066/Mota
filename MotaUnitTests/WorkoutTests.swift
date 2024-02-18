@@ -136,6 +136,7 @@ final class WhenSettingSupersetCollapsedRepresentation: XCTestCase {
         let superSet = SuperSet(exerciseRounds: [ExerciseRound(singleSets: [set1, set2], rest:40), ExerciseRound(singleSets: [set3,set4], rest: 50)])
         
         superSet.collapsedRepresentation.numRounds = 1
+        //superSet.collapsedRepresentation = CollapsedSuperset(<#T##superset: SuperSet##SuperSet#>)
         //XCTAssertEqual(superSet.exerciseRounds.count, 1)
     }
 }

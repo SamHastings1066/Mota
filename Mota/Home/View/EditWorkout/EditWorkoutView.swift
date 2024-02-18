@@ -95,7 +95,8 @@ struct ExerciseView: View {
         } else {
             if isEditting {
                 //CollapsedSupersetEditView(collapsedSuperset: SuperSetViewModel(superset: superset).collapsedSuperset)
-                CollapsedSupersetEditView(collapsedSuperset:  $superset.collapsedRepresentation)
+                //CollapsedSupersetEditView(collapsedSuperset:  $superset.collapsedRepresentation)
+                CollapsedSupersetEditView(superSetCollapsedRepresentation: $superset.superSetCollapsedRepresentation, numRounds: $superset.numRounds, superSet: $superset)
             } else {
                 //CollapsedSupersetView(collapsedSuperset: SuperSetViewModel(superset: superset).collapsedSuperset)
                 CollapsedSupersetView(collapsedSuperset: superset.collapsedRepresentation)
@@ -105,7 +106,7 @@ struct ExerciseView: View {
 }
 
 struct CollapsedSupersetView: View {
-    var collapsedSuperset: CollapsedSuperset
+    var collapsedSuperset: SuperSet.CollapsedSuperset
     //var singleSet: SingleSet
     var body: some View {
         HStack {
@@ -138,7 +139,10 @@ struct CollapsedSupersetView: View {
 }
 
 struct CollapsedSupersetEditView: View {
-    @Binding var collapsedSuperset: CollapsedSuperset
+    //@Binding var collapsedSuperset: SuperSet.CollapsedSuperset
+    @Binding var superSetCollapsedRepresentation: ExerciseRound
+    @Binding var numRounds: Int
+    @Binding var superSet: SuperSet
     // TODO: remove this vr, only for experimentation purposes.
     @Environment(WorkoutViewModel.self) private var viewModel
     
@@ -146,7 +150,8 @@ struct CollapsedSupersetEditView: View {
 
         HStack {
             VStack(alignment: .leading) {
-                ForEach(collapsedSuperset.superSetRepresentation.singleSets) { singleSet in
+                //ForEach(collapsedSuperset.superSetRepresentation.singleSets) { singleSet in
+                ForEach(superSetCollapsedRepresentation.singleSets) { singleSet in
                     SingleSetRowView(singleSet: singleSet)
                 }
             }
@@ -155,7 +160,8 @@ struct CollapsedSupersetEditView: View {
                 VStack {
                     Text("Rounds")
                         .font(.headline)
-                    TextField("", value: $collapsedSuperset.numRounds, formatter: NumberFormatter())
+                    //TextField("", value: $collapsedSuperset.numRounds, formatter: NumberFormatter())
+                    TextField("", value: $numRounds, formatter: NumberFormatter())
                         .textFieldStyle(RoundedBorderTextFieldStyle())
                         .keyboardType(.numberPad)
                 }
@@ -165,7 +171,8 @@ struct CollapsedSupersetEditView: View {
                         .font(.headline)
                     //Text("\(collapsedSuperset.superSetRepresentation.rest.map{ "\($0)" } ?? "-")")
                     //TextField("", value: $collapsedSuperset.superSetRepresentation)
-                    TextField("", value: $collapsedSuperset.superSetRepresentation.rest, formatter: NumberFormatter())
+                    //TextField("", value: $superSetCollapsedRepresentation.rest, formatter: NumberFormatter())
+                    TextField("", value: $superSet.constistentRest, formatter: NumberFormatter())
                         .textFieldStyle(RoundedBorderTextFieldStyle())
                         .keyboardType(.numberPad)
                 }

@@ -16,10 +16,10 @@ struct collapsedSetRepresentation {
 class SuperSetViewModel{
     var superset: SuperSet
     //var sets: [collapsedSetRepresentation]
-    var collapsedSuperset: CollapsedSuperset
+    //var collapsedSuperset: SuperSet.CollapsedSuperset
     
     init(superset: SuperSet) {
         self.superset = superset
-        collapsedSuperset = CollapsedSuperset(superset)
+        //collapsedSuperset = SuperSet.CollapsedSuperset(superset)
     }
 }
