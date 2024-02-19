@@ -15,6 +15,9 @@ struct EditableSingleSetRowView: View {
     @Binding var weight: Int?
     @Binding var reps: Int?
     
+    var isEditable = true
+    var isExpanded = false
+    
     @State var isAddExercisePresented = false
     @State var selectedExercise: IdentifiableExercise?
     
@@ -28,36 +31,37 @@ struct EditableSingleSetRowView: View {
     
     var body: some View {
         HStack {
-            
-            Button(action: {
-
-            }) {
+            if isEditable && !isExpanded {
+                Button(action: {
+                    
+                }) {
+                    SafeImage(imageName: imageName)
+                        .frame(width: 70, height: 70)
+                    //.padding(.trailing)
+                }
+                .onTapGesture {
+                    isAddExercisePresented.toggle()
+                    selectedExercise = IdentifiableExercise(exercise: exercise)
+                }
+                .fullScreenCover(item: $selectedExercise)
+                { exercise in
+                    NavigationStack() {
+                        ChangeExerciseView(selectedExercise: $selectedExercise, modelExercise: $exercise)
+                            .navigationBarItems(
+                                leading: Button(action: {
+                                    //isAddExercisePresented.toggle()
+                                    selectedExercise = nil
+                                }) {
+                                    Text("Cancel")
+                                }
+                            )
+                    }
+                }
+            } else {
                 SafeImage(imageName: imageName)
                     .frame(width: 70, height: 70)
-                    //.padding(.trailing)
             }
-            .onTapGesture {
-                isAddExercisePresented.toggle()
-                selectedExercise = IdentifiableExercise(exercise: exercise)
-            }
-//            .fullScreenCover(isPresented: $isAddExercisePresented)
-//            {
-            .fullScreenCover(item: $selectedExercise)
-            { exercise in
-                NavigationStack() {
-                    ChangeExerciseView(selectedExercise: $selectedExercise, modelExercise: $exercise)
-                        .navigationBarItems(
-                            leading: Button(action: {
-                                //isAddExercisePresented.toggle()
-                                selectedExercise = nil
-                            }) {
-                                Text("Cancel")
-                            }
-                            
-                        )
-                }
-            }
-
+            
             
             
             VStack(alignment: .center) {
@@ -66,19 +70,25 @@ struct EditableSingleSetRowView: View {
                 HStack{
                     VStack{
                         Text("Reps")
-                        TextField("", value: $reps, formatter: NumberFormatter())
-                            .textFieldStyle(RoundedBorderTextFieldStyle())
-                            .keyboardType(.numberPad)
+                        if isEditable {
+                            TextField("", value: $reps, formatter: NumberFormatter())
+                                .textFieldStyle(RoundedBorderTextFieldStyle())
+                                .keyboardType(.numberPad)
+                        } else {
+                            Text("\(reps.map{ "\($0)"} ?? "-")")
+                        }
                     }
                     VStack {
                         Text("kgs")
-                        TextField("", value: $weight, formatter: NumberFormatter())
-                            .textFieldStyle(RoundedBorderTextFieldStyle())
-                            .keyboardType(.numberPad)
+                        if isEditable {
+                            TextField("", value: $weight, formatter: NumberFormatter())
+                                .textFieldStyle(RoundedBorderTextFieldStyle())
+                                .keyboardType(.numberPad)
+                        } else {
+                            Text("\(weight.map{ "\($0)"} ?? "-")")
+                        }
                     }
                 }
-
-                
                 
             }
             Spacer()

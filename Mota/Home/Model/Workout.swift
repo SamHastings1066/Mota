@@ -26,6 +26,15 @@ struct SuperSet: Identifiable {
     var id = UUID()
     var exerciseRounds: [ExerciseRound]
     
+    var numRounds: Int {
+        get {
+            exerciseRounds.count
+        }
+        set {
+            exerciseRounds = (0..<newValue).map {_ in ExerciseRound(singleSets: exerciseRounds[0].singleSets, rest: exerciseRounds[0].rest) }
+        }
+    }
+    
     // TODO: get rid of colappsedRepresentsation var and just use these vars in the front end. Also in the front end UI get rid of references to the collapsedSuperset var and try to pass superset down the view hierarchy using environment, rather than passing a binding through each view.
     
     var constistentRest: Int? {
@@ -164,14 +173,7 @@ struct SuperSet: Identifiable {
         }
     }
     
-    var numRounds: Int {
-        get {
-            exerciseRounds.count
-        }
-        set {
-            exerciseRounds = (0..<newValue).map {_ in ExerciseRound(singleSets: exerciseRounds[0].singleSets, rest: exerciseRounds[0].rest) }
-        }
-    }
+    
     
     var collapsedRepresentation: CollapsedSuperset { CollapsedSuperset(self) }
 

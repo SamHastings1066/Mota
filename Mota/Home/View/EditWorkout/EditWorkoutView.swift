@@ -22,7 +22,7 @@ struct EditWorkoutView: View {
         let set2 = SingleSet(exercise: exercises.first(where: { $0.id == "Barbell_Deadlift" }) ?? exercises[0], weight: 50, reps: 6)
         return SuperSet(singleSets: [set1, set2], rest: 50, numRounds: 8)
     }
-   
+    
     var body: some View {
         NavigationStack {
             ExerciseListView(workout: $viewModel.workout)
@@ -38,21 +38,21 @@ struct EditWorkoutView: View {
                     Text("Add exercise")
                 }
             }
-//            .fullScreenCover(isPresented: $isAddExercisePresented)
-//            {
-//                NavigationStack() {
-//                    AddExerciseView()
-//                        .navigationBarItems(
-//                            leading: Button(action: {
-//                                isAddExercisePresented.toggle()
-//                            }) {
-//                                Text("Cancel")
-//                            }
-//                            
-//                        )
-//                        .navigationBarTitle("Add Exercise", displayMode: .inline)
-//                }
-//            }
+            //            .fullScreenCover(isPresented: $isAddExercisePresented)
+            //            {
+            //                NavigationStack() {
+            //                    AddExerciseView()
+            //                        .navigationBarItems(
+            //                            leading: Button(action: {
+            //                                isAddExercisePresented.toggle()
+            //                            }) {
+            //                                Text("Cancel")
+            //                            }
+            //
+            //                        )
+            //                        .navigationBarTitle("Add Exercise", displayMode: .inline)
+            //                }
+            //            }
             .navigationTitle("New Workout")
         }
     }
@@ -62,11 +62,11 @@ struct ExerciseListView: View {
     @Binding var workout: Workout
     var body: some View {
         List {
-
+            
             ForEach(workout.supersets.indices, id: \.self) { index in
-                Section(header: Text("Exercise \(index + 1)")) {
+                Section(header: Text("Set \(index + 1)")) {
                     // Create a binding to the individual superset
-                    ExerciseView(superset: $workout.supersets[index])
+                    ExerciseView(superSet: $workout.supersets[index])
                 }
             }
             //                .onMove(perform: { indices, newOffset in
@@ -79,7 +79,7 @@ struct ExerciseListView: View {
 struct ExerciseView: View {
     @State private var isChevronTapped = false
     @State private var isEditting = false
-    @Binding var superset: SuperSet
+    @Binding var superSet: SuperSet
     
     //@State var superset: SuperSet
     var body: some View {
@@ -89,68 +89,68 @@ struct ExerciseView: View {
             Spacer()
             EditButton(isEditting: $isEditting)
         }
-        switch (isChevronTapped, isEditting) {
-        case (false, false): // Collapsed view, Not-editting
-            CollapsedSupersetView(collapsedSuperset: superset.collapsedRepresentation)
-        case (false, true): // Collapsed view, Editting
-            CollapsedSupersetEditView(superSetCollapsedRepresentation: $superset.superSetCollapsedRepresentation, numRounds: $superset.numRounds, superSet: $superset)
-        case (true, false): // Expanded view, Not-editting
-            ExpandedSupersetView(superset: superset)
-        case (true, true): // Expanded view, Editting
-            ExpandedSupersetEditView(superSet: $superset)
+        // TODO: Remove this switch and make it a simple if-else on chevrontapped
+        if isChevronTapped {
+            ExpandedSupersetEditView(superSet: $superSet, isEditable: isEditting, isExpanded: isChevronTapped)
+        } else {
+            CollapsedSupersetEditView(superSet: $superSet, isEditable: isEditting)
         }
         
     }
 }
 
-struct CollapsedSupersetView: View {
-    var collapsedSuperset: SuperSet.CollapsedSuperset
-    //var singleSet: SingleSet
-    var body: some View {
-        HStack {
-            VStack(alignment: .leading) {
-                
-                ForEach(collapsedSuperset.superSetRepresentation.singleSets) { singleSet in
-                    SingleSetRowView(singleSet: singleSet)
-                }
-            }
-            Spacer()
-            VStack(alignment: .center){
-                VStack {
-                    Text("Rounds")
-                        .font(.headline)
-                    Text("\(collapsedSuperset.numRounds)")
-                }
-                
-                VStack {
-                    Text("Rest")
-                        .font(.headline)
-                    Text("\(collapsedSuperset.superSetRepresentation.rest.map{ "\($0)" } ?? "-")")
-                }
-            }
-            .padding(.all, 10)
-            .background(Color(UIColor.systemGray5))
-            .cornerRadius(10)
-        }
-        .frame(maxWidth: .infinity)
-    }
-}
+//struct CollapsedSupersetView: View {
+//    var collapsedSuperset: SuperSet.CollapsedSuperset
+//    var superSet: SuperSet
+//    //var singleSet: SingleSet
+//    var body: some View {
+//        HStack {
+//            VStack(alignment: .leading) {
+//                
+//                ForEach(collapsedSuperset.superSetRepresentation.singleSets) { singleSet in
+//                    SingleSetRowView(singleSet: singleSet)
+//                }
+//            }
+//            Spacer()
+//            VStack(alignment: .center){
+//                VStack {
+//                    Text("Rounds")
+//                        .font(.headline)
+//                    Text("\(collapsedSuperset.numRounds)")
+//                }
+//                
+//                VStack {
+//                    Text("Rest")
+//                        .font(.headline)
+//                    Text("\(collapsedSuperset.superSetRepresentation.rest.map{ "\($0)" } ?? "-")")
+//                }
+//            }
+//            .padding(.all, 10)
+//            .background(Color(UIColor.systemGray5))
+//            .cornerRadius(10)
+//        }
+//        .frame(maxWidth: .infinity)
+//    }
+//}
 
 struct CollapsedSupersetEditView: View {
     //@Binding var collapsedSuperset: SuperSet.CollapsedSuperset
-    @Binding var superSetCollapsedRepresentation: ExerciseRound
+    //@Binding var superSetCollapsedRepresentation: ExerciseRound
     // TODO: Delete numRounds when ready
-    @Binding var numRounds: Int
+    //@Binding var numRounds: Int
     @Binding var superSet: SuperSet
+    var isEditable = true
     // TODO: remove this vr, only for experimentation purposes.
     @Environment(WorkoutViewModel.self) private var viewModel
     
     var body: some View {
-
+        
         HStack {
             VStack(alignment: .leading) {
                 ForEach( 0..<superSet.consistentExercises.count, id: \.self ) { exerciseNumber in
-                    EditableSingleSetRowView(exercise: $superSet.consistentExercises[exerciseNumber], weight: $superSet.consistentWeights[exerciseNumber], reps: $superSet.consistentReps[exerciseNumber])
+                    EditableSingleSetRowView(exercise: $superSet.consistentExercises[exerciseNumber], weight: $superSet.consistentWeights[exerciseNumber], reps: $superSet.consistentReps[exerciseNumber],
+                                             isEditable: isEditable
+                    )
                 }
             }
             Spacer()
@@ -158,17 +158,25 @@ struct CollapsedSupersetEditView: View {
                 VStack {
                     Text("Rounds")
                         .font(.headline)
-                    TextField("", value: $superSet.numRounds, formatter: NumberFormatter())
-                        .textFieldStyle(RoundedBorderTextFieldStyle())
-                        .keyboardType(.numberPad)
+                    if isEditable {
+                        TextField("", value: $superSet.numRounds, formatter: NumberFormatter())
+                            .textFieldStyle(RoundedBorderTextFieldStyle())
+                            .keyboardType(.numberPad)
+                    } else {
+                        Text("\(superSet.numRounds)")
+                    }
                 }
                 
                 VStack {
                     Text("Rest")
                         .font(.headline)
-                    TextField("", value: $superSet.constistentRest, formatter: NumberFormatter())
-                        .textFieldStyle(RoundedBorderTextFieldStyle())
-                        .keyboardType(.numberPad)
+                    if isEditable {
+                        TextField("", value: $superSet.constistentRest, formatter: NumberFormatter())
+                            .textFieldStyle(RoundedBorderTextFieldStyle())
+                            .keyboardType(.numberPad)
+                    } else {
+                        Text("\(superSet.constistentRest.map{ "\($0)" } ?? "-")")
+                    }
                 }
             }
             .padding(.all, 10)
@@ -216,41 +224,49 @@ struct EditButton: View {
     }
 }
 
-struct ExpandedSupersetView: View {
-    var superset: SuperSet
-    var body: some View {
-        ForEach(superset.exerciseRounds) { exerciseRound in
-            ForEach(exerciseRound.singleSets) { singleset in
-                SingleSetRowView(singleSet: singleset)
-            }
-            HStack {
-                Spacer()
-                VStack {
-                    Text("Rest")
-                        .font(.headline)
-                    Text("\(exerciseRound.rest.map{ "\($0)" } ?? "-")")
-                }
-                Spacer()
-            }
-        }
-    }
-}
+//struct ExpandedSupersetView: View {
+//    var superset: SuperSet
+//    var body: some View {
+//        ForEach(superset.exerciseRounds) { exerciseRound in
+//            ForEach(exerciseRound.singleSets) { singleset in
+//                SingleSetRowView(singleSet: singleset)
+//            }
+//            HStack {
+//                Spacer()
+//                VStack {
+//                    Text("Rest")
+//                        .font(.headline)
+//                    Text("\(exerciseRound.rest.map{ "\($0)" } ?? "-")")
+//                }
+//                Spacer()
+//            }
+//        }
+//    }
+//}
 
 struct ExpandedSupersetEditView: View {
     @Binding var superSet: SuperSet
+    var isEditable = true
+    var isExpanded = false
     var body: some View {
         ForEach( 0..<superSet.numRounds, id: \.self ) { roundNumber in
             ForEach( 0..<superSet.exerciseRounds[roundNumber].singleSets.count, id: \.self ) { exerciseNumber in
-                EditableSingleSetRowView(exercise: $superSet.exerciseRounds[roundNumber].singleSets[exerciseNumber].exercise, weight: $superSet.exerciseRounds[roundNumber].singleSets[exerciseNumber].weight, reps: $superSet.exerciseRounds[roundNumber].singleSets[exerciseNumber].reps)
+                EditableSingleSetRowView(exercise: $superSet.exerciseRounds[roundNumber].singleSets[exerciseNumber].exercise, weight: $superSet.exerciseRounds[roundNumber].singleSets[exerciseNumber].weight, reps: $superSet.exerciseRounds[roundNumber].singleSets[exerciseNumber].reps,
+                                         isEditable: isEditable, isExpanded: isExpanded
+                )
             }
             HStack {
                 Spacer()
                 VStack {
                     Text("Rest")
                         .font(.headline)
-                    TextField("", value: $superSet.exerciseRounds[roundNumber].rest, formatter: NumberFormatter())
-                        .textFieldStyle(RoundedBorderTextFieldStyle())
-                        .keyboardType(.numberPad)
+                    if isEditable {
+                        TextField("", value: $superSet.exerciseRounds[roundNumber].rest, formatter: NumberFormatter())
+                            .textFieldStyle(RoundedBorderTextFieldStyle())
+                            .keyboardType(.numberPad)
+                    } else {
+                        Text("\(superSet.exerciseRounds[roundNumber].rest.map{ "\($0)" } ?? "-")")
+                    }
                 }
                 Spacer()
             }
