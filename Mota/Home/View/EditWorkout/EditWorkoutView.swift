@@ -38,21 +38,21 @@ struct EditWorkoutView: View {
                     Text("Add exercise")
                 }
             }
-            .fullScreenCover(isPresented: $isAddExercisePresented)
-            {
-                NavigationStack() {
-                    AddExerciseView()
-                        .navigationBarItems(
-                            leading: Button(action: {
-                                isAddExercisePresented.toggle()
-                            }) {
-                                Text("Cancel")
-                            }
-                            
-                        )
-                        .navigationBarTitle("Add Exercise", displayMode: .inline)
-                }
-            }
+//            .fullScreenCover(isPresented: $isAddExercisePresented)
+//            {
+//                NavigationStack() {
+//                    AddExerciseView()
+//                        .navigationBarItems(
+//                            leading: Button(action: {
+//                                isAddExercisePresented.toggle()
+//                            }) {
+//                                Text("Cancel")
+//                            }
+//                            
+//                        )
+//                        .navigationBarTitle("Add Exercise", displayMode: .inline)
+//                }
+//            }
             .navigationTitle("New Workout")
         }
     }
@@ -141,6 +141,7 @@ struct CollapsedSupersetView: View {
 struct CollapsedSupersetEditView: View {
     //@Binding var collapsedSuperset: SuperSet.CollapsedSuperset
     @Binding var superSetCollapsedRepresentation: ExerciseRound
+    // TODO: Delete numRounds when ready
     @Binding var numRounds: Int
     @Binding var superSet: SuperSet
     // TODO: remove this vr, only for experimentation purposes.
@@ -151,8 +152,13 @@ struct CollapsedSupersetEditView: View {
         HStack {
             VStack(alignment: .leading) {
                 //ForEach(collapsedSuperset.superSetRepresentation.singleSets) { singleSet in
-                ForEach(superSetCollapsedRepresentation.singleSets) { singleSet in
-                    SingleSetRowView(singleSet: singleSet)
+                //ForEach(superSetCollapsedRepresentation.singleSets) { singleSet in
+//                ForEach(superSet.collapsedRepresentation.superSetRepresentation.singleSets) { singleSet in
+//                    SingleSetRowView(singleSet: singleSet)
+//                    //EditableSingleSetRowView(singleSet: $singleSet)
+//                }
+                ForEach( 0..<superSet.consistentExercises.count, id: \.self ) { index in
+                    EditableSingleSetRowView(exercise: $superSet.consistentExercises[index], weight: $superSet.consistentWeights[index], reps: $superSet.consistentReps[index])
                 }
             }
             Spacer()
@@ -161,7 +167,8 @@ struct CollapsedSupersetEditView: View {
                     Text("Rounds")
                         .font(.headline)
                     //TextField("", value: $collapsedSuperset.numRounds, formatter: NumberFormatter())
-                    TextField("", value: $numRounds, formatter: NumberFormatter())
+                    //TextField("", value: $numRounds, formatter: NumberFormatter())
+                    TextField("", value: $superSet.numRounds, formatter: NumberFormatter())
                         .textFieldStyle(RoundedBorderTextFieldStyle())
                         .keyboardType(.numberPad)
                 }

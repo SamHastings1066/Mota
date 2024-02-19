@@ -10,6 +10,7 @@ import SwiftUI
 struct AddExerciseView: View {
     
     @State var exerciseList = ["Squat", "Bench press", "Deadlift"]
+    
 
     
     var body: some View {
@@ -26,8 +27,10 @@ struct AddExerciseView: View {
 }
 
 struct ExerciseList: View {
+    
+    @State private var singleSelection: UUID?
     var body: some View {
-        List(exercises) { exercise in
+        List(exercises, selection: $singleSelection) { exercise in
             NavigationLink {
                 EditSetView()
             } label: {

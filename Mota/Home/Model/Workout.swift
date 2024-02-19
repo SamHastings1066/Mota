@@ -34,7 +34,7 @@ struct SuperSet: Identifiable {
     // - collapsedSingeSets set { }
     // The issue is you can have multiple SingleSets in the collapsedSingeSets. If you change e.g. the weight in one of them, you only want to change that weight, and not all of the properties in the collapsedSingeSets var. Ideally you would have each of these properties be computed properties in Superset so that when they are set you can handle the logic. But we  don't know how many singlesets will be in the collapsedSingleSet in advance of its creation so we con't do it this way.
     // SOLUTION: Create new computed vars:
-    // - collapsedWeights: [Int?] - getter: each element takes an int value if the weight of the corresponding sigleset is the same across all exercise rounds. Setter: For each element in the array. if nil do nothing, if Int, set this Int as the weight for the corresponding singleset across all exercise rounds.
+    
     // - collapsedReps: [Int?] - getter: each element takes an int value if the reps of the corresponding sigleset is the same across all exercise rounds. Setter: For each element in the array. if nil do nothing, if Int, set this Int as the reps for the corresponding singleset across all exercise rounds.
     // - consistentRest: Int? - getter: takes an Int value if the rest is the same for each exercise round in the superset. else nil. Setter - if nil, do nothing, if int, that is the rest for every exercise round in the superset.
     // Then get rid of colappsedRepresentsation var and just use these vars in the front end. Also in the front end UI get rid of references to the collapsedSuperset var and try to pass superset down the view hierarchy using environment, rather than passing a binding through each view.
@@ -56,6 +56,78 @@ struct SuperSet: Identifiable {
             exerciseRounds.indices.forEach { exerciseRounds[$0].rest = newRest ?? 0}
         }
     }
+    
+    var consistentExercises: [Exercise] {
+        get {
+            var exercises = [Exercise]()
+            if let firstRound = exerciseRounds.first {
+                firstRound.singleSets.forEach { singleSet in
+                    exercises.append(singleSet.exercise)
+                }
+            }
+            return exercises
+        }
+        set {
+            
+        }
+    }
+    
+    //  Getter: each element takes an int value if the weight of the corresponding sigleset is the same across all exercise rounds. Setter: For each element in the array. if nil do nothing, if Int, set this Int as the weight for the corresponding singleset across all exercise rounds.
+    var consistentWeights: [Int?] {
+        get {
+            var firstRoundWeights: [Int?] = []
+            // Array containing the weight Int if consistent across all rounds, else nil
+            var consistentWeights = [Int?]()
+            if let firstRound = exerciseRounds.first {
+                for singleSet in firstRound.singleSets {
+                    firstRoundWeights.append(singleSet.weight)
+                }
+            }
+            for (index, _) in firstRoundWeights.enumerated() {
+                var weightProgressionForThisExercise = [Int?]()
+                for round in exerciseRounds.map({ $0.singleSets }) {
+                    weightProgressionForThisExercise.append(round[index].weight)
+                }
+                let weightIsConsistent = weightProgressionForThisExercise.allSatisfy { $0 == firstRoundWeights[index] }
+                consistentWeights.append(weightIsConsistent ? firstRoundWeights[index] : nil)
+            }
+            return consistentWeights
+        }
+        set(newWeights) {
+            for (exerciseIndex, weight) in newWeights.enumerated() {
+                exerciseRounds.indices.forEach { exerciseRounds[$0].singleSets[exerciseIndex].weight = weight ?? 0}
+            }
+        }
+    }
+    
+    var consistentReps: [Int?] {
+        get {
+            var firstRoundReps: [Int?] = []
+            // Array containing the weight Int if consistent across all rounds, else nil
+            var consistentReps = [Int?]()
+            if let firstRound = exerciseRounds.first {
+                for singleSet in firstRound.singleSets {
+                    firstRoundReps.append(singleSet.reps)
+                }
+            }
+            for (index, _) in firstRoundReps.enumerated() {
+                var repProgressionForThisExercise = [Int?]()
+                for round in exerciseRounds.map({ $0.singleSets }) {
+                    repProgressionForThisExercise.append(round[index].reps)
+                }
+                let repIsConsistent = repProgressionForThisExercise.allSatisfy { $0 == firstRoundReps[index] }
+                consistentReps.append(repIsConsistent ? firstRoundReps[index] : nil)
+            }
+            return consistentReps
+        }
+        
+        set(newReps) {
+            for (exerciseIndex, reps) in newReps.enumerated() {
+                exerciseRounds.indices.forEach { exerciseRounds[$0].singleSets[exerciseIndex].reps = reps ?? 0}
+            }
+        }
+    }
+    
     var superSetCollapsedRepresentation: ExerciseRound {
         get {
             // Determine if the rest period is consistent across all rounds.
