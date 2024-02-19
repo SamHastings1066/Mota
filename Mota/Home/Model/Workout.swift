@@ -67,8 +67,10 @@ struct SuperSet: Identifiable {
             }
             return exercises
         }
-        set {
-            
+        set(newExercises) {
+            for (exerciseIndex, exercise) in newExercises.enumerated() {
+                exerciseRounds.indices.forEach { exerciseRounds[$0].singleSets[exerciseIndex].exercise = exercise}
+            }
         }
     }
     

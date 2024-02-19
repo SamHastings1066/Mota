@@ -11,9 +11,21 @@ import Foundation
 
 protocol Exercise {
     var name: String { get }
+    var id: String { get }
+}
+
+struct IdentifiableExercise: Identifiable {
+    let id: String
+    let exercise: Exercise
+
+    init(exercise: Exercise) {
+        self.id = exercise.id
+        self.exercise = exercise
+    }
 }
 
 struct UserDefinedExercise: Exercise {
+    var id = UUID().uuidString
     let name: String
 
 }

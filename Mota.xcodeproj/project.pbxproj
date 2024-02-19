@@ -59,6 +59,7 @@
 		84DE653F2B7276FD009A9D40 /* WorkoutTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84DE653E2B7276FD009A9D40 /* WorkoutTests.swift */; };
 		84DE65412B72784B009A9D40 /* Workout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84DE65402B72784B009A9D40 /* Workout.swift */; };
 		84DE65442B7292AF009A9D40 /* SuperSetViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84DE65432B7292AF009A9D40 /* SuperSetViewModel.swift */; };
+		84F2F05A2B83B28B00663BCA /* ChangeExerciseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84F2F0592B83B28B00663BCA /* ChangeExerciseView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -130,6 +131,7 @@
 		84DE653E2B7276FD009A9D40 /* WorkoutTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutTests.swift; sourceTree = "<group>"; };
 		84DE65402B72784B009A9D40 /* Workout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Workout.swift; sourceTree = "<group>"; };
 		84DE65432B7292AF009A9D40 /* SuperSetViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SuperSetViewModel.swift; sourceTree = "<group>"; };
+		84F2F0592B83B28B00663BCA /* ChangeExerciseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangeExerciseView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -369,6 +371,7 @@
 				8440DCE82B6C61DA006D4EFC /* EditSetView.swift */,
 				84ACF9D52B76EA9000DDB3F7 /* SingleSetRowView.swift */,
 				84C659C62B82906C001899DE /* EditableSingleSetRowView.swift */,
+				84F2F0592B83B28B00663BCA /* ChangeExerciseView.swift */,
 			);
 			path = EditWorkout;
 			sourceTree = "<group>";
@@ -559,6 +562,7 @@
 				84C5AD132B68266C0002AAE3 /* EditWorkoutView.swift in Sources */,
 				84DE65442B7292AF009A9D40 /* SuperSetViewModel.swift in Sources */,
 				8440DCE92B6C61DA006D4EFC /* EditSetView.swift in Sources */,
+				84F2F05A2B83B28B00663BCA /* ChangeExerciseView.swift in Sources */,
 				84C5AD012B634A450002AAE3 /* FirebaseAuthService.swift in Sources */,
 				84ACF9D62B76EA9000DDB3F7 /* SingleSetRowView.swift in Sources */,
 				84C659C72B82906C001899DE /* EditableSingleSetRowView.swift in Sources */,

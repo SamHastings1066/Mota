@@ -151,14 +151,8 @@ struct CollapsedSupersetEditView: View {
 
         HStack {
             VStack(alignment: .leading) {
-                //ForEach(collapsedSuperset.superSetRepresentation.singleSets) { singleSet in
-                //ForEach(superSetCollapsedRepresentation.singleSets) { singleSet in
-//                ForEach(superSet.collapsedRepresentation.superSetRepresentation.singleSets) { singleSet in
-//                    SingleSetRowView(singleSet: singleSet)
-//                    //EditableSingleSetRowView(singleSet: $singleSet)
-//                }
-                ForEach( 0..<superSet.consistentExercises.count, id: \.self ) { index in
-                    EditableSingleSetRowView(exercise: $superSet.consistentExercises[index], weight: $superSet.consistentWeights[index], reps: $superSet.consistentReps[index])
+                ForEach( 0..<superSet.consistentExercises.count, id: \.self ) { exerciseNumber in
+                    EditableSingleSetRowView(exercise: $superSet.consistentExercises[exerciseNumber], weight: $superSet.consistentWeights[exerciseNumber], reps: $superSet.consistentReps[exerciseNumber])
                 }
             }
             Spacer()
@@ -166,8 +160,6 @@ struct CollapsedSupersetEditView: View {
                 VStack {
                     Text("Rounds")
                         .font(.headline)
-                    //TextField("", value: $collapsedSuperset.numRounds, formatter: NumberFormatter())
-                    //TextField("", value: $numRounds, formatter: NumberFormatter())
                     TextField("", value: $superSet.numRounds, formatter: NumberFormatter())
                         .textFieldStyle(RoundedBorderTextFieldStyle())
                         .keyboardType(.numberPad)
@@ -176,9 +168,6 @@ struct CollapsedSupersetEditView: View {
                 VStack {
                     Text("Rest")
                         .font(.headline)
-                    //Text("\(collapsedSuperset.superSetRepresentation.rest.map{ "\($0)" } ?? "-")")
-                    //TextField("", value: $collapsedSuperset.superSetRepresentation)
-                    //TextField("", value: $superSetCollapsedRepresentation.rest, formatter: NumberFormatter())
                     TextField("", value: $superSet.constistentRest, formatter: NumberFormatter())
                         .textFieldStyle(RoundedBorderTextFieldStyle())
                         .keyboardType(.numberPad)
@@ -187,6 +176,7 @@ struct CollapsedSupersetEditView: View {
             .padding(.all, 10)
             .background(Color(UIColor.systemGray5))
             .cornerRadius(10)
+            .fixedSize(horizontal: true, vertical: false)
         }
         .frame(maxWidth: .infinity)
     }

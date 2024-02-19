@@ -10,12 +10,13 @@ import SwiftUI
 
 struct EditableSingleSetRowView: View {
     //@Binding var singleSet: SingleSet
+    // TODO: This binding to exercise must be changed when a user selects a differnt exercise on the following screen
     @Binding var exercise: Exercise
     @Binding var weight: Int?
     @Binding var reps: Int?
     
     @State var isAddExercisePresented = false
-    @State var selectedExercise: Exercise?
+    @State var selectedExercise: IdentifiableExercise?
     
     var imageName: String? {
         if let databaseExercise = exercise as? DatabaseExercise, !databaseExercise.imageURLs.isEmpty {
@@ -29,7 +30,7 @@ struct EditableSingleSetRowView: View {
         HStack {
             
             Button(action: {
-                //print("Tapped")
+
             }) {
                 SafeImage(imageName: imageName)
                     .frame(width: 70, height: 70)
@@ -37,20 +38,23 @@ struct EditableSingleSetRowView: View {
             }
             .onTapGesture {
                 isAddExercisePresented.toggle()
+                selectedExercise = IdentifiableExercise(exercise: exercise)
             }
-            .fullScreenCover(isPresented: $isAddExercisePresented)
-            {
+//            .fullScreenCover(isPresented: $isAddExercisePresented)
+//            {
+            .fullScreenCover(item: $selectedExercise)
+            { exercise in
                 NavigationStack() {
-                    AddExerciseView()
+                    ChangeExerciseView(selectedExercise: $selectedExercise, modelExercise: $exercise)
                         .navigationBarItems(
                             leading: Button(action: {
-                                isAddExercisePresented.toggle()
+                                //isAddExercisePresented.toggle()
+                                selectedExercise = nil
                             }) {
                                 Text("Cancel")
                             }
                             
                         )
-                        //.navigationBarTitle("Add Exercise", displayMode: .inline)
                 }
             }
 
@@ -65,17 +69,15 @@ struct EditableSingleSetRowView: View {
                         TextField("", value: $reps, formatter: NumberFormatter())
                             .textFieldStyle(RoundedBorderTextFieldStyle())
                             .keyboardType(.numberPad)
-                        //Text("\(singleSet.reps.map{ "\($0)"} ?? "-")")
                     }
                     VStack {
                         Text("kgs")
                         TextField("", value: $weight, formatter: NumberFormatter())
                             .textFieldStyle(RoundedBorderTextFieldStyle())
                             .keyboardType(.numberPad)
-                        //Text("\(singleSet.weight.map{ "\($0)"} ?? "-")")
                     }
                 }
-                //Text("\(singleSet.reps.map{ "\($0)"} ?? "?") x \(singleSet.weight.map{ "\($0)"} ?? "?")")
+
                 
                 
             }
@@ -93,7 +95,5 @@ struct EditableSingleSetRowView: View {
     Group {
         EditableSingleSetRowView(exercise: .constant(exercises[0]), weight: .constant(nil), reps: .constant(8))
         EditableSingleSetRowView(exercise: .constant(UserDefinedExercise(name: "Squats")), weight: .constant(60), reps: .constant(10))
-        //EditableSingleSetRowView(singleSet: .constant(SingleSet(exercise: exercises[0], reps: 8)))
-        //EditableSingleSetRowView(singleSet: .constant(SingleSet(exercise: UserDefinedExercise(name: "Squats"), weight: 60, reps: 10)))
     }
 }
