@@ -26,18 +26,8 @@ struct SuperSet: Identifiable {
     var id = UUID()
     var exerciseRounds: [ExerciseRound]
     
-    // TODO: Instead of having a "superSetCollapsedRepresentation representation add the following computed properties directly to SuperSet
-    // - var collapsedSingleSets: [SingleSet]
-    // - var collapsedRest: Int?
-    // Then in the setter for each of these computed properties you can handle the logic to update the exerciseRounds when either property is set
-    // - collapsedRest set { for each exerciseRound in exerciseRounds, update the exerciseRound.rest = newValue }
-    // - collapsedSingeSets set { }
-    // The issue is you can have multiple SingleSets in the collapsedSingeSets. If you change e.g. the weight in one of them, you only want to change that weight, and not all of the properties in the collapsedSingeSets var. Ideally you would have each of these properties be computed properties in Superset so that when they are set you can handle the logic. But we  don't know how many singlesets will be in the collapsedSingleSet in advance of its creation so we con't do it this way.
-    // SOLUTION: Create new computed vars:
+    // TODO: get rid of colappsedRepresentsation var and just use these vars in the front end. Also in the front end UI get rid of references to the collapsedSuperset var and try to pass superset down the view hierarchy using environment, rather than passing a binding through each view.
     
-    // - collapsedReps: [Int?] - getter: each element takes an int value if the reps of the corresponding sigleset is the same across all exercise rounds. Setter: For each element in the array. if nil do nothing, if Int, set this Int as the reps for the corresponding singleset across all exercise rounds.
-    // - consistentRest: Int? - getter: takes an Int value if the rest is the same for each exercise round in the superset. else nil. Setter - if nil, do nothing, if int, that is the rest for every exercise round in the superset.
-    // Then get rid of colappsedRepresentsation var and just use these vars in the front end. Also in the front end UI get rid of references to the collapsedSuperset var and try to pass superset down the view hierarchy using environment, rather than passing a binding through each view.
     var constistentRest: Int? {
         get {
             let allRests = exerciseRounds.map { $0.rest }
@@ -184,18 +174,7 @@ struct SuperSet: Identifiable {
     }
     
     var collapsedRepresentation: CollapsedSuperset { CollapsedSuperset(self) }
-//        get {
-//            //print("IS GET")
-//            return CollapsedSuperset(self)
-//        }
-//        set {
-//            print("IS SET")
-//            print(newValue.superSetRepresentation.rest ?? "nil")
-//            exerciseRounds = (0..<newValue.numRounds).map {_ in ExerciseRound(singleSets: exerciseRounds[0].singleSets, rest: exerciseRounds[0].rest) }
-//            
-//        }
-//    }
-    
+
     /// Initialize all superset parameters explicitly
     //init(exerciseRounds: [([SingleSet], Int)]) {
     init(exerciseRounds: [ExerciseRound]) {
@@ -233,19 +212,12 @@ struct ExerciseRound: Identifiable {
     var id = UUID()
     var singleSets: [SingleSet]
     var rest: Int?
-    
-//    mutating func setRest(_ rest: Int?) {
-//        self.rest = rest
-//    }
 }
 
 /// `SingleSet` is the smallest component of a workout. It comprises the exercise being undertaken as well as the parameters of that exercise e.g. weight, repetitions.
 struct SingleSet: Identifiable {
-    
     var id = UUID()
-    
     // TODO: Accomodate exercises other than weight training, either by increasing the list of optional parameters e.g. running would have a distance: Int? parameter, or another solution.
-    
     var exercise: Exercise
     var weight: Int?
     var reps: Int?
