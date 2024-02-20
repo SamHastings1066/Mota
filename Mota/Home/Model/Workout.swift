@@ -32,7 +32,15 @@ struct SuperSet: Identifiable {
         }
         set {
             guard !exerciseRounds.isEmpty else { return }
-            exerciseRounds = (0..<newValue).map {_ in ExerciseRound(singleSets: exerciseRounds[0].singleSets, rest: exerciseRounds[0].rest) }
+            //guard newValue > 0 else { return }
+            if newValue <= exerciseRounds.count {
+                exerciseRounds = Array(exerciseRounds[..<newValue])
+            } else {
+                let numberOfAdditionalRounds = newValue - exerciseRounds.count
+                let newRounds = (0..<numberOfAdditionalRounds).map {_ in exerciseRounds.last! }
+                exerciseRounds.append(contentsOf: newRounds)
+            }
+            //exerciseRounds = (0..<newValue).map {_ in ExerciseRound(singleSets: exerciseRounds[0].singleSets, rest: exerciseRounds[0].rest) }
         }
     }
     
@@ -90,7 +98,9 @@ struct SuperSet: Identifiable {
         }
         set(newWeights) {
             for (exerciseIndex, weight) in newWeights.enumerated() {
-                exerciseRounds.indices.forEach { exerciseRounds[$0].singleSets[exerciseIndex].weight = weight ?? 0}
+                if let weight = weight {
+                    exerciseRounds.indices.forEach { exerciseRounds[$0].singleSets[exerciseIndex].weight = weight}
+                }
             }
         }
     }
@@ -122,7 +132,9 @@ struct SuperSet: Identifiable {
         
         set(newReps) {
             for (exerciseIndex, reps) in newReps.enumerated() {
-                exerciseRounds.indices.forEach { exerciseRounds[$0].singleSets[exerciseIndex].reps = reps ?? 0}
+                if let reps = reps {
+                    exerciseRounds.indices.forEach { exerciseRounds[$0].singleSets[exerciseIndex].reps = reps}
+                }
             }
         }
     }

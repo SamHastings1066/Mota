@@ -86,22 +86,21 @@ final class WhenCreatingWorkoutObject: XCTestCase {
     }
 }
 
-final class WhenGettingSupersetCollapsedRepresentation: XCTestCase {
+final class WhenGettingSupersetComputedProperties: XCTestCase {
     
     func testShouldPopulateAllCollapsedSupersetValuesWhenTheyAreTheSameForEachRoundInTheSuperSet() throws {
         let set1 =  SingleSet(exercise: UserDefinedExercise(name: "Squat"), weight: 100, reps: 5)
         let set2 = SingleSet(exercise: UserDefinedExercise(name: "Bench"), weight: 50, reps: 6)
         let superSet = SuperSet(singleSets: [set1, set2], rest: 50, numRounds: 8)
         
-        let collapsedSuperSet = superSet.collapsedRepresentation //CollapsedSuperset(superSet)
-        XCTAssertEqual(collapsedSuperSet.superSetRepresentation.rest, 50)
-        XCTAssertEqual(collapsedSuperSet.numRounds, 8)
-        XCTAssertEqual(collapsedSuperSet.superSetRepresentation.singleSets[0].exercise.name, "Squat")
-        XCTAssertEqual(collapsedSuperSet.superSetRepresentation.singleSets[0].weight, 100)
-        XCTAssertEqual(collapsedSuperSet.superSetRepresentation.singleSets[0].reps, 5)
-        XCTAssertEqual(collapsedSuperSet.superSetRepresentation.singleSets[1].exercise.name, "Bench")
-        XCTAssertEqual(collapsedSuperSet.superSetRepresentation.singleSets[1].weight, 50)
-        XCTAssertEqual(collapsedSuperSet.superSetRepresentation.singleSets[1].reps, 6)
+        XCTAssertEqual(superSet.consistentRest, 50)
+        XCTAssertEqual(superSet.numRounds, 8)
+        XCTAssertEqual(superSet.consistentExercises[0].name, "Squat")
+        XCTAssertEqual(superSet.consistentExercises[1].name, "Bench")
+        XCTAssertEqual(superSet.consistentWeights[0], 100)
+        XCTAssertEqual(superSet.consistentWeights[1], 50)
+        XCTAssertEqual(superSet.consistentReps[0], 5)
+        XCTAssertEqual(superSet.consistentReps[1], 6)
         
     }
     
@@ -112,31 +111,112 @@ final class WhenGettingSupersetCollapsedRepresentation: XCTestCase {
         let set4 = SingleSet(exercise: UserDefinedExercise(name: "Bench"), weight: 40, reps: 6)
         let superSet = SuperSet(exerciseRounds: [ExerciseRound(singleSets: [set1, set2], rest:40), ExerciseRound(singleSets: [set3,set4], rest: 50)])
         
-        let collapsedSuperSet = superSet.collapsedRepresentation //CollapsedSuperset(superSet)
-        XCTAssertEqual(collapsedSuperSet.superSetRepresentation.rest, nil)
-        XCTAssertEqual(collapsedSuperSet.numRounds, 2)
-        XCTAssertEqual(collapsedSuperSet.superSetRepresentation.singleSets[0].exercise.name, "Squat")
-        XCTAssertEqual(collapsedSuperSet.superSetRepresentation.singleSets[0].weight, 100)
-        XCTAssertEqual(collapsedSuperSet.superSetRepresentation.singleSets[0].reps, nil)
-        XCTAssertEqual(collapsedSuperSet.superSetRepresentation.singleSets[1].exercise.name, "Bench")
-        XCTAssertEqual(collapsedSuperSet.superSetRepresentation.singleSets[1].weight, nil)
-        XCTAssertEqual(collapsedSuperSet.superSetRepresentation.singleSets[1].reps, 6)
+        XCTAssertEqual(superSet.consistentRest, nil)
+        XCTAssertEqual(superSet.numRounds, 2)
+        XCTAssertEqual(superSet.consistentExercises[0].name, "Squat")
+        XCTAssertEqual(superSet.consistentExercises[1].name, "Bench")
+        XCTAssertEqual(superSet.consistentWeights[0], 100)
+        XCTAssertEqual(superSet.consistentWeights[1], nil)
+        XCTAssertEqual(superSet.consistentReps[0], nil)
+        XCTAssertEqual(superSet.consistentReps[1], 6)
         
     }
     
 }
 
-final class WhenSettingSupersetCollapsedRepresentation: XCTestCase {
+final class WhenSettingSupersetComputedProperties: XCTestCase {
     
-    func testThatExcessExcersizeRoundsAreDroppedFromSupersetWhenTheCollapsedRepresentationNumroundsIsReduced() throws {
+    func testThatExcessExercizeRoundsAreDroppedFromSupersetWhenTheCollapsedRepresentationNumroundsIsReduced() throws {
         let set1 =  SingleSet(exercise: UserDefinedExercise(name: "Squat"), weight: 100, reps: 5)
         let set2 = SingleSet(exercise: UserDefinedExercise(name: "Bench"), weight: 50, reps: 6)
-        let set3 =  SingleSet(exercise: UserDefinedExercise(name: "Squat"), weight: 100, reps: 4)
-        let set4 = SingleSet(exercise: UserDefinedExercise(name: "Bench"), weight: 40, reps: 6)
-        let superSet = SuperSet(exerciseRounds: [ExerciseRound(singleSets: [set1, set2], rest:40), ExerciseRound(singleSets: [set3,set4], rest: 50)])
-        
-        superSet.collapsedRepresentation.numRounds = 1
-        //superSet.collapsedRepresentation = CollapsedSuperset(<#T##superset: SuperSet##SuperSet#>)
-        //XCTAssertEqual(superSet.exerciseRounds.count, 1)
+        let set3 =  SingleSet(exercise: UserDefinedExercise(name: "Squat"), weight: 110, reps: 4)
+        let set4 = SingleSet(exercise: UserDefinedExercise(name: "Bench"), weight: 60, reps: 5)
+        let set5 =  SingleSet(exercise: UserDefinedExercise(name: "Squat"), weight: 120, reps: 3)
+        let set6 = SingleSet(exercise: UserDefinedExercise(name: "Bench"), weight: 70, reps: 4)
+        var superSet = SuperSet(exerciseRounds: [ExerciseRound(singleSets: [set1, set2], rest:40), ExerciseRound(singleSets: [set3,set4], rest: 50), ExerciseRound(singleSets: [set5,set6], rest: 50)])
+
+        superSet.numRounds = 2
+
+        XCTAssertEqual(superSet.exerciseRounds.count, 2)
+        XCTAssertEqual(superSet.exerciseRounds[0].singleSets[0].weight, 100)
+        XCTAssertEqual(superSet.exerciseRounds[1].singleSets[0].weight, 110)
+    }
+    
+    func testThatExercizeRoundsAreAddedToSupersetByDuplicatingFinalRoundWhenNumroundsIsIncreased() throws {
+        let set1 =  SingleSet(exercise: UserDefinedExercise(name: "Squat"), weight: 100, reps: 5)
+        let set2 = SingleSet(exercise: UserDefinedExercise(name: "Bench"), weight: 50, reps: 6)
+        let set3 =  SingleSet(exercise: UserDefinedExercise(name: "Squat"), weight: 110, reps: 4)
+        let set4 = SingleSet(exercise: UserDefinedExercise(name: "Bench"), weight: 60, reps: 5)
+        let set5 =  SingleSet(exercise: UserDefinedExercise(name: "Squat"), weight: 120, reps: 3)
+        let set6 = SingleSet(exercise: UserDefinedExercise(name: "Bench"), weight: 70, reps: 4)
+        var superSet = SuperSet(exerciseRounds: [ExerciseRound(singleSets: [set1, set2], rest:40), ExerciseRound(singleSets: [set3,set4], rest: 50), ExerciseRound(singleSets: [set5,set6], rest: 50)])
+
+        superSet.numRounds = 4
+
+        XCTAssertEqual(superSet.exerciseRounds.count, 4)
+        XCTAssertEqual(superSet.exerciseRounds[0].singleSets[0].weight, 100)
+        XCTAssertEqual(superSet.exerciseRounds[3].singleSets[0].weight, 120)
+    }
+    
+    func testThatRestIsUpdatedForAllExerciseRoundsWhenConsistentRestIsSet() throws {
+        let set1 =  SingleSet(exercise: UserDefinedExercise(name: "Squat"), weight: 100, reps: 5)
+        let set2 = SingleSet(exercise: UserDefinedExercise(name: "Bench"), weight: 50, reps: 6)
+        let set3 =  SingleSet(exercise: UserDefinedExercise(name: "Squat"), weight: 110, reps: 4)
+        let set4 = SingleSet(exercise: UserDefinedExercise(name: "Bench"), weight: 60, reps: 5)
+        let set5 =  SingleSet(exercise: UserDefinedExercise(name: "Squat"), weight: 120, reps: 3)
+        let set6 = SingleSet(exercise: UserDefinedExercise(name: "Bench"), weight: 70, reps: 4)
+        var superSet = SuperSet(exerciseRounds: [ExerciseRound(singleSets: [set1, set2], rest:40), ExerciseRound(singleSets: [set3,set4], rest: 50), ExerciseRound(singleSets: [set5,set6], rest: 60)])
+
+        superSet.consistentRest = 30
+
+        XCTAssertEqual(superSet.exerciseRounds[0].rest, 30)
+        XCTAssertEqual(superSet.exerciseRounds[1].rest, 30)
+        XCTAssertEqual(superSet.exerciseRounds[2].rest, 30)
+    }
+    
+    func testThatExercisesAreUpdatedForAllExerciseRoundsWhenConsistentExercisesIsSet() throws {
+        let set1 =  SingleSet(exercise: UserDefinedExercise(name: "Squat"), weight: 100, reps: 5)
+        let set2 = SingleSet(exercise: UserDefinedExercise(name: "Bench"), weight: 50, reps: 6)
+        let set3 =  SingleSet(exercise: UserDefinedExercise(name: "Squat"), weight: 110, reps: 4)
+        let set4 = SingleSet(exercise: UserDefinedExercise(name: "Bench"), weight: 60, reps: 5)
+
+        var superSet = SuperSet(exerciseRounds: [ExerciseRound(singleSets: [set1, set2], rest:40), ExerciseRound(singleSets: [set3,set4], rest: 50)])
+
+        superSet.consistentExercises = [UserDefinedExercise(name: "Squat"), DatabaseExercise.sampleExercises[0]]
+
+        XCTAssertEqual(superSet.exerciseRounds[0].singleSets[0].exercise.name, "Squat")
+        XCTAssertEqual(superSet.exerciseRounds[0].singleSets[1].exercise.name, DatabaseExercise.sampleExercises[0].name)
+        XCTAssertEqual(superSet.exerciseRounds[1].singleSets[0].exercise.name, "Squat")
+        XCTAssertEqual(superSet.exerciseRounds[1].singleSets[1].exercise.name, DatabaseExercise.sampleExercises[0].name)
+    }
+    
+    func testThatWeightIsUpdatedForCorrespondingSinglesetInAllExerciseRoundsWhenConsistentWeightIsSet() throws {
+        let set1 =  SingleSet(exercise: UserDefinedExercise(name: "Squat"), weight: 100, reps: 5)
+        let set2 = SingleSet(exercise: UserDefinedExercise(name: "Bench"), weight: 50, reps: 6)
+        let set3 =  SingleSet(exercise: UserDefinedExercise(name: "Squat"), weight: 110, reps: 4)
+        let set4 = SingleSet(exercise: UserDefinedExercise(name: "Bench"), weight: 60, reps: 5)
+        var superSet = SuperSet(exerciseRounds: [ExerciseRound(singleSets: [set1, set2], rest:40), ExerciseRound(singleSets: [set3,set4], rest: 50)])
+
+        superSet.consistentWeights = [130, nil]
+
+        XCTAssertEqual(superSet.exerciseRounds[0].singleSets[0].weight, 130)
+        XCTAssertEqual(superSet.exerciseRounds[0].singleSets[1].weight, 50)
+        XCTAssertEqual(superSet.exerciseRounds[1].singleSets[0].weight, 130)
+        XCTAssertEqual(superSet.exerciseRounds[1].singleSets[1].weight, 60)
+    }
+    
+    func testThatRepsIsUpdatedForCorrespondingSinglesetInAllExerciseRoundsWhenConsistentRepsIsSet() throws {
+        let set1 =  SingleSet(exercise: UserDefinedExercise(name: "Squat"), weight: 100, reps: 5)
+        let set2 = SingleSet(exercise: UserDefinedExercise(name: "Bench"), weight: 50, reps: 6)
+        let set3 =  SingleSet(exercise: UserDefinedExercise(name: "Squat"), weight: 110, reps: 4)
+        let set4 = SingleSet(exercise: UserDefinedExercise(name: "Bench"), weight: 60, reps: 5)
+        var superSet = SuperSet(exerciseRounds: [ExerciseRound(singleSets: [set1, set2], rest:40), ExerciseRound(singleSets: [set3,set4], rest: 50)])
+
+        superSet.consistentReps = [nil, 7]
+
+        XCTAssertEqual(superSet.exerciseRounds[0].singleSets[0].reps, 5)
+        XCTAssertEqual(superSet.exerciseRounds[0].singleSets[1].reps, 7)
+        XCTAssertEqual(superSet.exerciseRounds[1].singleSets[0].reps, 4)
+        XCTAssertEqual(superSet.exerciseRounds[1].singleSets[1].reps, 7)
     }
 }
