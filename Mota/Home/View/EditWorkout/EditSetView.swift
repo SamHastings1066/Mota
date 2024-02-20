@@ -29,7 +29,7 @@ struct EditSetView: View {
         }
         .sheet(isPresented: $isShowingExerciseInfoSheet, onDismiss: didDismiss) {
         //.fullScreenCover(isPresented: $isShowingExerciseInfoSheet) {
-            ExerciseDetailView(isVisible: $isShowingExerciseInfoSheet)
+            ExerciseDetailView(isVisible: $isShowingExerciseInfoSheet, exercise: exercises[0])
             
         }
         

@@ -16,6 +16,9 @@ struct ChangeExerciseView: View {
     @Binding var modelExercise: Exercise
     @State private var singleSelection: UUID?
     
+    @State var isInfoPresented = false
+    @State var exerciseToBePresented: Exercise?
+    
     var body: some View {
         Text("Selected exercise: \(selectedExercise?.exercise.name ?? "")")
         List(exercises, selection: $singleSelection) { exercise in
@@ -24,6 +27,17 @@ struct ChangeExerciseView: View {
                 selectedExercise = nil
             } label: {
                 ExerciseRowView(exercise: exercise)
+            }
+            .swipeActions {
+                Button("Burn") {
+                    isInfoPresented.toggle()
+                    exerciseToBePresented = exercise
+
+                }
+                .tint(.red)
+            }
+            .sheet(isPresented: $isInfoPresented) {
+                ExerciseDetailView(isVisible: $isInfoPresented, exercise: exerciseToBePresented)
             }
 
             

@@ -31,6 +31,7 @@ struct SuperSet: Identifiable {
             exerciseRounds.count
         }
         set {
+            guard !exerciseRounds.isEmpty else { return }
             exerciseRounds = (0..<newValue).map {_ in ExerciseRound(singleSets: exerciseRounds[0].singleSets, rest: exerciseRounds[0].rest) }
         }
     }
@@ -40,9 +41,8 @@ struct SuperSet: Identifiable {
     /// If the rest periods vary across rounds, it returns nil, indicating inconsistency.
     var consistentRest: Int? {
         get {
-            let allRests = exerciseRounds.map { $0.rest }
-            let isConsistent = allRests.allSatisfy { $0 == allRests.first }
-            return isConsistent ? allRests.first ?? nil : nil
+            guard let firstRest = exerciseRounds.first?.rest else { return nil }
+            return exerciseRounds.dropFirst().allSatisfy { $0.rest == firstRest } ? firstRest : nil
         }
         set(newRest) {
             exerciseRounds.indices.forEach { exerciseRounds[$0].rest = newRest ?? 0}
@@ -54,15 +54,10 @@ struct SuperSet: Identifiable {
     /// Setting this property updates all rounds to have the specified exercises, maintaining consistency.
     var consistentExercises: [Exercise] {
         get {
-            var exercises = [Exercise]()
-            if let firstRound = exerciseRounds.first {
-                firstRound.singleSets.forEach { singleSet in
-                    exercises.append(singleSet.exercise)
-                }
-            }
-            return exercises
+            exerciseRounds.first?.singleSets.map { $0.exercise } ?? []
         }
         set(newExercises) {
+            guard newExercises.count == exerciseRounds.first?.singleSets.count else { return }
             for (exerciseIndex, exercise) in newExercises.enumerated() {
                 exerciseRounds.indices.forEach { exerciseRounds[$0].singleSets[exerciseIndex].exercise = exercise}
             }
@@ -131,6 +126,9 @@ struct SuperSet: Identifiable {
             }
         }
     }
+    
+    // TODO: Reduce Repetition: Current getters for consistentWeights and consistentReps iterate through all rounds for each single set to check for consistency. This can be optimized by consolidating the iteration logic, reducing redundancy.
+    // TODO: Use map Efficiently: When setting new values for weights, reps, or exercises, you can utilize map more effectively to
 
     /// Initialize all superset parameters explicitly
     init(exerciseRounds: [ExerciseRound]) {

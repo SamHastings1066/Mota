@@ -10,14 +10,20 @@ import SwiftUI
 struct ExerciseDetailView: View {
     
     @Binding var isVisible: Bool
+    var exercise: Exercise?
     
     var body: some View {
-        Text("Exercise detail!")
+        if let exercise = exercise {
+            Text("\(exercise.name) info!")
+        } else {
+            Text("No info!")
+        }
+        
             //.navigationTitle("Exercise detail")
         Button("Dismiss", action: { isVisible.toggle() })
     }
 }
 
 #Preview {
-    ExerciseDetailView(isVisible: .constant(true))
+    ExerciseDetailView(isVisible: .constant(true), exercise: exercises[0])
 }
