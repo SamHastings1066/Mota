@@ -26,7 +26,7 @@ struct EditWorkoutView: View {
             Button {
                 //isAddExercisePresented.toggle()
                 //print(viewModel.workout.supersets.count)
-                viewModel.addSuperset(dummySuperset)
+                //viewModel.addSuperset(dummySuperset)
                 //print(viewModel.workout.supersets.count)
             } label: {
                 HStack{
@@ -57,18 +57,20 @@ struct EditWorkoutView: View {
 struct ExerciseListView: View {
     @Binding var workout: Workout
     var body: some View {
-        List {
-            
-            ForEach(workout.supersets.indices, id: \.self) { index in
-                Section(header: Text("Set \(index + 1)")) {
-                    // Create a binding to the individual superset
-                    ExerciseView(superSet: $workout.supersets[index])
+
+        
+            List {
+                ForEach($workout.supersets) { $superSet in
+                    ExerciseView(superSet: $superSet)
+                }
+                .onMove {
+                    workout.supersets.move(fromOffsets: $0, toOffset: $1)
                 }
             }
-            //                .onMove(perform: { indices, newOffset in
-            //                    workout.supersets.move(fromOffsets: indices, toOffset: newOffset)
-            //                })
-        }
+//            .toolbar {
+//                EditButton()
+//            }
+        
     }
 }
 
@@ -77,18 +79,22 @@ struct ExerciseView: View {
     @State private var isEditting = false
     @Binding var superSet: SuperSet
     
+    @State private var offset = CGSize.zero
+    
     var body: some View {
-        HStack {
-            Spacer()
-            ChevronButton(isChevronTapped: $isExpanded)
-            Spacer()
-            EditButton(isEditting: $isEditting)
-        }
-        // TODO: Remove this switch and make it a simple if-else on chevrontapped
-        if isExpanded {
-            ExpandedSupersetEditView(superSet: $superSet, isEditable: isEditting, isExpanded: isExpanded)
-        } else {
-            CollapsedSupersetEditView(superSet: $superSet, isEditable: isEditting)
+        VStack {
+            HStack {
+                Spacer()
+                ChevronButton(isChevronTapped: $isExpanded)
+                Spacer()
+                EditButtonBespoke(isEditting: $isEditting)
+            }
+            // TODO: Remove this switch and make it a simple if-else on chevrontapped
+            if isExpanded {
+                ExpandedSupersetEditView(superSet: $superSet, isEditable: isEditting, isExpanded: isExpanded)
+            } else {
+                CollapsedSupersetEditView(superSet: $superSet, isEditable: isEditting)
+            }
         }
         
     }
@@ -164,7 +170,7 @@ struct ChevronButton: View {
     }
 }
 
-struct EditButton: View {
+struct EditButtonBespoke: View {
     @Binding var isEditting: Bool
     var body: some View {
         Button(action: {

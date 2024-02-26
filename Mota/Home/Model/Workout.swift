@@ -22,7 +22,14 @@ class Workout {
 }
 
 /// `SuperSet` is a collection of exercise rounds.
-struct SuperSet: Identifiable {
+struct SuperSet: Identifiable, Hashable {
+    static func == (lhs: SuperSet, rhs: SuperSet) -> Bool {
+        lhs.id == rhs.id
+    }
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(id)
+    }
+    
     var id = UUID()
     var exerciseRounds: [ExerciseRound]
     
