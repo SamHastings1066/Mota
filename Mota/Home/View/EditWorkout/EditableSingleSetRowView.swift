@@ -29,6 +29,10 @@ struct EditableSingleSetRowView: View {
         }
     }
     
+    func getFocus(focused: Bool) {
+        print("get focus:\(focused ? "true" : "false")")
+    }
+    
     var body: some View {
         HStack {
             if isEditable && !isExpanded {
@@ -71,7 +75,7 @@ struct EditableSingleSetRowView: View {
                     VStack{
                         Text("Reps")
                         if isEditable {
-                            TextField("", value: $reps, formatter: NumberFormatter())
+                            TextField("", value: $reps, formatter: NumberFormatter(), onEditingChanged: getFocus)
                                 .textFieldStyle(RoundedBorderTextFieldStyle())
                                 .keyboardType(.numberPad)
                         } else {

@@ -14,6 +14,7 @@ protocol Exercise {
     var id: String { get }
 }
 
+// TODO: use IdentifiableExercise rather than Exercise wherever I am currently using exercise
 struct IdentifiableExercise: Identifiable {
     let id: String
     let exercise: Exercise

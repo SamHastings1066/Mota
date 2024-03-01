@@ -33,6 +33,7 @@ struct SuperSet: Identifiable, Hashable {
     var id = UUID()
     var exerciseRounds: [ExerciseRound]
     
+    
     var numRounds: Int {
         get {
             exerciseRounds.count
@@ -75,6 +76,28 @@ struct SuperSet: Identifiable, Hashable {
             guard newExercises.count == exerciseRounds.first?.singleSets.count else { return }
             for (exerciseIndex, exercise) in newExercises.enumerated() {
                 exerciseRounds.indices.forEach { exerciseRounds[$0].singleSets[exerciseIndex].exercise = exercise}
+            }
+        }
+    }
+    
+    var identifiableExercises: [IdentifiableExercise] {
+        get {
+            exerciseRounds.first?.singleSets.map { IdentifiableExercise(exercise: $0.exercise) } ?? []
+        }
+        set(newExercises) {
+            print("ORDER RESET")
+            // Create a map from exercise ID to new index
+            let newOrder = newExercises.enumerated().reduce(into: [String: Int]()) { (dict, tuple) in
+                let (index, exercise) = tuple
+                dict[exercise.id] = index
+            }
+            
+            // Reorder singleSets in each ExerciseRound
+            for i in exerciseRounds.indices {
+                exerciseRounds[i].singleSets.sort { (set1, set2) -> Bool in
+                    guard let index1 = newOrder[set1.exercise.id], let index2 = newOrder[set2.exercise.id] else { return false }
+                    return index1 < index2
+                }
             }
         }
     }

@@ -220,3 +220,26 @@ final class WhenSettingSupersetComputedProperties: XCTestCase {
         XCTAssertEqual(superSet.exerciseRounds[1].singleSets[1].reps, 7)
     }
 }
+
+// TODO: Finish off these tests
+final class WhenSettingIdentifiableExercises: XCTestCase {
+    func testThatOrderOfSingleSetsIsChangedForEachExerciseRound() throws {
+        let exerciseList = [UserDefinedExercise(name: "Squat"), UserDefinedExercise(name: "Bench"), UserDefinedExercise(name: "Shoulder Press")]
+        let set1 =  SingleSet(exercise: exerciseList[0], weight: 100, reps: 5)
+        let set2 = SingleSet(exercise: exerciseList[1], weight: 50, reps: 6)
+        let set3 = SingleSet(exercise: exerciseList[2], weight: 50, reps: 6)
+        var superSet = SuperSet(singleSets: [set1, set2, set3], rest: 50, numRounds: 8)
+        
+        superSet.identifiableExercises = [IdentifiableExercise(exercise: exerciseList[2]), IdentifiableExercise(exercise: exerciseList[1]), IdentifiableExercise(exercise: exerciseList[0])]
+        
+        XCTAssertEqual(superSet.exerciseRounds[0].singleSets[0].exercise.name, "Shoulder Press")
+        XCTAssertEqual(superSet.exerciseRounds[0].singleSets[1].exercise.name, "Bench")
+        XCTAssertEqual(superSet.exerciseRounds[0].singleSets[2].exercise.name, "Squat")
+        XCTAssertEqual(superSet.exerciseRounds[7].singleSets[0].exercise.name, "Shoulder Press")
+        XCTAssertEqual(superSet.exerciseRounds[7].singleSets[1].exercise.name, "Bench")
+        XCTAssertEqual(superSet.exerciseRounds[1].singleSets[2].exercise.name, "Squat")
+        
+        
+        
+    }
+}

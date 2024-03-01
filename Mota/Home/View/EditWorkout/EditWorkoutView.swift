@@ -89,7 +89,6 @@ struct ExerciseView: View {
                 Spacer()
                 EditButtonBespoke(isEditting: $isEditting)
             }
-            // TODO: Remove this switch and make it a simple if-else on chevrontapped
             if isExpanded {
                 ExpandedSupersetEditView(superSet: $superSet, isEditable: isEditting, isExpanded: isExpanded)
             } else {
@@ -103,6 +102,7 @@ struct ExerciseView: View {
 struct CollapsedSupersetEditView: View {
 
     @Binding var superSet: SuperSet
+    @State var selectedSuperSet: SuperSet?
     var isEditable = true
     
     var body: some View {
@@ -114,6 +114,14 @@ struct CollapsedSupersetEditView: View {
                                              isEditable: isEditable
                     )
                 }
+//                ForEach( $superSet.collapsedExerciseRounds ) { $singleSet in
+//                    EditableSingleSetRowView(exercise: $singleSet.exercise, weight: $singleSet.weight, reps: $singleSet.reps,
+//                                             isEditable: isEditable
+//                    )
+//                }
+//                .onMove {
+//                    superSet.collapsedExerciseRounds.move(fromOffsets: $0, toOffset: $1)
+//                }
             }
             Spacer()
             VStack(alignment: .center){
@@ -139,6 +147,19 @@ struct CollapsedSupersetEditView: View {
                     } else {
                         Text("\(superSet.consistentRest.map{ "\($0)" } ?? "-")")
                     }
+                }
+                if isEditable {
+                    Button {
+                        selectedSuperSet = superSet
+                    } label: {
+                        Image(systemName: "arrow.up.arrow.down.square")
+                            .imageScale(.large)
+                    }
+                    .padding(.top, 10)
+                    .popover(item: $selectedSuperSet) { _ in
+                        RearrangeExerceriseRoundsView(superSet: $superSet)
+                    }
+                    
                 }
             }
             .padding(.all, 10)

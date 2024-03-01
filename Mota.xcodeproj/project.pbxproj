@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		8440DCE92B6C61DA006D4EFC /* EditSetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8440DCE82B6C61DA006D4EFC /* EditSetView.swift */; };
+		8449E59E2B90F42100138CE8 /* RearrangeExerceriseRoundsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8449E59D2B90F42100138CE8 /* RearrangeExerceriseRoundsView.swift */; };
 		8469DE292B582E6900D617D2 /* MotaApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8469DE282B582E6900D617D2 /* MotaApp.swift */; };
 		8469DE2D2B582E6D00D617D2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8469DE2C2B582E6D00D617D2 /* Assets.xcassets */; };
 		8469DE302B582E6D00D617D2 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8469DE2F2B582E6D00D617D2 /* Preview Assets.xcassets */; };
@@ -81,6 +82,7 @@
 
 /* Begin PBXFileReference section */
 		8440DCE82B6C61DA006D4EFC /* EditSetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditSetView.swift; sourceTree = "<group>"; };
+		8449E59D2B90F42100138CE8 /* RearrangeExerceriseRoundsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RearrangeExerceriseRoundsView.swift; sourceTree = "<group>"; };
 		8469DE252B582E6900D617D2 /* Mota.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Mota.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8469DE282B582E6900D617D2 /* MotaApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MotaApp.swift; sourceTree = "<group>"; };
 		8469DE2C2B582E6D00D617D2 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -372,6 +374,7 @@
 				84ACF9D52B76EA9000DDB3F7 /* SingleSetRowView.swift */,
 				84C659C62B82906C001899DE /* EditableSingleSetRowView.swift */,
 				84F2F0592B83B28B00663BCA /* ChangeExerciseView.swift */,
+				8449E59D2B90F42100138CE8 /* RearrangeExerceriseRoundsView.swift */,
 			);
 			path = EditWorkout;
 			sourceTree = "<group>";
@@ -570,6 +573,7 @@
 				84C5AD152B682F550002AAE3 /* AddExerciseView.swift in Sources */,
 				84DD2D9F2B60199600633123 /* ResetPasswordView.swift in Sources */,
 				84C5AD1D2B69635B0002AAE3 /* Exercise.swift in Sources */,
+				8449E59E2B90F42100138CE8 /* RearrangeExerceriseRoundsView.swift in Sources */,
 				8469DE932B5D646E00D617D2 /* SignupView.swift in Sources */,
 				8469DE8F2B5C53C200D617D2 /* UserViewModel.swift in Sources */,
 				84DE65412B72784B009A9D40 /* Workout.swift in Sources */,
