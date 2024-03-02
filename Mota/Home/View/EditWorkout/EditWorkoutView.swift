@@ -13,42 +13,32 @@ struct EditWorkoutView: View {
     @State var isAddExercisePresented = false
     @State var viewModel = WorkoutViewModel()
     
-    // TODO: remove - this is for debugging purposes
-    var dummySuperset: SuperSet {
-        let set1 =  SingleSet(exercise: exercises.first(where: { $0.id == "Bench_Press_-_Powerlifting" }) ?? exercises[0], weight: 100, reps: 5)
-        let set2 = SingleSet(exercise: exercises.first(where: { $0.id == "Barbell_Deadlift" }) ?? exercises[0], weight: 50, reps: 6)
-        return SuperSet(singleSets: [set1, set2], rest: 50, numRounds: 8)
-    }
-    
     var body: some View {
         NavigationStack {
             ExerciseListView(workout: $viewModel.workout)
             Button {
-                //isAddExercisePresented.toggle()
-                //print(viewModel.workout.supersets.count)
-                //viewModel.addSuperset(dummySuperset)
-                //print(viewModel.workout.supersets.count)
+                isAddExercisePresented.toggle()
             } label: {
                 HStack{
                     Image(systemName: "plus.circle.fill")
-                    Text("Add exercise")
+                    Text("Add set")
                 }
             }
-            //            .fullScreenCover(isPresented: $isAddExercisePresented)
-            //            {
-            //                NavigationStack() {
-            //                    AddExerciseView()
-            //                        .navigationBarItems(
-            //                            leading: Button(action: {
-            //                                isAddExercisePresented.toggle()
-            //                            }) {
-            //                                Text("Cancel")
-            //                            }
-            //
-            //                        )
-            //                        .navigationBarTitle("Add Exercise", displayMode: .inline)
-            //                }
-            //            }
+            .fullScreenCover(isPresented: $isAddExercisePresented)
+            {
+                NavigationStack {
+                    AddExerciseView(workout: $viewModel.workout, isAddExercisePresented: $isAddExercisePresented)
+                        .navigationBarItems(
+                            leading: Button(action: {
+                                isAddExercisePresented.toggle()
+                            }) {
+                                Text("Cancel")
+                            }
+                            
+                        )
+                }
+                .navigationBarTitle("Add Exercise", displayMode: .inline)
+            }
             .navigationTitle("New Workout")
         }
     }
@@ -57,20 +47,14 @@ struct EditWorkoutView: View {
 struct ExerciseListView: View {
     @Binding var workout: Workout
     var body: some View {
-
-        
-            List {
-                ForEach($workout.supersets) { $superSet in
-                    ExerciseView(superSet: $superSet)
-                }
-                .onMove {
-                    workout.supersets.move(fromOffsets: $0, toOffset: $1)
-                }
+        List {
+            ForEach($workout.supersets) { $superSet in
+                ExerciseView(superSet: $superSet)
             }
-//            .toolbar {
-//                EditButton()
-//            }
-        
+            .onMove {
+                workout.supersets.move(fromOffsets: $0, toOffset: $1)
+            }
+        }
     }
 }
 
@@ -100,7 +84,7 @@ struct ExerciseView: View {
 }
 
 struct CollapsedSupersetEditView: View {
-
+    
     @Binding var superSet: SuperSet
     @State var selectedSuperSet: SuperSet?
     var isEditable = true
@@ -114,14 +98,6 @@ struct CollapsedSupersetEditView: View {
                                              isEditable: isEditable
                     )
                 }
-//                ForEach( $superSet.collapsedExerciseRounds ) { $singleSet in
-//                    EditableSingleSetRowView(exercise: $singleSet.exercise, weight: $singleSet.weight, reps: $singleSet.reps,
-//                                             isEditable: isEditable
-//                    )
-//                }
-//                .onMove {
-//                    superSet.collapsedExerciseRounds.move(fromOffsets: $0, toOffset: $1)
-//                }
             }
             Spacer()
             VStack(alignment: .center){

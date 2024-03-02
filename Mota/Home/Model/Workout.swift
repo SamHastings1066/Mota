@@ -85,7 +85,6 @@ struct SuperSet: Identifiable, Hashable {
             exerciseRounds.first?.singleSets.map { IdentifiableExercise(exercise: $0.exercise) } ?? []
         }
         set(newExercises) {
-            print("ORDER RESET")
             // Create a map from exercise ID to new index
             let newOrder = newExercises.enumerated().reduce(into: [String: Int]()) { (dict, tuple) in
                 let (index, exercise) = tuple

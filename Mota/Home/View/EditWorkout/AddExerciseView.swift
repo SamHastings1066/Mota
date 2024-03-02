@@ -8,43 +8,41 @@
 import SwiftUI
 
 struct AddExerciseView: View {
-    
-    @State var exerciseList = ["Squat", "Bench press", "Deadlift"]
-    
 
-    
-    var body: some View {
-
-        
-        NavigationSplitView {
-            ExerciseList()
-        } detail: {
-            Text("Select an exercise")
-        }
-        
-    }
-    
-}
-
-struct ExerciseList: View {
-    
+    @Binding var workout: Workout
+    @Binding var isAddExercisePresented: Bool
     @State private var singleSelection: UUID?
+    
+    @State var isInfoPresented = false
+    @State var exerciseToBePresented: Exercise?
+    
     var body: some View {
         List(exercises, selection: $singleSelection) { exercise in
-            NavigationLink {
-                EditSetView()
+            Button {
+                workout.addSuperset(SuperSet(exerciseRounds: [ExerciseRound(singleSets: [SingleSet(exercise: exercise)])]))
+                isAddExercisePresented = false
             } label: {
                 ExerciseRowView(exercise: exercise)
             }
-            
-            
+            .swipeActions {
+                Button("Burn") {
+                    isInfoPresented.toggle()
+                    exerciseToBePresented = exercise
+
+                }
+                .tint(.red)
+            }
+            .sheet(isPresented: $isInfoPresented) {
+                ExerciseDetailView(isVisible: $isInfoPresented, exercise: exerciseToBePresented)
+            }
         }
         .navigationTitle("Exercises")
     }
+    
 }
 
 #Preview {
-    AddExerciseView()
+    AddExerciseView(workout: .constant(Workout(supersets: [])), isAddExercisePresented: .constant(true))
 }
 
 
