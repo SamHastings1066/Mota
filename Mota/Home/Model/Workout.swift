@@ -19,6 +19,13 @@ class Workout {
     func addSuperset(_ superSet: SuperSet) {
         supersets.append(superSet)
     }
+    
+    func deleteSuperset(_ superSet: SuperSet) {
+        let index = supersets.firstIndex(of: superSet)
+        if let index = index {
+            supersets.remove(at: index)
+        }
+    }
 }
 
 /// `SuperSet` is a collection of exercise rounds.

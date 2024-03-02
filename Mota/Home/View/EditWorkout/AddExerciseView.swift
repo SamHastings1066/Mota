@@ -19,7 +19,7 @@ struct AddExerciseView: View {
     var body: some View {
         List(exercises, selection: $singleSelection) { exercise in
             Button {
-                workout.addSuperset(SuperSet(exerciseRounds: [ExerciseRound(singleSets: [SingleSet(exercise: exercise)])]))
+                workout.addSuperset(SuperSet(exerciseRounds: [ExerciseRound(singleSets: [SingleSet(exercise: exercise, weight: 0, reps: 0)])]))
                 isAddExercisePresented = false
             } label: {
                 ExerciseRowView(exercise: exercise)

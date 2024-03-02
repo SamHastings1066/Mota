@@ -16,6 +16,7 @@ struct EditWorkoutView: View {
     var body: some View {
         NavigationStack {
             ExerciseListView(workout: $viewModel.workout)
+                .environment(viewModel)
             Button {
                 isAddExercisePresented.toggle()
             } label: {
@@ -68,6 +69,9 @@ struct ExerciseView: View {
     var body: some View {
         VStack {
             HStack {
+                if isEditting {
+                    DeleteSupersetButton(superSet: superSet)
+                }
                 Spacer()
                 ChevronButton(isChevronTapped: $isExpanded)
                 Spacer()
@@ -218,4 +222,34 @@ struct ExpandedSupersetEditView: View {
 
 #Preview {
     EditWorkoutView()
+}
+
+struct DeleteSupersetButton: View {
+    @Environment(WorkoutViewModel.self) var viewModel
+    @State private var showingAlert = false
+    var superSet: SuperSet
+    var body: some View {
+        Button {
+            //
+        } label: {
+            Image(systemName: "trash")
+        }
+        .onTapGesture {
+            //showingAlert = true
+            withAnimation {
+                viewModel.workout.deleteSuperset(superSet)
+            }
+        }
+        .alert(isPresented:$showingAlert) {
+            Alert(
+                title: Text("Are you sure you want to delete this set?"),
+                primaryButton: .destructive(Text("Delete")) {
+                    withAnimation {
+                        viewModel.workout.deleteSuperset(superSet)
+                    }
+                },
+                secondaryButton: .cancel()
+            )
+        }
+    }
 }

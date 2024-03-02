@@ -82,6 +82,28 @@ final class WhenCreatingWorkoutObject: XCTestCase {
         
         workout.addSuperset(superSet2)
         XCTAssertEqual(workout.supersets.count, 2)
+    }
+    
+    func testShouldDeleteSuperset() throws {
+        // Create first superset
+        let set1 =  SingleSet(exercise: UserDefinedExercise(name: "Squat"), weight: 100, reps: 5)
+        let set2 = SingleSet(exercise: UserDefinedExercise(name: "Bench"), weight: 50, reps: 6)
+        let superSet1 = SuperSet(singleSets: [set1, set2], rest: 50, numRounds: 8)
+        
+        // Create second superset
+        let set3 =  SingleSet(exercise: DatabaseExercise.sampleExercises[0], weight: 120, reps: 8)
+        let set4 = SingleSet(exercise: DatabaseExercise.sampleExercises[1], weight: 30, reps: 9)
+        let superSet2 = SuperSet(singleSets: [set3, set4], rest: 120, numRounds: 8)
+        
+        let workout = Workout(supersets: [superSet1, superSet2])
+        XCTAssertEqual(workout.supersets.count, 2)
+        
+        workout.deleteSuperset(superSet2)
+        XCTAssertEqual(workout.supersets.count, 1)
+        
+        // This should do nothing
+        workout.deleteSuperset(superSet2)
+        XCTAssertEqual(workout.supersets.count, 1)
         
     }
 }
