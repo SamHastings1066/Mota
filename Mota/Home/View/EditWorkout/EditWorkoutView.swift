@@ -126,10 +126,13 @@ struct CollapsedSupersetEditView: View {
                 }
                 if isEditable {
                     Button {
-                        selectedSuperSet = superSet
+                        // use .onTapGesture
                     } label: {
                         Image(systemName: "arrow.up.arrow.down.square")
                             .imageScale(.large)
+                    }
+                    .onTapGesture {
+                        selectedSuperSet = superSet
                     }
                     .padding(.top, 10)
                     .popover(item: $selectedSuperSet) { _ in
