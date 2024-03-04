@@ -125,6 +125,24 @@ final class WhenCreatingWorkoutObject: XCTestCase {
         
         
     }
+    
+    func testShouldAddExerciseToAllExerciseRounds() throws {
+        // Create first superset
+        var exerciseList = [UserDefinedExercise(name: "Squat"), UserDefinedExercise(name: "Bench"), UserDefinedExercise(name: "Deadlift")]
+        let set1 =  SingleSet(exercise: exerciseList[0], weight: 100, reps: 5)
+        let set2 = SingleSet(exercise: exerciseList[1], weight: 50, reps: 6)
+        let superSet1 = SuperSet(singleSets: [set1, set2], rest: 50, numRounds: 8)
+        
+        let set3 = SingleSet(exercise: exerciseList[2], weight: 100, reps: 4)
+        
+        let workout = Workout(supersets: [superSet1])
+        XCTAssertEqual(workout.supersets[0].consistentExercises.count, 2)
+        workout.supersets[0].addExercise(exerciseList[2])
+        XCTAssertEqual(workout.supersets[0].consistentExercises.count, 3)
+        XCTAssertEqual(workout.supersets[0].consistentExercises[2].name, "Deadlift")
+        
+        
+    }
 }
 
 final class WhenGettingSupersetComputedProperties: XCTestCase {

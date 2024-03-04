@@ -195,6 +195,12 @@ struct SuperSet: Identifiable, Hashable {
             exerciseRounds[roundIndex].singleSets = exerciseRounds[roundIndex].singleSets.filter { $0.exercise.id != exerciseToRemove.id }
         }
     }
+    
+    mutating func addExercise(_ exerciseToAdd: Exercise) {
+        for roundIndex in exerciseRounds.indices {
+            exerciseRounds[roundIndex].singleSets.append(SingleSet(exercise: exerciseToAdd, weight: 0, reps: 0))
+        }
+    }
 
 }
 

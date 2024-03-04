@@ -9,17 +9,19 @@ import SwiftUI
 
 struct AddExerciseView: View {
 
-    @Binding var workout: Workout
     @Binding var isAddExercisePresented: Bool
     @State private var singleSelection: UUID?
     
     @State var isInfoPresented = false
     @State var exerciseToBePresented: Exercise?
     
+    var addExerciseClosure: ((Exercise) -> Void)?
+    
     var body: some View {
         List(exercises, selection: $singleSelection) { exercise in
             Button {
-                workout.addSuperset(SuperSet(exerciseRounds: [ExerciseRound(singleSets: [SingleSet(exercise: exercise, weight: 0, reps: 0)])]))
+                addExerciseClosure?(exercise)
+                //workout.addSuperset(SuperSet(exerciseRounds: [ExerciseRound(singleSets: [SingleSet(exercise: exercise, weight: 0, reps: 0)])]))
                 isAddExercisePresented = false
             } label: {
                 ExerciseRowView(exercise: exercise)
@@ -42,7 +44,7 @@ struct AddExerciseView: View {
 }
 
 #Preview {
-    AddExerciseView(workout: .constant(Workout(supersets: [])), isAddExercisePresented: .constant(true))
+    AddExerciseView(isAddExercisePresented: .constant(true))
 }
 
 

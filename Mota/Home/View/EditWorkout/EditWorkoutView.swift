@@ -28,7 +28,9 @@ struct EditWorkoutView: View {
             .fullScreenCover(isPresented: $isAddExercisePresented)
             {
                 NavigationStack {
-                    AddExerciseView(workout: $viewModel.workout, isAddExercisePresented: $isAddExercisePresented)
+                    AddExerciseView(isAddExercisePresented: $isAddExercisePresented) { exercise in
+                        viewModel.workout.addSuperset(SuperSet(exerciseRounds: [ExerciseRound(singleSets: [SingleSet(exercise: exercise, weight: 0, reps: 0)])]))
+                    }
                         .navigationBarItems(
                             leading: Button(action: {
                                 isAddExercisePresented.toggle()
@@ -94,6 +96,7 @@ struct CollapsedSupersetEditView: View {
     
     @Binding var superSet: SuperSet
     @State var selectedSuperSet: SuperSet?
+    @State var isAddExercisePresented = false
     var isEditable = true
     
     var body: some View {
@@ -120,15 +123,35 @@ struct CollapsedSupersetEditView: View {
                         }
                         
                         Button {
-                            // TODO: Add functionality
+                            
                         } label: {
                             Image(systemName: "plus")
+                        }
+                        .onTapGesture {
+                            isAddExercisePresented.toggle()
                         }
                         Spacer()
                     }
                     .padding(.top, 10)
                     .popover(item: $selectedSuperSet) { _ in
                         RearrangeExerceriseRoundsView(superSet: $superSet)
+                    }
+                    .fullScreenCover(isPresented: $isAddExercisePresented)
+                    {
+                        NavigationStack {
+                            AddExerciseView(isAddExercisePresented: $isAddExercisePresented) { exercise in
+                                superSet.addExercise(exercise)
+                            }
+                                .navigationBarItems(
+                                    leading: Button(action: {
+                                        isAddExercisePresented.toggle()
+                                    }) {
+                                        Text("Cancel")
+                                    }
+                                    
+                                )
+                        }
+                        .navigationBarTitle("Add Exercise", displayMode: .inline)
                     }
                 }
             }
