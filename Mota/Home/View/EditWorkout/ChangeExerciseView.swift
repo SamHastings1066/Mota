@@ -7,9 +7,6 @@
 
 import SwiftUI
 
-
-import SwiftUI
-
 struct ChangeExerciseView: View {
     
     @Binding var selectedExercise: IdentifiableExercise?
@@ -19,9 +16,26 @@ struct ChangeExerciseView: View {
     @State var isInfoPresented = false
     @State var exerciseToBePresented: Exercise?
     
+    @State var filterString: String = ""
+    
+    var filteredExercises: [DatabaseExercise] {
+        if filterString.isEmpty {
+            return exercises
+        } else {
+            return exercises.filter { exercise in
+                exercise.name.lowercased().contains(filterString.lowercased())
+            }
+        }
+        
+    }
+    
     var body: some View {
         Text("Selected exercise: \(selectedExercise?.exercise.name ?? "")")
-        List(exercises, selection: $singleSelection) { exercise in
+        TextField(
+            "Filter exercises",
+            text: $filterString
+        )
+        List(filteredExercises, selection: $singleSelection) { exercise in
             Button {
                 modelExercise = exercise
                 selectedExercise = nil
@@ -29,7 +43,7 @@ struct ChangeExerciseView: View {
                 ExerciseRowView(exercise: exercise)
             }
             .swipeActions {
-                Button("Burn") {
+                Button("Info") {
                     isInfoPresented.toggle()
                     exerciseToBePresented = exercise
 

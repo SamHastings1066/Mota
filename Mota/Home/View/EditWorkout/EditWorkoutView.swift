@@ -31,14 +31,14 @@ struct EditWorkoutView: View {
                     AddExerciseView(isAddExercisePresented: $isAddExercisePresented) { exercise in
                         viewModel.workout.addSuperset(SuperSet(exerciseRounds: [ExerciseRound(singleSets: [SingleSet(exercise: exercise, weight: 0, reps: 0)])]))
                     }
-                        .navigationBarItems(
-                            leading: Button(action: {
-                                isAddExercisePresented.toggle()
-                            }) {
-                                Text("Cancel")
-                            }
-                            
-                        )
+                    .navigationBarItems(
+                        leading: Button(action: {
+                            isAddExercisePresented.toggle()
+                        }) {
+                            Text("Cancel")
+                        }
+                        
+                    )
                 }
                 .navigationBarTitle("Add Exercise", displayMode: .inline)
             }
@@ -112,14 +112,16 @@ struct CollapsedSupersetEditView: View {
                 if isEditable {
                     HStack {
                         Spacer()
-                        Button {
-                            // use .onTapGesture
-                        } label: {
-                            Image(systemName: "arrow.up.arrow.down.square")
-                                .imageScale(.large)
-                        }
-                        .onTapGesture {
-                            selectedSuperSet = superSet
+                        if superSet.consistentExercises.count > 1 {
+                            Button {
+                                // use .onTapGesture
+                            } label: {
+                                Image(systemName: "arrow.up.arrow.down.square")
+                                    .imageScale(.large)
+                            }
+                            .onTapGesture {
+                                selectedSuperSet = superSet
+                            }
                         }
                         
                         Button {
@@ -142,14 +144,14 @@ struct CollapsedSupersetEditView: View {
                             AddExerciseView(isAddExercisePresented: $isAddExercisePresented) { exercise in
                                 superSet.addExercise(exercise)
                             }
-                                .navigationBarItems(
-                                    leading: Button(action: {
-                                        isAddExercisePresented.toggle()
-                                    }) {
-                                        Text("Cancel")
-                                    }
-                                    
-                                )
+                            .navigationBarItems(
+                                leading: Button(action: {
+                                    isAddExercisePresented.toggle()
+                                }) {
+                                    Text("Cancel")
+                                }
+                                
+                            )
                         }
                         .navigationBarTitle("Add Exercise", displayMode: .inline)
                     }
@@ -267,9 +269,9 @@ struct DeleteItemButton: View {
         }
         .onTapGesture {
             showingAlert = true
-//            withAnimation {
-//                deletionClosure()
-//            }
+            //            withAnimation {
+            //                deletionClosure()
+            //            }
         }
         .alert(isPresented:$showingAlert) {
             Alert(

@@ -8,17 +8,33 @@
 import SwiftUI
 
 struct AddExerciseView: View {
-
     @Binding var isAddExercisePresented: Bool
     @State private var singleSelection: UUID?
     
     @State var isInfoPresented = false
     @State var exerciseToBePresented: Exercise?
     
+    @State var filterString: String = ""
+    
+    var filteredExercises: [DatabaseExercise] {
+        if filterString.isEmpty {
+            return exercises
+        } else {
+            return exercises.filter { exercise in
+                exercise.name.lowercased().contains(filterString.lowercased())
+            }
+        }
+        
+    }
+    
     var addExerciseClosure: ((Exercise) -> Void)?
     
     var body: some View {
-        List(exercises, selection: $singleSelection) { exercise in
+        TextField(
+            "Filter exercises",
+            text: $filterString
+        )
+        List(filteredExercises, selection: $singleSelection) { exercise in
             Button {
                 addExerciseClosure?(exercise)
                 //workout.addSuperset(SuperSet(exerciseRounds: [ExerciseRound(singleSets: [SingleSet(exercise: exercise, weight: 0, reps: 0)])]))
@@ -27,7 +43,7 @@ struct AddExerciseView: View {
                 ExerciseRowView(exercise: exercise)
             }
             .swipeActions {
-                Button("Burn") {
+                Button("Info") {
                     isInfoPresented.toggle()
                     exerciseToBePresented = exercise
 
