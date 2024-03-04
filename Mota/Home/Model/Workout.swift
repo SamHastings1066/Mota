@@ -187,6 +187,14 @@ struct SuperSet: Identifiable, Hashable {
     init(singleSets: [SingleSet], rest: Int, numRounds: Int) {
         self.exerciseRounds = (0..<numRounds).map { _ in ExerciseRound(singleSets: singleSets, rest: rest) }
     }
+    
+    mutating func removeExercise(_ exerciseToRemove: Exercise) {
+        // Iterate through each ExerciseRound
+        for roundIndex in exerciseRounds.indices {
+            // Filter out the SingleSet that matches the exercise to remove
+            exerciseRounds[roundIndex].singleSets = exerciseRounds[roundIndex].singleSets.filter { $0.exercise.id != exerciseToRemove.id }
+        }
+    }
 
 }
 

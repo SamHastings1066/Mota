@@ -17,6 +17,7 @@ struct EditableSingleSetRowView: View {
     
     var isEditable = true
     var isExpanded = false
+    var removeExerciseClosure: (() -> Void)?
     
     @State var isAddExercisePresented = false
     @State var selectedExercise: IdentifiableExercise?
@@ -36,29 +37,34 @@ struct EditableSingleSetRowView: View {
     var body: some View {
         HStack {
             if isEditable && !isExpanded {
-                Button(action: {
-                    
-                }) {
-                    SafeImage(imageName: imageName)
-                        .frame(width: 70, height: 70)
-                    //.padding(.trailing)
-                }
-                .onTapGesture {
-                    isAddExercisePresented.toggle()
-                    selectedExercise = IdentifiableExercise(exercise: exercise)
-                }
-                .fullScreenCover(item: $selectedExercise)
-                { exercise in
-                    NavigationStack() {
-                        ChangeExerciseView(selectedExercise: $selectedExercise, modelExercise: $exercise)
-                            .navigationBarItems(
-                                leading: Button(action: {
-                                    //isAddExercisePresented.toggle()
-                                    selectedExercise = nil
-                                }) {
-                                    Text("Cancel")
-                                }
-                            )
+                VStack {
+                    Button(action: {
+                        
+                    }) {
+                        SafeImage(imageName: imageName)
+                            .frame(width: 70, height: 70)
+                        //.padding(.trailing)
+                    }
+                    .onTapGesture {
+                        isAddExercisePresented.toggle()
+                        selectedExercise = IdentifiableExercise(exercise: exercise)
+                    }
+                    .fullScreenCover(item: $selectedExercise)
+                    { exercise in
+                        NavigationStack() {
+                            ChangeExerciseView(selectedExercise: $selectedExercise, modelExercise: $exercise)
+                                .navigationBarItems(
+                                    leading: Button(action: {
+                                        //isAddExercisePresented.toggle()
+                                        selectedExercise = nil
+                                    }) {
+                                        Text("Cancel")
+                                    }
+                                )
+                        }
+                    }
+                    DeleteItemButton {
+                        removeExerciseClosure?()
                     }
                 }
             } else {

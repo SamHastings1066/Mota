@@ -63,6 +63,7 @@ struct ExerciseView: View {
     @State private var isExpanded = false
     @State private var isEditting = false
     @Binding var superSet: SuperSet
+    @Environment(WorkoutViewModel.self) var viewModel
     
     @State private var offset = CGSize.zero
     
@@ -70,7 +71,9 @@ struct ExerciseView: View {
         VStack {
             HStack {
                 if isEditting {
-                    DeleteSupersetButton(superSet: superSet)
+                    DeleteItemButton {
+                        viewModel.workout.deleteSuperset(superSet)
+                    }
                 }
                 Spacer()
                 ChevronButton(isChevronTapped: $isExpanded)
@@ -98,9 +101,35 @@ struct CollapsedSupersetEditView: View {
         HStack {
             VStack(alignment: .leading) {
                 ForEach( 0..<superSet.consistentExercises.count, id: \.self ) { exerciseNumber in
-                    EditableSingleSetRowView(exercise: $superSet.consistentExercises[exerciseNumber], weight: $superSet.consistentWeights[exerciseNumber], reps: $superSet.consistentReps[exerciseNumber],
-                                             isEditable: isEditable
-                    )
+                    EditableSingleSetRowView(exercise: $superSet.consistentExercises[exerciseNumber], weight: $superSet.consistentWeights[exerciseNumber], reps: $superSet.consistentReps[exerciseNumber], isEditable: isEditable
+                    ) {
+                        superSet.removeExercise(superSet.consistentExercises[exerciseNumber])
+                    }
+                }
+                if isEditable {
+                    HStack {
+                        Spacer()
+                        Button {
+                            // use .onTapGesture
+                        } label: {
+                            Image(systemName: "arrow.up.arrow.down.square")
+                                .imageScale(.large)
+                        }
+                        .onTapGesture {
+                            selectedSuperSet = superSet
+                        }
+                        
+                        Button {
+                            // TODO: Add functionality
+                        } label: {
+                            Image(systemName: "plus")
+                        }
+                        Spacer()
+                    }
+                    .padding(.top, 10)
+                    .popover(item: $selectedSuperSet) { _ in
+                        RearrangeExerceriseRoundsView(superSet: $superSet)
+                    }
                 }
             }
             Spacer()
@@ -127,22 +156,6 @@ struct CollapsedSupersetEditView: View {
                     } else {
                         Text("\(superSet.consistentRest.map{ "\($0)" } ?? "-")")
                     }
-                }
-                if isEditable {
-                    Button {
-                        // use .onTapGesture
-                    } label: {
-                        Image(systemName: "arrow.up.arrow.down.square")
-                            .imageScale(.large)
-                    }
-                    .onTapGesture {
-                        selectedSuperSet = superSet
-                    }
-                    .padding(.top, 10)
-                    .popover(item: $selectedSuperSet) { _ in
-                        RearrangeExerceriseRoundsView(superSet: $superSet)
-                    }
-                    
                 }
             }
             .padding(.all, 10)
@@ -220,14 +233,9 @@ struct ExpandedSupersetEditView: View {
     }
 }
 
-#Preview {
-    EditWorkoutView()
-}
-
-struct DeleteSupersetButton: View {
-    @Environment(WorkoutViewModel.self) var viewModel
+struct DeleteItemButton: View {
     @State private var showingAlert = false
-    var superSet: SuperSet
+    var deletionClosure: () -> Void
     var body: some View {
         Button {
             //
@@ -235,17 +243,17 @@ struct DeleteSupersetButton: View {
             Image(systemName: "trash")
         }
         .onTapGesture {
-            //showingAlert = true
-            withAnimation {
-                viewModel.workout.deleteSuperset(superSet)
-            }
+            showingAlert = true
+//            withAnimation {
+//                deletionClosure()
+//            }
         }
         .alert(isPresented:$showingAlert) {
             Alert(
-                title: Text("Are you sure you want to delete this set?"),
+                title: Text("Are you sure you want to delete this item?"),
                 primaryButton: .destructive(Text("Delete")) {
                     withAnimation {
-                        viewModel.workout.deleteSuperset(superSet)
+                        deletionClosure()
                     }
                 },
                 secondaryButton: .cancel()
@@ -253,3 +261,9 @@ struct DeleteSupersetButton: View {
         }
     }
 }
+
+#Preview {
+    EditWorkoutView()
+}
+
+
