@@ -35,26 +35,30 @@ struct ChangeExerciseView: View {
             "Filter exercises",
             text: $filterString
         )
-        List(filteredExercises, selection: $singleSelection) { exercise in
-            Button {
-                modelExercise = exercise
-                selectedExercise = nil
-            } label: {
-                ExerciseRowView(exercise: exercise)
-            }
-            .swipeActions {
-                Button("Info") {
-                    isInfoPresented.toggle()
-                    exerciseToBePresented = exercise
-
+        //List(filteredExercises, selection: $singleSelection) { exercise in
+        List(selection: $singleSelection) {
+            Section(header: Text("Swipe left for more info")) {
+                ForEach(filteredExercises) { exercise in
+                    Button {
+                        modelExercise = exercise
+                        selectedExercise = nil
+                    } label: {
+                        ExerciseRowView(exercise: exercise)
+                    }
+                    .swipeActions {
+                        Button("Info") {
+                            isInfoPresented.toggle()
+                            exerciseToBePresented = exercise
+                            
+                        }
+                        .tint(.red)
+                    }
+                    .sheet(isPresented: $isInfoPresented) {
+                        ExerciseDetailView(isVisible: $isInfoPresented, exercise: exerciseToBePresented)
+                    }
+                    
                 }
-                .tint(.red)
             }
-            .sheet(isPresented: $isInfoPresented) {
-                ExerciseDetailView(isVisible: $isInfoPresented, exercise: exerciseToBePresented)
-            }
-
-            
         }
         .navigationTitle("Exercises")
     }
