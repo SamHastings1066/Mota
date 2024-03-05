@@ -47,7 +47,7 @@ struct SuperSet: Identifiable, Hashable {
         }
         set {
             guard !exerciseRounds.isEmpty else { return }
-            //guard newValue > 0 else { return }
+            guard newValue > 0 else { return }
             if newValue <= exerciseRounds.count {
                 exerciseRounds = Array(exerciseRounds[..<newValue])
             } else {
