@@ -22,11 +22,18 @@ struct EditableSingleSetRowView: View {
     @State var isAddExercisePresented = false
     @State var selectedExercise: IdentifiableExercise?
     
-    var imageName: String? {
+//    var imageName: String? {
+//        if let databaseExercise = exercise as? DatabaseExercise, !databaseExercise.imageURLs.isEmpty {
+//            return databaseExercise.imageURLs[0]
+//        } else {
+//            return nil
+//        }
+//    }
+    var imageNames: [String?] {
         if let databaseExercise = exercise as? DatabaseExercise, !databaseExercise.imageURLs.isEmpty {
-            return databaseExercise.imageURLs[0]
+            return [databaseExercise.imageURLs[0], databaseExercise.imageURLs[1]]
         } else {
-            return nil
+            return [nil,nil]
         }
     }
     
@@ -37,7 +44,8 @@ struct EditableSingleSetRowView: View {
                     Button(action: {
                         
                     }) {
-                        SafeImage(imageName: imageName)
+//                        SafeImage(imageName: imageName)
+                        exerciseAnimationView(imageNames: imageNames)
                             .frame(width: 70, height: 70)
                         //.padding(.trailing)
                     }
@@ -64,7 +72,8 @@ struct EditableSingleSetRowView: View {
                     }
                 }
             } else {
-                SafeImage(imageName: imageName)
+//                SafeImage(imageName: imageName)
+                exerciseAnimationView(imageNames: imageNames)
                     .frame(width: 70, height: 70)
             }
             
