@@ -8,8 +8,6 @@
 import SwiftUI
 
 struct ExerciseDetailView: View {
-    
-    @Binding var isVisible: Bool
     var exercise: Exercise?
     
     
@@ -76,12 +74,11 @@ struct ExerciseDetailView: View {
             Text("No info!")
         }
 
-        //Button("Dismiss", action: { isVisible.toggle() })
     }
 }
 
 #Preview {
-    ExerciseDetailView(isVisible: .constant(true), exercise: exercises[0])
+    ExerciseDetailView(exercise: exercises[0])
 }
 
 struct exerciseAnimationView: View {

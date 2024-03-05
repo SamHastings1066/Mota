@@ -8,7 +8,6 @@
 import SwiftUI
 
 struct ChangeExerciseView: View {
-    
     @Binding var selectedExercise: IdentifiableExercise?
     @Binding var modelExercise: Exercise
     @State private var singleSelection: UUID?
@@ -35,7 +34,6 @@ struct ChangeExerciseView: View {
             "Filter exercises",
             text: $filterString
         )
-        //List(filteredExercises, selection: $singleSelection) { exercise in
         List(selection: $singleSelection) {
             Section(header: Text("Swipe left for more info")) {
                 ForEach(filteredExercises) { exercise in
@@ -47,14 +45,13 @@ struct ChangeExerciseView: View {
                     }
                     .swipeActions {
                         Button("Info") {
-                            isInfoPresented.toggle()
                             exerciseToBePresented = exercise
-                            
+                            isInfoPresented.toggle()
                         }
-                        .tint(.red)
+                        .tint(.blue)
                     }
                     .sheet(isPresented: $isInfoPresented) {
-                        ExerciseDetailView(isVisible: $isInfoPresented, exercise: exerciseToBePresented)
+                        ExerciseDetailView(exercise: exerciseToBePresented)
                     }
                     
                 }

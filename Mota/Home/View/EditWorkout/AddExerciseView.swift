@@ -10,9 +10,7 @@ import SwiftUI
 struct AddExerciseView: View {
     @Binding var isAddExercisePresented: Bool
     @State private var singleSelection: UUID?
-    
-    @State var isInfoPresented = false
-    @State var exerciseToBePresented: Exercise?
+    @State var exerciseToBePresented: DatabaseExercise?
     
     @State var filterString: String = ""
     
@@ -28,33 +26,28 @@ struct AddExerciseView: View {
     }
     
     var addExerciseClosure: ((Exercise) -> Void)?
-    
     var body: some View {
         TextField(
             "Filter exercises",
             text: $filterString
         )
-        //List(filteredExercises, selection: $singleSelection) { exercise in
         List(selection: $singleSelection) {
             Section(header: Text("Swipe left for more info")) {
                 ForEach(filteredExercises) { exercise in
                     Button {
                         addExerciseClosure?(exercise)
-                        //workout.addSuperset(SuperSet(exerciseRounds: [ExerciseRound(singleSets: [SingleSet(exercise: exercise, weight: 0, reps: 0)])]))
                         isAddExercisePresented = false
                     } label: {
                         ExerciseRowView(exercise: exercise)
                     }
                     .swipeActions {
                         Button("Info") {
-                            isInfoPresented.toggle()
                             exerciseToBePresented = exercise
-                            
                         }
-                        .tint(.red)
+                        .tint(.blue)
                     }
-                    .sheet(isPresented: $isInfoPresented) {
-                        ExerciseDetailView(isVisible: $isInfoPresented, exercise: exerciseToBePresented)
+                    .sheet(item: $exerciseToBePresented) { exercise in
+                        ExerciseDetailView(exercise: exercise)
                     }
                 }
             }
