@@ -16,6 +16,10 @@ class Workout {
         self.supersets = supersets
     }
     
+    init() {
+        self.supersets = []
+    }
+    
     func addSuperset(_ superSet: SuperSet) {
         supersets.append(superSet)
     }

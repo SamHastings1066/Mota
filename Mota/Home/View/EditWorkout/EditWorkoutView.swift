@@ -11,12 +11,28 @@ import SwiftUI
 struct EditWorkoutView: View {
     
     @State var isAddExercisePresented = false
-    @State var viewModel = WorkoutViewModel()
+    @State var workout: Workout //= Workout()
+
+    // TODO: remove - this is for debugging purposes
+    init() {
+        let set1 =  SingleSet(exercise: exercises.first(where: { $0.id == "Barbell_Squat" }) ?? exercises[0], weight: 100, reps: 5)
+        let set2 = SingleSet(exercise: exercises.first(where: { $0.id == "Bench_Press_-_Powerlifting" }) ?? exercises[0], weight: 50, reps: 6)
+        let set3 = SingleSet(exercise: exercises.first(where: { $0.id == "90_90_Hamstring" }) ?? exercises[0], weight: 40, reps: 9)
+        let superSet1 = SuperSet(singleSets: [set1, set2, set3], rest: 50, numRounds: 8)
+        // Create second superset
+        let set4 =  SingleSet(exercise: UserDefinedExercise(name: "Deadlift"), weight: 100, reps: 5)
+        let set5 = SingleSet(exercise: UserDefinedExercise(name: "Bench"), weight: 50, reps: 6)
+        let set6 =  SingleSet(exercise: UserDefinedExercise(name: "Deadlift"), weight: 100, reps: 4)
+        let set7 = SingleSet(exercise: UserDefinedExercise(name: "Bench"), weight: 40, reps: 6)
+        let superSet2 = SuperSet(exerciseRounds: [ExerciseRound(singleSets: [set4, set5], rest:40), ExerciseRound(singleSets: [set6,set7], rest: 50)])
+        
+        self.workout = Workout(supersets: [superSet1, superSet2])
+    }
     
     var body: some View {
         NavigationStack {
-            ExerciseListView(workout: $viewModel.workout)
-                .environment(viewModel)
+            ExerciseListView(workout: $workout)
+                .environment(workout)
             Button {
                 isAddExercisePresented.toggle()
             } label: {
@@ -29,7 +45,7 @@ struct EditWorkoutView: View {
             {
                 NavigationStack {
                     AddExerciseView(isAddExercisePresented: $isAddExercisePresented) { exercise in
-                        viewModel.workout.addSuperset(SuperSet(exerciseRounds: [ExerciseRound(singleSets: [SingleSet(exercise: exercise, weight: 0, reps: 0)])]))
+                        workout.addSuperset(SuperSet(exerciseRounds: [ExerciseRound(singleSets: [SingleSet(exercise: exercise, weight: 0, reps: 0)])]))
                     }
                     .navigationBarItems(
                         leading: Button(action: {
@@ -65,7 +81,7 @@ struct ExerciseView: View {
     @State private var isExpanded = false
     @State private var isEditting = false
     @Binding var superSet: SuperSet
-    @Environment(WorkoutViewModel.self) var viewModel
+    @Environment(Workout.self) var workout
     
     @State private var offset = CGSize.zero
     
@@ -74,7 +90,7 @@ struct ExerciseView: View {
             HStack {
                 if isEditting {
                     DeleteItemButton {
-                        viewModel.workout.deleteSuperset(superSet)
+                        workout.deleteSuperset(superSet)
                     }
                 }
                 Spacer()
