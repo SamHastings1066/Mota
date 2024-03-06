@@ -35,6 +35,7 @@
 		849472ED2B97C6F400410885 /* EditableSingleSetRowCollapsedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 849472EC2B97C6F400410885 /* EditableSingleSetRowCollapsedView.swift */; };
 		849472EF2B98D99F00410885 /* CollapsedSupersetEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 849472EE2B98D99F00410885 /* CollapsedSupersetEditView.swift */; };
 		849472F12B98DB4100410885 /* ExpandedSupersetEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 849472F02B98DB4100410885 /* ExpandedSupersetEditView.swift */; };
+		849472F32B99263A00410885 /* SinglesetInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 849472F22B99263A00410885 /* SinglesetInfoView.swift */; };
 		84ACF9D62B76EA9000DDB3F7 /* SingleSetRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84ACF9D52B76EA9000DDB3F7 /* SingleSetRowView.swift */; };
 		84C5ACF72B6173A10002AAE3 /* HomePageObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C5ACF62B6173A10002AAE3 /* HomePageObject.swift */; };
 		84C5ACFA2B61859E0002AAE3 /* SpringBoard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C5ACF92B61859E0002AAE3 /* SpringBoard.swift */; };
@@ -109,6 +110,7 @@
 		849472EC2B97C6F400410885 /* EditableSingleSetRowCollapsedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditableSingleSetRowCollapsedView.swift; sourceTree = "<group>"; };
 		849472EE2B98D99F00410885 /* CollapsedSupersetEditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollapsedSupersetEditView.swift; sourceTree = "<group>"; };
 		849472F02B98DB4100410885 /* ExpandedSupersetEditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpandedSupersetEditView.swift; sourceTree = "<group>"; };
+		849472F22B99263A00410885 /* SinglesetInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SinglesetInfoView.swift; sourceTree = "<group>"; };
 		84ACF9D52B76EA9000DDB3F7 /* SingleSetRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SingleSetRowView.swift; sourceTree = "<group>"; };
 		84C5ACF62B6173A10002AAE3 /* HomePageObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomePageObject.swift; sourceTree = "<group>"; };
 		84C5ACF92B61859E0002AAE3 /* SpringBoard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpringBoard.swift; sourceTree = "<group>"; };
@@ -379,6 +381,7 @@
 				849472EC2B97C6F400410885 /* EditableSingleSetRowCollapsedView.swift */,
 				849472EE2B98D99F00410885 /* CollapsedSupersetEditView.swift */,
 				849472F02B98DB4100410885 /* ExpandedSupersetEditView.swift */,
+				849472F22B99263A00410885 /* SinglesetInfoView.swift */,
 			);
 			path = EditWorkout;
 			sourceTree = "<group>";
@@ -569,6 +572,7 @@
 				84C5AD1D2B69635B0002AAE3 /* Exercise.swift in Sources */,
 				8449E59E2B90F42100138CE8 /* RearrangeExerceriseRoundsView.swift in Sources */,
 				8469DE932B5D646E00D617D2 /* SignupView.swift in Sources */,
+				849472F32B99263A00410885 /* SinglesetInfoView.swift in Sources */,
 				849472ED2B97C6F400410885 /* EditableSingleSetRowCollapsedView.swift in Sources */,
 				8469DE8F2B5C53C200D617D2 /* UserViewModel.swift in Sources */,
 				84DE65412B72784B009A9D40 /* Workout.swift in Sources */,

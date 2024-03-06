@@ -76,7 +76,7 @@ struct SupersetView: View {
                 EditButtonBespoke(isEditting: $isEditting)
             }
             if isExpanded {
-                ExpandedSupersetEditView(superSet: $superSet, isEditable: isEditting, isExpanded: isExpanded)
+                ExpandedSupersetEditView(superSet: $superSet, isEditable: isEditting)
             } else {
                 CollapsedSupersetEditView(superSet: $superSet, isEditable: isEditting)
             }

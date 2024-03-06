@@ -10,12 +10,11 @@ import SwiftUI
 struct ExpandedSupersetEditView: View {
     @Binding var superSet: SuperSet
     var isEditable = true
-    var isExpanded = false
+    //var isExpanded = false
     var body: some View {
         ForEach( 0..<superSet.numRounds, id: \.self ) { roundNumber in
             ForEach( 0..<superSet.exerciseRounds[roundNumber].singleSets.count, id: \.self ) { exerciseNumber in
-                EditableSingleSetRowView(exercise: $superSet.exerciseRounds[roundNumber].singleSets[exerciseNumber].exercise, weight: $superSet.exerciseRounds[roundNumber].singleSets[exerciseNumber].weight, reps: $superSet.exerciseRounds[roundNumber].singleSets[exerciseNumber].reps,
-                                         isEditable: isEditable, isExpanded: isExpanded
+                EditableSingleSetRowView(exercise: $superSet.exerciseRounds[roundNumber].singleSets[exerciseNumber].exercise, weight: $superSet.exerciseRounds[roundNumber].singleSets[exerciseNumber].weight, reps: $superSet.exerciseRounds[roundNumber].singleSets[exerciseNumber].reps, isEditable: isEditable
                 )
             }
             HStack {

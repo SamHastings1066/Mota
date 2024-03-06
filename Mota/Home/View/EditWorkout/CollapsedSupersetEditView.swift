@@ -8,7 +8,6 @@
 import SwiftUI
 
 struct CollapsedSupersetEditView: View {
-    
     @Binding var superSet: SuperSet
     @State var selectedSuperSet: SuperSet?
     @State var isAddExercisePresented = false

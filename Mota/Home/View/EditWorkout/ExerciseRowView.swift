@@ -19,16 +19,8 @@ struct ExerciseRowView: View {
     
     var body: some View {
         HStack {
-
-
-
-
-            
-            // TODO: Add thumbnail image animating back and forth between the two images
-            //SafeImage(imageName: exercise.imageURLs[0])
             SafeImage(imageName: imageName)
                         .frame(width: 50, height: 50)
-
             Text(exercise.name)
             Spacer()
 
