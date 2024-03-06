@@ -14,11 +14,12 @@ struct EditableSingleSetRowCollapsedView: View {
     @Binding var weight: Int?
     @Binding var reps: Int?
     
-    var isEditable = true
+    var isEditable = false
     var isExpanded = false
     var removeExerciseClosure: (() -> Void)?
     
     @State var isAddExercisePresented = false
+    @State var isExerciseDetailPresented = false
     @State var selectedExercise: IdentifiableExercise?
     
     // Computed properties for TextField bindings
@@ -91,7 +92,7 @@ struct EditableSingleSetRowCollapsedView: View {
                             ChangeExerciseView(selectedExercise: $selectedExercise, modelExercise: $exercise)
                                 .navigationBarItems(
                                     leading: Button(action: {
-                                        //isAddExercisePresented.toggle()
+                                        //isSetExercisePresented.toggle()
                                         selectedExercise = nil
                                     }) {
                                         Text("Cancel")
@@ -104,9 +105,19 @@ struct EditableSingleSetRowCollapsedView: View {
                     }
                 }
             } else {
-                //                SafeImage(imageName: imageName)
-                exerciseAnimationView(imageNames: imageNames)
-                    .frame(width: 70, height: 70)
+                Button {
+                    
+                } label: {
+                    exerciseAnimationView(imageNames: imageNames)
+                        .frame(width: 70, height: 70)
+                }
+                .onTapGesture {
+                    isExerciseDetailPresented.toggle()
+                    
+                }
+                .sheet(isPresented: $isExerciseDetailPresented) {
+                    ExerciseDetailView(exercise: exercise)
+                }
             }
             
             

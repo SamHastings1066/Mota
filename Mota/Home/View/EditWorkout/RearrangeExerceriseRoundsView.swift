@@ -13,19 +13,12 @@ struct RearrangeExerceriseRoundsView: View {
     
     var body: some View {
         
-//        List(superSet!.identifiableExercises){ exercise in
-//            ExerciseRowView(exercise: exercise.exercise)
-//        }
-        
         List {
-            
-                //TODO: need to make the next line $superSet somehow.
                 ForEach($superSet.identifiableExercises) { $exercise in
                     ExerciseRowView(exercise: exercise.exercise)
                     //Text(exercise.exercise.name)
                 }
                 .onMove {
-                    print("Moved")
                     superSet.identifiableExercises.move(fromOffsets: $0, toOffset: $1)
                 }
             

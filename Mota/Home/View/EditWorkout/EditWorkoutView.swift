@@ -10,7 +10,7 @@ import SwiftUI
 
 struct EditWorkoutView: View {
     
-    @State var isAddExercisePresented = false
+    @State var isAddSetPresented = false
     @State var workout: Workout //= Workout()
 
     // TODO: remove - this is for debugging purposes
@@ -31,44 +31,21 @@ struct EditWorkoutView: View {
     
     var body: some View {
         NavigationStack {
-            ExerciseListView(workout: $workout)
+            SupersetListView(workout: $workout)
                 .environment(workout)
-            Button {
-                isAddExercisePresented.toggle()
-            } label: {
-                HStack{
-                    Image(systemName: "plus.circle.fill")
-                    Text("Add set")
-                }
-            }
-            .fullScreenCover(isPresented: $isAddExercisePresented)
-            {
-                NavigationStack {
-                    AddExerciseView(isAddExercisePresented: $isAddExercisePresented) { exercise in
-                        workout.addSuperset(SuperSet(exerciseRounds: [ExerciseRound(singleSets: [SingleSet(exercise: exercise, weight: 0, reps: 0)])]))
-                    }
-                    .navigationBarItems(
-                        leading: Button(action: {
-                            isAddExercisePresented.toggle()
-                        }) {
-                            Text("Cancel")
-                        }
-                        
-                    )
-                }
-                .navigationBarTitle("Add Exercise", displayMode: .inline)
-            }
+            AddSetButton(isAddSetPresented: $isAddSetPresented)
+            .fullScreenCover(isPresented: $isAddSetPresented) { AddSetScreenCover(workout: workout, isAddSetPresented: $isAddSetPresented) }
             .navigationTitle("New Workout")
         }
     }
 }
 
-struct ExerciseListView: View {
+struct SupersetListView: View {
     @Binding var workout: Workout
     var body: some View {
         List {
             ForEach($workout.supersets) { $superSet in
-                ExerciseView(superSet: $superSet)
+                SupersetView(superSet: $superSet)
             }
             .onMove {
                 workout.supersets.move(fromOffsets: $0, toOffset: $1)
@@ -77,7 +54,7 @@ struct ExerciseListView: View {
     }
 }
 
-struct ExerciseView: View {
+struct SupersetView: View {
     @State private var isExpanded = false
     @State private var isEditting = false
     @Binding var superSet: SuperSet
@@ -108,105 +85,44 @@ struct ExerciseView: View {
     }
 }
 
-struct CollapsedSupersetEditView: View {
-    
-    @Binding var superSet: SuperSet
-    @State var selectedSuperSet: SuperSet?
-    @State var isAddExercisePresented = false
-    var isEditable = true
-    
+struct AddSetScreenCover: View {
+    var workout: Workout
+    @Binding var isAddSetPresented: Bool
     var body: some View {
-        
-        HStack {
-            VStack(alignment: .leading) {
-                ForEach( 0..<superSet.consistentExercises.count, id: \.self ) { exerciseNumber in
-                    EditableSingleSetRowCollapsedView(exercise: $superSet.consistentExercises[exerciseNumber], weight: $superSet.consistentWeights[exerciseNumber], reps: $superSet.consistentReps[exerciseNumber], isEditable: isEditable
-                    ) {
-                        superSet.removeExercise(superSet.consistentExercises[exerciseNumber])
-                    }
-                }
-                if isEditable {
-                    HStack {
-                        Spacer()
-                        if superSet.consistentExercises.count > 1 {
-                            Button {
-                                // use .onTapGesture
-                            } label: {
-                                Image(systemName: "arrow.up.arrow.down.square")
-                                    .imageScale(.large)
-                            }
-                            .onTapGesture {
-                                selectedSuperSet = superSet
-                            }
-                        }
-                        
-                        Button {
-                            
-                        } label: {
-                            Image(systemName: "plus")
-                        }
-                        .onTapGesture {
-                            isAddExercisePresented.toggle()
-                        }
-                        Spacer()
-                    }
-                    .padding(.top, 10)
-                    .popover(item: $selectedSuperSet) { _ in
-                        RearrangeExerceriseRoundsView(superSet: $superSet)
-                    }
-                    .fullScreenCover(isPresented: $isAddExercisePresented)
-                    {
-                        NavigationStack {
-                            AddExerciseView(isAddExercisePresented: $isAddExercisePresented) { exercise in
-                                superSet.addExercise(exercise)
-                            }
-                            .navigationBarItems(
-                                leading: Button(action: {
-                                    isAddExercisePresented.toggle()
-                                }) {
-                                    Text("Cancel")
-                                }
-                                
-                            )
-                        }
-                        .navigationBarTitle("Add Exercise", displayMode: .inline)
-                    }
-                }
+        NavigationStack {
+            AddExerciseView(isAddExercisePresented: $isAddSetPresented) { exercise in
+                workout.addSuperset(SuperSet(exerciseRounds: [ExerciseRound(singleSets: [SingleSet(exercise: exercise, weight: 0, reps: 0)])]))
             }
-            Spacer()
-            VStack(alignment: .center){
-                VStack {
-                    Text("Rounds")
-                        .font(.headline)
-                    if isEditable {
-                        TextField("", value: $superSet.numRounds, formatter: NumberFormatter())
-                            .textFieldStyle(RoundedBorderTextFieldStyle())
-                            .keyboardType(.numberPad)
-                    } else {
-                        Text("\(superSet.numRounds)")
-                    }
+            .navigationBarItems(
+                leading: Button(action: {
+                    isAddSetPresented.toggle()
+                }) {
+                    Text("Cancel")
                 }
-                
-                VStack {
-                    Text("Rest")
-                        .font(.headline)
-                    if isEditable {
-                        TextField("", value: $superSet.consistentRest, formatter: NumberFormatter())
-                            .textFieldStyle(RoundedBorderTextFieldStyle())
-                            .keyboardType(.numberPad)
-                    } else {
-                        Text("\(superSet.consistentRest.map{ "\($0)" } ?? "-")")
-                    }
-                }
-            }
-            .padding(.all, 10)
-            .background(Color(UIColor.systemGray5))
-            .cornerRadius(10)
-            .fixedSize(horizontal: true, vertical: false)
+            )
         }
-        .frame(maxWidth: .infinity)
+        .navigationBarTitle("Add Exercise", displayMode: .inline)
     }
 }
+
+// MARK: - Buttons
+
+struct AddSetButton: View {
+    @Binding var isAddSetPresented: Bool
+    var body: some View {
+        Button {
+            isAddSetPresented.toggle()
+        } label: {
+            HStack{
+                Image(systemName: "plus.circle.fill")
+                Text("Add set")
+            }
+        }
+        .padding([.bottom, .top])
+    }
+}
+
+
 
 struct ChevronButton: View {
     @Binding var isChevronTapped: Bool
@@ -244,36 +160,6 @@ struct EditButtonBespoke: View {
     }
 }
 
-struct ExpandedSupersetEditView: View {
-    @Binding var superSet: SuperSet
-    var isEditable = true
-    var isExpanded = false
-    var body: some View {
-        ForEach( 0..<superSet.numRounds, id: \.self ) { roundNumber in
-            ForEach( 0..<superSet.exerciseRounds[roundNumber].singleSets.count, id: \.self ) { exerciseNumber in
-                EditableSingleSetRowView(exercise: $superSet.exerciseRounds[roundNumber].singleSets[exerciseNumber].exercise, weight: $superSet.exerciseRounds[roundNumber].singleSets[exerciseNumber].weight, reps: $superSet.exerciseRounds[roundNumber].singleSets[exerciseNumber].reps,
-                                         isEditable: isEditable, isExpanded: isExpanded
-                )
-            }
-            HStack {
-                Spacer()
-                VStack {
-                    Text("Rest")
-                        .font(.headline)
-                    if isEditable {
-                        TextField("", value: $superSet.exerciseRounds[roundNumber].rest, formatter: NumberFormatter())
-                            .textFieldStyle(RoundedBorderTextFieldStyle())
-                            .keyboardType(.numberPad)
-                    } else {
-                        Text("\(superSet.exerciseRounds[roundNumber].rest.map{ "\($0)" } ?? "-")")
-                    }
-                }
-                Spacer()
-            }
-        }
-    }
-}
-
 struct DeleteItemButton: View {
     @State private var showingAlert = false
     var deletionClosure: () -> Void
@@ -306,5 +192,7 @@ struct DeleteItemButton: View {
 #Preview {
     EditWorkoutView()
 }
+
+
 
 

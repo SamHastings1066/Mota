@@ -53,7 +53,7 @@ struct EditableSingleSetRowView: View {
                             ChangeExerciseView(selectedExercise: $selectedExercise, modelExercise: $exercise)
                                 .navigationBarItems(
                                     leading: Button(action: {
-                                        //isAddExercisePresented.toggle()
+                                        //isSetExercisePresented.toggle()
                                         selectedExercise = nil
                                     }) {
                                         Text("Cancel")
@@ -84,7 +84,6 @@ struct EditableSingleSetRowView: View {
                                 .textFieldStyle(RoundedBorderTextFieldStyle())
                                 .keyboardType(.numberPad)
                         } else {
-                            //Text("\(reps.map{ "\($0)"} ?? "-")")
                             Text("\(reps)")
                         }
                     }
@@ -95,7 +94,6 @@ struct EditableSingleSetRowView: View {
                                 .textFieldStyle(RoundedBorderTextFieldStyle())
                                 .keyboardType(.numberPad)
                         } else {
-                            //Text("\(weight.map{ "\($0)"} ?? "-")")
                             Text("\(weight)")
                         }
                     }

@@ -31,6 +31,7 @@ struct AddExerciseView: View {
             "Filter exercises",
             text: $filterString
         )
+        .padding(.leading)
         List(selection: $singleSelection) {
             Section(header: Text("Swipe left for more info")) {
                 ForEach(filteredExercises) { exercise in
