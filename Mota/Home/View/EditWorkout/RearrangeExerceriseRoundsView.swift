@@ -34,5 +34,5 @@ struct RearrangeExerceriseRoundsView: View {
 }
 
 #Preview {
-    RearrangeExerceriseRoundsView(superSet: .constant(SuperSet(exerciseRounds: [ExerciseRound(singleSets: [SingleSet(exercise: UserDefinedExercise(name: "Squat")), SingleSet(exercise: UserDefinedExercise(name: "Deadlift"))])])))
+    RearrangeExerceriseRoundsView(superSet: .constant(SuperSet(exerciseRounds: [ExerciseRound(singleSets: [SingleSet(exercise: UserDefinedExercise(name: "Squat"), weight: 0, reps: 0), SingleSet(exercise: UserDefinedExercise(name: "Deadlift"), weight: 0, reps: 0)])])))
 }

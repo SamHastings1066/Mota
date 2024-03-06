@@ -32,11 +32,13 @@ struct SingleSetRowView: View {
                 HStack{
                     VStack{
                         Text("Reps")
-                        Text("\(singleSet.reps.map{ "\($0)"} ?? "-")")
+                        //Text("\(singleSet.reps.map{ "\($0)"} ?? "-")")
+                        Text("\(singleSet.reps)")
                     }
                     VStack {
                         Text("kgs")
-                        Text("\(singleSet.weight.map{ "\($0)"} ?? "-")")
+                        //Text("\(singleSet.weight.map{ "\($0)"} ?? "-")")
+                        Text("\(singleSet.weight)")
                     }
                 }
                 //Text("\(singleSet.reps.map{ "\($0)"} ?? "?") x \(singleSet.weight.map{ "\($0)"} ?? "?")")
@@ -76,7 +78,7 @@ struct SafeImage: View {
 
 #Preview {
     Group {
-        SingleSetRowView(singleSet: SingleSet(exercise: exercises[0], reps: 8))
+        SingleSetRowView(singleSet: SingleSet(exercise: exercises[0], weight: 0, reps: 8))
         SingleSetRowView(singleSet: SingleSet(exercise: UserDefinedExercise(name: "Squats"), weight: 60, reps: 10))
     }
 }

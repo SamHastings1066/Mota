@@ -104,7 +104,7 @@ struct CollapsedSupersetEditView: View {
         HStack {
             VStack(alignment: .leading) {
                 ForEach( 0..<superSet.consistentExercises.count, id: \.self ) { exerciseNumber in
-                    EditableSingleSetRowView(exercise: $superSet.consistentExercises[exerciseNumber], weight: $superSet.consistentWeights[exerciseNumber], reps: $superSet.consistentReps[exerciseNumber], isEditable: isEditable
+                    EditableSingleSetRowCollapsedView(exercise: $superSet.consistentExercises[exerciseNumber], weight: $superSet.consistentWeights[exerciseNumber], reps: $superSet.consistentReps[exerciseNumber], isEditable: isEditable
                     ) {
                         superSet.removeExercise(superSet.consistentExercises[exerciseNumber])
                     }

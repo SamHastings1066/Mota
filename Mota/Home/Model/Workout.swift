@@ -216,6 +216,6 @@ struct SingleSet: Identifiable {
     var id = UUID()
     // TODO: Accomodate exercises other than weight training, either by increasing the list of optional parameters e.g. running would have a distance: Int? parameter, or another solution.
     var exercise: Exercise
-    var weight: Int?
-    var reps: Int?
+    var weight: Int
+    var reps: Int
 }
