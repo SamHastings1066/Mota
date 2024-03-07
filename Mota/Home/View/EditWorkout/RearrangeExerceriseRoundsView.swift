@@ -9,7 +9,7 @@ import SwiftUI
 
 struct RearrangeExerceriseRoundsView: View {
     
-    @Binding var superSet: SuperSet
+    @Bindable var superSet: SuperSet
     
     var body: some View {
         
@@ -27,5 +27,6 @@ struct RearrangeExerceriseRoundsView: View {
 }
 
 #Preview {
-    RearrangeExerceriseRoundsView(superSet: .constant(SuperSet(exerciseRounds: [ExerciseRound(singleSets: [SingleSet(exercise: UserDefinedExercise(name: "Squat"), weight: 0, reps: 0), SingleSet(exercise: UserDefinedExercise(name: "Deadlift"), weight: 0, reps: 0)])])))
+    var dummySuperset = SuperSet(exerciseRounds: [ExerciseRound(singleSets: [SingleSet(exercise: UserDefinedExercise(name: "Squat"), weight: 0, reps: 0), SingleSet(exercise: UserDefinedExercise(name: "Deadlift"), weight: 0, reps: 0)])])
+    return RearrangeExerceriseRoundsView(superSet: dummySuperset)
 }

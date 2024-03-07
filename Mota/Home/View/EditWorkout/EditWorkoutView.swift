@@ -31,10 +31,9 @@ struct EditWorkoutView: View {
     
     var body: some View {
         NavigationStack {
-            SupersetListView(workout: $workout)
-                .environment(workout)
-            AddSetButton(isAddSetPresented: $isAddSetPresented)
-            .fullScreenCover(isPresented: $isAddSetPresented) { AddSetScreenCover(workout: workout, isAddSetPresented: $isAddSetPresented) }
+            SupersetListView()
+            AddSetButton{ isAddSetPresented.toggle() }
+                .fullScreenCover(isPresented: $isAddSetPresented) { AddSetScreenCover{isAddSetPresented.toggle()} }
             .toolbar {
                 ToolbarItemGroup {
                     SaveButton(workout: workout)
@@ -42,15 +41,16 @@ struct EditWorkoutView: View {
             }
             .navigationTitle("New Workout")
         }
+        .environment(workout)
     }
 }
 
 struct SupersetListView: View {
-    @Binding var workout: Workout
+    @Environment(Workout.self) var workout
     var body: some View {
         List {
-            ForEach($workout.supersets) { $superSet in
-                SupersetView(superSet: $superSet)
+            ForEach(workout.supersets) { superSet in
+                SupersetView(superSet: superSet)
             }
             .onMove {
                 workout.supersets.move(fromOffsets: $0, toOffset: $1)
@@ -62,7 +62,7 @@ struct SupersetListView: View {
 struct SupersetView: View {
     @State private var isExpanded = false
     @State private var isEditting = false
-    @Binding var superSet: SuperSet
+    @Bindable var superSet: SuperSet
     @Environment(Workout.self) var workout
     
     @State private var offset = CGSize.zero
@@ -76,14 +76,14 @@ struct SupersetView: View {
                     }
                 }
                 Spacer()
-                ChevronButton(isChevronTapped: $isExpanded)
+                ChevronButton(isChevronTapped: isExpanded) {isExpanded.toggle()}
                 Spacer()
-                EditButtonBespoke(isEditting: $isEditting)
+                EditButtonBespoke(isEditting: isEditting) {isEditting.toggle()}
             }
             if isExpanded {
-                ExpandedSupersetEditView(superSet: $superSet, isEditable: isEditting)
+                ExpandedSupersetEditView(superSet: superSet, isEditable: isEditting)
             } else {
-                CollapsedSupersetEditView(superSet: $superSet, isEditable: isEditting)
+                CollapsedSupersetEditView(superSet: superSet, isEditable: isEditting)
             }
         }
         
@@ -91,16 +91,17 @@ struct SupersetView: View {
 }
 
 struct AddSetScreenCover: View {
-    var workout: Workout
-    @Binding var isAddSetPresented: Bool
+    @Environment(Workout.self) var workout: Workout
+    var cancelAction: () -> Void
     var body: some View {
         NavigationStack {
-            AddExerciseView(isAddExercisePresented: $isAddSetPresented) { exercise in
+            AddExerciseView() { exercise in
                 workout.addSuperset(SuperSet(exerciseRounds: [ExerciseRound(singleSets: [SingleSet(exercise: exercise, weight: 0, reps: 0)])]))
+                cancelAction()
             }
             .navigationBarItems(
                 leading: Button(action: {
-                    isAddSetPresented.toggle()
+                    cancelAction()
                 }) {
                     Text("Cancel")
                 }
@@ -113,10 +114,10 @@ struct AddSetScreenCover: View {
 // MARK: - Buttons
 
 struct AddSetButton: View {
-    @Binding var isAddSetPresented: Bool
+    var buttonAction: () -> Void
     var body: some View {
         Button {
-            isAddSetPresented.toggle()
+            buttonAction()
         } label: {
             HStack{
                 Image(systemName: "plus.circle.fill")
@@ -130,7 +131,8 @@ struct AddSetButton: View {
 
 
 struct ChevronButton: View {
-    @Binding var isChevronTapped: Bool
+    var isChevronTapped: Bool
+    var buttonAction: () -> Void
     var body: some View {
         Button(action: {
             // leave blank and use .onTapGesture to allow both buttons to function within the same Hstack
@@ -143,14 +145,15 @@ struct ChevronButton: View {
         }
         .onTapGesture {
             withAnimation{
-                isChevronTapped.toggle()
+                buttonAction()
             }
         }
     }
 }
 
 struct EditButtonBespoke: View {
-    @Binding var isEditting: Bool
+    var isEditting: Bool
+    var buttonAction: () -> Void
     var body: some View {
         Button(action: {
             // leave blank and use .onTapGesture to allow both buttons to function within the same Hstack
@@ -159,7 +162,7 @@ struct EditButtonBespoke: View {
         }
         .onTapGesture {
             withAnimation{
-                isEditting.toggle()
+                buttonAction()
             }
         }
     }

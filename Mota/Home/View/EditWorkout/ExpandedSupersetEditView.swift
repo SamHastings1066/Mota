@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct ExpandedSupersetEditView: View {
-    @Binding var superSet: SuperSet
+    @Bindable var superSet: SuperSet
     var isEditable = true
     //var isExpanded = false
     var body: some View {
@@ -37,11 +37,12 @@ struct ExpandedSupersetEditView: View {
 }
 
 #Preview {
-    Group {
-        ExpandedSupersetEditView(superSet: .constant(SuperSet(singleSets: [SingleSet(exercise: exercises[0], weight: 50, reps: 5)], rest: 60, numRounds: 2)), isEditable: false)
+    var dummySuperset = SuperSet(singleSets: [SingleSet(exercise: exercises[0], weight: 50, reps: 5)], rest: 60, numRounds: 2)
+    return Group {
+        ExpandedSupersetEditView(superSet: dummySuperset, isEditable: false)
         Text("Edit mode:")
             .frame(maxWidth: .infinity, alignment: .leading)
             .padding()
-        ExpandedSupersetEditView(superSet: .constant(SuperSet(singleSets: [SingleSet(exercise: exercises[0], weight: 50, reps: 5)], rest: 60, numRounds: 2)))
+        ExpandedSupersetEditView(superSet: dummySuperset)
     }
 }

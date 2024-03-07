@@ -8,7 +8,6 @@
 import SwiftUI
 
 struct AddExerciseView: View {
-    @Binding var isAddExercisePresented: Bool
     @State private var singleSelection: UUID?
     @State var exerciseToBePresented: DatabaseExercise?
     
@@ -37,7 +36,6 @@ struct AddExerciseView: View {
                 ForEach(filteredExercises) { exercise in
                     Button {
                         addExerciseClosure?(exercise)
-                        isAddExercisePresented = false
                     } label: {
                         ExerciseRowView(exercise: exercise)
                     }
@@ -59,7 +57,7 @@ struct AddExerciseView: View {
 }
 
 #Preview {
-    AddExerciseView(isAddExercisePresented: .constant(true))
+    AddExerciseView()
 }
 
 

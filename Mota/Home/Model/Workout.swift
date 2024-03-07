@@ -33,7 +33,8 @@ class Workout {
 }
 
 /// `SuperSet` is a collection of exercise rounds.
-struct SuperSet: Identifiable, Hashable {
+@Observable
+class SuperSet: Identifiable, Hashable {
     static func == (lhs: SuperSet, rhs: SuperSet) -> Bool {
         lhs.id == rhs.id
     }
@@ -192,7 +193,7 @@ struct SuperSet: Identifiable, Hashable {
         self.exerciseRounds = (0..<numRounds).map { _ in ExerciseRound(singleSets: singleSets, rest: rest) }
     }
     
-    mutating func removeExercise(_ exerciseToRemove: Exercise) {
+    func removeExercise(_ exerciseToRemove: Exercise) {
         // Iterate through each ExerciseRound
         for roundIndex in exerciseRounds.indices {
             // Filter out the SingleSet that matches the exercise to remove
@@ -200,7 +201,7 @@ struct SuperSet: Identifiable, Hashable {
         }
     }
     
-    mutating func addExercise(_ exerciseToAdd: Exercise) {
+    func addExercise(_ exerciseToAdd: Exercise) {
         for roundIndex in exerciseRounds.indices {
             exerciseRounds[roundIndex].singleSets.append(SingleSet(exercise: exerciseToAdd, weight: 0, reps: 0))
         }

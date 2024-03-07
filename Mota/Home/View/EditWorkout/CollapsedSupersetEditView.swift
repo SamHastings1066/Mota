@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct CollapsedSupersetEditView: View {
-    @Binding var superSet: SuperSet
+    @Bindable var superSet: SuperSet
     @State var selectedSuperSet: SuperSet?
     @State var isAddExercisePresented = false
     var isEditable = true
@@ -50,13 +50,14 @@ struct CollapsedSupersetEditView: View {
                     }
                     .padding(.top, 10)
                     .popover(item: $selectedSuperSet) { _ in
-                        RearrangeExerceriseRoundsView(superSet: $superSet)
+                        RearrangeExerceriseRoundsView(superSet: superSet)
                     }
                     .fullScreenCover(isPresented: $isAddExercisePresented)
                     {
                         NavigationStack {
-                            AddExerciseView(isAddExercisePresented: $isAddExercisePresented) { exercise in
+                            AddExerciseView() { exercise in
                                 superSet.addExercise(exercise)
+                                isAddExercisePresented.toggle()
                             }
                             .navigationBarItems(
                                 leading: Button(action: {
@@ -107,11 +108,12 @@ struct CollapsedSupersetEditView: View {
 }
 
 #Preview {
-    Group {
-        CollapsedSupersetEditView(superSet: .constant(SuperSet(singleSets: [SingleSet(exercise: exercises[0], weight: 50, reps: 5)], rest: 60, numRounds: 8)), selectedSuperSet: nil, isAddExercisePresented: false, isEditable: false)
+    var dummySuperset = SuperSet(singleSets: [SingleSet(exercise: exercises[0], weight: 50, reps: 5)], rest: 60, numRounds: 8)
+    return Group {
+        CollapsedSupersetEditView(superSet: dummySuperset, selectedSuperSet: nil, isAddExercisePresented: false, isEditable: false)
         Text("Edit mode:")
             .frame(maxWidth: .infinity, alignment: .leading)
             .padding()
-        CollapsedSupersetEditView(superSet: .constant(SuperSet(singleSets: [SingleSet(exercise: exercises[0], weight: 50, reps: 5)], rest: 60, numRounds: 8)), selectedSuperSet: nil, isAddExercisePresented: false, isEditable: true)
+        CollapsedSupersetEditView(superSet: dummySuperset, selectedSuperSet: nil, isAddExercisePresented: false, isEditable: true)
     }
 }
