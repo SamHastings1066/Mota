@@ -21,6 +21,8 @@ struct SinglesetInfoView: View {
                 VStack {
                     Text("Reps")
                     if isEditable {
+                        // TODO: Change to below to use reps directly as an int:
+                        // TextField("-", value: $repsInt, format: .number)
                         TextField("", text: reps)
                             .textFieldStyle(RoundedBorderTextFieldStyle())
                             .keyboardType(.numberPad)

@@ -33,7 +33,7 @@ struct EditWorkoutView: View {
         NavigationStack {
             SupersetListView()
             AddSetButton{ isAddSetPresented.toggle() }
-                .fullScreenCover(isPresented: $isAddSetPresented) { AddSetScreenCover{isAddSetPresented.toggle()} }
+                .fullScreenCover(isPresented: $isAddSetPresented) { AddSetScreenCover() }
             .toolbar {
                 ToolbarItemGroup {
                     SaveButton()
@@ -92,16 +92,16 @@ struct SupersetView: View {
 
 struct AddSetScreenCover: View {
     @Environment(Workout.self) var workout: Workout
-    var cancelAction: () -> Void
+    @Environment(\.dismiss) var dismiss
     var body: some View {
         NavigationStack {
             AddExerciseView() { exercise in
                 workout.addSuperset(SuperSet(exerciseRounds: [ExerciseRound(singleSets: [SingleSet(exercise: exercise, weight: 0, reps: 0)])]))
-                cancelAction()
+                dismiss()
             }
             .navigationBarItems(
                 leading: Button(action: {
-                    cancelAction()
+                    dismiss()
                 }) {
                     Text("Cancel")
                 }
@@ -200,12 +200,13 @@ struct DeleteItemButton: View {
 struct SaveButton: View {
     @Environment(Workout.self) var workout
     var body: some View {
-        Button {
-        } label: {
-            Text("Save")
-        }
-        .disabled(workout.supersets.count < 1)
-        .padding(.trailing)
+        //ToolbarItem(placement: .topBarTrailing) {
+            Button("Save") {
+                //Save()
+            }
+            .disabled(workout.supersets.count < 1)
+            .padding(.trailing)
+        //}
     }
 }
 
