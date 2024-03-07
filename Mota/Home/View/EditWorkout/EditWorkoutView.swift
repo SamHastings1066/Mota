@@ -36,7 +36,7 @@ struct EditWorkoutView: View {
                 .fullScreenCover(isPresented: $isAddSetPresented) { AddSetScreenCover{isAddSetPresented.toggle()} }
             .toolbar {
                 ToolbarItemGroup {
-                    SaveButton(workout: workout)
+                    SaveButton()
                 }
             }
             .navigationTitle("New Workout")
@@ -198,7 +198,7 @@ struct DeleteItemButton: View {
 }
 
 struct SaveButton: View {
-    var workout: Workout
+    @Environment(Workout.self) var workout
     var body: some View {
         Button {
         } label: {
