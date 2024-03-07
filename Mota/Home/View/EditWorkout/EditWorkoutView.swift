@@ -35,6 +35,11 @@ struct EditWorkoutView: View {
                 .environment(workout)
             AddSetButton(isAddSetPresented: $isAddSetPresented)
             .fullScreenCover(isPresented: $isAddSetPresented) { AddSetScreenCover(workout: workout, isAddSetPresented: $isAddSetPresented) }
+            .toolbar {
+                ToolbarItemGroup {
+                    SaveButton(workout: workout)
+                }
+            }
             .navigationTitle("New Workout")
         }
     }
@@ -189,10 +194,18 @@ struct DeleteItemButton: View {
     }
 }
 
+struct SaveButton: View {
+    var workout: Workout
+    var body: some View {
+        Button {
+        } label: {
+            Text("Save")
+        }
+        .disabled(workout.supersets.count < 1)
+        .padding(.trailing)
+    }
+}
+
 #Preview {
     EditWorkoutView()
 }
-
-
-
-

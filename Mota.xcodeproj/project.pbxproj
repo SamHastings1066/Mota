@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		8440DCE92B6C61DA006D4EFC /* EditSetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8440DCE82B6C61DA006D4EFC /* EditSetView.swift */; };
 		8449E59E2B90F42100138CE8 /* RearrangeExerceriseRoundsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8449E59D2B90F42100138CE8 /* RearrangeExerceriseRoundsView.swift */; };
 		8469DE292B582E6900D617D2 /* MotaApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8469DE282B582E6900D617D2 /* MotaApp.swift */; };
 		8469DE2D2B582E6D00D617D2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8469DE2C2B582E6D00D617D2 /* Assets.xcassets */; };
@@ -83,7 +82,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		8440DCE82B6C61DA006D4EFC /* EditSetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditSetView.swift; sourceTree = "<group>"; };
 		8449E59D2B90F42100138CE8 /* RearrangeExerceriseRoundsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RearrangeExerceriseRoundsView.swift; sourceTree = "<group>"; };
 		8469DE252B582E6900D617D2 /* Mota.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Mota.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8469DE282B582E6900D617D2 /* MotaApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MotaApp.swift; sourceTree = "<group>"; };
@@ -373,7 +371,6 @@
 				84C5AD142B682F550002AAE3 /* AddExerciseView.swift */,
 				84C5AD172B6962750002AAE3 /* ExerciseRowView.swift */,
 				84D045882B6AAA19005CA5BE /* ExerciseDetailView.swift */,
-				8440DCE82B6C61DA006D4EFC /* EditSetView.swift */,
 				84ACF9D52B76EA9000DDB3F7 /* SingleSetRowView.swift */,
 				84C659C62B82906C001899DE /* EditableSingleSetRowView.swift */,
 				84F2F0592B83B28B00663BCA /* ChangeExerciseView.swift */,
@@ -560,7 +557,6 @@
 				84C5AD112B6822F00002AAE3 /* FeedViewModel.swift in Sources */,
 				8469DE802B5AF6CC00D617D2 /* LoginViewModel.swift in Sources */,
 				84C5AD132B68266C0002AAE3 /* EditWorkoutView.swift in Sources */,
-				8440DCE92B6C61DA006D4EFC /* EditSetView.swift in Sources */,
 				84F2F05A2B83B28B00663BCA /* ChangeExerciseView.swift in Sources */,
 				84C5AD012B634A450002AAE3 /* FirebaseAuthService.swift in Sources */,
 				849472F12B98DB4100410885 /* ExpandedSupersetEditView.swift in Sources */,
