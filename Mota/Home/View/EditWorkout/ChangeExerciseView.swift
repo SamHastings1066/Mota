@@ -8,20 +8,20 @@
 import SwiftUI
 
 struct ChangeExerciseView: View {
-    @Binding var selectedExercise: IdentifiableExercise?
-    @Binding var modelExercise: Exercise
+    @Binding var selectedExercise: DatabaseExercise?
+    @Binding var modelExercise: DatabaseExercise
     @State private var singleSelection: UUID?
     
     @State var isInfoPresented = false
-    @State var exerciseToBePresented: Exercise?
+    @State var exerciseToBePresented: DatabaseExercise?
     
     @State var filterString: String = ""
     
     var filteredExercises: [DatabaseExercise] {
         if filterString.isEmpty {
-            return exercises
+            return databaseExercises
         } else {
-            return exercises.filter { exercise in
+            return databaseExercises.filter { exercise in
                 exercise.name.lowercased().contains(filterString.lowercased())
             }
         }
@@ -29,7 +29,7 @@ struct ChangeExerciseView: View {
     }
     
     var body: some View {
-        Text("Selected exercise: \(selectedExercise?.exercise.name ?? "")")
+        Text("Selected exercise: \(selectedExercise?.name ?? "")")
         TextField(
             "Filter exercises",
             text: $filterString
@@ -66,5 +66,5 @@ struct ChangeExerciseView: View {
 
 
 #Preview {
-    ChangeExerciseView(selectedExercise: .constant(IdentifiableExercise(exercise: exercises[0])), modelExercise: .constant(exercises[0]))
+    ChangeExerciseView(selectedExercise: .constant(databaseExercises[0]), modelExercise: .constant(databaseExercises[0]))
 }

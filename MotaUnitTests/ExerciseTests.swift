@@ -100,9 +100,9 @@ final class WhenCreatingExerciseObject: XCTestCase {
 final class WhenUsingLoadFunction: XCTestCase {
     
     func testExerciseObjectExists() throws {
-        XCTAssertEqual(exercises[0].name, "3/4 Sit-Up")
-        XCTAssertEqual(exercises[0].mechanic, DatabaseExercise.Mechanic.compound)
-        XCTAssertEqual(exercises[1].mechanic, nil)
-        XCTAssertEqual(exercises[3].name, "Ab Roller")
+        XCTAssertEqual(databaseExercises[0].name, "3/4 Sit-Up")
+        XCTAssertEqual(databaseExercises[0].mechanic, DatabaseExercise.Mechanic.compound)
+        XCTAssertEqual(databaseExercises[1].mechanic, nil)
+        XCTAssertEqual(databaseExercises[3].name, "Ab Roller")
     }
 }

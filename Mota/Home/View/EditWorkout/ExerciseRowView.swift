@@ -8,10 +8,10 @@
 import SwiftUI
 
 struct ExerciseRowView: View {
-    var exercise: Exercise
+    var exercise: DatabaseExercise
     var imageName: String? {
-        if let databaseExercise = exercise as? DatabaseExercise, !databaseExercise.imageURLs.isEmpty {
-            return databaseExercise.imageURLs[0]
+        if !exercise.imageURLs.isEmpty {
+            return exercise.imageURLs[0]
         } else {
             return nil
         }
@@ -34,8 +34,8 @@ struct ExerciseRowView: View {
 
 #Preview {
     Group {
-        ExerciseRowView(exercise: exercises[0])
-        ExerciseRowView(exercise: exercises[4])
+        ExerciseRowView(exercise: databaseExercises[0])
+        ExerciseRowView(exercise: databaseExercises[4])
         
     }
     

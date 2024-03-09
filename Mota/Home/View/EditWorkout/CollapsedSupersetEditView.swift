@@ -108,7 +108,7 @@ struct CollapsedSupersetEditView: View {
 }
 
 #Preview {
-    var dummySuperset = SuperSet(singleSets: [SingleSet(exercise: exercises[0], weight: 50, reps: 5)], rest: 60, numRounds: 8)
+    var dummySuperset = SuperSet(singleSets: [SingleSet(exercise: databaseExercises[0], weight: 50, reps: 5)], rest: 60, numRounds: 8)
     return Group {
         CollapsedSupersetEditView(superSet: dummySuperset, selectedSuperSet: nil, isAddExercisePresented: false, isEditable: false)
         Text("Edit mode:")

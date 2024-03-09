@@ -15,16 +15,16 @@ struct AddExerciseView: View {
     
     var filteredExercises: [DatabaseExercise] {
         if filterString.isEmpty {
-            return exercises
+            return databaseExercises
         } else {
-            return exercises.filter { exercise in
+            return databaseExercises.filter { exercise in
                 exercise.name.lowercased().contains(filterString.lowercased())
             }
         }
         
     }
     
-    var addExerciseClosure: ((Exercise) -> Void)?
+    var addExerciseClosure: ((DatabaseExercise) -> Void)?
     var body: some View {
         TextField(
             "Filter exercises",

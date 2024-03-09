@@ -9,19 +9,19 @@
 import SwiftUI
 
 struct EditableSingleSetRowView: View {
-    @Binding var exercise: Exercise
+    @Binding var exercise: DatabaseExercise
     @Binding var weight: Int
     @Binding var reps: Int
     
     var isEditable = true
     
     @State var isAddExercisePresented = false
-    @State var selectedExercise: IdentifiableExercise?
+    @State var selectedExercise: DatabaseExercise?
     
 
     var imageNames: [String?] {
-        if let databaseExercise = exercise as? DatabaseExercise, !databaseExercise.imageURLs.isEmpty {
-            return [databaseExercise.imageURLs[0], databaseExercise.imageURLs[1]]
+        if !exercise.imageURLs.isEmpty {
+            return [exercise.imageURLs[0], exercise.imageURLs[1]]
         } else {
             return [nil,nil]
         }
@@ -64,7 +64,7 @@ struct EditableSingleSetRowView: View {
 
 #Preview {
     Group {
-        EditableSingleSetRowView(exercise: .constant(exercises[0]), weight: .constant(0), reps: .constant(8))
-        EditableSingleSetRowView(exercise: .constant(UserDefinedExercise(name: "Squats")), weight: .constant(60), reps: .constant(10), isEditable: false)
+        EditableSingleSetRowView(exercise: .constant(databaseExercises[0]), weight: .constant(0), reps: .constant(8))
+        EditableSingleSetRowView(exercise: .constant(databaseExercises[1]), weight: .constant(60), reps: .constant(10), isEditable: false)
     }
 }

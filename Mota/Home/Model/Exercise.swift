@@ -9,29 +9,29 @@
 
 import Foundation
 
-protocol Exercise {
-    var name: String { get }
-    var id: String { get }
-}
+//protocol Exercise {
+//    var name: String { get }
+//    var id: String { get }
+//}
+//
+//// TODO: use IdentifiableExercise rather than Exercise wherever I am currently using exercise
+//struct IdentifiableExercise: Identifiable {
+//    let id: String
+//    let exercise: Exercise
+//
+//    init(exercise: Exercise) {
+//        self.id = exercise.id
+//        self.exercise = exercise
+//    }
+//}
+//
+//struct UserDefinedExercise: Exercise {
+//    var id = UUID().uuidString
+//    let name: String
+//
+//}
 
-// TODO: use IdentifiableExercise rather than Exercise wherever I am currently using exercise
-struct IdentifiableExercise: Identifiable {
-    let id: String
-    let exercise: Exercise
-
-    init(exercise: Exercise) {
-        self.id = exercise.id
-        self.exercise = exercise
-    }
-}
-
-struct UserDefinedExercise: Exercise {
-    var id = UUID().uuidString
-    let name: String
-
-}
-
-struct DatabaseExercise: Codable, Hashable, Identifiable, Exercise {
+struct DatabaseExercise: Codable, Hashable, Identifiable {//, Exercise {
     let id: String
     let name: String
     let force: Force?

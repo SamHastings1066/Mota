@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct ExerciseDetailView: View {
-    var exercise: Exercise?
+    var exercise: DatabaseExercise?
     
     
     
@@ -78,7 +78,7 @@ struct ExerciseDetailView: View {
 }
 
 #Preview {
-    ExerciseDetailView(exercise: exercises[0])
+    ExerciseDetailView(exercise: databaseExercises[0])
 }
 
 struct exerciseAnimationView: View {

@@ -80,7 +80,7 @@ class SuperSet: Identifiable, Hashable {
     /// `consistentExercises`: Retrieves an array of exercises from the first round of the superset.
     /// This array is used to ensure consistency in displayed exercises across all rounds.
     /// Setting this property updates all rounds to have the specified exercises, maintaining consistency.
-    var consistentExercises: [Exercise] {
+    var consistentExercises: [DatabaseExercise] {
         get {
             exerciseRounds.first?.singleSets.map { $0.exercise } ?? []
         }
@@ -92,13 +92,13 @@ class SuperSet: Identifiable, Hashable {
         }
     }
     
-    var identifiableExercises: [IdentifiableExercise] {
+    var exercisesForReordering: [DatabaseExercise] {
         get {
-            exerciseRounds.first?.singleSets.map { IdentifiableExercise(exercise: $0.exercise) } ?? []
+            exerciseRounds.first?.singleSets.map { $0.exercise } ?? []
         }
         set(newExercises) {
             // Create a map from exercise ID to new index
-            let newOrder = newExercises.enumerated().reduce(into: [String: Int]()) { (dict, tuple) in
+            let newOrder = newExercises.enumerated().reduce(into: [String: Int]()) { dict, tuple in
                 let (index, exercise) = tuple
                 dict[exercise.id] = index
             }
@@ -193,7 +193,7 @@ class SuperSet: Identifiable, Hashable {
         self.exerciseRounds = (0..<numRounds).map { _ in ExerciseRound(singleSets: singleSets, rest: rest) }
     }
     
-    func removeExercise(_ exerciseToRemove: Exercise) {
+    func removeExercise(_ exerciseToRemove: DatabaseExercise) {
         // Iterate through each ExerciseRound
         for roundIndex in exerciseRounds.indices {
             // Filter out the SingleSet that matches the exercise to remove
@@ -201,7 +201,7 @@ class SuperSet: Identifiable, Hashable {
         }
     }
     
-    func addExercise(_ exerciseToAdd: Exercise) {
+    func addExercise(_ exerciseToAdd: DatabaseExercise) {
         for roundIndex in exerciseRounds.indices {
             exerciseRounds[roundIndex].singleSets.append(SingleSet(exercise: exerciseToAdd, weight: 0, reps: 0))
         }
@@ -220,7 +220,7 @@ struct ExerciseRound: Identifiable {
 struct SingleSet: Identifiable {
     var id = UUID()
     // TODO: Accomodate exercises other than weight training, either by increasing the list of optional parameters e.g. running would have a distance: Int? parameter, or another solution.
-    var exercise: Exercise
+    var exercise: DatabaseExercise
     var weight: Int
     var reps: Int
 }

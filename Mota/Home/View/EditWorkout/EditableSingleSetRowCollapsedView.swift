@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct EditableSingleSetRowCollapsedView: View {
-    @Binding var exercise: Exercise
+    @Binding var exercise: DatabaseExercise
     @Binding var weight: Int?
     @Binding var reps: Int?
     
@@ -17,7 +17,7 @@ struct EditableSingleSetRowCollapsedView: View {
     
     @State var isAddExercisePresented = false
     @State var isExerciseDetailPresented = false
-    @State var selectedExercise: IdentifiableExercise?
+    @State var selectedExercise: DatabaseExercise?
     
     // Computed properties for TextField bindings
     private var weightString: Binding<String> {
@@ -60,8 +60,8 @@ struct EditableSingleSetRowCollapsedView: View {
     
     
     var imageNames: [String?] {
-        if let databaseExercise = exercise as? DatabaseExercise, !databaseExercise.imageURLs.isEmpty {
-            return [databaseExercise.imageURLs[0], databaseExercise.imageURLs[1]]
+        if !exercise.imageURLs.isEmpty {
+            return [exercise.imageURLs[0], exercise.imageURLs[1]]
         } else {
             return [nil,nil]
         }
@@ -79,7 +79,7 @@ struct EditableSingleSetRowCollapsedView: View {
                     }
                     .onTapGesture {
                         isAddExercisePresented.toggle()
-                        selectedExercise = IdentifiableExercise(exercise: exercise)
+                        selectedExercise = exercise
                     }
                     .fullScreenCover(item: $selectedExercise)
                     { exercise in
@@ -131,7 +131,7 @@ struct EditableSingleSetRowCollapsedView: View {
 #Preview {
  
     Group {
-        EditableSingleSetRowCollapsedView(exercise: .constant(exercises[0]), weight: .constant(nil), reps: .constant(12))
-        EditableSingleSetRowCollapsedView(exercise: .constant(UserDefinedExercise(name: "Squats")), weight: .constant(60), reps: .constant(10))
+        EditableSingleSetRowCollapsedView(exercise: .constant(databaseExercises[0]), weight: .constant(nil), reps: .constant(12))
+        EditableSingleSetRowCollapsedView(exercise: .constant(databaseExercises[1]), weight: .constant(60), reps: .constant(10))
     }
 }

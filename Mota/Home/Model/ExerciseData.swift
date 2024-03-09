@@ -7,7 +7,7 @@
 
 import Foundation
 
-var exercises: [DatabaseExercise] = load("exercises.json")
+var databaseExercises: [DatabaseExercise] = load("exercises.json")
 
 func load<T:Decodable>(_ filename: String) -> T {
     let data: Data
