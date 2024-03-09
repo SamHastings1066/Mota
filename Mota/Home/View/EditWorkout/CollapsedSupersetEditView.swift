@@ -56,7 +56,7 @@ struct CollapsedSupersetEditView: View {
                     {
                         NavigationStack {
                             AddExerciseView() { exercise in
-                                superSet.addExercise(exercise)
+                                superSet.addExercise(exercise as! T)
                                 isAddExercisePresented.toggle()
                             }
                             .navigationBarItems(
@@ -107,13 +107,13 @@ struct CollapsedSupersetEditView: View {
     }
 }
 
-#Preview {
-    var dummySuperset = SuperSet(singleSets: [SingleSet(exercise: exercises[0], weight: 50, reps: 5)], rest: 60, numRounds: 8)
-    return Group {
-        CollapsedSupersetEditView(superSet: dummySuperset, selectedSuperSet: nil, isAddExercisePresented: false, isEditable: false)
-        Text("Edit mode:")
-            .frame(maxWidth: .infinity, alignment: .leading)
-            .padding()
-        CollapsedSupersetEditView(superSet: dummySuperset, selectedSuperSet: nil, isAddExercisePresented: false, isEditable: true)
-    }
-}
+//#Preview {
+//    var dummySuperset = SuperSet(singleSets: [SingleSet(exercise: exercises[0], weight: 50, reps: 5)], rest: 60, numRounds: 8)
+//    return Group {
+//        CollapsedSupersetEditView(superSet: dummySuperset, selectedSuperSet: nil, isAddExercisePresented: false, isEditable: false)
+//        Text("Edit mode:")
+//            .frame(maxWidth: .infinity, alignment: .leading)
+//            .padding()
+//        CollapsedSupersetEditView(superSet: dummySuperset, selectedSuperSet: nil, isAddExercisePresented: false, isEditable: true)
+//    }
+//}

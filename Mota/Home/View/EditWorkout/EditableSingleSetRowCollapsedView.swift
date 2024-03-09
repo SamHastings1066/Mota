@@ -17,7 +17,7 @@ struct EditableSingleSetRowCollapsedView: View {
     
     @State var isAddExercisePresented = false
     @State var isExerciseDetailPresented = false
-    @State var selectedExercise: IdentifiableExercise?
+    @State var selectedExercise: AnyExercise?
     
     // Computed properties for TextField bindings
     private var weightString: Binding<String> {
@@ -79,7 +79,7 @@ struct EditableSingleSetRowCollapsedView: View {
                     }
                     .onTapGesture {
                         isAddExercisePresented.toggle()
-                        selectedExercise = IdentifiableExercise(exercise: exercise)
+                        selectedExercise = exercise as? AnyExercise
                     }
                     .fullScreenCover(item: $selectedExercise)
                     { exercise in
@@ -111,7 +111,7 @@ struct EditableSingleSetRowCollapsedView: View {
                     
                 }
                 .sheet(isPresented: $isExerciseDetailPresented) {
-                    ExerciseDetailView(exercise: exercise)
+                    ExerciseDetailView(exercise: exercise as! DatabaseExercise)
                 }
             }
             

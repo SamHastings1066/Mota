@@ -6,9 +6,11 @@
 //
 
 import Foundation
+import SwiftData
 
 /// `Workout` is a collection of supersets.
-@Observable
+//@Observable
+@Model
 class Workout {
     var supersets: [SuperSet]
     
@@ -33,7 +35,8 @@ class Workout {
 }
 
 /// `SuperSet` is a collection of exercise rounds.
-@Observable
+//@Observable
+@Model
 class SuperSet: Identifiable, Hashable {
     static func == (lhs: SuperSet, rhs: SuperSet) -> Bool {
         lhs.id == rhs.id
@@ -80,7 +83,7 @@ class SuperSet: Identifiable, Hashable {
     /// `consistentExercises`: Retrieves an array of exercises from the first round of the superset.
     /// This array is used to ensure consistency in displayed exercises across all rounds.
     /// Setting this property updates all rounds to have the specified exercises, maintaining consistency.
-    var consistentExercises: [Exercise] {
+    var consistentExercises: [AnyExercise] {
         get {
             exerciseRounds.first?.singleSets.map { $0.exercise } ?? []
         }
@@ -92,9 +95,9 @@ class SuperSet: Identifiable, Hashable {
         }
     }
     
-    var identifiableExercises: [IdentifiableExercise] {
+    var identifiableExercises: [AnyExercise] {
         get {
-            exerciseRounds.first?.singleSets.map { IdentifiableExercise(exercise: $0.exercise) } ?? []
+            exerciseRounds.first?.singleSets.map { $0.exercise } ?? []
         }
         set(newExercises) {
             // Create a map from exercise ID to new index
@@ -193,7 +196,7 @@ class SuperSet: Identifiable, Hashable {
         self.exerciseRounds = (0..<numRounds).map { _ in ExerciseRound(singleSets: singleSets, rest: rest) }
     }
     
-    func removeExercise(_ exerciseToRemove: Exercise) {
+    func removeExercise(_ exerciseToRemove: AnyExercise) {
         // Iterate through each ExerciseRound
         for roundIndex in exerciseRounds.indices {
             // Filter out the SingleSet that matches the exercise to remove
@@ -201,7 +204,7 @@ class SuperSet: Identifiable, Hashable {
         }
     }
     
-    func addExercise(_ exerciseToAdd: Exercise) {
+    func addExercise(_ exerciseToAdd: AnyExercise) {
         for roundIndex in exerciseRounds.indices {
             exerciseRounds[roundIndex].singleSets.append(SingleSet(exercise: exerciseToAdd, weight: 0, reps: 0))
         }
@@ -210,17 +213,30 @@ class SuperSet: Identifiable, Hashable {
 }
 
 /// `ExerciseRound` is a collection of single sets and the rest period following the completion of those single sets.
-struct ExerciseRound: Identifiable {
+@Model
+class ExerciseRound: Identifiable {
     var id = UUID()
     var singleSets: [SingleSet]
     var rest: Int?
+    init(id: UUID = UUID(), singleSets: [SingleSet], rest: Int? = nil) {
+        self.id = id
+        self.singleSets = singleSets
+        self.rest = rest
+    }
 }
 
 /// `SingleSet` is the smallest component of a workout. It comprises the exercise being undertaken as well as the parameters of that exercise e.g. weight, repetitions.
-struct SingleSet: Identifiable {
+@Model
+class SingleSet: Identifiable {
     var id = UUID()
     // TODO: Accomodate exercises other than weight training, either by increasing the list of optional parameters e.g. running would have a distance: Int? parameter, or another solution.
-    var exercise: Exercise
+    var exercise: AnyExercise
     var weight: Int
     var reps: Int
+    init(id: UUID = UUID(), exercise: AnyExercise, weight: Int, reps: Int) {
+        self.id = id
+        self.exercise = exercise
+        self.weight = weight
+        self.reps = reps
+    }
 }

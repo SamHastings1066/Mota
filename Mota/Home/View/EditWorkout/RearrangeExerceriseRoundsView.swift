@@ -14,8 +14,8 @@ struct RearrangeExerceriseRoundsView: View {
     var body: some View {
         
         List {
-                ForEach($superSet.identifiableExercises) { $exercise in
-                    ExerciseRowView(exercise: exercise.exercise)
+            ForEach($superSet.identifiableExercises) { $exercise in
+                    ExerciseRowView(exercise: exercise)
                     //Text(exercise.exercise.name)
                 }
                 .onMove {
@@ -26,7 +26,7 @@ struct RearrangeExerceriseRoundsView: View {
     }
 }
 
-#Preview {
-    var dummySuperset = SuperSet(exerciseRounds: [ExerciseRound(singleSets: [SingleSet(exercise: UserDefinedExercise(name: "Squat"), weight: 0, reps: 0), SingleSet(exercise: UserDefinedExercise(name: "Deadlift"), weight: 0, reps: 0)])])
-    return RearrangeExerceriseRoundsView(superSet: dummySuperset)
-}
+//#Preview {
+//    var dummySuperset = SuperSet(exerciseRounds: [ExerciseRound(singleSets: [SingleSet(exercise: UserDefinedExercise(name: "Squat"), weight: 0, reps: 0), SingleSet(exercise: UserDefinedExercise(name: "Deadlift"), weight: 0, reps: 0)])])
+//    return RearrangeExerceriseRoundsView(superSet: dummySuperset)
+//}

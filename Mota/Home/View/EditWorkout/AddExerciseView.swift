@@ -24,7 +24,7 @@ struct AddExerciseView: View {
         
     }
     
-    var addExerciseClosure: ((Exercise) -> Void)?
+    var addExerciseClosure: ((AnyExercise) -> Void)?
     var body: some View {
         TextField(
             "Filter exercises",
@@ -35,7 +35,7 @@ struct AddExerciseView: View {
             Section(header: Text("Swipe left for more info")) {
                 ForEach(filteredExercises) { exercise in
                     Button {
-                        addExerciseClosure?(exercise)
+                        addExerciseClosure?(AnyExercise(.databaseExercise(exercise)) )
                     } label: {
                         ExerciseRowView(exercise: exercise)
                     }

@@ -8,6 +8,7 @@
 import SwiftUI
 import FirebaseCore
 import FirebaseAuth
+import SwiftData
 
 
 
@@ -28,6 +29,8 @@ struct MotaApp: App {
     //@State var authService: FirebaseAuthService = FirebaseAuthService()
     var authService: AuthenticationService
     //var homeViewModel: HomeViewModel
+    
+    let modelContainer: ModelContainer
     
     init() {
         FirebaseApp.configure()
@@ -54,6 +57,12 @@ struct MotaApp: App {
             }
         }
         
+        do {
+            modelContainer = try ModelContainer(for: Workout<DatabaseExercise>.self)
+        } catch {
+            fatalError("Could not initialize ModelContainer")
+        }
+        
         // TODO: authservice to MockService if "mockService" env variable is set
         
     }
@@ -66,6 +75,6 @@ struct MotaApp: App {
             } else {
                 AuthenticationView(viewModel: LoginViewModel(authService: authService))
             }
-        }
+        }.modelContainer(modelContainer)
     }
 }

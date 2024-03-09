@@ -16,7 +16,7 @@ struct EditableSingleSetRowView: View {
     var isEditable = true
     
     @State var isAddExercisePresented = false
-    @State var selectedExercise: IdentifiableExercise?
+    @State var selectedExercise: AnyExercise?
     
 
     var imageNames: [String?] {

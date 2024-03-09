@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct ChangeExerciseView: View {
-    @Binding var selectedExercise: IdentifiableExercise?
+    @Binding var selectedExercise: AnyExercise?
     @Binding var modelExercise: Exercise
     @State private var singleSelection: UUID?
     
@@ -29,7 +29,7 @@ struct ChangeExerciseView: View {
     }
     
     var body: some View {
-        Text("Selected exercise: \(selectedExercise?.exercise.name ?? "")")
+        Text("Selected exercise: \(selectedExercise?.name ?? "")")
         TextField(
             "Filter exercises",
             text: $filterString
@@ -52,7 +52,7 @@ struct ChangeExerciseView: View {
                         .tint(.blue)
                     }
                     .sheet(isPresented: $isInfoPresented) {
-                        ExerciseDetailView(exercise: exerciseToBePresented)
+                        ExerciseDetailView(exercise: exerciseToBePresented as! DatabaseExercise)
                     }
                     
                 }
@@ -65,6 +65,6 @@ struct ChangeExerciseView: View {
 
 
 
-#Preview {
-    ChangeExerciseView(selectedExercise: .constant(IdentifiableExercise(exercise: exercises[0])), modelExercise: .constant(exercises[0]))
-}
+//#Preview {
+//    ChangeExerciseView(selectedExercise: .constant(AnyExercise(.databaseExercise(exercises[0]))), modelExercise: .constant(exercises[0]))
+//}

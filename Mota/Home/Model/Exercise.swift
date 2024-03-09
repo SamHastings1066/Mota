@@ -8,30 +8,118 @@
 // TODO: add in an imageSet computed var that is of type [Image?] which creates images using the strings in the images array
 
 import Foundation
+import SwiftData
 
-protocol Exercise {
+
+protocol Exercise: Codable {//: PersistentModel {
     var name: String { get }
     var id: String { get }
+
 }
 
-// TODO: use IdentifiableExercise rather than Exercise wherever I am currently using exercise
-struct IdentifiableExercise: Identifiable {
-    let id: String
-    let exercise: Exercise
+enum ExerciseWrapper: Codable {
+    case userDefinedExercise(UserDefinedExercise)
+    case databaseExercise(DatabaseExercise)
 
-    init(exercise: Exercise) {
-        self.id = exercise.id
-        self.exercise = exercise
+    var exerciseItem: any Exercise {
+        switch self {
+        case let .userDefinedExercise(item): return item
+        case let .databaseExercise(item): return item
+        }
     }
 }
 
-struct UserDefinedExercise: Exercise {
+//// TODO: use IdentifiableExercise rather than Exercise wherever I am currently using exercise
+//@Model
+//class IdentifiableExercise: Identifiable {
+//    let id: String
+//    let exercise: Exercise
+//
+//    init(exercise: Exercise) {
+//        self.id = exercise.id
+//        self.exercise = exercise
+//    }
+//}
+
+@Model
+class AnyExercise: Exercise, Identifiable {
+    
+    enum CodingKeys: CodingKey {
+        case innerExercise
+    }
+    
+    required init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+//        if let _ = innerExercise as? DatabaseExercise {
+//            self.innerExercise = try container.decode(DatabaseExercise.self, forKey: .innerExercise)
+//        } else if let _ = innerExercise as? UserDefinedExercise {
+//            self.innerExercise = try container.decode(UserDefinedExercise.self, forKey: .innerExercise)
+//        }
+        self.innerExercise = try container.decode(ExerciseWrapper.self, forKey: .innerExercise)
+    }
+    
+    func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(innerExercise, forKey: .innerExercise)
+    }
+    
+    var name: String {
+        return innerExercise.exerciseItem.name
+    }
+    
+    var id: String {
+        return innerExercise.exerciseItem.id
+    }
+    
+    let innerExercise: ExerciseWrapper
+    
+    init(_ exercise: ExerciseWrapper) {
+        self.innerExercise = exercise
+    }
+}
+
+
+@Model
+class UserDefinedExercise: Exercise {
     var id = UUID().uuidString
     let name: String
+    init(id: String = UUID().uuidString, name: String) {
+        self.id = id
+        self.name = name
+    }
+    
+    enum CodingKeys: CodingKey {
+        case id, name
+    }
+    
+    required init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        self.id = try container.decode(String.self, forKey: .id)
+        self.name = try container.decode(String.self, forKey: .name)
+    }
+    
+    func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(id, forKey: .id)
+        try container.encode(name, forKey: .name)
+    }
+    
 
 }
 
-struct DatabaseExercise: Codable, Hashable, Identifiable, Exercise {
+@Model
+class DatabaseExercise: Hashable, Identifiable, Codable, Exercise {
+    static func == (lhs: DatabaseExercise, rhs: DatabaseExercise) -> Bool {
+        lhs.id == rhs.id
+    }
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(id)
+    }
+    
+    enum CodingKeys: CodingKey {
+        case id, name, force, level, mechanic, equipment, primaryMuscles, secondaryMuscles, instructions, category, images
+    }
+    
     let id: String
     let name: String
     let force: Force?
@@ -43,6 +131,52 @@ struct DatabaseExercise: Codable, Hashable, Identifiable, Exercise {
     let instructions: [String]
     let category: Category
     let images: [String]
+    
+    init(id: String, name: String, force: Force?, level: Level, mechanic: Mechanic?, equipment: Equipment?, primaryMuscles: [Muscle], secondaryMuscles: [Muscle], instructions: [String], category: Category, images: [String]) {
+        self.id = id
+        self.name = name
+        self.force = force
+        self.level = level
+        self.mechanic = mechanic
+        self.equipment = equipment
+        self.primaryMuscles = primaryMuscles
+        self.secondaryMuscles = secondaryMuscles
+        self.instructions = instructions
+        self.category = category
+        self.images = images
+    }
+    
+    // Decoding init
+    required init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        self.id = try container.decode(String.self, forKey: .id)
+        self.name = try container.decode(String.self, forKey: .name)
+        self.force = try container.decode(Force?.self, forKey: .force)
+        self.level = try container.decode(Level.self, forKey: .level)
+        self.mechanic = try container.decode(Mechanic?.self, forKey: .mechanic)
+        self.equipment = try container.decode(Equipment?.self, forKey: .equipment)
+        self.primaryMuscles = try container.decode([Muscle].self, forKey: .primaryMuscles)
+        self.secondaryMuscles = try container.decode([Muscle].self, forKey: .secondaryMuscles)
+        self.instructions = try container.decode([String].self, forKey: .instructions)
+        self.category = try container.decode(Category.self, forKey: .category)
+        self.images = try container.decode([String].self, forKey: .images)
+    }
+    
+    //Encoding
+    func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(id, forKey: .id)
+        try container.encode(name, forKey: .name)
+        try container.encode(force, forKey: .force)
+        try container.encode(level, forKey: .level)
+        try container.encode(mechanic, forKey: .mechanic)
+        try container.encode(equipment, forKey: .equipment)
+        try container.encode(primaryMuscles, forKey: .primaryMuscles)
+        try container.encode(secondaryMuscles, forKey: .secondaryMuscles)
+        try container.encode(instructions, forKey: .instructions)
+        try container.encode(category, forKey: .category)
+        try container.encode(images, forKey: .images)
+    }
     
     var imageURLs: [String] {
         images.map{ imageString in

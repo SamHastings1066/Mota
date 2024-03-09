@@ -11,7 +11,7 @@ struct SingleSetRowView: View {
     var singleSet: SingleSet
     
     var imageName: String? {
-        if let databaseExercise = singleSet.exercise as? DatabaseExercise, !databaseExercise.imageURLs.isEmpty {
+        if let databaseExercise = singleSet.exercise.innerExercise as? DatabaseExercise, !databaseExercise.imageURLs.isEmpty {
             return databaseExercise.imageURLs[0]
         } else {
             return nil
@@ -78,7 +78,7 @@ struct SafeImage: View {
 
 #Preview {
     Group {
-        SingleSetRowView(singleSet: SingleSet(exercise: exercises[0], weight: 0, reps: 8))
-        SingleSetRowView(singleSet: SingleSet(exercise: UserDefinedExercise(name: "Squats"), weight: 60, reps: 10))
+        SingleSetRowView(singleSet: SingleSet(exercise: AnyExercise(.databaseExercise(exercises[0]) ), weight: 0, reps: 8))
+        SingleSetRowView(singleSet: SingleSet(exercise: AnyExercise(.userDefinedExercise(UserDefinedExercise(name: "Squats")) ), weight: 60, reps: 10))
     }
 }
