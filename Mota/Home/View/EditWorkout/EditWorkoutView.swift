@@ -12,6 +12,7 @@ struct EditWorkoutView: View {
     
     @State var isAddSetPresented = false
     @State var workout: Workout = Workout(supersets: [])
+    @Environment(\.modelContext) private var context
 
     // TODO: remove - this is for debugging purposes
 //    init() {
@@ -40,6 +41,9 @@ struct EditWorkoutView: View {
                 }
             }
             .navigationTitle("New Workout")
+        }
+        .onAppear{
+            context.insert(workout)
         }
         .environment(workout)
     }
@@ -97,15 +101,15 @@ struct AddSetScreenCover: View {
     var body: some View {
         NavigationStack {
             AddExerciseView() { exercise in
-                let newSuperset = SuperSet(exerciseRounds: [ExerciseRound(singleSets: [SingleSet(exercise: exercise, weight: 0, reps: 0)])])
+                let newSuperset = SuperSet(exerciseRounds: [ExerciseRound(singleSets: [SingleSet(exercise: exercise, weight: 0, reps: 0)]), ExerciseRound(singleSets: [SingleSet(exercise: exercise, weight: 0, reps: 0)]), ExerciseRound(singleSets: [SingleSet(exercise: exercise, weight: 0, reps: 0)])])
                 newSuperset.workout = workout
                 context.insert(newSuperset)
-                do {
-                    try context.save()
+//                do {
+//                    try context.save()
                     workout.addSuperset(newSuperset)
-                } catch {
-                    print(error.localizedDescription)
-                }
+//                } catch {
+//                    print(error.localizedDescription)
+//                }
                 
                 dismiss()
             }

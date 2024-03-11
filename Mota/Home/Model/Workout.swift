@@ -63,8 +63,9 @@ class SuperSet: Identifiable, Hashable {
                 let numberOfAdditionalRounds = newValue - exerciseRounds.count
                 let newRounds = (0..<numberOfAdditionalRounds).map {_ in exerciseRounds.last! }
                 exerciseRounds.append(contentsOf: newRounds)
+                //exerciseRounds = Array(exerciseRounds + newRounds)
+                //exerciseRounds = (0..<newValue).map {_ in exerciseRounds.last! }
             }
-            //exerciseRounds = (0..<newValue).map {_ in ExerciseRound(singleSets: exerciseRounds[0].singleSets, rest: exerciseRounds[0].rest) }
         }
     }
     
