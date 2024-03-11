@@ -6,19 +6,21 @@
 //
 
 import Foundation
+import SwiftData
 
 /// `Workout` is a collection of supersets.
-@Observable
+@Model
 class Workout {
-    var supersets: [SuperSet]
+    @Relationship(deleteRule: .cascade, inverse: \SuperSet.workout)
+    var supersets: [SuperSet] = []
     
     init(supersets: [SuperSet]) {
         self.supersets = supersets
     }
     
-    init() {
-        self.supersets = []
-    }
+//    init() {
+//        self.supersets = []
+//    }
     
     func addSuperset(_ superSet: SuperSet) {
         supersets.append(superSet)
@@ -33,7 +35,7 @@ class Workout {
 }
 
 /// `SuperSet` is a collection of exercise rounds.
-@Observable
+@Model
 class SuperSet: Identifiable, Hashable {
     static func == (lhs: SuperSet, rhs: SuperSet) -> Bool {
         lhs.id == rhs.id
@@ -43,7 +45,9 @@ class SuperSet: Identifiable, Hashable {
     }
     
     var id = UUID()
-    var exerciseRounds: [ExerciseRound]
+    @Relationship(deleteRule: .cascade, inverse: \ExerciseRound.superSet)
+    var exerciseRounds: [ExerciseRound] = []
+    var workout: Workout?
     
     
     var numRounds: Int {
@@ -82,7 +86,7 @@ class SuperSet: Identifiable, Hashable {
     /// Setting this property updates all rounds to have the specified exercises, maintaining consistency.
     var consistentExercises: [DatabaseExercise] {
         get {
-            exerciseRounds.first?.singleSets.map { $0.exercise } ?? []
+            exerciseRounds.first?.singleSets.map { $0.exercise ?? DatabaseExercise.placeholder } ?? []
         }
         set(newExercises) {
             guard newExercises.count == exerciseRounds.first?.singleSets.count else { return }
@@ -94,7 +98,7 @@ class SuperSet: Identifiable, Hashable {
     
     var exercisesForReordering: [DatabaseExercise] {
         get {
-            exerciseRounds.first?.singleSets.map { $0.exercise } ?? []
+            exerciseRounds.first?.singleSets.map { $0.exercise ?? DatabaseExercise.placeholder } ?? []
         }
         set(newExercises) {
             // Create a map from exercise ID to new index
@@ -106,7 +110,7 @@ class SuperSet: Identifiable, Hashable {
             // Reorder singleSets in each ExerciseRound
             for i in exerciseRounds.indices {
                 exerciseRounds[i].singleSets.sort { (set1, set2) -> Bool in
-                    guard let index1 = newOrder[set1.exercise.id], let index2 = newOrder[set2.exercise.id] else { return false }
+                    guard let index1 = newOrder[set1.exercise?.id ?? "1"], let index2 = newOrder[set2.exercise?.id ?? "2"] else { return false }
                     return index1 < index2
                 }
             }
@@ -197,7 +201,7 @@ class SuperSet: Identifiable, Hashable {
         // Iterate through each ExerciseRound
         for roundIndex in exerciseRounds.indices {
             // Filter out the SingleSet that matches the exercise to remove
-            exerciseRounds[roundIndex].singleSets = exerciseRounds[roundIndex].singleSets.filter { $0.exercise.id != exerciseToRemove.id }
+            exerciseRounds[roundIndex].singleSets = exerciseRounds[roundIndex].singleSets.filter { $0.exercise?.id ?? "1" != exerciseToRemove.id }
         }
     }
     
@@ -210,17 +214,33 @@ class SuperSet: Identifiable, Hashable {
 }
 
 /// `ExerciseRound` is a collection of single sets and the rest period following the completion of those single sets.
-struct ExerciseRound: Identifiable {
+@Model
+class ExerciseRound: Identifiable {
     var id = UUID()
-    var singleSets: [SingleSet]
+    @Relationship(deleteRule: .cascade, inverse: \SingleSet.exerciseRound)
+    var singleSets: [SingleSet] = []
     var rest: Int?
+    var superSet: SuperSet?
+    
+    init(singleSets: [SingleSet], rest: Int? = nil) {
+        self.singleSets = singleSets
+        self.rest = rest
+    }
 }
 
 /// `SingleSet` is the smallest component of a workout. It comprises the exercise being undertaken as well as the parameters of that exercise e.g. weight, repetitions.
-struct SingleSet: Identifiable {
+@Model
+class SingleSet: Identifiable {
     var id = UUID()
     // TODO: Accomodate exercises other than weight training, either by increasing the list of optional parameters e.g. running would have a distance: Int? parameter, or another solution.
-    var exercise: DatabaseExercise
+    @Relationship(deleteRule: .noAction, inverse: \DatabaseExercise.singleSet)
+    var exercise: DatabaseExercise? //=  DatabaseExercise.placeholder //ExerciseDataLoader.shared.databaseExercises[0] //DatabaseExercise()
     var weight: Int
     var reps: Int
+    var exerciseRound: ExerciseRound?
+    init(exercise: DatabaseExercise, weight: Int, reps: Int) {
+        self.exercise = exercise
+        self.weight = weight
+        self.reps = reps
+    }
 }

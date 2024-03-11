@@ -26,7 +26,7 @@ struct RearrangeExerceriseRoundsView: View {
     }
 }
 
-#Preview {
-    var dummySuperset = SuperSet(exerciseRounds: [ExerciseRound(singleSets: [SingleSet(exercise: databaseExercises[0], weight: 0, reps: 0), SingleSet(exercise: databaseExercises[2], weight: 0, reps: 0)])])
-    return RearrangeExerceriseRoundsView(superSet: dummySuperset)
-}
+//#Preview {
+//    var dummySuperset = SuperSet(exerciseRounds: [ExerciseRound(singleSets: [SingleSet(exercise: databaseExercises[0], weight: 0, reps: 0), SingleSet(exercise: databaseExercises[2], weight: 0, reps: 0)])])
+//    return RearrangeExerceriseRoundsView(superSet: dummySuperset)
+//}

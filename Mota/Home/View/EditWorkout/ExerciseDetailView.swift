@@ -77,9 +77,9 @@ struct ExerciseDetailView: View {
     }
 }
 
-#Preview {
-    ExerciseDetailView(exercise: databaseExercises[0])
-}
+//#Preview {
+//    ExerciseDetailView(exercise: databaseExercises[0])
+//}
 
 struct exerciseAnimationView: View {
     var imageNames: [String?]

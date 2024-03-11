@@ -15,9 +15,9 @@ struct AddExerciseView: View {
     
     var filteredExercises: [DatabaseExercise] {
         if filterString.isEmpty {
-            return databaseExercises
+            return ExerciseDataLoader.shared.databaseExercises
         } else {
-            return databaseExercises.filter { exercise in
+            return ExerciseDataLoader.shared.databaseExercises.filter { exercise in
                 exercise.name.lowercased().contains(filterString.lowercased())
             }
         }

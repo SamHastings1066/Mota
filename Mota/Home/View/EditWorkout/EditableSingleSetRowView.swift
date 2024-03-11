@@ -9,7 +9,7 @@
 import SwiftUI
 
 struct EditableSingleSetRowView: View {
-    @Binding var exercise: DatabaseExercise
+    @Binding var exercise: DatabaseExercise?
     @Binding var weight: Int
     @Binding var reps: Int
     
@@ -20,8 +20,8 @@ struct EditableSingleSetRowView: View {
     
 
     var imageNames: [String?] {
-        if !exercise.imageURLs.isEmpty {
-            return [exercise.imageURLs[0], exercise.imageURLs[1]]
+        if !(exercise?.imageURLs.isEmpty ?? false) {
+            return [exercise?.imageURLs[0], exercise?.imageURLs[1]]
         } else {
             return [nil,nil]
         }
@@ -53,7 +53,7 @@ struct EditableSingleSetRowView: View {
         HStack {
             exerciseAnimationView(imageNames: imageNames)
                 .frame(width: 70, height: 70)
-            SinglesetInfoView(name: exercise.name, reps: repsString, weight: weightString, isEditable: isEditable)
+            SinglesetInfoView(name: exercise?.name ?? "", reps: repsString, weight: weightString, isEditable: isEditable)
             Spacer()
         }
         .padding([.vertical, .leading], 10)
@@ -62,9 +62,9 @@ struct EditableSingleSetRowView: View {
     }
 }
 
-#Preview {
-    Group {
-        EditableSingleSetRowView(exercise: .constant(databaseExercises[0]), weight: .constant(0), reps: .constant(8))
-        EditableSingleSetRowView(exercise: .constant(databaseExercises[1]), weight: .constant(60), reps: .constant(10), isEditable: false)
-    }
-}
+//#Preview {
+//    Group {
+//        EditableSingleSetRowView(exercise: .constant(databaseExercises[0]), weight: .constant(0), reps: .constant(8))
+//        EditableSingleSetRowView(exercise: .constant(databaseExercises[1]), weight: .constant(60), reps: .constant(10), isEditable: false)
+//    }
+//}

@@ -9,6 +9,7 @@ import XCTest
 @testable import Mota
 
 final class WhenCreatingWorkoutObject: XCTestCase {
+    let databaseExercises = ExerciseDataLoader.shared.databaseExercises
     
     //var workout: Workout!
 
@@ -39,8 +40,8 @@ final class WhenCreatingWorkoutObject: XCTestCase {
         XCTAssertEqual(workout.supersets[0].exerciseRounds.count, 2)
         XCTAssertEqual(workout.supersets[1].exerciseRounds.count, 2)
         XCTAssertEqual(workout.supersets[1].exerciseRounds[1].singleSets[0].weight, 120)
-        XCTAssertEqual(workout.supersets[1].exerciseRounds[1].singleSets[0].exercise.name, DatabaseExercise.sampleExercises[0].name)
-        XCTAssertEqual(workout.supersets[1].exerciseRounds[1].singleSets[1].exercise.name, DatabaseExercise.sampleExercises[1].name)
+        XCTAssertEqual(workout.supersets[1].exerciseRounds[1].singleSets[0].exercise?.name, DatabaseExercise.sampleExercises[0].name)
+        XCTAssertEqual(workout.supersets[1].exerciseRounds[1].singleSets[1].exercise?.name, DatabaseExercise.sampleExercises[1].name)
         XCTAssertEqual(workout.supersets[0].exerciseRounds[0].rest, 50)
         XCTAssertEqual(workout.supersets[1].exerciseRounds[0].rest, 120)
         XCTAssertEqual(workout.supersets[1].exerciseRounds[1].rest, 130)
@@ -62,8 +63,8 @@ final class WhenCreatingWorkoutObject: XCTestCase {
         XCTAssertEqual(workout.supersets.count, 2)
         XCTAssertEqual(workout.supersets[0].exerciseRounds.count, 8)
         XCTAssertEqual(workout.supersets[0].exerciseRounds[0].singleSets.count, 2)
-        XCTAssertEqual(workout.supersets[0].exerciseRounds[0].singleSets[0].exercise.name, databaseExercises[0].name)
-        XCTAssertEqual(workout.supersets[1].exerciseRounds[0].singleSets[0].exercise.name, DatabaseExercise.sampleExercises[0].name)
+        XCTAssertEqual(workout.supersets[0].exerciseRounds[0].singleSets[0].exercise?.name, databaseExercises[0].name)
+        XCTAssertEqual(workout.supersets[1].exerciseRounds[0].singleSets[0].exercise?.name, DatabaseExercise.sampleExercises[0].name)
     }
     
     func testShouldAddSuperset() throws {
@@ -144,6 +145,7 @@ final class WhenCreatingWorkoutObject: XCTestCase {
 }
 
 final class WhenGettingSupersetComputedProperties: XCTestCase {
+    let databaseExercises = ExerciseDataLoader.shared.databaseExercises
     
     func testShouldPopulateAllCollapsedSupersetValuesWhenTheyAreTheSameForEachRoundInTheSuperSet() throws {
         let set1 =  SingleSet(exercise: databaseExercises[0], weight: 100, reps: 5)
@@ -182,6 +184,7 @@ final class WhenGettingSupersetComputedProperties: XCTestCase {
 }
 
 final class WhenSettingSupersetComputedProperties: XCTestCase {
+    let databaseExercises = ExerciseDataLoader.shared.databaseExercises
     
     func testThatExcessExercizeRoundsAreDroppedFromSupersetWhenTheCollapsedRepresentationNumroundsIsReduced() throws {
         let set1 =  SingleSet(exercise: databaseExercises[0], weight: 100, reps: 5)
@@ -241,10 +244,10 @@ final class WhenSettingSupersetComputedProperties: XCTestCase {
 
         superSet.consistentExercises = [databaseExercises[0], DatabaseExercise.sampleExercises[1]]
 
-        XCTAssertEqual(superSet.exerciseRounds[0].singleSets[0].exercise.name, databaseExercises[0].name)
-        XCTAssertEqual(superSet.exerciseRounds[0].singleSets[1].exercise.name, DatabaseExercise.sampleExercises[1].name)
-        XCTAssertEqual(superSet.exerciseRounds[1].singleSets[0].exercise.name, databaseExercises[0].name)
-        XCTAssertEqual(superSet.exerciseRounds[1].singleSets[1].exercise.name, DatabaseExercise.sampleExercises[1].name)
+        XCTAssertEqual(superSet.exerciseRounds[0].singleSets[0].exercise?.name, databaseExercises[0].name)
+        XCTAssertEqual(superSet.exerciseRounds[0].singleSets[1].exercise?.name, DatabaseExercise.sampleExercises[1].name)
+        XCTAssertEqual(superSet.exerciseRounds[1].singleSets[0].exercise?.name, databaseExercises[0].name)
+        XCTAssertEqual(superSet.exerciseRounds[1].singleSets[1].exercise?.name, DatabaseExercise.sampleExercises[1].name)
     }
     
     func testThatWeightIsUpdatedForCorrespondingSinglesetInAllExerciseRoundsWhenConsistentWeightIsSet() throws {
@@ -280,6 +283,7 @@ final class WhenSettingSupersetComputedProperties: XCTestCase {
 
 // TODO: Finish off these tests
 final class WhenSettingIdentifiableExercises: XCTestCase {
+    let databaseExercises = ExerciseDataLoader.shared.databaseExercises
     func testThatOrderOfSingleSetsIsChangedForEachExerciseRound() throws {
         let exerciseList = [databaseExercises[0], databaseExercises[1], databaseExercises[2]]
         let set1 =  SingleSet(exercise: exerciseList[0], weight: 100, reps: 5)
@@ -289,12 +293,12 @@ final class WhenSettingIdentifiableExercises: XCTestCase {
         
         superSet.exercisesForReordering = [exerciseList[2], exerciseList[1], exerciseList[0]]
         
-        XCTAssertEqual(superSet.exerciseRounds[0].singleSets[0].exercise.name, exerciseList[2].name)
-        XCTAssertEqual(superSet.exerciseRounds[0].singleSets[1].exercise.name, exerciseList[1].name)
-        XCTAssertEqual(superSet.exerciseRounds[0].singleSets[2].exercise.name, exerciseList[0].name)
-        XCTAssertEqual(superSet.exerciseRounds[7].singleSets[0].exercise.name, exerciseList[2].name)
-        XCTAssertEqual(superSet.exerciseRounds[7].singleSets[1].exercise.name, exerciseList[1].name)
-        XCTAssertEqual(superSet.exerciseRounds[1].singleSets[2].exercise.name, exerciseList[0].name)
+        XCTAssertEqual(superSet.exerciseRounds[0].singleSets[0].exercise?.name, exerciseList[2].name)
+        XCTAssertEqual(superSet.exerciseRounds[0].singleSets[1].exercise?.name, exerciseList[1].name)
+        XCTAssertEqual(superSet.exerciseRounds[0].singleSets[2].exercise?.name, exerciseList[0].name)
+        XCTAssertEqual(superSet.exerciseRounds[7].singleSets[0].exercise?.name, exerciseList[2].name)
+        XCTAssertEqual(superSet.exerciseRounds[7].singleSets[1].exercise?.name, exerciseList[1].name)
+        XCTAssertEqual(superSet.exerciseRounds[1].singleSets[2].exercise?.name, exerciseList[0].name)
         
         
         

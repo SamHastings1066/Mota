@@ -8,6 +8,7 @@
 import SwiftUI
 import FirebaseCore
 import FirebaseAuth
+import SwiftData
 
 
 
@@ -66,6 +67,6 @@ struct MotaApp: App {
             } else {
                 AuthenticationView(viewModel: LoginViewModel(authService: authService))
             }
-        }
+        }.modelContainer(for: [Workout.self, DatabaseExercise.self])
     }
 }
