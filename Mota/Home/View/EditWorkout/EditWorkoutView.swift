@@ -101,16 +101,11 @@ struct AddSetScreenCover: View {
     var body: some View {
         NavigationStack {
             AddExerciseView() { exercise in
-                let newSuperset = SuperSet(exerciseRounds: [ExerciseRound(singleSets: [SingleSet(exercise: exercise, weight: 0, reps: 0)]), ExerciseRound(singleSets: [SingleSet(exercise: exercise, weight: 0, reps: 0)]), ExerciseRound(singleSets: [SingleSet(exercise: exercise, weight: 0, reps: 0)])])
+                let newExerciseRound = ExerciseRound(singleSets: [SingleSet(exercise: exercise, weight: 0, reps: 0)])
+                let newSuperset = SuperSet(exerciseRounds: [newExerciseRound])
                 newSuperset.workout = workout
                 context.insert(newSuperset)
-//                do {
-//                    try context.save()
-                    workout.addSuperset(newSuperset)
-//                } catch {
-//                    print(error.localizedDescription)
-//                }
-                
+                workout.addSuperset(newSuperset)
                 dismiss()
             }
             .navigationBarItems(
@@ -224,6 +219,7 @@ struct SaveButton: View {
     }
 }
 
-#Preview {
-    EditWorkoutView()
-}
+//#Preview {
+//    EditWorkoutView()
+//        .modelContainer(for: [Workout.self])
+//}

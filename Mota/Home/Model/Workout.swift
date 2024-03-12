@@ -60,11 +60,9 @@ class SuperSet: Identifiable, Hashable {
             if newValue <= exerciseRounds.count {
                 exerciseRounds = Array(exerciseRounds[..<newValue])
             } else {
-                let numberOfAdditionalRounds = newValue - exerciseRounds.count
-                let newRounds = (0..<numberOfAdditionalRounds).map {_ in exerciseRounds.last! }
-                exerciseRounds.append(contentsOf: newRounds)
-                //exerciseRounds = Array(exerciseRounds + newRounds)
-                //exerciseRounds = (0..<newValue).map {_ in exerciseRounds.last! }
+                for _ in exerciseRounds.count..<newValue {
+                    exerciseRounds.append(createExerciseRound(copying: exerciseRounds.last!))
+                }
             }
         }
     }
@@ -212,6 +210,19 @@ class SuperSet: Identifiable, Hashable {
         }
     }
 
+}
+
+extension SuperSet {
+    func createExerciseRound(copying exerciseRound: ExerciseRound) -> ExerciseRound {
+        // Create new SingleSet instances based on the ones in the existing ExerciseRound
+        let newSingleSets = exerciseRound.singleSets.map { singleSet -> SingleSet in
+            // Create a new SingleSet with the same values
+            SingleSet(exercise: singleSet.exercise ?? ExerciseDataLoader.shared.databaseExercises[0], weight: singleSet.weight, reps: singleSet.reps)
+        }
+        // Create a new ExerciseRound with these new SingleSet instances
+        let newExerciseRound = ExerciseRound(singleSets: newSingleSets, rest: exerciseRound.rest)
+        return newExerciseRound
+    }
 }
 
 /// `ExerciseRound` is a collection of single sets and the rest period following the completion of those single sets.
