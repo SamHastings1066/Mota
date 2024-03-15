@@ -56,8 +56,8 @@ struct AddExerciseView: View {
     
 }
 
-#Preview {
-    AddExerciseView()
-}
+//#Preview {
+//    AddExerciseView()
+//}
 
 

@@ -59,6 +59,7 @@ class DatabaseExercise: Codable, Hashable, Identifiable {
     let category: Category
     let images: [String]
     var singleSet: SingleSet?
+    let timeStamp = Date()
     
     init() {
         id = ""

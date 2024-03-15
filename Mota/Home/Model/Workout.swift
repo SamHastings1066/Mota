@@ -13,6 +13,9 @@ import SwiftData
 class Workout {
     @Relationship(deleteRule: .cascade, inverse: \SuperSet.workout)
     var supersets: [SuperSet] = []
+    var orderedSuperSets: [SuperSet] {
+        supersets.sorted{$0.timestamp < $1.timestamp}
+    }
     
     init(supersets: [SuperSet]) {
         self.supersets = supersets
@@ -47,7 +50,11 @@ class SuperSet: Identifiable, Hashable {
     var id = UUID()
     @Relationship(deleteRule: .cascade, inverse: \ExerciseRound.superSet)
     var exerciseRounds: [ExerciseRound] = []
+    var orderedExerciseRounds: [ExerciseRound] {
+        exerciseRounds.sorted{$0.timestamp < $1.timestamp}
+    }
     var workout: Workout?
+    let timestamp: Date = Date()
     
     
     var numRounds: Int {
@@ -85,7 +92,8 @@ class SuperSet: Identifiable, Hashable {
     /// Setting this property updates all rounds to have the specified exercises, maintaining consistency.
     var consistentExercises: [DatabaseExercise] {
         get {
-            exerciseRounds.first?.singleSets.map { $0.exercise ?? DatabaseExercise.placeholder } ?? []
+            let returnedExercises = exerciseRounds.first?.singleSets.map { $0.exercise ?? DatabaseExercise.placeholder } ?? []
+            return returnedExercises.sorted{$0.timeStamp<$1.timeStamp}
         }
         set(newExercises) {
             guard newExercises.count == exerciseRounds.first?.singleSets.count else { return }
@@ -193,7 +201,20 @@ class SuperSet: Identifiable, Hashable {
     
     /// Initialise with one representative [SingleSet], a single rest time, and the number of rounds.
     init(singleSets: [SingleSet], rest: Int, numRounds: Int) {
-        self.exerciseRounds = (0..<numRounds).map { _ in ExerciseRound(singleSets: singleSets, rest: rest) }
+        self.exerciseRounds = (0..<numRounds).map { _ in
+            //let newSingleSets = singleSets
+            var newSingleSets: [SingleSet] = []
+            singleSets.forEach { singleSet in
+                let newSingleSet = SingleSet(from: singleSet)
+                //let newSingleSet = singleSet
+                newSingleSets.append(newSingleSet)
+            }
+            let newExerciseRound = ExerciseRound(singleSets: newSingleSets, rest: rest)
+//            newSingleSets.forEach { singleSet in
+//                singleSet.exerciseRound = newExerciseRound
+//            }
+            return newExerciseRound
+        }
     }
     
     func removeExercise(_ exerciseToRemove: DatabaseExercise) {
@@ -207,6 +228,24 @@ class SuperSet: Identifiable, Hashable {
     func addExercise(_ exerciseToAdd: DatabaseExercise) {
         for roundIndex in exerciseRounds.indices {
             exerciseRounds[roundIndex].singleSets.append(SingleSet(exercise: exerciseToAdd, weight: 0, reps: 0))
+        }
+    }
+    
+    func updateExerciseRound(with exerciseToAdd: DatabaseExercise) {
+        var newRounds = [ExerciseRound]()
+        for round in exerciseRounds {
+            var newSingleSets = round.singleSets.map { SingleSet(exercise: $0.exercise ?? DatabaseExercise.placeholder, weight: $0.weight, reps: $0.reps) }
+            let newSingleSet = SingleSet(exercise: exerciseToAdd, weight: 0, reps: 0)
+            newSingleSets.append(newSingleSet)
+            let newExerciseRound = ExerciseRound(singleSets: newSingleSets, rest: round.rest)
+            newRounds.append(newExerciseRound)
+        }
+        exerciseRounds = newRounds
+    }
+    
+    func addSingleSet(_ singleSetToAdd: SingleSet) {
+        for roundIndex in exerciseRounds.indices {
+            exerciseRounds[roundIndex].singleSets.append(singleSetToAdd)
         }
     }
 
@@ -231,8 +270,12 @@ class ExerciseRound: Identifiable {
     var id = UUID()
     @Relationship(deleteRule: .cascade, inverse: \SingleSet.exerciseRound)
     var singleSets: [SingleSet] = []
+    var orderedSingleSets: [SingleSet] {
+        singleSets.sorted{$0.timestamp < $1.timestamp}
+    }
     var rest: Int?
     var superSet: SuperSet?
+    let timestamp: Date = Date()
     
     init(singleSets: [SingleSet], rest: Int? = nil) {
         self.singleSets = singleSets
@@ -244,15 +287,21 @@ class ExerciseRound: Identifiable {
 @Model
 class SingleSet: Identifiable {
     var id = UUID()
-    // TODO: Accomodate exercises other than weight training, either by increasing the list of optional parameters e.g. running would have a distance: Int? parameter, or another solution.
-    @Relationship(deleteRule: .noAction, inverse: \DatabaseExercise.singleSet)
+    @Relationship(deleteRule: .cascade, inverse: \DatabaseExercise.singleSet)
     var exercise: DatabaseExercise? //=  DatabaseExercise.placeholder //ExerciseDataLoader.shared.databaseExercises[0] //DatabaseExercise()
     var weight: Int
     var reps: Int
     var exerciseRound: ExerciseRound?
+    let timestamp: Date = Date()
     init(exercise: DatabaseExercise, weight: Int, reps: Int) {
         self.exercise = exercise
         self.weight = weight
         self.reps = reps
+    }
+    
+    init(from singleSet : SingleSet) {
+        self.exercise = singleSet.exercise
+        self.weight = singleSet.weight
+        self.reps = singleSet.reps
     }
 }

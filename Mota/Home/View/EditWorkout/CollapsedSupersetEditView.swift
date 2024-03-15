@@ -11,6 +11,7 @@ struct CollapsedSupersetEditView: View {
     @Bindable var superSet: SuperSet
     @State var selectedSuperSet: SuperSet?
     @State var isAddExercisePresented = false
+    @Environment(\.modelContext) private var context
     var isEditable = true
     
     var body: some View {
@@ -56,7 +57,13 @@ struct CollapsedSupersetEditView: View {
                     {
                         NavigationStack {
                             AddExerciseView() { exercise in
-                                superSet.addExercise(exercise)
+//                                let newSingleSet =  SingleSet(exercise: exercise, weight: 0, reps: 0)
+//                                newSingleSet.exerciseRound = superSet.exerciseRounds[0]
+//                                context.insert(newSingleSet)
+//                                superSet.addSingleSet(newSingleSet)
+                                context.insert(exercise)
+                                //superSet.addExercise(exercise)
+                                superSet.updateExerciseRound(with: exercise)
                                 isAddExercisePresented.toggle()
                             }
                             .navigationBarItems(
@@ -102,6 +109,9 @@ struct CollapsedSupersetEditView: View {
             .background(Color(UIColor.systemGray5))
             .cornerRadius(10)
             .fixedSize(horizontal: true, vertical: false)
+        }
+        .onAppear{
+            context.insert(superSet)
         }
         .frame(maxWidth: .infinity)
     }
