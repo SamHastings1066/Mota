@@ -65,10 +65,10 @@ class SuperSet: Identifiable, Hashable {
             guard !exerciseRounds.isEmpty else { return }
             guard newValue > 0 else { return }
             if newValue <= exerciseRounds.count {
-                exerciseRounds = Array(exerciseRounds[..<newValue])
+                exerciseRounds = Array(orderedExerciseRounds[..<newValue])
             } else {
                 for _ in exerciseRounds.count..<newValue {
-                    exerciseRounds.append(createExerciseRound(copying: exerciseRounds.last!))
+                    exerciseRounds.append(createExerciseRound(copying: orderedExerciseRounds.last!))
                 }
             }
         }
@@ -96,29 +96,22 @@ class SuperSet: Identifiable, Hashable {
             return returnedExercises.sorted{$0.timeStamp<$1.timeStamp}
         }
         set(newExercises) {
-            guard newExercises.count == exerciseRounds.first?.singleSets.count else { return }
+            guard newExercises.count == orderedExerciseRounds.first?.orderedSingleSets.count else { return }
             for (exerciseIndex, exercise) in newExercises.enumerated() {
-                exerciseRounds.indices.forEach { exerciseRounds[$0].singleSets[exerciseIndex].exercise = exercise}
+                orderedExerciseRounds.indices.forEach { orderedExerciseRounds[$0].orderedSingleSets[exerciseIndex].exercise = DatabaseExercise(from: exercise)}
             }
         }
     }
     
     var exercisesForReordering: [DatabaseExercise] {
         get {
-            exerciseRounds.first?.singleSets.map { $0.exercise ?? DatabaseExercise.placeholder } ?? []
+            orderedExerciseRounds.first?.orderedSingleSets.map { $0.exercise ?? DatabaseExercise.placeholder } ?? []
         }
         set(newExercises) {
-            // Create a map from exercise ID to new index
-            let newOrder = newExercises.enumerated().reduce(into: [String: Int]()) { dict, tuple in
-                let (index, exercise) = tuple
-                dict[exercise.id] = index
-            }
-            
-            // Reorder singleSets in each ExerciseRound
-            for i in exerciseRounds.indices {
-                exerciseRounds[i].singleSets.sort { (set1, set2) -> Bool in
-                    guard let index1 = newOrder[set1.exercise?.id ?? "1"], let index2 = newOrder[set2.exercise?.id ?? "2"] else { return false }
-                    return index1 < index2
+            for round in orderedExerciseRounds {
+                newExercises.forEach { exercise in
+                    let nextSinglet = round.singleSets.first(where: {$0.exercise == exercise})
+                    nextSinglet?.updateTimeStamp()
                 }
             }
         }
@@ -133,14 +126,14 @@ class SuperSet: Identifiable, Hashable {
             var firstRoundWeights: [Int?] = []
             // Array containing the weight Int if consistent across all rounds, else nil
             var consistentWeights = [Int?]()
-            if let firstRound = exerciseRounds.first {
-                for singleSet in firstRound.singleSets {
+            if let firstRound = orderedExerciseRounds.first {
+                for singleSet in firstRound.orderedSingleSets {
                     firstRoundWeights.append(singleSet.weight)
                 }
             }
             for (index, _) in firstRoundWeights.enumerated() {
                 var weightProgressionForThisExercise = [Int?]()
-                for round in exerciseRounds.map({ $0.singleSets }) {
+                for round in orderedExerciseRounds.map({ $0.orderedSingleSets }) {
                     weightProgressionForThisExercise.append(round[index].weight)
                 }
                 let weightIsConsistent = weightProgressionForThisExercise.allSatisfy { $0 == firstRoundWeights[index] }
@@ -151,7 +144,7 @@ class SuperSet: Identifiable, Hashable {
         set(newWeights) {
             for (exerciseIndex, weight) in newWeights.enumerated() {
                 if let weight = weight {
-                    exerciseRounds.indices.forEach { exerciseRounds[$0].singleSets[exerciseIndex].weight = weight}
+                    orderedExerciseRounds.indices.forEach { orderedExerciseRounds[$0].orderedSingleSets[exerciseIndex].weight = weight}
                 }
             }
         }
@@ -166,14 +159,14 @@ class SuperSet: Identifiable, Hashable {
             var firstRoundReps: [Int?] = []
             // Array containing the weight Int if consistent across all rounds, else nil
             var consistentReps = [Int?]()
-            if let firstRound = exerciseRounds.first {
-                for singleSet in firstRound.singleSets {
+            if let firstRound = orderedExerciseRounds.first {
+                for singleSet in firstRound.orderedSingleSets {
                     firstRoundReps.append(singleSet.reps)
                 }
             }
             for (index, _) in firstRoundReps.enumerated() {
                 var repProgressionForThisExercise = [Int?]()
-                for round in exerciseRounds.map({ $0.singleSets }) {
+                for round in orderedExerciseRounds.map({ $0.orderedSingleSets }) {
                     repProgressionForThisExercise.append(round[index].reps)
                 }
                 let repIsConsistent = repProgressionForThisExercise.allSatisfy { $0 == firstRoundReps[index] }
@@ -185,7 +178,7 @@ class SuperSet: Identifiable, Hashable {
         set(newReps) {
             for (exerciseIndex, reps) in newReps.enumerated() {
                 if let reps = reps {
-                    exerciseRounds.indices.forEach { exerciseRounds[$0].singleSets[exerciseIndex].reps = reps}
+                    orderedExerciseRounds.indices.forEach { orderedExerciseRounds[$0].orderedSingleSets[exerciseIndex].reps = reps}
                 }
             }
         }
@@ -202,17 +195,12 @@ class SuperSet: Identifiable, Hashable {
     /// Initialise with one representative [SingleSet], a single rest time, and the number of rounds.
     init(singleSets: [SingleSet], rest: Int, numRounds: Int) {
         self.exerciseRounds = (0..<numRounds).map { _ in
-            //let newSingleSets = singleSets
             var newSingleSets: [SingleSet] = []
             singleSets.forEach { singleSet in
                 let newSingleSet = SingleSet(from: singleSet)
-                //let newSingleSet = singleSet
                 newSingleSets.append(newSingleSet)
             }
             let newExerciseRound = ExerciseRound(singleSets: newSingleSets, rest: rest)
-//            newSingleSets.forEach { singleSet in
-//                singleSet.exerciseRound = newExerciseRound
-//            }
             return newExerciseRound
         }
     }
@@ -233,8 +221,8 @@ class SuperSet: Identifiable, Hashable {
     
     func updateExerciseRound(with exerciseToAdd: DatabaseExercise) {
         var newRounds = [ExerciseRound]()
-        for round in exerciseRounds {
-            var newSingleSets = round.singleSets.map { SingleSet(exercise: $0.exercise ?? DatabaseExercise.placeholder, weight: $0.weight, reps: $0.reps) }
+        for round in orderedExerciseRounds {
+            var newSingleSets = round.orderedSingleSets.map { SingleSet(exercise: $0.exercise ?? DatabaseExercise.placeholder, weight: $0.weight, reps: $0.reps) }
             let newSingleSet = SingleSet(exercise: exerciseToAdd, weight: 0, reps: 0)
             newSingleSets.append(newSingleSet)
             let newExerciseRound = ExerciseRound(singleSets: newSingleSets, rest: round.rest)
@@ -288,11 +276,11 @@ class ExerciseRound: Identifiable {
 class SingleSet: Identifiable {
     var id = UUID()
     @Relationship(deleteRule: .cascade, inverse: \DatabaseExercise.singleSet)
-    var exercise: DatabaseExercise? //=  DatabaseExercise.placeholder //ExerciseDataLoader.shared.databaseExercises[0] //DatabaseExercise()
+    var exercise: DatabaseExercise?
     var weight: Int
     var reps: Int
     var exerciseRound: ExerciseRound?
-    let timestamp: Date = Date()
+    var timestamp: Date = Date()
     init(exercise: DatabaseExercise, weight: Int, reps: Int) {
         self.exercise = exercise
         self.weight = weight
@@ -303,5 +291,9 @@ class SingleSet: Identifiable {
         self.exercise = singleSet.exercise
         self.weight = singleSet.weight
         self.reps = singleSet.reps
+    }
+    
+    func updateTimeStamp() {
+        self.timestamp = Date()
     }
 }

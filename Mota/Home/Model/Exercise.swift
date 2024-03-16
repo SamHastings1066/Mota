@@ -72,6 +72,20 @@ class DatabaseExercise: Codable, Hashable, Identifiable {
         images = [""]
     }
     
+    init(from exercise: DatabaseExercise) {
+        self.id = exercise.id
+        self.name = exercise.name
+        self.force = exercise.force
+        self.level = exercise.level
+        self.mechanic = exercise.mechanic
+        self.equipment = exercise.equipment
+        self.primaryMuscles = exercise.primaryMuscles
+        self.secondaryMuscles = exercise.secondaryMuscles
+        self.instructions = exercise.instructions
+        self.category = exercise.category
+        self.images = exercise.images
+        self.singleSet = exercise.singleSet
+    }
 
     
     required init(from decoder: any Decoder) throws {
