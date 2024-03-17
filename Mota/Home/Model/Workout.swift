@@ -14,7 +14,14 @@ class Workout {
     @Relationship(deleteRule: .cascade, inverse: \SuperSet.workout)
     var supersets: [SuperSet] = []
     var orderedSuperSets: [SuperSet] {
-        supersets.sorted{$0.timestamp < $1.timestamp}
+        get {
+            supersets.sorted{$0.timestamp < $1.timestamp}
+        }
+        set {
+            for superset in newValue {
+                superset.timestamp = Date()
+            }
+        }
     }
     
     init(supersets: [SuperSet]) {
@@ -50,7 +57,7 @@ class SuperSet: Identifiable, Hashable {
         exerciseRounds.sorted{$0.timestamp < $1.timestamp}
     }
     var workout: Workout?
-    let timestamp: Date = Date()
+    var timestamp: Date = Date()
     
     
     var numRounds: Int {

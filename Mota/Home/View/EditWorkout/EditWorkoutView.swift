@@ -53,11 +53,11 @@ struct SupersetListView: View {
     @Environment(Workout.self) var workout
     var body: some View {
         List {
-            ForEach(workout.supersets) { superSet in
+            ForEach(workout.orderedSuperSets) { superSet in
                 SupersetView(superSet: superSet)
             }
             .onMove {
-                workout.supersets.move(fromOffsets: $0, toOffset: $1)
+                workout.orderedSuperSets.move(fromOffsets: $0, toOffset: $1)
             }
         }
     }
