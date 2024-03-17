@@ -21,10 +21,6 @@ class Workout {
         self.supersets = supersets
     }
     
-//    init() {
-//        self.supersets = []
-//    }
-    
     func addSuperset(_ superSet: SuperSet) {
         supersets.append(superSet)
     }
@@ -92,8 +88,9 @@ class SuperSet: Identifiable, Hashable {
     /// Setting this property updates all rounds to have the specified exercises, maintaining consistency.
     var consistentExercises: [DatabaseExercise] {
         get {
-            let returnedExercises = exerciseRounds.first?.singleSets.map { $0.exercise ?? DatabaseExercise.placeholder } ?? []
-            return returnedExercises.sorted{$0.timeStamp<$1.timeStamp}
+//            let returnedExercises = exerciseRounds.first?.singleSets.map { $0.exercise ?? DatabaseExercise.placeholder } ?? []
+//            return returnedExercises.sorted{$0.timeStamp<$1.timeStamp}
+            orderedExerciseRounds.first?.orderedSingleSets.map { $0.exercise ?? DatabaseExercise.placeholder } ?? []
         }
         set(newExercises) {
             guard newExercises.count == orderedExerciseRounds.first?.orderedSingleSets.count else { return }

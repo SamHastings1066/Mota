@@ -53,16 +53,14 @@ struct CollapsedSupersetEditView: View {
                     .popover(item: $selectedSuperSet) { _ in
                         RearrangeExerceriseRoundsView(superSet: superSet)
                     }
+                    .onChange(of: selectedSuperSet, { _, _ in
+                        // TODO: this onChange is just a hack to cause a screen update after the `selectedSuperSet` is changed. Remove it if possible.
+                    })
                     .fullScreenCover(isPresented: $isAddExercisePresented)
                     {
                         NavigationStack {
                             AddExerciseView() { exercise in
-//                                let newSingleSet =  SingleSet(exercise: exercise, weight: 0, reps: 0)
-//                                newSingleSet.exerciseRound = superSet.exerciseRounds[0]
-//                                context.insert(newSingleSet)
-//                                superSet.addSingleSet(newSingleSet)
                                 context.insert(exercise)
-                                //superSet.addExercise(exercise)
                                 superSet.updateExerciseRound(with: exercise)
                                 isAddExercisePresented.toggle()
                             }
