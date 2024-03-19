@@ -15,7 +15,7 @@ struct EditableSingleSetRowCollapsedView: View {
     var isEditable = true
     var removeExerciseClosure: (() -> Void)?
     
-    @State var isAddExercisePresented = false
+    @State var isChangeExercisePresented = false
     @State var isExerciseDetailPresented = false
     @State var selectedExercise: DatabaseExercise?
     
@@ -78,7 +78,7 @@ struct EditableSingleSetRowCollapsedView: View {
                             .frame(width: 70, height: 70)
                     }
                     .onTapGesture {
-                        isAddExercisePresented.toggle()
+                        isChangeExercisePresented.toggle()
                         selectedExercise = exercise
                     }
                     .fullScreenCover(item: $selectedExercise)

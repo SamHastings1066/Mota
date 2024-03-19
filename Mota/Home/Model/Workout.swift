@@ -11,6 +11,8 @@ import SwiftData
 /// `Workout` is a collection of supersets.
 @Model
 class Workout {
+    var id = UUID()
+    var name: String = "New Workout"
     @Relationship(deleteRule: .cascade, inverse: \SuperSet.workout)
     var supersets: [SuperSet] = []
     var orderedSuperSets: [SuperSet] {

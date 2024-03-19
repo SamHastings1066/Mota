@@ -1,34 +1,32 @@
 //
-//  EditWorkoutView.swift
+//  WorkoutScreen.swift
 //  Mota
 //
 //  Created by sam hastings on 29/01/2024.
 //
 
 import SwiftUI
+import SwiftData
 
 
-struct EditWorkoutView: View {
+struct WorkoutScreen: View {
     
     @State var isAddSetPresented = false
-    @State var workout: Workout = Workout(supersets: [])
+    //@State var workout: Workout //= Workout(supersets: [])
+    var workoutUUID: UUID
     @Environment(\.modelContext) private var context
-
-    // TODO: remove - this is for debugging purposes
-//    init() {
-//        let set1 =  SingleSet(exercise: databaseExercises.first(where: { $0.id == "Barbell_Squat" }) ?? databaseExercises[0], weight: 100, reps: 5)
-//        let set2 = SingleSet(exercise: databaseExercises.first(where: { $0.id == "Bench_Press_-_Powerlifting" }) ?? databaseExercises[0], weight: 50, reps: 6)
-//        let set3 = SingleSet(exercise: databaseExercises.first(where: { $0.id == "90_90_Hamstring" }) ?? databaseExercises[0], weight: 40, reps: 9)
-//        let superSet1 = SuperSet(singleSets: [set1, set2, set3], rest: 50, numRounds: 8)
-//        // Create second superset
-//        let set4 =  SingleSet(exercise: databaseExercises[7], weight: 100, reps: 5)
-//        let set5 = SingleSet(exercise: databaseExercises[8], weight: 50, reps: 6)
-//        let set6 =  SingleSet(exercise: databaseExercises[7], weight: 100, reps: 4)
-//        let set7 = SingleSet(exercise: databaseExercises[8], weight: 40, reps: 6)
-//        let superSet2 = SuperSet(exerciseRounds: [ExerciseRound(singleSets: [set4, set5], rest:40), ExerciseRound(singleSets: [set6,set7], rest: 50)])
-//        
-//        self.workout = Workout(supersets: [superSet1, superSet2])
-//    }
+    @Query private var workouts: [Workout]
+    @State var workout: Workout = Workout(supersets: [])
+    
+    
+    init(workoutUUID: UUID) {
+        self.workoutUUID = workoutUUID
+        _workouts = Query(filter: #Predicate<Workout>{$0.id == workoutUUID})
+        if let firstWorkout = workouts.first {
+            workout = firstWorkout
+        }
+    }
+    
     
     var body: some View {
         NavigationStack {
@@ -40,7 +38,7 @@ struct EditWorkoutView: View {
                     SaveButton()
                 }
             }
-            .navigationTitle("New Workout")
+            .navigationTitle(workout.name)
         }
         .onAppear{
             context.insert(workout)
@@ -51,6 +49,12 @@ struct EditWorkoutView: View {
 
 struct SupersetListView: View {
     @Environment(Workout.self) var workout
+    
+//    @Query private var superSets: [SuperSet]
+//    init() {
+//        _superSets = Query(filter: #Predicate<SuperSet>{$0.workout == self.workout}, sort: \SuperSet.timestamp, order: .forward)
+//    }
+    
     var body: some View {
         List {
             ForEach(workout.orderedSuperSets) { superSet in
@@ -220,6 +224,6 @@ struct SaveButton: View {
 }
 
 //#Preview {
-//    EditWorkoutView()
+//    WorkoutScreen(workout: Workout(supersets: []))
 //        .modelContainer(for: [Workout.self])
 //}

@@ -17,11 +17,11 @@ struct HomeView: View {
             FeedView(viewModel: FeedViewModel(authService: viewModel.authService))
                 .badge(2)
                 .tabItem {
-                    Label("Workouts", systemImage: "tray.and.arrow.down.fill")
+                    Label("Users", systemImage: "tray.and.arrow.down.fill")
                 }
-            EditWorkoutView()
+            WorkoutListScreen()
                 .tabItem {
-                    Label("Create workout", systemImage: "plus.app.fill")
+                    Label("Workouts", systemImage: "dumbbell.fill")
                 }
                 .navigationTitle("My Title")
             UserView(viewModel: UserViewModel(authService: viewModel.authService))

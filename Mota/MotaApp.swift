@@ -67,6 +67,6 @@ struct MotaApp: App {
             } else {
                 AuthenticationView(viewModel: LoginViewModel(authService: authService))
             }
-        }.modelContainer(for: [Workout.self, DatabaseExercise.self])
+        }.modelContainer(for: [Workout.self, SuperSet.self, DatabaseExercise.self])
     }
 }
