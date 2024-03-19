@@ -21,8 +21,11 @@ struct WorkoutScreen: View {
             AddSetButton{ isAddSetPresented.toggle() }
                 .fullScreenCover(isPresented: $isAddSetPresented) { AddSetScreenCover() }
             .toolbar {
-                ToolbarItemGroup {
+                ToolbarItemGroup(placement: .topBarTrailing) {
                     SaveButton()
+                }
+                ToolbarItemGroup(placement: .topBarLeading) {
+                    CancelButton()
                 }
             }
             .navigationTitle(workout.name)
@@ -35,7 +38,7 @@ struct WorkoutScreen: View {
 }
 
 struct SupersetListView: View {
-    @Environment(Workout.self) var workout
+    //@Environment(Workout.self) var workout
     var workoutUUID: UUID
     
     @Query private var superSets: [SuperSet]
@@ -51,7 +54,9 @@ struct SupersetListView: View {
                 SupersetView(superSet: superSet)
             }
             .onMove {
-                workout.orderedSuperSets.move(fromOffsets: $0, toOffset: $1)
+                if let workout = superSets[0].workout {
+                    workout.orderedSuperSets.move(fromOffsets: $0, toOffset: $1)
+                }
             }
         }
     }
@@ -202,12 +207,28 @@ struct DeleteItemButton: View {
 
 struct SaveButton: View {
     @Environment(Workout.self) var workout
+    @Environment(\.dismiss) private var dismiss
     var body: some View {
         //ToolbarItem(placement: .topBarTrailing) {
             Button("Save") {
-                //Save()
+                dismiss()
             }
             .disabled(workout.supersets.count < 1)
+            .padding(.trailing)
+        //}
+    }
+}
+
+struct CancelButton: View {
+    @Environment(Workout.self) var workout
+    @Environment(\.dismiss) private var dismiss
+    @Environment(\.modelContext) private var context
+    var body: some View {
+        //ToolbarItem(placement: .topBarTrailing) {
+            Button("Cancel") {
+                context.delete(workout)
+                dismiss()
+            }
             .padding(.trailing)
         //}
     }

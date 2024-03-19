@@ -15,7 +15,6 @@ struct HomeView: View {
     var body: some View {
         TabView {
             FeedView(viewModel: FeedViewModel(authService: viewModel.authService))
-                .badge(2)
                 .tabItem {
                     Label("Users", systemImage: "tray.and.arrow.down.fill")
                 }
@@ -23,9 +22,7 @@ struct HomeView: View {
                 .tabItem {
                     Label("Workouts", systemImage: "dumbbell.fill")
                 }
-                .navigationTitle("My Title")
             UserView(viewModel: UserViewModel(authService: viewModel.authService))
-                .badge("!")
                 .tabItem {
                     Label("Profile", systemImage: "person.crop.circle.fill")
                 }
