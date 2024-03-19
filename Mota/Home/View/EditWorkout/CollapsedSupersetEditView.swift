@@ -24,6 +24,9 @@ struct CollapsedSupersetEditView: View {
                         superSet.removeExercise(superSet.consistentExercises[exerciseNumber])
                     }
                 }
+                .onChange(of: superSet.exerciseRounds) { oldValue, newValue in
+                    print("SUPERSET CHANGED")
+                }
                 if isEditable {
                     HStack {
                         Spacer()

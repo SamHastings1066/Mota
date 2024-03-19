@@ -181,22 +181,22 @@ struct DeleteItemButton: View {
             Image(systemName: "trash")
         }
         .onTapGesture {
-            showingAlert = true
-            //            withAnimation {
-            //                deletionClosure()
-            //            }
+            //showingAlert = true
+                        withAnimation {
+                            deletionClosure()
+                        }
         }
-        .alert(isPresented:$showingAlert) {
-            Alert(
-                title: Text("Are you sure you want to delete this item?"),
-                primaryButton: .destructive(Text("Delete")) {
-                    withAnimation {
-                        deletionClosure()
-                    }
-                },
-                secondaryButton: .cancel()
-            )
-        }
+//        .alert(isPresented:$showingAlert) {
+//            Alert(
+//                title: Text("Are you sure you want to delete this item?"),
+//                primaryButton: .destructive(Text("Delete")) {
+//                    withAnimation {
+//                        deletionClosure()
+//                    }
+//                },
+//                secondaryButton: .cancel()
+//            )
+//        }
     }
 }
 
