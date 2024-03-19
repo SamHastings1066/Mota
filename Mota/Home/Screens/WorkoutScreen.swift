@@ -12,25 +12,12 @@ import SwiftData
 struct WorkoutScreen: View {
     
     @State var isAddSetPresented = false
-    //@State var workout: Workout //= Workout(supersets: [])
-    var workoutUUID: UUID
+    @State var workout: Workout //= Workout(supersets: [])
     @Environment(\.modelContext) private var context
-    @Query private var workouts: [Workout]
-    @State var workout: Workout = Workout(supersets: [])
-    
-    
-    init(workoutUUID: UUID) {
-        self.workoutUUID = workoutUUID
-        _workouts = Query(filter: #Predicate<Workout>{$0.id == workoutUUID})
-        if let firstWorkout = workouts.first {
-            workout = firstWorkout
-        }
-    }
-    
     
     var body: some View {
         NavigationStack {
-            SupersetListView()
+            SupersetListView(workoutUUID: workout.id)
             AddSetButton{ isAddSetPresented.toggle() }
                 .fullScreenCover(isPresented: $isAddSetPresented) { AddSetScreenCover() }
             .toolbar {
@@ -49,15 +36,18 @@ struct WorkoutScreen: View {
 
 struct SupersetListView: View {
     @Environment(Workout.self) var workout
+    var workoutUUID: UUID
     
-//    @Query private var superSets: [SuperSet]
-//    init() {
-//        _superSets = Query(filter: #Predicate<SuperSet>{$0.workout == self.workout}, sort: \SuperSet.timestamp, order: .forward)
-//    }
+    @Query private var superSets: [SuperSet]
+    init(workoutUUID: UUID) {
+        self.workoutUUID = workoutUUID
+        _superSets = Query(filter: #Predicate<SuperSet>{$0.workout?.id == workoutUUID}, sort: \SuperSet.timestamp, order: .forward)
+    }
     
     var body: some View {
         List {
-            ForEach(workout.orderedSuperSets) { superSet in
+            //ForEach(workout.orderedSuperSets) { superSet in
+            ForEach(superSets) { superSet in
                 SupersetView(superSet: superSet)
             }
             .onMove {

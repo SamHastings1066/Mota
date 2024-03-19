@@ -19,7 +19,7 @@ struct WorkoutListScreen: View {
             }
         }
         .fullScreenCover(item: $selectedWorkout) { workout in
-            WorkoutScreen(workoutUUID: workout.id)
+            WorkoutScreen(workout: workout)
         }
     }
 }
