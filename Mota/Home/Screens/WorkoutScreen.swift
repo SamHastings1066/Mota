@@ -10,34 +10,8 @@ import SwiftData
 
 
 struct WorkoutScreen: View {
-    
-    @State var isAddSetPresented = false
-    @State var workout: Workout //= Workout(supersets: [])
-    @Environment(\.modelContext) private var context
-    
-    var body: some View {
-        NavigationStack {
-            SupersetListView(workout: workout)
-            AddSetButton{ isAddSetPresented.toggle() }
-                .fullScreenCover(isPresented: $isAddSetPresented) { AddSetScreenCover() }
-            .toolbar {
-                ToolbarItemGroup(placement: .topBarTrailing) {
-                    SaveButton()
-                }
-                ToolbarItemGroup(placement: .topBarLeading) {
-                    CancelButton()
-                }
-            }
-        }
-        .onAppear{
-            context.insert(workout)
-        }
-        .environment(workout)
-    }
-}
-
-struct SupersetListView: View {
     @State var workout: Workout
+    @State var isAddSetPresented = false
     
     @Query private var superSets: [SuperSet]
     init(workout: Workout) {
@@ -59,6 +33,11 @@ struct SupersetListView: View {
                     workout.orderedSuperSets.move(fromOffsets: $0, toOffset: $1)
             }
         }
+        AddSetButton{ isAddSetPresented.toggle() }
+            .fullScreenCover(isPresented: $isAddSetPresented) {
+                AddSetScreenCover()
+                    .environment(workout)
+            }
     }
 }
 
@@ -125,6 +104,7 @@ struct AddSetButton: View {
     var buttonAction: () -> Void
     var body: some View {
         Button {
+            hideKeyboard()
             buttonAction()
         } label: {
             HStack{
@@ -152,6 +132,7 @@ struct ChevronButton: View {
                 .foregroundColor(.black)
         }
         .onTapGesture {
+            hideKeyboard()
             withAnimation{
                 buttonAction()
             }
@@ -169,6 +150,7 @@ struct EditButtonBespoke: View {
             Text( isEditting ? "Done" : "Edit")
         }
         .onTapGesture {
+            hideKeyboard()
             withAnimation{
                 buttonAction()
             }
@@ -186,6 +168,7 @@ struct DeleteItemButton: View {
             Image(systemName: "trash")
         }
         .onTapGesture {
+            hideKeyboard()
             //showingAlert = true
                         withAnimation {
                             deletionClosure()
@@ -202,35 +185,6 @@ struct DeleteItemButton: View {
 //                secondaryButton: .cancel()
 //            )
 //        }
-    }
-}
-
-struct SaveButton: View {
-    @Environment(Workout.self) var workout
-    @Environment(\.dismiss) private var dismiss
-    var body: some View {
-        //ToolbarItem(placement: .topBarTrailing) {
-            Button("Save") {
-                dismiss()
-            }
-            .disabled(workout.supersets.count < 1)
-            .padding(.trailing)
-        //}
-    }
-}
-
-struct CancelButton: View {
-    @Environment(Workout.self) var workout
-    @Environment(\.dismiss) private var dismiss
-    @Environment(\.modelContext) private var context
-    var body: some View {
-        //ToolbarItem(placement: .topBarTrailing) {
-            Button("Cancel") {
-                context.delete(workout)
-                dismiss()
-            }
-            .padding(.trailing)
-        //}
     }
 }
 
