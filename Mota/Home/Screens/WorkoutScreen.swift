@@ -28,7 +28,6 @@ struct WorkoutScreen: View {
                     CancelButton()
                 }
             }
-            .navigationTitle(workout.name)
         }
         .onAppear{
             context.insert(workout)
@@ -38,7 +37,7 @@ struct WorkoutScreen: View {
 }
 
 struct SupersetListView: View {
-    var workout: Workout
+    @State var workout: Workout
     
     @Query private var superSets: [SuperSet]
     init(workout: Workout) {
@@ -48,6 +47,9 @@ struct SupersetListView: View {
     }
     
     var body: some View {
+        TextField("Workout name", text: $workout.name, axis: .vertical)
+            .font(.title)
+            .padding(.leading)
         List {
             ForEach(superSets) { superSet in
                 SupersetView(superSet: superSet)
