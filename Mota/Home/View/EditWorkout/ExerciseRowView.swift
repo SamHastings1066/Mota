@@ -32,13 +32,13 @@ struct ExerciseRowView: View {
 
 
 
-#Preview {
-    Group {
-        ExerciseRowView(exercise: databaseExercises[0])
-        ExerciseRowView(exercise: databaseExercises[4])
-        
-    }
-    
-}
+//#Preview {
+//    Group {
+//        ExerciseRowView(exercise: databaseExercises[0])
+//        ExerciseRowView(exercise: databaseExercises[4])
+//        
+//    }
+//    
+//}
 
 

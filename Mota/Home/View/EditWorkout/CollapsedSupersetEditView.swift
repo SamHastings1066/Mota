@@ -11,6 +11,7 @@ struct CollapsedSupersetEditView: View {
     @Bindable var superSet: SuperSet
     @State var selectedSuperSet: SuperSet?
     @State var isAddExercisePresented = false
+    @Environment(\.modelContext) private var context
     var isEditable = true
     
     var body: some View {
@@ -22,6 +23,9 @@ struct CollapsedSupersetEditView: View {
                     ) {
                         superSet.removeExercise(superSet.consistentExercises[exerciseNumber])
                     }
+                }
+                .onChange(of: superSet.exerciseRounds) { oldValue, newValue in
+                    print("SUPERSET CHANGED")
                 }
                 if isEditable {
                     HStack {
@@ -52,11 +56,15 @@ struct CollapsedSupersetEditView: View {
                     .popover(item: $selectedSuperSet) { _ in
                         RearrangeExerceriseRoundsView(superSet: superSet)
                     }
+                    .onChange(of: selectedSuperSet, { _, _ in
+                        // TODO: this onChange is just a hack to cause a screen update after the `selectedSuperSet` is changed. Remove it if possible.
+                    })
                     .fullScreenCover(isPresented: $isAddExercisePresented)
                     {
                         NavigationStack {
                             AddExerciseView() { exercise in
-                                superSet.addExercise(exercise)
+                                context.insert(exercise)
+                                superSet.updateExerciseRound(with: exercise)
                                 isAddExercisePresented.toggle()
                             }
                             .navigationBarItems(
@@ -103,17 +111,20 @@ struct CollapsedSupersetEditView: View {
             .cornerRadius(10)
             .fixedSize(horizontal: true, vertical: false)
         }
+        .onAppear{
+            context.insert(superSet)
+        }
         .frame(maxWidth: .infinity)
     }
 }
 
-#Preview {
-    var dummySuperset = SuperSet(singleSets: [SingleSet(exercise: databaseExercises[0], weight: 50, reps: 5)], rest: 60, numRounds: 8)
-    return Group {
-        CollapsedSupersetEditView(superSet: dummySuperset, selectedSuperSet: nil, isAddExercisePresented: false, isEditable: false)
-        Text("Edit mode:")
-            .frame(maxWidth: .infinity, alignment: .leading)
-            .padding()
-        CollapsedSupersetEditView(superSet: dummySuperset, selectedSuperSet: nil, isAddExercisePresented: false, isEditable: true)
-    }
-}
+//#Preview {
+//    var dummySuperset = SuperSet(singleSets: [SingleSet(exercise: databaseExercises[0], weight: 50, reps: 5)], rest: 60, numRounds: 8)
+//    return Group {
+//        CollapsedSupersetEditView(superSet: dummySuperset, selectedSuperSet: nil, isAddExercisePresented: false, isEditable: false)
+//        Text("Edit mode:")
+//            .frame(maxWidth: .infinity, alignment: .leading)
+//            .padding()
+//        CollapsedSupersetEditView(superSet: dummySuperset, selectedSuperSet: nil, isAddExercisePresented: false, isEditable: true)
+//    }
+//}

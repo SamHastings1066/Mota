@@ -11,8 +11,8 @@ struct SingleSetRowView: View {
     var singleSet: SingleSet
     
     var imageName: String? {
-        if !singleSet.exercise.imageURLs.isEmpty {
-            return singleSet.exercise.imageURLs[0]
+        if !(singleSet.exercise?.imageURLs.isEmpty ?? false) {
+            return singleSet.exercise?.imageURLs[0]
         } else {
             return nil
         }
@@ -27,7 +27,7 @@ struct SingleSetRowView: View {
                 //.padding(.trailing)
             
             VStack(alignment: .center) {
-                Text(singleSet.exercise.name)
+                Text(singleSet.exercise?.name ?? "")
                     .font(.headline)
                 HStack{
                     VStack{
@@ -76,9 +76,9 @@ struct SafeImage: View {
     }
 }
 
-#Preview {
-    Group {
-        SingleSetRowView(singleSet: SingleSet(exercise: databaseExercises[0], weight: 0, reps: 8))
-        SingleSetRowView(singleSet: SingleSet(exercise: databaseExercises[7], weight: 60, reps: 10))
-    }
-}
+//#Preview {
+//    Group {
+//        SingleSetRowView(singleSet: SingleSet(exercise: databaseExercises[0], weight: 0, reps: 8))
+//        SingleSetRowView(singleSet: SingleSet(exercise: databaseExercises[7], weight: 60, reps: 10))
+//    }
+//}

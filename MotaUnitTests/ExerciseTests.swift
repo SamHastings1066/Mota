@@ -98,7 +98,7 @@ final class WhenCreatingExerciseObject: XCTestCase {
 }
 
 final class WhenUsingLoadFunction: XCTestCase {
-    
+    let databaseExercises = ExerciseDataLoader.shared.databaseExercises
     func testExerciseObjectExists() throws {
         XCTAssertEqual(databaseExercises[0].name, "3/4 Sit-Up")
         XCTAssertEqual(databaseExercises[0].mechanic, DatabaseExercise.Mechanic.compound)
