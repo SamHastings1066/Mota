@@ -17,7 +17,7 @@ struct WorkoutScreen: View {
     
     var body: some View {
         NavigationStack {
-            SupersetListView(workoutUUID: workout.id)
+            SupersetListView(workout: workout)
             AddSetButton{ isAddSetPresented.toggle() }
                 .fullScreenCover(isPresented: $isAddSetPresented) { AddSetScreenCover() }
             .toolbar {
@@ -38,25 +38,23 @@ struct WorkoutScreen: View {
 }
 
 struct SupersetListView: View {
-    //@Environment(Workout.self) var workout
-    var workoutUUID: UUID
+    var workout: Workout
     
     @Query private var superSets: [SuperSet]
-    init(workoutUUID: UUID) {
-        self.workoutUUID = workoutUUID
+    init(workout: Workout) {
+        self.workout = workout
+        let workoutUUID = workout.id
         _superSets = Query(filter: #Predicate<SuperSet>{$0.workout?.id == workoutUUID}, sort: \SuperSet.timestamp, order: .forward)
     }
     
     var body: some View {
         List {
-            //ForEach(workout.orderedSuperSets) { superSet in
             ForEach(superSets) { superSet in
                 SupersetView(superSet: superSet)
+                    .environment(workout)
             }
             .onMove {
-                if let workout = superSets[0].workout {
                     workout.orderedSuperSets.move(fromOffsets: $0, toOffset: $1)
-                }
             }
         }
     }

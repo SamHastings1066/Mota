@@ -15,20 +15,14 @@ struct WorkoutListScreen: View {
     
     var body: some View {
         NavigationStack {
-            
             List(workouts) { workout in
                 NavigationLink(value: workout) {
                     Text(workout.name)
                 }
             }
             .navigationDestination(for: Workout.self) { workout in
-                //WorkoutScreen(workout: workout)
-                
-                //SupersetListView(workoutUUID: workout.id)
-                Text("Test")
+                SupersetListView(workout: workout)
             }
-            
-            
             Button("Create workout") {
                 selectedWorkout = Workout(supersets: [])
                 if let selectedWorkout {
@@ -39,11 +33,6 @@ struct WorkoutListScreen: View {
                 WorkoutScreen(workout: workout)
             }
         }
-//        .onAppear{
-//            workouts.forEach { workout in
-//                context.insert(workout)
-//            }
-//        }
     }
 }
 
