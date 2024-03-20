@@ -16,7 +16,7 @@ struct HomeView: View {
         TabView {
             FeedView(viewModel: FeedViewModel(authService: viewModel.authService))
                 .tabItem {
-                    Label("Users", systemImage: "tray.and.arrow.down.fill")
+                    Label("Users", systemImage: "person.2.fill")
                 }
             WorkoutListScreen()
                 .tabItem {

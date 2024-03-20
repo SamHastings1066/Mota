@@ -40,6 +40,7 @@ struct WorkoutListScreen: View {
             } label: {
                 NavigationLink(value: newWorkout) {
                     Text("Create new workout")
+                        .padding()
                 }
             }
             .onAppear{

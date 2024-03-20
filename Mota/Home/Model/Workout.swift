@@ -248,7 +248,7 @@ class SuperSet: Identifiable, Hashable {
 extension SuperSet {
     func createExerciseRound(copying exerciseRound: ExerciseRound) -> ExerciseRound {
         // Create new SingleSet instances based on the ones in the existing ExerciseRound
-        let newSingleSets = exerciseRound.singleSets.map { singleSet -> SingleSet in
+        let newSingleSets = exerciseRound.orderedSingleSets.map { singleSet -> SingleSet in
             // Create a new SingleSet with the same values
             SingleSet(exercise: singleSet.exercise ?? ExerciseDataLoader.shared.databaseExercises[0], weight: singleSet.weight, reps: singleSet.reps)
         }

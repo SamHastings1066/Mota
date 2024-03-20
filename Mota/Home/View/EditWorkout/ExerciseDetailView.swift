@@ -13,7 +13,7 @@ struct ExerciseDetailView: View {
     
     
     var imageNames: [String?] {
-        if let databaseExercise = exercise as? DatabaseExercise, !databaseExercise.imageURLs.isEmpty {
+        if let databaseExercise = exercise, !databaseExercise.imageURLs.isEmpty {
             return [databaseExercise.imageURLs[0], databaseExercise.imageURLs[1]]
         } else {
             return [nil,nil]
@@ -21,7 +21,7 @@ struct ExerciseDetailView: View {
     }
     
     var body: some View {
-        if let exercise = exercise as? DatabaseExercise {
+        if let exercise = exercise {
             Text("\(exercise.name)")
                 .font(.title)
             exerciseAnimationView(imageNames: imageNames)
