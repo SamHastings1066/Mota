@@ -13,16 +13,31 @@ struct WorkoutListScreen: View {
     @Environment(\.modelContext) private var context
     @Query private var workouts: [Workout]
     
+    private func removeWorkout(at offsets: IndexSet) {
+        for offset in offsets {
+            let workout = workouts[offset]
+            context.delete(workout)
+        }
+    }
+    
     var body: some View {
         NavigationStack {
-            List(workouts) { workout in
-                NavigationLink(value: workout) {
-                    Text(workout.name)
+            List {
+               ForEach(workouts) { workout in
+                    NavigationLink(value: workout) {
+                        Text(workout.name)
+                    }
                 }
+               .onDelete(perform: removeWorkout)
             }
             .navigationDestination(for: Workout.self) { workout in
                 SupersetListView(workout: workout)
             }
+            .toolbar(content: {
+                ToolbarItem(placement: .topBarLeading) {
+                    EditButton()
+                }
+            })
             Button("Create workout") {
                 selectedWorkout = Workout(supersets: [])
                 if let selectedWorkout {
