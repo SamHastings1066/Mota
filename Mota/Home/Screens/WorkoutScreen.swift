@@ -10,6 +10,8 @@ import SwiftData
 
 
 struct WorkoutScreen: View {
+    @Environment(\.modelContext) private var context
+    
     @State var workout: Workout
     @State var isAddSetPresented = false
     
@@ -18,6 +20,13 @@ struct WorkoutScreen: View {
         self.workout = workout
         let workoutUUID = workout.id
         _superSets = Query(filter: #Predicate<SuperSet>{$0.workout?.id == workoutUUID}, sort: \SuperSet.timestamp, order: .forward)
+    }
+    
+    private func removeSuperSet(at offsets: IndexSet) {
+        for offset in offsets {
+            let superSet = superSets[offset]
+            context.delete(superSet)
+        }
     }
     
     var body: some View {
@@ -32,6 +41,7 @@ struct WorkoutScreen: View {
             .onMove {
                     workout.orderedSuperSets.move(fromOffsets: $0, toOffset: $1)
             }
+            .onDelete(perform: removeSuperSet)
         }
         AddSetButton{ isAddSetPresented.toggle() }
             .fullScreenCover(isPresented: $isAddSetPresented) {
@@ -52,11 +62,11 @@ struct SupersetView: View {
     var body: some View {
         VStack {
             HStack {
-                if isEditting {
-                    DeleteItemButton {
-                        workout.deleteSuperset(superSet)
-                    }
-                }
+//                if isEditting {
+//                    DeleteItemButton {
+//                        workout.deleteSuperset(superSet)
+//                    }
+//                }
                 Spacer()
                 ChevronButton(isChevronTapped: isExpanded) {isExpanded.toggle()}
                 Spacer()
