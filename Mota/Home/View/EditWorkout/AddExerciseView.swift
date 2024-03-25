@@ -45,11 +45,11 @@ struct AddExerciseView: View {
                         }
                         .tint(.blue)
                     }
-                    .sheet(item: $exerciseToBePresented) { exercise in
-                        ExerciseDetailView(exercise: exercise)
-                    }
                 }
             }
+        }
+        .sheet(item: $exerciseToBePresented) { exercise in
+            ExerciseDetailView(exercise: exercise)
         }
         .navigationTitle("Exercises")
     }

@@ -51,12 +51,11 @@ struct ChangeExerciseView: View {
                         }
                         .tint(.blue)
                     }
-                    .sheet(isPresented: $isInfoPresented) {
-                        ExerciseDetailView(exercise: exerciseToBePresented)
-                    }
-                    
                 }
             }
+        }
+        .sheet(isPresented: $isInfoPresented) {
+            ExerciseDetailView(exercise: exerciseToBePresented)
         }
         .navigationTitle("Exercises")
     }
