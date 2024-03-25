@@ -4,9 +4,9 @@
 
 ## Overview
 
-Mota is an iOS application that allows users to quickly create, modify and share workouts using a built-in exercise bank. The app uses the most modern developement approaches available for user interface (**SwiftUI**), data persistence (**SwiftData**), data management (**@Observable**, **@Bindable**, **@Environment**), architecture (**MV design pattern**) and testing (**mocks**, **page objects** and **custom test classes**). 
+Mota is an iOS application that allows users to quickly create, modify and share workouts using a built-in exercise bank. The app uses the most modern development approaches available for user interface (**SwiftUI**), data persistence (**SwiftData**), data management (**@Observable**, **@Bindable**, **@Environment**), architecture (**MV design pattern**) and testing (**mocks**, **page objects** and **custom test classes**). 
 
-The Model layer is built using a Test-Driven-Development (TDD) approach. User authorization is implemented using Firebase and the login flow is supported by automated UI-tests including both pure UI (independent of authorization service) and full end-to-end tests.  
+The Model layer is built using a Test-Driven-Development (TDD) approach. User authentication is implemented using Firebase and the login flow is supported by automated UI-tests including both pure UI (independent of authorization service) and full end-to-end tests.  
 
 ## Implementation details
 

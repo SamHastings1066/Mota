@@ -91,8 +91,9 @@ struct AddSetScreenCover: View {
             AddExerciseView() { exercise in
                 let newExerciseRound = ExerciseRound(singleSets: [SingleSet(exercise: exercise, weight: 0, reps: 0)])
                 let newSuperset = SuperSet(exerciseRounds: [newExerciseRound])
-                newSuperset.workout = workout
                 context.insert(newSuperset)
+                newSuperset.workout = workout
+                
                 workout.addSuperset(newSuperset)
                 dismiss()
             }
