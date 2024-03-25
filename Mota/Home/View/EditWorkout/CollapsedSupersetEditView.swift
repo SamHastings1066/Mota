@@ -57,7 +57,10 @@ struct CollapsedSupersetEditView: View {
                         RearrangeExerceriseRoundsView(superSet: superSet)
                     }
                     .onChange(of: selectedSuperSet, { _, _ in
-                        // TODO: this onChange is just a hack to cause a screen update after the `selectedSuperSet` is changed. Remove it if possible.
+                        // TODO: Change this approach. superSet is a Bindable, therefore changing it will not update the view. must use a change in the selectedSuperSet State var to update the view when the order of exercises change.
+                    })
+                    .onChange(of: isAddExercisePresented, { _, _ in
+                        // TODO: Change this approach. superSet is a Bindable, therefore changing it will not update the view. must use a change in the isAddExercisePresented State var to update the view when an exercise is added.
                     })
                     .fullScreenCover(isPresented: $isAddExercisePresented)
                     {

@@ -21,7 +21,6 @@ struct RearrangeExerceriseRoundsView: View {
                 .onMove {
                     superSet.exercisesForReordering.move(fromOffsets: $0, toOffset: $1)
                 }
-            
         }
     }
 }
