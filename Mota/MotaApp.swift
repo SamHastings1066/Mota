@@ -24,11 +24,7 @@ import SwiftData
 @main
 struct MotaApp: App {
     
-    //@State var authService: AuthenticationService = FirebaseAuthService()
-
-    //@State var authService: FirebaseAuthService = FirebaseAuthService()
     var authService: AuthenticationService
-    //var homeViewModel: HomeViewModel
     
     init() {
         FirebaseApp.configure()
@@ -61,12 +57,20 @@ struct MotaApp: App {
     
     var body: some Scene {
         WindowGroup {
-            if authService.currentUser != nil {
-                HomeView(viewModel: HomeViewModel(authService: authService))
-                //.environment(authService as? MockAuthService)
-            } else {
-                AuthenticationView(viewModel: LoginViewModel(authService: authService))
-            }
-        }.modelContainer(for: [Workout.self, SuperSet.self, DatabaseExercise.self])
+            content
+        }
+        .modelContainer(for: [Workout.self, SuperSet.self, DatabaseExercise.self])
+    }
+    
+    var content: AnyView {
+        switch authService.loggedIn {
+        case false:
+            return AnyView(AuthenticationView(viewModel: LoginViewModel(authService: authService)))
+        case true:
+            return AnyView(HomeView(viewModel: HomeViewModel(authService: authService)))
+        default:
+            // TODO: Create better loading screen. Possibly the Mota Icon?
+            return AnyView(Text("LOADING..."))
+        }
     }
 }
