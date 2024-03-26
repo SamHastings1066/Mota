@@ -116,6 +116,7 @@ struct EditableSingleSetRowCollapsedView: View {
             }
             
             SinglesetInfoView(name: exercise.name, reps: repsString, weight: weightString, isEditable: isEditable)
+                .frame(maxWidth: .infinity, alignment: .center)
             
             Spacer()
             

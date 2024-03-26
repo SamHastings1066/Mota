@@ -54,6 +54,7 @@ struct EditableSingleSetRowView: View {
             exerciseAnimationView(imageNames: imageNames)
                 .frame(width: 70, height: 70)
             SinglesetInfoView(name: exercise?.name ?? "", reps: repsString, weight: weightString, isEditable: isEditable)
+                .frame(maxWidth: .infinity, alignment: .center)
             Spacer()
         }
         .padding([.vertical, .leading], 10)

@@ -90,6 +90,7 @@ struct CollapsedSupersetEditView: View {
                         .font(.headline)
                     if isEditable {
                         TextField("", value: $superSet.numRounds, formatter: NumberFormatter())
+                            .fixedSize()
                             .textFieldStyle(RoundedBorderTextFieldStyle())
                             .keyboardType(.numberPad)
                     } else {
@@ -102,6 +103,7 @@ struct CollapsedSupersetEditView: View {
                         .font(.headline)
                     if isEditable {
                         TextField("", value: $superSet.consistentRest, formatter: NumberFormatter())
+                            .fixedSize()
                             .textFieldStyle(RoundedBorderTextFieldStyle())
                             .keyboardType(.numberPad)
                     } else {

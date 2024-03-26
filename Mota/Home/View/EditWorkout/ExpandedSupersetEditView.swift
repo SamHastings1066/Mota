@@ -24,6 +24,7 @@ struct ExpandedSupersetEditView: View {
                         .font(.headline)
                     if isEditable {
                         TextField("", value: $superSet.exerciseRounds[roundNumber].rest, formatter: NumberFormatter())
+                            .fixedSize()
                             .textFieldStyle(RoundedBorderTextFieldStyle())
                             .keyboardType(.numberPad)
                     } else {
