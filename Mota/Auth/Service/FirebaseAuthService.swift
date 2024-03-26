@@ -32,7 +32,8 @@ extension AppUser {
                 if self.firebaseUser != nil {
                     self.loggedIn = true
                     self.currentUser = AppUser(firebaseUser: self.firebaseUser!)
-                    print(self.loggedIn)
+                } else {
+                    self.loggedIn = false
                 }
             }
         }
