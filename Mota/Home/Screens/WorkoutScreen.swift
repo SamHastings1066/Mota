@@ -144,9 +144,9 @@ struct ChevronButton: View {
         }
         .onTapGesture {
             hideKeyboard()
-            withAnimation{
+            //withAnimation{
                 buttonAction()
-            }
+            //}
         }
     }
 }
