@@ -22,7 +22,7 @@ struct SingleSetRowView: View {
         HStack {
             
             // TODO: Add thumbnail image animating back and forth between the two images
-            SafeImage(imageName: imageName)
+            SafeImageView(imageName: imageName, fullSizeImageURL: nil)
                 .frame(width: 70, height: 70)
                 //.padding(.trailing)
             
@@ -55,26 +55,26 @@ struct SingleSetRowView: View {
     }
 }
 
-struct SafeImage: View {
-    let imageName: String?
-    var body: some View {
-        if let imageName = imageName {
-            if UIImage(named: imageName) != nil {
-                Image(imageName)
-                    .resizable()
-                    .scaledToFit()
-            } else {
-                Image(systemName: "figure.run.circle.fill")
-                    .resizable()
-                    .scaledToFit()
-            }
-        } else {
-            Image(systemName: "figure.run.circle.fill")
-                .resizable()
-                .scaledToFit()
-        }
-    }
-}
+//struct SafeImageView: View {
+//    let imageName: String?
+//    var body: some View {
+//        if let imageName = imageName {
+//            if UIImage(named: imageName) != nil {
+//                Image(imageName)
+//                    .resizable()
+//                    .scaledToFit()
+//            } else {
+//                Image(systemName: "figure.run.circle.fill")
+//                    .resizable()
+//                    .scaledToFit()
+//            }
+//        } else {
+//            Image(systemName: "figure.run.circle.fill")
+//                .resizable()
+//                .scaledToFit()
+//        }
+//    }
+//}
 
 //#Preview {
 //    Group {

@@ -19,7 +19,7 @@ struct ExerciseRowView: View {
     
     var body: some View {
         HStack {
-            SafeImage(imageName: imageName)
+            SafeImageView(imageName: imageName, fullSizeImageURL: nil)
                         .frame(width: 50, height: 50)
             Text(exercise.name)
             Spacer()

@@ -20,11 +20,23 @@ struct ExerciseDetailView: View {
         }
     }
     
+    var fullSizeImageURLs: [URL?] {
+        if let exercise {
+            let baseURLString = "https://dbdf01bxei1cc.cloudfront.net/exercisesCleaned/"
+            return [
+                URL(string: baseURLString + "\(exercise.imageURLs[0]).jpg"),
+                URL(string: baseURLString + "\(exercise.imageURLs[1]).jpg")
+            ]
+        } else {
+            return [nil, nil]
+        }
+    }
+    
     var body: some View {
         if let exercise = exercise {
             Text("\(exercise.name)")
                 .font(.title)
-            exerciseAnimationView(imageNames: imageNames)
+            exerciseAnimationView(imageNames: imageNames, fullSizeImageURLs: fullSizeImageURLs)
             Grid {
                 GridRow {
                     Text("Primary Muscle")
@@ -83,17 +95,21 @@ struct ExerciseDetailView: View {
 
 struct exerciseAnimationView: View {
     var imageNames: [String?]
+    var fullSizeImageURLs: [URL?]
     @State private var showFirstImage = true
     @State private var timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
     var body: some View {
         Group {
             if showFirstImage {
-                SafeImage(imageName: imageNames[0])
+                SafeImageView(imageName: imageNames[0], fullSizeImageURL: fullSizeImageURLs[0])
                     .transition(.opacity)
             } else {
-                SafeImage(imageName: imageNames[1])
+                SafeImageView(imageName: imageNames[1], fullSizeImageURL: fullSizeImageURLs[1])
                     .transition(.opacity)
             }
+        }
+        .onAppear{
+            print(fullSizeImageURLs)
         }
         .onReceive(timer) { _ in
             withAnimation(.easeInOut(duration: 0.5)) {

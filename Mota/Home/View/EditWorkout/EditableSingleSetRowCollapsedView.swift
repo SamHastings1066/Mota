@@ -74,7 +74,7 @@ struct EditableSingleSetRowCollapsedView: View {
                     Button(action: {
                         
                     }) {
-                        exerciseAnimationView(imageNames: imageNames)
+                        exerciseAnimationView(imageNames: imageNames, fullSizeImageURLs: [nil, nil])
                             .frame(width: 70, height: 70)
                     }
                     .onTapGesture {
@@ -103,7 +103,7 @@ struct EditableSingleSetRowCollapsedView: View {
                 Button {
                     
                 } label: {
-                    exerciseAnimationView(imageNames: imageNames)
+                    exerciseAnimationView(imageNames: imageNames, fullSizeImageURLs: [nil,nil])
                         .frame(width: 70, height: 70)
                 }
                 .onTapGesture {
