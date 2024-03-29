@@ -6,25 +6,53 @@
 //
 
 import SwiftUI
-import Combine
 
 @Observable
 class ImageLoader {
-    var image: Image? = nil
-    private var cancellable: AnyCancellable?
+    var image: UIImage?
 
-    func load(fromURL url: URL) {
-        let request = URLRequest(url: url, cachePolicy: .returnCacheDataElseLoad)
+    private var url: String
+    private var task: URLSessionDataTask?
 
-        cancellable = URLSession.shared.dataTaskPublisher(for: request)
-            .map { UIImage(data: $0.data) }
-            .map { $0.map(Image.init) }
-            .replaceError(with: nil)
-            .receive(on: DispatchQueue.main)
-            .sink(receiveValue: { [weak self] in self?.image = $0 })
+    init(url: String) {
+        self.url = url
+        loadImage()
     }
 
-    func cancel() {
-        cancellable?.cancel()
+    private func loadImage() {
+        if let cachedImage = ImageCache.shared.get(forKey: url) {
+            self.image = cachedImage
+            return
+        }
+
+        guard let url = URL(string: url) else { return }
+
+        task = URLSession.shared.dataTask(with: url) { data, response, error in
+            guard let data = data, error == nil else { return }
+
+            DispatchQueue.main.async {
+                let image = UIImage(data: data)
+                self.image = image
+                ImageCache.shared.set(image!, forKey: self.url)
+            }
+        }
+        task?.resume()
+    }
+}
+
+
+class ImageCache {
+    static let shared = ImageCache()
+
+    private let cache = NSCache<NSString, UIImage>()
+
+    private init() {}
+
+    func set(_ image: UIImage, forKey key: String) {
+        cache.setObject(image, forKey: key as NSString)
+    }
+
+    func get(forKey key: String) -> UIImage? {
+        return cache.object(forKey: key as NSString)
     }
 }

@@ -30,6 +30,9 @@ struct ChangeExerciseView: View {
     
     var body: some View {
         Text("Selected exercise: \(selectedExercise?.name ?? "")")
+            .onAppear{
+                print("ChangeExerciseView created")
+            }
         TextField(
             "Filter exercises",
             text: $filterString

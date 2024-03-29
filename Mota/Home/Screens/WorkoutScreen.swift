@@ -20,6 +20,9 @@ struct WorkoutScreen: View {
         self.workout = workout
         let workoutUUID = workout.id
         _superSets = Query(filter: #Predicate<SuperSet>{$0.workout?.id == workoutUUID}, sort: \SuperSet.timestamp, order: .forward)
+            
+        print("WorkoutScreen created")
+            
     }
     
     private func removeSuperSet(at offsets: IndexSet) {

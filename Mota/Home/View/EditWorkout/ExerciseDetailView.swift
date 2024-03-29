@@ -20,12 +20,16 @@ struct ExerciseDetailView: View {
         }
     }
     
-    var fullSizeImageURLs: [URL?] {
+    var fullSizeImageURLs: [String?] {
         if let exercise {
             let baseURLString = "https://dbdf01bxei1cc.cloudfront.net/exercisesCleaned/"
+//            return [
+//                URL(string: baseURLString + "\(exercise.imageURLs[0]).jpg"),
+//                URL(string: baseURLString + "\(exercise.imageURLs[1]).jpg")
+//            ]
             return [
-                URL(string: baseURLString + "\(exercise.imageURLs[0]).jpg"),
-                URL(string: baseURLString + "\(exercise.imageURLs[1]).jpg")
+                baseURLString + "\(exercise.imageURLs[0]).jpg",
+                baseURLString + "\(exercise.imageURLs[1]).jpg"
             ]
         } else {
             return [nil, nil]
@@ -95,7 +99,7 @@ struct ExerciseDetailView: View {
 
 struct exerciseAnimationView: View {
     var imageNames: [String?]
-    var fullSizeImageURLs: [URL?]
+    var fullSizeImageURLs: [String?]
     @State private var showFirstImage = true
     @State private var timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
     var body: some View {
@@ -107,9 +111,6 @@ struct exerciseAnimationView: View {
                 SafeImageView(imageName: imageNames[1], fullSizeImageURL: fullSizeImageURLs[1])
                     .transition(.opacity)
             }
-        }
-        .onAppear{
-            print(fullSizeImageURLs)
         }
         .onReceive(timer) { _ in
             withAnimation(.easeInOut(duration: 0.5)) {

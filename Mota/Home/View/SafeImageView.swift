@@ -9,28 +9,35 @@ import SwiftUI
 
 struct SafeImageView: View {
     let imageName: String?
-    let fullSizeImageURL: URL?
-    var imageLoader = ImageLoader()
+    let fullSizeImageURL: String?
+    //var imageLoader = ImageLoader()
     
     var body: some View {
-        AsyncImage(url: fullSizeImageURL) { phase in
-            switch phase {
-            case .empty:
-                thumbnailImage
-            case .success:
-                if let image = phase.image {
-                        image
-                        .resizable()
-                        .scaledToFit()
-                } else {
-                    thumbnailImage
-                }
-            case .failure:
-                thumbnailImage
-            @unknown default:
-                placeholderImage
-            }
-            
+        RemoteImage(url: fullSizeImageURL ?? "", imageName: imageName)
+    }
+    
+    
+}
+
+struct RemoteImage: View {
+    var imageLoader: ImageLoader
+    let imageName: String?
+    
+
+    init(url: String, imageName: String?) {
+        imageLoader = ImageLoader(url: url)
+        self.imageName = imageName
+    }
+
+    var body: some View {
+        if let image = imageLoader.image {
+            Image(uiImage: image)
+                .resizable()
+                .scaledToFit()
+                .frame(maxWidth: .infinity)
+        } else {
+            thumbnailImage
+                .frame(maxWidth: .infinity)
         }
     }
     
@@ -49,6 +56,7 @@ struct SafeImageView: View {
         Image(systemName: "figure.run.circle.fill")
             .resizable()
             .scaledToFit()
+            .frame(maxWidth: .infinity)
     }
 }
 
