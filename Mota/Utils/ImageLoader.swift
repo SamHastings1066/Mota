@@ -33,7 +33,7 @@ class ImageLoader {
             DispatchQueue.main.async {
                 let image = UIImage(data: data)
                 self.image = image
-                ImageCache.shared.set(image!, forKey: self.url)
+                //ImageCache.shared.set(image!, forKey: self.url)
             }
         }
         task?.resume()

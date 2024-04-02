@@ -59,17 +59,20 @@ struct SupersetView: View {
     @State private var isEditting = false
     @Bindable var superSet: SuperSet
     @Environment(Workout.self) var workout
+    var index: Int {
+        if let index = workout.orderedSuperSets.firstIndex(where: { $0.id == superSet.id }) {
+            return index
+        } else {
+            return 0
+        }
+    }
     
     @State private var offset = CGSize.zero
     
     var body: some View {
         VStack {
             HStack {
-//                if isEditting {
-//                    DeleteItemButton {
-//                        workout.deleteSuperset(superSet)
-//                    }
-//                }
+                Text("Set \(index)")
                 Spacer()
                 ChevronButton(isChevronTapped: isExpanded) {isExpanded.toggle()}
                 Spacer()
