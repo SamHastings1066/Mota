@@ -57,20 +57,21 @@ struct MotaApp: App {
     
     var body: some Scene {
         WindowGroup {
-            content
+            content()
         }
         .modelContainer(for: [Workout.self, SuperSet.self, DatabaseExercise.self])
     }
-    
-    var content: AnyView {
+        
+    @ViewBuilder
+    func content() -> some View {
         switch authService.loggedIn {
         case false:
-            return AnyView(AuthenticationView(viewModel: LoginViewModel(authService: authService)))
+            AuthenticationView(viewModel: LoginViewModel(authService: authService))
         case true:
-            return AnyView(HomeView(viewModel: HomeViewModel(authService: authService)))
+            HomeView(viewModel: HomeViewModel(authService: authService))
         default:
             // TODO: Create better loading screen. Possibly the Mota Icon?
-            return AnyView(Text("LOADING..."))
+            Text("LOADING...")
         }
     }
 }
