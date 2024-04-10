@@ -250,7 +250,7 @@ extension SuperSet {
         // Create new SingleSet instances based on the ones in the existing ExerciseRound
         let newSingleSets = exerciseRound.orderedSingleSets.map { singleSet -> SingleSet in
             // Create a new SingleSet with the same values
-            SingleSet(exercise: singleSet.exercise ?? ExerciseDataLoader.shared.databaseExercises[0], weight: singleSet.weight, reps: singleSet.reps)
+            SingleSet(exercise: singleSet.exercise ?? DatabaseExercise.sampleExercises[0], weight: singleSet.weight, reps: singleSet.reps)
         }
         // Create a new ExerciseRound with these new SingleSet instances
         let newExerciseRound = ExerciseRound(singleSets: newSingleSets, rest: exerciseRound.rest)

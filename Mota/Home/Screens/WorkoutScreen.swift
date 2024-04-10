@@ -72,7 +72,7 @@ struct SupersetView: View {
     var body: some View {
         VStack {
             HStack {
-                Text("Set \(index)")
+                Text("Set \(index + 1)")
                 Spacer()
                 ChevronButton(isChevronTapped: isExpanded) {isExpanded.toggle()}
                 Spacer()
