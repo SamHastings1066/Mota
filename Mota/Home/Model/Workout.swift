@@ -281,7 +281,7 @@ class ExerciseRound: Identifiable {
 @Model
 class SingleSet: Identifiable {
     var id = UUID()
-    @Relationship(deleteRule: .cascade, inverse: \DatabaseExercise.singleSet)
+    @Relationship(deleteRule: .noAction, inverse: \DatabaseExercise.singleSet)
     var exercise: DatabaseExercise?
     var weight: Int
     var reps: Int
