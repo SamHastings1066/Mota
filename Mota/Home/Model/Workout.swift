@@ -45,27 +45,49 @@ class Workout {
 /// `SuperSet` is a collection of exercise rounds.
 @Model
 class SuperSet: Identifiable, Hashable {
+    
+    // MARK: - Operators
+    
     static func == (lhs: SuperSet, rhs: SuperSet) -> Bool {
         lhs.id == rhs.id
     }
-    func hash(into hasher: inout Hasher) {
-        hasher.combine(id)
+    
+    // MARK: - Initializers
+    /// Initialize all superset parameters explicitly
+    init(exerciseRounds: [ExerciseRound]) {
+        self.exerciseRounds = exerciseRounds
     }
     
+    /// Initialise with one representative [SingleSet], a single rest time, and the number of rounds.
+    init(singleSets: [SingleSet], rest: Int, numRounds: Int) {
+        self.exerciseRounds = (0..<numRounds).map { _ in
+            var newSingleSets: [SingleSet] = []
+            singleSets.forEach { singleSet in
+                let newSingleSet = SingleSet(from: singleSet)
+                newSingleSets.append(newSingleSet)
+            }
+            let newExerciseRound = ExerciseRound(singleSets: newSingleSets, rest: rest)
+            return newExerciseRound
+        }
+    }
+    
+    // MARK: - Instance properties
+    
     var id = UUID()
+    var timestamp: Date = Date()
+    var workout: Workout?
     @Relationship(deleteRule: .cascade, inverse: \ExerciseRound.superSet)
     var exerciseRounds: [ExerciseRound] = []
     var orderedExerciseRounds: [ExerciseRound] {
         exerciseRounds.sorted{$0.timestamp < $1.timestamp}
     }
-    var workout: Workout?
-    var timestamp: Date = Date()
     
     
     var numRounds: Int {
         get {
             exerciseRounds.count
         }
+        // TODO: replace setter with changeNumRounds(to:) and then remove this setter
         set {
             guard !exerciseRounds.isEmpty else { return }
             guard newValue > 0 else { return }
@@ -79,6 +101,13 @@ class SuperSet: Identifiable, Hashable {
         }
     }
     
+    // TODO: implement this
+    /// Function to change the number of rounds to a given user input.
+    func changeNumRounds(to numRounds: Int) {
+        
+    }
+    
+    // TODO: Remove this once the functionality is covered by the view model
     /// `consistentRest`: Represents the rest period between exercise rounds within the superset.
     /// If all rounds have the same rest period, this property returns that common value.
     /// If the rest periods vary across rounds, it returns nil, indicating inconsistency.
@@ -92,15 +121,15 @@ class SuperSet: Identifiable, Hashable {
         }
     }
     
+    // TODO: Remove this once the functionality is covered by the view model
     /// `consistentExercises`: Retrieves an array of exercises from the first round of the superset.
     /// This array is used to ensure consistency in displayed exercises across all rounds.
     /// Setting this property updates all rounds to have the specified exercises, maintaining consistency.
     var consistentExercises: [DatabaseExercise] {
         get {
-//            let returnedExercises = exerciseRounds.first?.singleSets.map { $0.exercise ?? DatabaseExercise.placeholder } ?? []
-//            return returnedExercises.sorted{$0.timeStamp<$1.timeStamp}
             orderedExerciseRounds.first?.orderedSingleSets.map { $0.exercise ?? DatabaseExercise.placeholder } ?? []
         }
+        // TODO: This setter is covered by the addExercise() function
         set(newExercises) {
             guard newExercises.count == orderedExerciseRounds.first?.orderedSingleSets.count else { return }
             for (exerciseIndex, exercise) in newExercises.enumerated() {
@@ -109,10 +138,12 @@ class SuperSet: Identifiable, Hashable {
         }
     }
     
+    // TODO: Remove this once the functionality is covered by the view model
     var exercisesForReordering: [DatabaseExercise] {
         get {
             orderedExerciseRounds.first?.orderedSingleSets.map { $0.exercise ?? DatabaseExercise.placeholder } ?? []
         }
+        // TODO: Implement reoderExercises(to:) and then remove this functionality
         set(newExercises) {
             for round in orderedExerciseRounds {
                 newExercises.forEach { exercise in
@@ -123,6 +154,13 @@ class SuperSet: Identifiable, Hashable {
         }
     }
     
+    // TODO: Implement this
+    /// Changes the order of exercises in each exercise round to reflect the order of exercises in`exercises`.
+    func reoderExercises(to exercises: [DatabaseExercise]) {
+        
+    }
+    
+    // TODO: replace both the getter and setter with functionality in the new CollapsedRoundView view model, then remove this var
     /// `consistentWeights`: Calculates and returns an array of optional integers, where each element
     /// corresponds to a consistent weight used for the same exercise across all rounds.
     /// If a weight varies across rounds for an exercise, the corresponding element is nil.
@@ -156,6 +194,7 @@ class SuperSet: Identifiable, Hashable {
         }
     }
     
+    // TODO: replace both the getter and setter with functionality in the new CollapsedRoundView view model, then remove this var
     /// `consistentReps`: Similar to `consistentWeights`, this property calculates and returns an array of
     /// optional integers representing the number of repetitions for exercises across all rounds.
     /// An element is nil if the reps for an exercise vary across rounds.
@@ -190,25 +229,10 @@ class SuperSet: Identifiable, Hashable {
         }
     }
     
-    // TODO: Reduce Repetition: Current getters for consistentWeights and consistentReps iterate through all rounds for each single set to check for consistency. This can be optimized by consolidating the iteration logic, reducing redundancy.
-    // TODO: Use map Efficiently: When setting new values for weights, reps, or exercises, you can utilize map more effectively to
-
-    /// Initialize all superset parameters explicitly
-    init(exerciseRounds: [ExerciseRound]) {
-        self.exerciseRounds = exerciseRounds
-    }
+    // MARK: - Instance methods
     
-    /// Initialise with one representative [SingleSet], a single rest time, and the number of rounds.
-    init(singleSets: [SingleSet], rest: Int, numRounds: Int) {
-        self.exerciseRounds = (0..<numRounds).map { _ in
-            var newSingleSets: [SingleSet] = []
-            singleSets.forEach { singleSet in
-                let newSingleSet = SingleSet(from: singleSet)
-                newSingleSets.append(newSingleSet)
-            }
-            let newExerciseRound = ExerciseRound(singleSets: newSingleSets, rest: rest)
-            return newExerciseRound
-        }
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(id)
     }
     
     func removeExercise(_ exerciseToRemove: DatabaseExercise) {
@@ -242,10 +266,7 @@ class SuperSet: Identifiable, Hashable {
             exerciseRounds[roundIndex].singleSets.append(singleSetToAdd)
         }
     }
-
-}
-
-extension SuperSet {
+    
     func createExerciseRound(copying exerciseRound: ExerciseRound) -> ExerciseRound {
         // Create new SingleSet instances based on the ones in the existing ExerciseRound
         let newSingleSets = exerciseRound.orderedSingleSets.map { singleSet -> SingleSet in
@@ -256,6 +277,7 @@ extension SuperSet {
         let newExerciseRound = ExerciseRound(singleSets: newSingleSets, rest: exerciseRound.rest)
         return newExerciseRound
     }
+
 }
 
 /// `ExerciseRound` is a collection of single sets and the rest period following the completion of those single sets.

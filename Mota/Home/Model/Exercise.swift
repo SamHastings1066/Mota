@@ -217,19 +217,6 @@ extension DatabaseExercise {
 
 extension DatabaseExercise {
     static var placeholder: DatabaseExercise {
-//        return DatabaseExercise(
-//            id: "placeholder",
-//            name: "Placeholder Exercise",
-//            force: Force.pull,
-//            level: Level.beginner,
-//            mechanic: Mechanic.compound,
-//            equipment: Equipment.bands,
-//            primaryMuscles: [],
-//            secondaryMuscles: [],
-//            instructions: [],
-//            category: Category.cardio,
-//            images: []
-//        )
         return DatabaseExercise()
     }
 }
