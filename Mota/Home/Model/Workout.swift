@@ -14,7 +14,7 @@ class Workout {
     var id = UUID()
     var name: String = "New Workout"
     @Relationship(deleteRule: .cascade, inverse: \SuperSet.workout)
-    var supersets: [SuperSet] = []
+    var supersets: [SuperSet] //= []
     var orderedSuperSets: [SuperSet] {
         get {
             supersets.sorted{$0.timestamp < $1.timestamp}
@@ -26,7 +26,7 @@ class Workout {
         }
     }
     
-    init(supersets: [SuperSet]) {
+    init(supersets: [SuperSet] = []) {
         self.supersets = supersets
     }
     
@@ -48,18 +48,18 @@ class SuperSet: Identifiable, Hashable {
     
     // MARK: - Operators
     
-    static func == (lhs: SuperSet, rhs: SuperSet) -> Bool {
-        lhs.id == rhs.id
-    }
+//    static func == (lhs: SuperSet, rhs: SuperSet) -> Bool {
+//        lhs.id == rhs.id
+//    }
     
     // MARK: - Initializers
     /// Initialize all superset parameters explicitly
-    init(exerciseRounds: [ExerciseRound]) {
+    init(exerciseRounds: [ExerciseRound] = []) {
         self.exerciseRounds = exerciseRounds
     }
     
     /// Initialise with one representative [SingleSet], a single rest time, and the number of rounds.
-    init(singleSets: [SingleSet], rest: Int, numRounds: Int) {
+    init(singleSets: [SingleSet] = [], rest: Int = 0, numRounds: Int = 0) {
         self.exerciseRounds = (0..<numRounds).map { _ in
             var newSingleSets: [SingleSet] = []
             singleSets.forEach { singleSet in
@@ -77,7 +77,7 @@ class SuperSet: Identifiable, Hashable {
     var timestamp: Date = Date()
     var workout: Workout?
     @Relationship(deleteRule: .cascade, inverse: \ExerciseRound.superSet)
-    var exerciseRounds: [ExerciseRound] = []
+    var exerciseRounds: [ExerciseRound] //= []
     var orderedExerciseRounds: [ExerciseRound] {
         exerciseRounds.sorted{$0.timestamp < $1.timestamp}
     }
@@ -231,9 +231,9 @@ class SuperSet: Identifiable, Hashable {
     
     // MARK: - Instance methods
     
-    func hash(into hasher: inout Hasher) {
-        hasher.combine(id)
-    }
+//    func hash(into hasher: inout Hasher) {
+//        hasher.combine(id)
+//    }
     
     func removeExercise(_ exerciseToRemove: DatabaseExercise) {
         // Iterate through each ExerciseRound

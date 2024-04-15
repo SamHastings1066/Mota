@@ -19,6 +19,9 @@ struct WorkoutListScreen: View {
             context.delete(workout)
         }
     }
+    init() {
+        print("WorkoutListScreen created")
+    }
     
     var body: some View {
         NavigationStack {
