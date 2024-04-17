@@ -13,8 +13,9 @@ import SwiftData
 class Workout {
     var id = UUID()
     var name: String = "New Workout"
+    var timeStamp: Date = Date()
     @Relationship(deleteRule: .cascade, inverse: \SuperSet.workout)
-    var supersets: [SuperSet] //= []
+    var supersets: [SuperSet] = []
     var orderedSuperSets: [SuperSet] {
         get {
             supersets.sorted{$0.timestamp < $1.timestamp}

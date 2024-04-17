@@ -18,7 +18,8 @@ struct HomeView: View {
                 .tabItem {
                     Label("Users", systemImage: "person.2.fill")
                 }
-            WorkoutListScreen()
+            //WorkoutListScreen()
+            WorkoutListNewScreen()
                 .tabItem {
                     Label("Workouts", systemImage: "dumbbell.fill")
                 }
