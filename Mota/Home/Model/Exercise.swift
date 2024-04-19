@@ -36,7 +36,7 @@ class DatabaseExercise: Codable, Hashable, Identifiable {
     let instructions: [String]
     let category: Category
     let images: [String]
-    var singleSet: SingleSet?
+    //var singleSet: SingleSet?
     
     init() {
         id = UUID().uuidString
@@ -61,7 +61,7 @@ class DatabaseExercise: Codable, Hashable, Identifiable {
         self.instructions = exercise.instructions
         self.category = exercise.category
         self.images = exercise.images
-        self.singleSet = exercise.singleSet
+        //self.singleSet = exercise.singleSet
     }
 
     
@@ -126,6 +126,7 @@ class DatabaseExercise: Codable, Hashable, Identifiable {
     }
 }
 
+// TODO: Delete this
 extension DatabaseExercise {
     static var sampleExercises: [DatabaseExercise] {
         let jsonData = """
@@ -215,6 +216,7 @@ extension DatabaseExercise {
     }
 }
 
+// TODO: Delete this
 extension DatabaseExercise {
     static var placeholder: DatabaseExercise {
         return DatabaseExercise()

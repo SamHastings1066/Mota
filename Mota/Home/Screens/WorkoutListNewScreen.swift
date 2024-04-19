@@ -10,46 +10,90 @@ import SwiftData
 
 struct WorkoutListNewScreen: View {
     
-    @Query private var workouts: [Workout]
+    @Query private var workouts: [WorkoutNew]
     @Environment(\.modelContext) private var modelContext
-    @State private var path = [Workout]()
+    @State private var path = [WorkoutNew]()
+    @Query ( filter: #Predicate<DatabaseExercise> {
+        $0.id.localizedStandardContains("Barbell_Squat") ||
+        $0.id.localizedStandardContains("Barbell_Deadlift") ||
+        $0.id.localizedStandardContains("Barbell_Bench_Press_-_Medium_Grip") ||
+        $0.id.localizedStandardContains("Seated_Cable_Rows")
+        
+    }) var sampleExercises: [DatabaseExercise]
+    
     
     func addSampleWorkouts() {
-        let databaseExercises = DatabaseExercise.sampleExercises
+        let workout1 = WorkoutNew(
+            name: "Legs workout",
+            supersets: [
+                SupersetNew(
+                    rounds: [
+                        Round(singlesets: [SinglesetNew(exercise: sampleExercises[0], weight: 100, reps: 10), SinglesetNew(exercise: sampleExercises[1], weight: 90, reps: 15)]),
+                        Round(singlesets: [SinglesetNew(exercise: sampleExercises[0], weight: 100, reps: 10), SinglesetNew(exercise: sampleExercises[1], weight: 90, reps: 15)]),
+                        Round(singlesets: [SinglesetNew(exercise: sampleExercises[0], weight: 100, reps: 10), SinglesetNew(exercise: sampleExercises[1], weight: 90, reps: 15)]),
+                        Round(singlesets: [SinglesetNew(exercise: sampleExercises[0], weight: 100, reps: 10), SinglesetNew(exercise: sampleExercises[1], weight: 90, reps: 15)]),
+                        Round(singlesets: [SinglesetNew(exercise: sampleExercises[0], weight: 100, reps: 10), SinglesetNew(exercise: sampleExercises[1], weight: 90, reps: 15)]),
+                        Round(singlesets: [SinglesetNew(exercise: sampleExercises[0], weight: 100, reps: 10), SinglesetNew(exercise: sampleExercises[1], weight: 90, reps: 15)]),
+                        Round(singlesets: [SinglesetNew(exercise: sampleExercises[0], weight: 100, reps: 10), SinglesetNew(exercise: sampleExercises[1], weight: 90, reps: 15)]),
+                        Round(singlesets: [SinglesetNew(exercise: sampleExercises[0], weight: 100, reps: 10), SinglesetNew(exercise: sampleExercises[1], weight: 90, reps: 15)]),
+                        Round(singlesets: [SinglesetNew(exercise: sampleExercises[0], weight: 100, reps: 10), SinglesetNew(exercise: sampleExercises[1], weight: 90, reps: 15)]),
+                        Round(singlesets: [SinglesetNew(exercise: sampleExercises[0], weight: 100, reps: 10), SinglesetNew(exercise: sampleExercises[1], weight: 90, reps: 15)]),
+                        Round(singlesets: [SinglesetNew(exercise: sampleExercises[0], weight: 100, reps: 10), SinglesetNew(exercise: sampleExercises[1], weight: 90, reps: 15)]),
+                        Round(singlesets: [SinglesetNew(exercise: sampleExercises[0], weight: 100, reps: 10), SinglesetNew(exercise: sampleExercises[1], weight: 90, reps: 15)]),
+                        Round(singlesets: [SinglesetNew(exercise: sampleExercises[0], weight: 100, reps: 10), SinglesetNew(exercise: sampleExercises[1], weight: 90, reps: 15)]),
+                        Round(singlesets: [SinglesetNew(exercise: sampleExercises[0], weight: 100, reps: 10), SinglesetNew(exercise: sampleExercises[1], weight: 90, reps: 15)]),
+                        Round(singlesets: [SinglesetNew(exercise: sampleExercises[0], weight: 100, reps: 10), SinglesetNew(exercise: sampleExercises[1], weight: 90, reps: 15)]),
+                        Round(singlesets: [SinglesetNew(exercise: sampleExercises[0], weight: 100, reps: 10), SinglesetNew(exercise: sampleExercises[1], weight: 90, reps: 15)]),
+                        Round(singlesets: [SinglesetNew(exercise: sampleExercises[0], weight: 100, reps: 10), SinglesetNew(exercise: sampleExercises[1], weight: 90, reps: 15)]),
+                        Round(singlesets: [SinglesetNew(exercise: sampleExercises[0], weight: 100, reps: 10), SinglesetNew(exercise: sampleExercises[1], weight: 90, reps: 15)]),
+                        Round(singlesets: [SinglesetNew(exercise: sampleExercises[0], weight: 100, reps: 10), SinglesetNew(exercise: sampleExercises[1], weight: 90, reps: 15)]),
+                        Round(singlesets: [SinglesetNew(exercise: sampleExercises[0], weight: 100, reps: 10), SinglesetNew(exercise: sampleExercises[1], weight: 90, reps: 15)]),
+                        Round(singlesets: [SinglesetNew(exercise: sampleExercises[0], weight: 100, reps: 10), SinglesetNew(exercise: sampleExercises[1], weight: 90, reps: 15)]),
+                        Round(singlesets: [SinglesetNew(exercise: sampleExercises[0], weight: 100, reps: 10), SinglesetNew(exercise: sampleExercises[1], weight: 90, reps: 15)]),
+                        Round(singlesets: [SinglesetNew(exercise: sampleExercises[0], weight: 100, reps: 10), SinglesetNew(exercise: sampleExercises[1], weight: 90, reps: 15)]),
+                        Round(singlesets: [SinglesetNew(exercise: sampleExercises[0], weight: 100, reps: 10), SinglesetNew(exercise: sampleExercises[1], weight: 90, reps: 15)]),
+                        Round(singlesets: [SinglesetNew(exercise: sampleExercises[0], weight: 100, reps: 10), SinglesetNew(exercise: sampleExercises[1], weight: 90, reps: 15)]),
+                        Round(singlesets: [SinglesetNew(exercise: sampleExercises[0], weight: 100, reps: 10), SinglesetNew(exercise: sampleExercises[1], weight: 90, reps: 15)]),
+                        Round(singlesets: [SinglesetNew(exercise: sampleExercises[0], weight: 100, reps: 10), SinglesetNew(exercise: sampleExercises[1], weight: 90, reps: 15)]),
+                        Round(singlesets: [SinglesetNew(exercise: sampleExercises[0], weight: 100, reps: 10), SinglesetNew(exercise: sampleExercises[1], weight: 90, reps: 15)]),
+                        Round(singlesets: [SinglesetNew(exercise: sampleExercises[0], weight: 100, reps: 10), SinglesetNew(exercise: sampleExercises[1], weight: 90, reps: 15)]),
+                        Round(singlesets: [SinglesetNew(exercise: sampleExercises[0], weight: 100, reps: 10), SinglesetNew(exercise: sampleExercises[1], weight: 90, reps: 15)]),
+                        Round(singlesets: [SinglesetNew(exercise: sampleExercises[0], weight: 100, reps: 10), SinglesetNew(exercise: sampleExercises[1], weight: 90, reps: 15)]),
+                        Round(singlesets: [SinglesetNew(exercise: sampleExercises[0], weight: 100, reps: 10), SinglesetNew(exercise: sampleExercises[1], weight: 90, reps: 15)]),
+                        Round(singlesets: [SinglesetNew(exercise: sampleExercises[0], weight: 100, reps: 10), SinglesetNew(exercise: sampleExercises[1], weight: 90, reps: 15)]),
+                        Round(singlesets: [SinglesetNew(exercise: sampleExercises[0], weight: 100, reps: 10), SinglesetNew(exercise: sampleExercises[1], weight: 90, reps: 15)]),
+                        Round(singlesets: [SinglesetNew(exercise: sampleExercises[0], weight: 100, reps: 10), SinglesetNew(exercise: sampleExercises[1], weight: 90, reps: 15)]),
+                        Round(singlesets: [SinglesetNew(exercise: sampleExercises[0], weight: 100, reps: 10), SinglesetNew(exercise: sampleExercises[1], weight: 90, reps: 15)])
+                    ]
+                    
+                ),
+                SupersetNew(
+                    rounds: [
+                        Round(singlesets: [SinglesetNew(exercise: sampleExercises[2], weight: 10, reps: 20), SinglesetNew(exercise: sampleExercises[3], weight: 40, reps: 3)]),
+                        Round(singlesets: [SinglesetNew(exercise: sampleExercises[2], weight: 10, reps: 20), SinglesetNew(exercise: sampleExercises[3], weight: 40, reps: 3)])
+                    ]
+                )
+            ]
+        )
         
-        let set1Exercise0Weight100Reps5 =  SingleSet(exercise: databaseExercises[0], weight: 100, reps: 5)
-        let set2Exercise1Weight50Reps6 = SingleSet(exercise: databaseExercises[1], weight: 50, reps: 6)
-        let set3Exercise0Weight120Reps4 =  SingleSet(exercise: databaseExercises[0], weight: 120, reps: 4)
-//        modelContext.insert(set1Exercise0Weight100Reps5)
-//        modelContext.insert(set2Exercise1Weight50Reps6)
-//        modelContext.insert(set3Exercise0Weight120Reps4)
-//        let set4Exercise1Weight40Reps7 = SingleSet(exercise: databaseExercises[1], weight: 40, reps: 7)
-//        let set5Exercise0Weight100Reps11 =  SingleSet(exercise: DatabaseExercise.sampleExercises[0], weight: 100, reps: 11)
-//        let set6Exercise1Weight15Reps30 = SingleSet(exercise: DatabaseExercise.sampleExercises[1], weight: 15, reps: 30)
-//        let set7Exercise0Weight120Reps8 =  SingleSet(exercise: DatabaseExercise.sampleExercises[0], weight: 120, reps: 8)
-//        let set8Exercise1Weight30Reps9 = SingleSet(exercise: DatabaseExercise.sampleExercises[1], weight: 30, reps: 9)
-        
-        
-        let exerciseRound1 = ExerciseRound(singleSets: [set1Exercise0Weight100Reps5, set2Exercise1Weight50Reps6])
-        //modelContext.insert(exerciseRound1)
-        let superset1 = SuperSet(exerciseRounds: [exerciseRound1])
-        
-        
-        let workout1 = Workout(supersets: [superset1])
-        //superset1.workout = workout1
-        workout1.name = "Dummy workout"
-        
-        let exerciseRound2 = ExerciseRound(singleSets: [set3Exercise0Weight120Reps4])
-        let superset2 = SuperSet(exerciseRounds: [ExerciseRound](repeating: exerciseRound2, count: 10))
-        //let superset2 = SuperSet(exerciseRounds: [exerciseRound2])
-        let workout2 = Workout(supersets: [superset2])
-        workout2.name = "Dummy workout 2"
+        let workout2 = WorkoutNew(
+            name: "Arms workout",
+            supersets: [
+                SupersetNew(
+                    rounds: [
+                        Round(singlesets: [SinglesetNew(exercise: sampleExercises[0], weight: 100, reps: 10), SinglesetNew(exercise: sampleExercises[1], weight: 90, reps: 15)])
+                    ]
+                ),
+                SupersetNew(
+                    rounds: [
+                        Round(singlesets: [SinglesetNew(exercise: sampleExercises[2], weight: 10, reps: 20)]),
+                    ]
+                )
+            ]
+        )
         
         modelContext.insert(workout1)
         modelContext.insert(workout2)
-        
-        //superset1.workout = workout1 //causes error
-        
     }
     
     private func removeWorkout(_ offsets: IndexSet) {
@@ -60,7 +104,7 @@ struct WorkoutListNewScreen: View {
     }
     
     func addWorkout() {
-        let newWorkout = Workout()
+        let newWorkout = WorkoutNew()
         modelContext.insert(newWorkout)
         path = [newWorkout]
     }
@@ -77,7 +121,7 @@ struct WorkoutListNewScreen: View {
                 .onDelete(perform: removeWorkout)
             }
             .navigationTitle("Workout List")
-            .navigationDestination(for: Workout.self, destination: WorkoutNewScreen.init)
+            .navigationDestination(for: WorkoutNew.self, destination: WorkoutNewScreen.init)
             .toolbar {
                 Button("Add Samples", action: addSampleWorkouts)
                 Button("Add workout", systemImage: "plus", action: addWorkout)

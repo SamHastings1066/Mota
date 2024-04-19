@@ -12,6 +12,8 @@
 		842AD5AD2BD06BB3009DF530 /* ExpandedRoundNewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 842AD5AC2BD06BB3009DF530 /* ExpandedRoundNewView.swift */; };
 		842AD5AF2BD06BF9009DF530 /* ExpandedSinglesetNewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 842AD5AE2BD06BF9009DF530 /* ExpandedSinglesetNewView.swift */; };
 		842AD5B12BD06C0A009DF530 /* RestNewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 842AD5B02BD06C0A009DF530 /* RestNewView.swift */; };
+		842AD5B72BD08097009DF530 /* WorkoutNew.swift in Sources */ = {isa = PBXBuildFile; fileRef = 842AD5B62BD08097009DF530 /* WorkoutNew.swift */; };
+		842AD5B92BD080B9009DF530 /* SupersetNew.swift in Sources */ = {isa = PBXBuildFile; fileRef = 842AD5B82BD080B9009DF530 /* SupersetNew.swift */; };
 		842F8A452BA1D90B00A2FB3F /* MockContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 842F8A442BA1D90B00A2FB3F /* MockContainer.swift */; };
 		843C52CD2BA87C9800F72CE0 /* WorkoutListScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 843C52CC2BA87C9800F72CE0 /* WorkoutListScreen.swift */; };
 		843C52D12BAB43FD00F72CE0 /* View+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 843C52D02BAB43FD00F72CE0 /* View+Ext.swift */; };
@@ -99,6 +101,8 @@
 		842AD5AC2BD06BB3009DF530 /* ExpandedRoundNewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpandedRoundNewView.swift; sourceTree = "<group>"; };
 		842AD5AE2BD06BF9009DF530 /* ExpandedSinglesetNewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpandedSinglesetNewView.swift; sourceTree = "<group>"; };
 		842AD5B02BD06C0A009DF530 /* RestNewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestNewView.swift; sourceTree = "<group>"; };
+		842AD5B62BD08097009DF530 /* WorkoutNew.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutNew.swift; sourceTree = "<group>"; };
+		842AD5B82BD080B9009DF530 /* SupersetNew.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SupersetNew.swift; sourceTree = "<group>"; };
 		842F8A442BA1D90B00A2FB3F /* MockContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockContainer.swift; sourceTree = "<group>"; };
 		843C52CC2BA87C9800F72CE0 /* WorkoutListScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutListScreen.swift; sourceTree = "<group>"; };
 		843C52D02BAB43FD00F72CE0 /* View+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+Ext.swift"; sourceTree = "<group>"; };
@@ -453,6 +457,8 @@
 				84C5AD1C2B69635B0002AAE3 /* Exercise.swift */,
 				847E349E2B6A8F890004864D /* ExerciseData.swift */,
 				84DE65402B72784B009A9D40 /* Workout.swift */,
+				842AD5B62BD08097009DF530 /* WorkoutNew.swift */,
+				842AD5B82BD080B9009DF530 /* SupersetNew.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -622,12 +628,14 @@
 				84C5AD0F2B6822840002AAE3 /* FeedView.swift in Sources */,
 				8469DE772B5ADDC400D617D2 /* FirebaseAuthMock.swift in Sources */,
 				84C5AD112B6822F00002AAE3 /* FeedViewModel.swift in Sources */,
+				842AD5B72BD08097009DF530 /* WorkoutNew.swift in Sources */,
 				8469DE802B5AF6CC00D617D2 /* LoginViewModel.swift in Sources */,
 				842AD5A92BD06B85009DF530 /* SupersetNewView.swift in Sources */,
 				84C5AD132B68266C0002AAE3 /* WorkoutScreen.swift in Sources */,
 				84F2F05A2B83B28B00663BCA /* ChangeExerciseView.swift in Sources */,
 				84C5AD012B634A450002AAE3 /* FirebaseAuthService.swift in Sources */,
 				849472F12B98DB4100410885 /* ExpandedSupersetEditView.swift in Sources */,
+				842AD5B92BD080B9009DF530 /* SupersetNew.swift in Sources */,
 				843C52CD2BA87C9800F72CE0 /* WorkoutListScreen.swift in Sources */,
 				84ACF9D62B76EA9000DDB3F7 /* SingleSetRowView.swift in Sources */,
 				84C659C72B82906C001899DE /* EditableSingleSetRowView.swift in Sources */,

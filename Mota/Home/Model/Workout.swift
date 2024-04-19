@@ -77,7 +77,7 @@ class SuperSet: Identifiable, Hashable {
     var id = UUID()
     var timestamp: Date = Date()
     var workout: Workout?
-    @Relationship(deleteRule: .cascade, inverse: \ExerciseRound.superSet)
+    @Relationship(deleteRule: .cascade)//, inverse: \ExerciseRound.superSet)
     var exerciseRounds: [ExerciseRound] //= []
     var orderedExerciseRounds: [ExerciseRound] {
         exerciseRounds.sorted{$0.timestamp < $1.timestamp}
@@ -285,13 +285,13 @@ class SuperSet: Identifiable, Hashable {
 @Model
 class ExerciseRound: Identifiable {
     var id = UUID()
-    @Relationship(deleteRule: .cascade, inverse: \SingleSet.exerciseRound)
+    @Relationship(deleteRule: .cascade)//, inverse: \SingleSet.exerciseRound)
     var singleSets: [SingleSet] = []
     var orderedSingleSets: [SingleSet] {
         singleSets.sorted{$0.timestamp < $1.timestamp}
     }
     var rest: Int?
-    var superSet: SuperSet?
+    //var superSet: SuperSet?
     let timestamp: Date = Date()
     
     init(singleSets: [SingleSet], rest: Int? = nil) {
@@ -304,11 +304,11 @@ class ExerciseRound: Identifiable {
 @Model
 class SingleSet: Identifiable {
     var id = UUID()
-    @Relationship(deleteRule: .noAction, inverse: \DatabaseExercise.singleSet)
+    @Relationship(deleteRule: .noAction)//, inverse: \DatabaseExercise.singleSet)
     var exercise: DatabaseExercise?
     var weight: Int
     var reps: Int
-    var exerciseRound: ExerciseRound?
+    //var exerciseRound: ExerciseRound?
     var timestamp: Date = Date()
     init(exercise: DatabaseExercise, weight: Int, reps: Int) {
         self.exercise = exercise

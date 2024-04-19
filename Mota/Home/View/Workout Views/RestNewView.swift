@@ -8,11 +8,21 @@
 import SwiftUI
 
 struct RestNewView: View {
+    
+    @Binding var rest: Int
+    
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        VStack(alignment: .center) {
+            Text("Rest")
+                .font(.headline)
+            Text("\(rest)")
+        }
+        .padding( 10)
+        .background(Color(UIColor.systemGray5))
+        .cornerRadius(10)
     }
 }
 
 #Preview {
-    RestNewView()
+    RestNewView(rest: .constant(60))
 }

@@ -59,7 +59,7 @@ struct MotaApp: App {
         WindowGroup {
             content()
         }
-        .modelContainer(for: [Workout.self, SuperSet.self, DatabaseExercise.self]) { result in
+        .modelContainer(for: [Workout.self, SuperSet.self, DatabaseExercise.self, WorkoutNew.self]) { result in
             do {
                 let container = try result.get()
                 

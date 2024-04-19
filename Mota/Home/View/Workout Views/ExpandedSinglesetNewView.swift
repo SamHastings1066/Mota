@@ -8,11 +8,51 @@
 import SwiftUI
 
 struct ExpandedSinglesetNewView: View {
+    
+    @Bindable var singleset: SinglesetNew
+    
+    var imageName: String? {
+        if !(singleset.exercise?.imageURLs.isEmpty ?? false) {
+            return singleset.exercise?.imageURLs[0]
+        } else {
+            return nil
+        }
+    }
+    
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        HStack {
+            
+            SafeImageView(imageName: imageName, fullSizeImageURL: nil)
+                .frame(width: 70, height: 70)
+            
+            Grid {
+                Text(singleset.exercise?.name ?? "")
+                    .font(.headline)
+                GridRow {
+                    VStack {
+                        Text("Reps")
+                        
+                        Text("\(singleset.reps)")
+                        
+                    }
+                    VStack {
+                        Text("kgs")
+                        
+                        Text("\(singleset.weight)")
+                        
+                    }
+                }
+            }
+            Spacer()
+            
+            
+        }
+        .padding([.vertical, .leading], 10)
+        .background(Color(UIColor.systemGray5))
+        .cornerRadius(10)
     }
 }
 
 #Preview {
-    ExpandedSinglesetNewView()
+    ExpandedSinglesetNewView(singleset: SinglesetNew(exercise: DatabaseExercise.sampleExercises[2], weight: 10, reps: 20))
 }

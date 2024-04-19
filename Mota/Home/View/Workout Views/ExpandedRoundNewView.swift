@@ -8,11 +8,23 @@
 import SwiftUI
 
 struct ExpandedRoundNewView: View {
+    
+    @Bindable var round: Round
+    
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        ForEach(round.orderedSinglesets) { singleset in
+            ExpandedSinglesetNewView(singleset: singleset)
+        }
+        RestNewView(rest: $round.rest)
     }
 }
 
 #Preview {
-    ExpandedRoundNewView()
+    ExpandedRoundNewView(
+        round: Round(
+            singlesets: [
+                SinglesetNew(exercise: DatabaseExercise.sampleExercises[2], weight: 10, reps: 20)
+            ]
+        )
+    )
 }

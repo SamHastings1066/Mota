@@ -8,11 +8,60 @@
 import SwiftUI
 
 struct SupersetHeaderNewView: View {
+    @Binding var isExpanded: Bool
+    @Binding var isEditable: Bool
+    var index: Int
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        Grid {
+            GridRow {
+                Text("Set \(index + 1)")
+                Spacer()
+                ChevronButtonNew(isChevronTapped: isExpanded) {isExpanded.toggle()}
+                Spacer()
+                EditButtonBespokeNew(isEditable: isEditable) {isEditable.toggle()}
+            }
+        }
+    }
+}
+
+struct ChevronButtonNew: View {
+    var isChevronTapped: Bool
+    var buttonAction: () -> Void
+    var body: some View {
+        Button(action: {
+            
+        }) {
+            Image(systemName: isChevronTapped ? "chevron.up" : "chevron.down")
+                .resizable()
+                .scaledToFit()
+                .frame(width: 20, height: 20)
+                .foregroundColor(.black)
+        }
+        .onTapGesture {
+            hideKeyboard()
+                buttonAction()
+        }
+    }
+}
+
+struct EditButtonBespokeNew: View {
+    var isEditable: Bool
+    var buttonAction: () -> Void
+    var body: some View {
+        Button(action: {
+            
+        }) {
+            Text( isEditable ? "Done" : "Edit")
+        }
+        .onTapGesture {
+            hideKeyboard()
+            withAnimation{
+                buttonAction()
+            }
+        }
     }
 }
 
 #Preview {
-    SupersetHeaderNewView()
+    SupersetHeaderNewView(isExpanded: .constant(false), isEditable: .constant(false), index: 1)
 }
