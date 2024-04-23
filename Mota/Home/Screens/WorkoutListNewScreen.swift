@@ -76,8 +76,7 @@ struct WorkoutListNewScreen: View {
             ]
         )
         
-        let workout2 = WorkoutNew(
-            name: "Arms workout",
+        let workout2 = WorkoutNew(name: "Arms workout",
             supersets: [
                 SupersetNew(
                     rounds: [
@@ -91,6 +90,7 @@ struct WorkoutListNewScreen: View {
                 )
             ]
         )
+
         
         modelContext.insert(workout1)
         modelContext.insert(workout2)

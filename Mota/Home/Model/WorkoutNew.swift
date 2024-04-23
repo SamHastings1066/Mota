@@ -76,4 +76,12 @@ class SinglesetNew {
         self.weight = weight
         self.reps = reps
     }
+    
+    func updateWeight(_ weight: Int) {
+        self.weight = weight
+    }
+    
+    func updateReps(_ reps: Int) {
+        self.reps = reps
+    }
 }

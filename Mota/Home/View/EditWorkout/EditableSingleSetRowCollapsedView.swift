@@ -132,7 +132,7 @@ struct EditableSingleSetRowCollapsedView: View {
 //#Preview {
 // 
 //    Group {
-//        EditableSingleSetRowCollapsedView(exercise: .constant(databaseExercises[0]), weight: .constant(nil), reps: .constant(12))
-//        EditableSingleSetRowCollapsedView(exercise: .constant(databaseExercises[1]), weight: .constant(60), reps: .constant(10))
+//        EditableSingleSetRowCollapsedView(exercise: .constant(DatabaseExercise.sampleExercises[0]), weight: .constant(nil), reps: .constant(12))
+//        EditableSingleSetRowCollapsedView(exercise: .constant(DatabaseExercise.sampleExercises[1]), weight: .constant(60), reps: .constant(10))
 //    }
 //}

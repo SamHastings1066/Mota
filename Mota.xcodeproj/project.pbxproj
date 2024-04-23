@@ -14,6 +14,10 @@
 		842AD5B12BD06C0A009DF530 /* RestNewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 842AD5B02BD06C0A009DF530 /* RestNewView.swift */; };
 		842AD5B72BD08097009DF530 /* WorkoutNew.swift in Sources */ = {isa = PBXBuildFile; fileRef = 842AD5B62BD08097009DF530 /* WorkoutNew.swift */; };
 		842AD5B92BD080B9009DF530 /* SupersetNew.swift in Sources */ = {isa = PBXBuildFile; fileRef = 842AD5B82BD080B9009DF530 /* SupersetNew.swift */; };
+		842AD5BD2BD2C817009DF530 /* CollapsedRoundView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 842AD5BC2BD2C817009DF530 /* CollapsedRoundView.swift */; };
+		842AD5BF2BD2C833009DF530 /* CollapsedSinglesetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 842AD5BE2BD2C833009DF530 /* CollapsedSinglesetView.swift */; };
+		842AD5C12BD2C84C009DF530 /* CollapsedRoundInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 842AD5C02BD2C84C009DF530 /* CollapsedRoundInfoView.swift */; };
+		842AD5C32BD2C862009DF530 /* CollapsedRoundControlView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 842AD5C22BD2C862009DF530 /* CollapsedRoundControlView.swift */; };
 		842F8A452BA1D90B00A2FB3F /* MockContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 842F8A442BA1D90B00A2FB3F /* MockContainer.swift */; };
 		843C52CD2BA87C9800F72CE0 /* WorkoutListScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 843C52CC2BA87C9800F72CE0 /* WorkoutListScreen.swift */; };
 		843C52D12BAB43FD00F72CE0 /* View+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 843C52D02BAB43FD00F72CE0 /* View+Ext.swift */; };
@@ -103,6 +107,10 @@
 		842AD5B02BD06C0A009DF530 /* RestNewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestNewView.swift; sourceTree = "<group>"; };
 		842AD5B62BD08097009DF530 /* WorkoutNew.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutNew.swift; sourceTree = "<group>"; };
 		842AD5B82BD080B9009DF530 /* SupersetNew.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SupersetNew.swift; sourceTree = "<group>"; };
+		842AD5BC2BD2C817009DF530 /* CollapsedRoundView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollapsedRoundView.swift; sourceTree = "<group>"; };
+		842AD5BE2BD2C833009DF530 /* CollapsedSinglesetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollapsedSinglesetView.swift; sourceTree = "<group>"; };
+		842AD5C02BD2C84C009DF530 /* CollapsedRoundInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollapsedRoundInfoView.swift; sourceTree = "<group>"; };
+		842AD5C22BD2C862009DF530 /* CollapsedRoundControlView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollapsedRoundControlView.swift; sourceTree = "<group>"; };
 		842F8A442BA1D90B00A2FB3F /* MockContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockContainer.swift; sourceTree = "<group>"; };
 		843C52CC2BA87C9800F72CE0 /* WorkoutListScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutListScreen.swift; sourceTree = "<group>"; };
 		843C52D02BAB43FD00F72CE0 /* View+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+Ext.swift"; sourceTree = "<group>"; };
@@ -199,13 +207,33 @@
 		842AD5A72BD066AB009DF530 /* Workout Views */ = {
 			isa = PBXGroup;
 			children = (
+				842AD5BB2BD2C7FA009DF530 /* Collapsed View */,
+				842AD5BA2BD2C7E1009DF530 /* Expanded View */,
 				842AD5A82BD06B85009DF530 /* SupersetNewView.swift */,
 				842AD5AA2BD06B9C009DF530 /* SupersetHeaderNewView.swift */,
+			);
+			path = "Workout Views";
+			sourceTree = "<group>";
+		};
+		842AD5BA2BD2C7E1009DF530 /* Expanded View */ = {
+			isa = PBXGroup;
+			children = (
 				842AD5AC2BD06BB3009DF530 /* ExpandedRoundNewView.swift */,
 				842AD5AE2BD06BF9009DF530 /* ExpandedSinglesetNewView.swift */,
 				842AD5B02BD06C0A009DF530 /* RestNewView.swift */,
 			);
-			path = "Workout Views";
+			path = "Expanded View";
+			sourceTree = "<group>";
+		};
+		842AD5BB2BD2C7FA009DF530 /* Collapsed View */ = {
+			isa = PBXGroup;
+			children = (
+				842AD5BC2BD2C817009DF530 /* CollapsedRoundView.swift */,
+				842AD5BE2BD2C833009DF530 /* CollapsedSinglesetView.swift */,
+				842AD5C02BD2C84C009DF530 /* CollapsedRoundInfoView.swift */,
+				842AD5C22BD2C862009DF530 /* CollapsedRoundControlView.swift */,
+			);
+			path = "Collapsed View";
 			sourceTree = "<group>";
 		};
 		842F8A432BA1D8FC00A2FB3F /* Mocks */ = {
@@ -637,6 +665,7 @@
 				849472F12B98DB4100410885 /* ExpandedSupersetEditView.swift in Sources */,
 				842AD5B92BD080B9009DF530 /* SupersetNew.swift in Sources */,
 				843C52CD2BA87C9800F72CE0 /* WorkoutListScreen.swift in Sources */,
+				842AD5BD2BD2C817009DF530 /* CollapsedRoundView.swift in Sources */,
 				84ACF9D62B76EA9000DDB3F7 /* SingleSetRowView.swift in Sources */,
 				84C659C72B82906C001899DE /* EditableSingleSetRowView.swift in Sources */,
 				847E349F2B6A8F890004864D /* ExerciseData.swift in Sources */,
@@ -652,14 +681,17 @@
 				84C848432BCDDE5B00CA1611 /* WorkoutListNewScreen.swift in Sources */,
 				842AD5B12BD06C0A009DF530 /* RestNewView.swift in Sources */,
 				849472ED2B97C6F400410885 /* EditableSingleSetRowCollapsedView.swift in Sources */,
+				842AD5C12BD2C84C009DF530 /* CollapsedRoundInfoView.swift in Sources */,
 				843C52D12BAB43FD00F72CE0 /* View+Ext.swift in Sources */,
 				8469DE8F2B5C53C200D617D2 /* UserViewModel.swift in Sources */,
 				84DE65412B72784B009A9D40 /* Workout.swift in Sources */,
+				842AD5C32BD2C862009DF530 /* CollapsedRoundControlView.swift in Sources */,
 				84C5AD052B64657A0002AAE3 /* MockAuthService.swift in Sources */,
 				84DD2D9D2B600D1A00633123 /* PasswordSecureField.swift in Sources */,
 				842AD5AD2BD06BB3009DF530 /* ExpandedRoundNewView.swift in Sources */,
 				849472EF2B98D99F00410885 /* CollapsedSupersetEditView.swift in Sources */,
 				84C5AD0D2B65C9890002AAE3 /* String+Ext.swift in Sources */,
+				842AD5BF2BD2C833009DF530 /* CollapsedSinglesetView.swift in Sources */,
 				8469DE292B582E6900D617D2 /* MotaApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
