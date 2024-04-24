@@ -21,45 +21,44 @@ struct ExpandedSinglesetNewView: View {
     }
     
     var body: some View {
-        HStack {
-            
-            SafeImageView(imageName: imageName, fullSizeImageURL: nil)
-                .frame(width: 70, height: 70)
-            //Grid {
-            LazyVGrid(columns: [GridItem(.flexible())]) {
-                Text(singleset.exercise?.name ?? "")
-                    .font(.headline)
-                //GridRow {
-                HStack {
-                    VStack {
-                        Text("Reps")
-                        
-                        Text("\(singleset.reps)")
-//                        TextField("", value: $singleset.reps, formatter: NumberFormatter())
-//                            .fixedSize()
-//                            .textFieldStyle(RoundedBorderTextFieldStyle())
-//                            .keyboardType(.numberPad)
-                        
-                    }
-                    VStack {
-                        Text("kgs")
-                        
-                        Text("\(singleset.weight)")
-//                        TextField("", value: $singleset.weight, formatter: NumberFormatter())
-//                            .fixedSize()
-//                            .textFieldStyle(RoundedBorderTextFieldStyle())
-//                            .keyboardType(.numberPad)
-                        
+            HStack {
+
+                SafeImageView(imageName: imageName, fullSizeImageURL: nil)
+                    .frame(width: 70, height: 70)
+                Grid {
+                    Text(singleset.exercise?.name ?? "")
+                        .font(.headline)
+                    GridRow {
+                    //HStack {
+                        VStack {
+                            Text("Reps")
+
+                            Text("\(singleset.reps)")
+    //                        TextField("", value: $singleset.reps, formatter: NumberFormatter())
+    //                            .fixedSize()
+    //                            .textFieldStyle(RoundedBorderTextFieldStyle())
+    //                            .keyboardType(.numberPad)
+
+                        }
+                        VStack {
+                            Text("kgs")
+
+                            Text("\(singleset.weight)")
+    //                        TextField("", value: $singleset.weight, formatter: NumberFormatter())
+    //                            .fixedSize()
+    //                            .textFieldStyle(RoundedBorderTextFieldStyle())
+    //                            .keyboardType(.numberPad)
+
+                        }
                     }
                 }
+                Spacer()
+
+
             }
-            Spacer()
-            
-            
-        }
-        .padding([.vertical, .leading], 10)
-        .background(Color(UIColor.systemGray5))
-        .cornerRadius(10)
+            .padding([.vertical, .leading], 10)
+            .background(Color(UIColor.systemGray5))
+            .cornerRadius(10)
     }
 }
 
