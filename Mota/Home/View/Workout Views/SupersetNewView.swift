@@ -105,7 +105,6 @@ struct SupersetNewView: View {
     }
     
     var body: some View {
-        VStack {
             SupersetHeaderNewView(isExpanded: $isExpanded, isEditable: $isEditable, index: index)
             if isExpanded {
                 ForEach(superset.orderedRounds) { round in
@@ -119,7 +118,6 @@ struct SupersetNewView: View {
                 Text("Placeholder")
             }
             
-        }
     }
 }
 

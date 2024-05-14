@@ -236,20 +236,6 @@
 			path = "Collapsed View";
 			sourceTree = "<group>";
 		};
-		842AD5C62BD94D96009DF530 /* Core Data */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = "Core Data";
-			sourceTree = "<group>";
-		};
-		842AD5C72BD94DB0009DF530 /* Core Data */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = "Core Data";
-			sourceTree = "<group>";
-		};
 		842F8A432BA1D8FC00A2FB3F /* Mocks */ = {
 			isa = PBXGroup;
 			children = (
@@ -428,7 +414,6 @@
 		8469DE8D2B5C530A00D617D2 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				842AD5C72BD94DB0009DF530 /* Core Data */,
 				842AD5A72BD066AB009DF530 /* Workout Views */,
 				84C5AD162B6830320002AAE3 /* EditWorkout */,
 				8469DE892B5C510100D617D2 /* HomeView.swift */,
@@ -497,7 +482,6 @@
 		84C5AD1B2B6963490002AAE3 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				842AD5C62BD94D96009DF530 /* Core Data */,
 				84C5AD1C2B69635B0002AAE3 /* Exercise.swift */,
 				847E349E2B6A8F890004864D /* ExerciseData.swift */,
 				84DE65402B72784B009A9D40 /* Workout.swift */,
