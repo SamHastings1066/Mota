@@ -88,7 +88,10 @@ struct WorkoutListNewScreen: View {
                 .onDelete(perform: removeWorkout)
             }
             .navigationTitle("Workout List")
-            .navigationDestination(for: WorkoutNew.self, destination: WorkoutNewScreen.init)
+            .navigationDestination(for: WorkoutNew.self) { workout in
+                WorkoutNewScreen(workout: workout)
+            }
+                                   //, destination: WorkoutNewScreen.init)
             .toolbar {
                 Button("Add Samples", action: addSampleWorkouts)
                 Button("Add workout", systemImage: "plus", action: addWorkout)

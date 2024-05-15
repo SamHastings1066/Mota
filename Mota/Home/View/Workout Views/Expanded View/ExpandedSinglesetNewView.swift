@@ -12,18 +12,10 @@ struct ExpandedSinglesetNewView: View {
     
     @Bindable var singleset: SinglesetNew
     
-    var imageName: String? {
-        if !(singleset.exercise?.imageURLs.isEmpty ?? false) {
-            return singleset.exercise?.imageURLs[0]
-        } else {
-            return nil
-        }
-    }
-    
     var body: some View {
             HStack {
 
-                SafeImageView(imageName: imageName, fullSizeImageURL: nil)
+                SafeImageView(imageName: singleset.imageName, fullSizeImageURL: nil)
                     .frame(width: 70, height: 70)
                 Grid {
                     Text(singleset.exercise?.name ?? "")

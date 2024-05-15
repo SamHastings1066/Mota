@@ -21,6 +21,7 @@
 		842F8A452BA1D90B00A2FB3F /* MockContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 842F8A442BA1D90B00A2FB3F /* MockContainer.swift */; };
 		843C52CD2BA87C9800F72CE0 /* WorkoutListScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 843C52CC2BA87C9800F72CE0 /* WorkoutListScreen.swift */; };
 		843C52D12BAB43FD00F72CE0 /* View+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 843C52D02BAB43FD00F72CE0 /* View+Ext.swift */; };
+		844393672BF574E8007CAC76 /* EditSupersetScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844393662BF574E8007CAC76 /* EditSupersetScreen.swift */; };
 		8449E59E2B90F42100138CE8 /* RearrangeExerceriseRoundsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8449E59D2B90F42100138CE8 /* RearrangeExerceriseRoundsView.swift */; };
 		8469DE292B582E6900D617D2 /* MotaApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8469DE282B582E6900D617D2 /* MotaApp.swift */; };
 		8469DE2D2B582E6D00D617D2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8469DE2C2B582E6D00D617D2 /* Assets.xcassets */; };
@@ -114,6 +115,7 @@
 		842F8A442BA1D90B00A2FB3F /* MockContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockContainer.swift; sourceTree = "<group>"; };
 		843C52CC2BA87C9800F72CE0 /* WorkoutListScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutListScreen.swift; sourceTree = "<group>"; };
 		843C52D02BAB43FD00F72CE0 /* View+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+Ext.swift"; sourceTree = "<group>"; };
+		844393662BF574E8007CAC76 /* EditSupersetScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditSupersetScreen.swift; sourceTree = "<group>"; };
 		8449E59D2B90F42100138CE8 /* RearrangeExerceriseRoundsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RearrangeExerceriseRoundsView.swift; sourceTree = "<group>"; };
 		8469DE252B582E6900D617D2 /* Mota.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Mota.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8469DE282B582E6900D617D2 /* MotaApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MotaApp.swift; sourceTree = "<group>"; };
@@ -251,6 +253,7 @@
 				84C5AD122B68266C0002AAE3 /* WorkoutScreen.swift */,
 				84C848422BCDDE5B00CA1611 /* WorkoutListNewScreen.swift */,
 				84C848472BCEB3D700CA1611 /* WorkoutNewScreen.swift */,
+				844393662BF574E8007CAC76 /* EditSupersetScreen.swift */,
 			);
 			path = Screens;
 			sourceTree = "<group>";
@@ -666,6 +669,7 @@
 				842AD5B92BD080B9009DF530 /* SupersetNew.swift in Sources */,
 				843C52CD2BA87C9800F72CE0 /* WorkoutListScreen.swift in Sources */,
 				842AD5BD2BD2C817009DF530 /* CollapsedRoundView.swift in Sources */,
+				844393672BF574E8007CAC76 /* EditSupersetScreen.swift in Sources */,
 				84ACF9D62B76EA9000DDB3F7 /* SingleSetRowView.swift in Sources */,
 				84C659C72B82906C001899DE /* EditableSingleSetRowView.swift in Sources */,
 				847E349F2B6A8F890004864D /* ExerciseData.swift in Sources */,

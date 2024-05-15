@@ -15,12 +15,12 @@ struct CollapsedSinglesetView: View {
     var body: some View {
         HStack {
             
-//            SafeImageView(imageName: imageName, fullSizeImageURL: nil)
-//                .frame(width: 70, height: 70)
+            SafeImageView(imageName: collapsedSingleset.imageName, fullSizeImageURL: nil)
+                .frame(width: 70, height: 70)
             
             Grid {
-//                Text(singleset.exercise?.name ?? "")
-//                    .font(.headline)
+                Text(collapsedSingleset.exercise?.name ?? "")
+                    .font(.headline)
                 GridRow {
                     VStack {
                         Text("Reps")

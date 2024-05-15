@@ -27,6 +27,10 @@ class WorkoutNew {
         self.supersets = supersets
     }
     
+    func addSuperset(_ superset: SupersetNew) {
+        supersets.append(superset)
+    }
+    
 }
 
 @Model
@@ -70,7 +74,15 @@ class SinglesetNew {
     var weight: Int
     var reps: Int
     
-    init(timestamp: Date = Date(), exercise: DatabaseExercise = DatabaseExercise(), weight: Int = 0, reps: Int = 0) {
+    var imageName: String? {
+        if !(exercise?.imageURLs.isEmpty ?? false) {
+            return exercise?.imageURLs[0]
+        } else {
+            return nil
+        }
+    }
+    
+    init(timestamp: Date = Date(), exercise: DatabaseExercise? = DatabaseExercise(), weight: Int = 0, reps: Int = 0) {
         self.timestamp = timestamp
         self.exercise = exercise
         self.weight = weight
@@ -83,5 +95,9 @@ class SinglesetNew {
     
     func updateReps(_ reps: Int) {
         self.reps = reps
+    }
+    
+    func updateExercise(_ exercise: DatabaseExercise?) {
+        self.exercise = exercise
     }
 }

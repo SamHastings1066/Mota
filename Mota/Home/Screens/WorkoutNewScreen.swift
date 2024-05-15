@@ -10,7 +10,17 @@ import SwiftData
 
 struct WorkoutNewScreen: View {
     
+    @Environment(\.modelContext) private var context
     @Bindable var workout: WorkoutNew
+    @State var supersetToEdit: SupersetNew? = nil
+    
+    func addSuperSet() {
+        let newRound = Round(singlesets: [SinglesetNew(exercise: nil, weight: 0, reps: 0)])
+        let newSuperset = SupersetNew(rounds: [newRound])
+        context.insert(newSuperset)
+        workout.addSuperset(newSuperset)
+        supersetToEdit = newSuperset
+    }
     
     var body: some View {
         List {
@@ -18,8 +28,14 @@ struct WorkoutNewScreen: View {
                 SupersetNewView(superset: superset, orderedSupersets: workout.orderedSupersets)
             }
         }
-
-            .navigationTitle(workout.name)
+        .navigationTitle(workout.name)
+        .toolbar{
+            Button("Add superset", systemImage: "plus", action: addSuperSet)
+        }
+        .popover(item: $supersetToEdit) { superset in
+            EditSupersetScreen(superset: superset)
+        }
+            
     }
 }
 
@@ -45,8 +61,10 @@ struct WorkoutNewScreen: View {
         
         container.mainContext.insert(workout2)
         
-        return WorkoutNewScreen(workout: workout2)
-            .modelContainer(container)
+        return NavigationStack {
+            WorkoutNewScreen(workout: workout2)
+                .modelContainer(container)
+        }
     } catch {
         fatalError("Failed to create model container")
     }

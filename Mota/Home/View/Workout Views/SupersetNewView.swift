@@ -17,7 +17,7 @@ struct SupersetNewView: View {
     
     @State var collapsedSuperset: CollapsedSuperset
         
-    init(superset: SupersetNew, isExpanded: Bool = true, isEditable: Bool = false, orderedSupersets: [SupersetNew]) {
+    init(superset: SupersetNew, isExpanded: Bool = false, isEditable: Bool = false, orderedSupersets: [SupersetNew]) {
         self.superset = superset
         self.isExpanded = isExpanded
         self.isEditable = isEditable
@@ -38,9 +38,38 @@ struct SupersetNewView: View {
         var id = UUID()
         var superset: SupersetNew
         
-        // TODO: Clean this up
+        /// A collections of `CollapsedSingleset` objects. Each `CollapsedSingleset` has a stored property `singleSets` which is a collection the progressions of a specific `Singleset` through the rounds of a `Superset`
         var collapsedSinglesets: [CollapsedSingleset] {
             generateCollapsedSinglesets(from: superset.orderedRounds)
+        }
+        
+        var numRounds: Int {
+            get { superset.rounds.count }
+            set {
+                guard !superset.rounds.isEmpty else { return }
+                guard newValue > 0 else { return }
+                if newValue <= superset.rounds.count {
+                    superset.rounds = Array(superset.orderedRounds[..<newValue])
+                } else {
+                    for _ in superset.rounds.count..<newValue {
+                        superset.rounds.append(createRound(copying: superset.orderedRounds.last!))
+                    }
+                }
+            }
+        }
+        
+        var rest: Int? {
+            get {
+                let initialRest = superset.rounds[0].rest
+                return superset.rounds.allSatisfy({ $0.rest == initialRest }) ? initialRest : nil
+            }
+            set { 
+                if let newValue = newValue {
+                    for round in superset.rounds {
+                        round.rest = newValue
+                    }
+                }
+            }
         }
         
         init(superset: SupersetNew = SupersetNew()) {
@@ -75,6 +104,17 @@ struct SupersetNewView: View {
             
             return collapsedSinglesets
         }
+        
+        func createRound(copying round: Round) -> Round {
+            // Create new Singleset instances based on the ones in the existing Round
+            let newSinglesets = round.orderedSinglesets.map { singleSet -> SinglesetNew in
+                // Create a new Singleset with the same values
+                SinglesetNew(exercise: singleSet.exercise ?? DatabaseExercise.sampleExercises[0], weight: singleSet.weight, reps: singleSet.reps)
+            }
+            // Create a new Round with these new Singleset instances
+            let newRound = Round(singlesets: newSinglesets, rest: round.rest)
+            return newRound
+        }
 
     }
     
@@ -97,6 +137,21 @@ struct SupersetNewView: View {
             }
             set { for singleset in singlesets { singleset.updateReps(newValue) } }
         }
+        var exercise: DatabaseExercise? {
+            get {
+                let initialExercise = singlesets[0].exercise
+                return singlesets.allSatisfy({$0.exercise == initialExercise}) ? initialExercise : nil
+            }
+            set { for singleset in singlesets { singleset.updateExercise(newValue) }
+            }
+        }
+        var imageName: String? {
+            get {
+                let initialImageName = singlesets[0].imageName
+                return singlesets.allSatisfy({ $0.imageName == initialImageName }) ? initialImageName : nil
+            }
+        }
+        
     
         init( singlesets: [SinglesetNew] = []) {
             self.singlesets = singlesets
@@ -111,11 +166,15 @@ struct SupersetNewView: View {
                     ExpandedRoundNewView(round: round, isEditable: $isEditable)
                 }
             } else {
-
-                ForEach(collapsedSuperset.collapsedSinglesets) { collapsedSingleset in
-                    CollapsedSinglesetView(collapsedSingleset: collapsedSingleset)
+                HStack {
+                    VStack {
+                        ForEach(collapsedSuperset.collapsedSinglesets) { collapsedSingleset in
+                            CollapsedSinglesetView(collapsedSingleset: collapsedSingleset)
+                        }
+                    }
+                    CollapsedRoundInfoView(collapsedSuperset: $collapsedSuperset)
+                        .padding()
                 }
-                Text("Placeholder")
             }
             
     }
@@ -151,8 +210,8 @@ struct SupersetNewView: View {
         container.mainContext.insert(workout2)
         
         return Group {
-            SupersetNewView(superset: workout2.orderedSupersets[0], isExpanded: true, orderedSupersets: workout2.orderedSupersets)
-                .modelContainer(container)
+//            SupersetNewView(superset: workout2.orderedSupersets[0], isExpanded: true, orderedSupersets: workout2.orderedSupersets)
+//                .modelContainer(container)
             SupersetNewView(superset: workout2.orderedSupersets[0], isExpanded: false, orderedSupersets: workout2.orderedSupersets)
                 .modelContainer(container)
         }
