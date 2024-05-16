@@ -22,6 +22,8 @@
 		843C52CD2BA87C9800F72CE0 /* WorkoutListScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 843C52CC2BA87C9800F72CE0 /* WorkoutListScreen.swift */; };
 		843C52D12BAB43FD00F72CE0 /* View+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 843C52D02BAB43FD00F72CE0 /* View+Ext.swift */; };
 		844393672BF574E8007CAC76 /* EditSupersetScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844393662BF574E8007CAC76 /* EditSupersetScreen.swift */; };
+		844393692BF640C5007CAC76 /* CollapsedSuperset.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844393682BF640C5007CAC76 /* CollapsedSuperset.swift */; };
+		8443936B2BF64B37007CAC76 /* SelectExerciseScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8443936A2BF64B37007CAC76 /* SelectExerciseScreen.swift */; };
 		8449E59E2B90F42100138CE8 /* RearrangeExerceriseRoundsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8449E59D2B90F42100138CE8 /* RearrangeExerceriseRoundsView.swift */; };
 		8469DE292B582E6900D617D2 /* MotaApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8469DE282B582E6900D617D2 /* MotaApp.swift */; };
 		8469DE2D2B582E6D00D617D2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8469DE2C2B582E6D00D617D2 /* Assets.xcassets */; };
@@ -116,6 +118,8 @@
 		843C52CC2BA87C9800F72CE0 /* WorkoutListScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutListScreen.swift; sourceTree = "<group>"; };
 		843C52D02BAB43FD00F72CE0 /* View+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+Ext.swift"; sourceTree = "<group>"; };
 		844393662BF574E8007CAC76 /* EditSupersetScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditSupersetScreen.swift; sourceTree = "<group>"; };
+		844393682BF640C5007CAC76 /* CollapsedSuperset.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollapsedSuperset.swift; sourceTree = "<group>"; };
+		8443936A2BF64B37007CAC76 /* SelectExerciseScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectExerciseScreen.swift; sourceTree = "<group>"; };
 		8449E59D2B90F42100138CE8 /* RearrangeExerceriseRoundsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RearrangeExerceriseRoundsView.swift; sourceTree = "<group>"; };
 		8469DE252B582E6900D617D2 /* Mota.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Mota.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8469DE282B582E6900D617D2 /* MotaApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MotaApp.swift; sourceTree = "<group>"; };
@@ -254,6 +258,7 @@
 				84C848422BCDDE5B00CA1611 /* WorkoutListNewScreen.swift */,
 				84C848472BCEB3D700CA1611 /* WorkoutNewScreen.swift */,
 				844393662BF574E8007CAC76 /* EditSupersetScreen.swift */,
+				8443936A2BF64B37007CAC76 /* SelectExerciseScreen.swift */,
 			);
 			path = Screens;
 			sourceTree = "<group>";
@@ -490,6 +495,7 @@
 				84DE65402B72784B009A9D40 /* Workout.swift */,
 				842AD5B62BD08097009DF530 /* WorkoutNew.swift */,
 				842AD5B82BD080B9009DF530 /* SupersetNew.swift */,
+				844393682BF640C5007CAC76 /* CollapsedSuperset.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -658,6 +664,7 @@
 				84DD2D9B2B60086300633123 /* EmailTextField.swift in Sources */,
 				84C5AD0F2B6822840002AAE3 /* FeedView.swift in Sources */,
 				8469DE772B5ADDC400D617D2 /* FirebaseAuthMock.swift in Sources */,
+				844393692BF640C5007CAC76 /* CollapsedSuperset.swift in Sources */,
 				84C5AD112B6822F00002AAE3 /* FeedViewModel.swift in Sources */,
 				842AD5B72BD08097009DF530 /* WorkoutNew.swift in Sources */,
 				8469DE802B5AF6CC00D617D2 /* LoginViewModel.swift in Sources */,
@@ -679,6 +686,7 @@
 				842F8A452BA1D90B00A2FB3F /* MockContainer.swift in Sources */,
 				84C5AD1D2B69635B0002AAE3 /* Exercise.swift in Sources */,
 				8449E59E2B90F42100138CE8 /* RearrangeExerceriseRoundsView.swift in Sources */,
+				8443936B2BF64B37007CAC76 /* SelectExerciseScreen.swift in Sources */,
 				8469DE932B5D646E00D617D2 /* SignupView.swift in Sources */,
 				84EAF4292BB5C1A4002AC464 /* SafeImageView.swift in Sources */,
 				849472F32B99263A00410885 /* SinglesetInfoView.swift in Sources */,

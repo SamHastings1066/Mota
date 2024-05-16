@@ -10,7 +10,7 @@ import SwiftData
 
 struct CollapsedSinglesetView: View {
     
-    @Bindable var collapsedSingleset: SupersetNewView.CollapsedSingleset
+    @Bindable var collapsedSingleset: CollapsedSingleset
     
     var body: some View {
         HStack {
@@ -64,7 +64,7 @@ struct CollapsedSinglesetView: View {
         container.mainContext.insert(superset)
         
         
-        let collapsedSuperset = SupersetNewView.CollapsedSuperset(superset: superset)
+        let collapsedSuperset = CollapsedSuperset(superset: superset)
         
         return Group {
             CollapsedSinglesetView(collapsedSingleset: collapsedSuperset.collapsedSinglesets[0])

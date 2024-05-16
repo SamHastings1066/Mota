@@ -9,11 +9,40 @@ import SwiftUI
 import SwiftData
 
 struct EditSupersetScreen: View {
-    var superset: SupersetNew
+    var collapsedSuperset: CollapsedSuperset
     var body: some View {
-        //TODO: Create edit superset form
+        ForEach(collapsedSuperset.collapsedSinglesets) { collapsedSingleset in
+            Form {
+                Text(collapsedSingleset.exercise?.name ?? "No exercise")
+                SafeImageView(imageName: collapsedSingleset.imageName, fullSizeImageURL: nil)
+                    .frame(width: 70, height: 70)
+                HStack {
+                    Text("Reps:")
+                    TextField("Reps", value: Binding(get: {
+                        collapsedSingleset.reps
+                    }, set: { newValue in
+                        collapsedSingleset.reps = newValue
+                    }), formatter: NumberFormatter())
+                    .fixedSize()
+                    .textFieldStyle(RoundedBorderTextFieldStyle())
+                .keyboardType(.numberPad)
+                }
+                HStack {
+                    Text("Weight:")
+                    TextField("Weight", value: Binding(get: {
+                        collapsedSingleset.weight
+                    }, set: { newValue in
+                        collapsedSingleset.weight = newValue
+                    }), formatter: NumberFormatter())
+                    .fixedSize()
+                    .textFieldStyle(RoundedBorderTextFieldStyle())
+                .keyboardType(.numberPad)
+                }
+            }
+        }
         
-        Text("EditSupersetScreen")
+        
+        
     }
 }
 
@@ -22,12 +51,16 @@ struct EditSupersetScreen: View {
         let config = ModelConfiguration(isStoredInMemoryOnly: true)
         let container = try ModelContainer(for: WorkoutNew.self, configurations: config)
         
-        let superset = SupersetNew()
+        let superset = SupersetNew(
+            rounds: [
+                Round(singlesets: [SinglesetNew(exercise: DatabaseExercise.sampleExercises[0], weight: 100, reps: 10), SinglesetNew(exercise: DatabaseExercise.sampleExercises[1], weight: 90, reps: 15)])
+            ]
+        )
         
         container.mainContext.insert(superset)
         
         return NavigationStack {
-            EditSupersetScreen(superset: superset)
+            EditSupersetScreen(collapsedSuperset: CollapsedSuperset(superset:  superset))
                 .modelContainer(container)
         }
     } catch {

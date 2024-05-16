@@ -12,14 +12,17 @@ struct WorkoutNewScreen: View {
     
     @Environment(\.modelContext) private var context
     @Bindable var workout: WorkoutNew
-    @State var supersetToEdit: SupersetNew? = nil
+    @State private var isSelectInitialExercisePresented = false
+    @State var dummyExercise: DatabaseExercise?
+//    @State var collapsedSupersetToEdit: CollapsedSuperset? = nil
     
     func addSuperSet() {
         let newRound = Round(singlesets: [SinglesetNew(exercise: nil, weight: 0, reps: 0)])
         let newSuperset = SupersetNew(rounds: [newRound])
         context.insert(newSuperset)
         workout.addSuperset(newSuperset)
-        supersetToEdit = newSuperset
+        isSelectInitialExercisePresented = true
+//        collapsedSupersetToEdit = CollapsedSuperset(superset: newSuperset)
     }
     
     var body: some View {
@@ -32,9 +35,16 @@ struct WorkoutNewScreen: View {
         .toolbar{
             Button("Add superset", systemImage: "plus", action: addSuperSet)
         }
-        .popover(item: $supersetToEdit) { superset in
-            EditSupersetScreen(superset: superset)
-        }
+//        .fullScreenCover(isPresented: $isSelectInitialExercisePresented) {
+//            AddSetScreenCover()
+//                .environment(workout)
+//        }
+        .popover(isPresented: $isSelectInitialExercisePresented, content: {
+            SelectExerciseScreen(selectedExercise: $dummyExercise)
+        })
+//        .popover(item: $collapsedSupersetToEdit) { collapsedSuperset in
+//            EditSupersetScreen(collapsedSuperset: collapsedSuperset)
+//        }
             
     }
 }

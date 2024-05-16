@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct CollapsedRoundInfoView: View {
-    @Binding var collapsedSuperset: SupersetNewView.CollapsedSuperset
+    @Binding var collapsedSuperset: CollapsedSuperset
     var body: some View {
         VStack(alignment: .center){
             VStack {
