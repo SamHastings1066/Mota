@@ -14,3 +14,31 @@ extension View {
     }
 }
 #endif
+
+
+protocol ViewLogging {
+    func logViewName()
+}
+
+extension ViewLogging where Self: View {
+    func logViewName() {
+        print("\(Self.self) is created")
+    }
+}
+
+struct LoggerModifier: ViewModifier {
+    let viewName: String
+
+    func body(content: Content) -> some View {
+        content
+            .onAppear {
+                print("\(viewName) is created")
+            }
+    }
+}
+
+extension View {
+    func logCreation() -> some View {
+        modifier(LoggerModifier(viewName: "\(type(of: self))"))
+    }
+}

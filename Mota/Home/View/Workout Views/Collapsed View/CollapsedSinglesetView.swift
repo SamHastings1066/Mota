@@ -17,6 +17,7 @@ struct CollapsedSinglesetView: View {
             
             SafeImageView(imageName: collapsedSingleset.imageName, fullSizeImageURL: nil)
                 .frame(width: 70, height: 70)
+                .logCreation()
             
             Grid {
                 Text(collapsedSingleset.exercise?.name ?? "")

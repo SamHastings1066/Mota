@@ -16,8 +16,10 @@ struct ExpandedRoundNewView: View {
     var body: some View {
         ForEach(round.orderedSinglesets) { singleset in
             ExpandedSinglesetNewView(singleset: singleset)
+                .logCreation()
         }
         RestNewView(rest: $round.rest, isEditable: $isEditable)
+            .logCreation()
     }
 }
 

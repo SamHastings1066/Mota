@@ -5,39 +5,39 @@
 //  Created by sam hastings on 19/04/2024.
 //
 
-import SwiftUI
-import SwiftData
-
-struct CollapsedRoundView: View {
-    
-    @Bindable var round: Round
-    
-    var body: some View {
-        Text("Collapsed round view")
-    }
-}
-
-#Preview {
-    do {
-        let config = ModelConfiguration(isStoredInMemoryOnly: true)
-        let container = try ModelContainer(for: WorkoutNew.self, configurations: config)
-        
-        let round = Round(
-            singlesets: [
-                SinglesetNew(exercise: DatabaseExercise.sampleExercises[0], weight: 100, reps: 10),
-                SinglesetNew(exercise: DatabaseExercise.sampleExercises[1], weight: 90, reps: 15)
-            ],
-            rest: 60
-        )
-        
-        container.mainContext.insert(round)
-        
-        return CollapsedRoundView(round: round)
-            .modelContainer(container)
-    } catch {
-        fatalError("Failed to create model container")
-    }
-}
+//import SwiftUI
+//import SwiftData
+//
+//struct CollapsedRoundView: View {
+//    
+//    @Bindable var round: Round
+//    
+//    var body: some View {
+//        Text("Collapsed round view")
+//    }
+//}
+//
+//#Preview {
+//    do {
+//        let config = ModelConfiguration(isStoredInMemoryOnly: true)
+//        let container = try ModelContainer(for: WorkoutNew.self, configurations: config)
+//        
+//        let round = Round(
+//            singlesets: [
+//                SinglesetNew(exercise: DatabaseExercise.sampleExercises[0], weight: 100, reps: 10),
+//                SinglesetNew(exercise: DatabaseExercise.sampleExercises[1], weight: 90, reps: 15)
+//            ],
+//            rest: 60
+//        )
+//        
+//        container.mainContext.insert(round)
+//        
+//        return CollapsedRoundView(round: round)
+//            .modelContainer(container)
+//    } catch {
+//        fatalError("Failed to create model container")
+//    }
+//}
 
 
 //import SwiftUI

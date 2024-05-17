@@ -35,19 +35,23 @@ struct SupersetNewView: View {
     
     var body: some View {
             SupersetHeaderNewView(isExpanded: $isExpanded, isEditable: $isEditable, index: index)
+            .logCreation()
             if isExpanded {
                 ForEach(superset.orderedRounds) { round in
                     ExpandedRoundNewView(round: round, isEditable: $isEditable)
+                        .logCreation()
                 }
             } else {
                 HStack {
                     VStack {
                         ForEach(collapsedSuperset.collapsedSinglesets) { collapsedSingleset in
                             CollapsedSinglesetView(collapsedSingleset: collapsedSingleset)
+                                .logCreation()
                         }
                     }
                     CollapsedRoundInfoView(collapsedSuperset: $collapsedSuperset)
                         .padding()
+                        .logCreation()
                 }
             }
             
