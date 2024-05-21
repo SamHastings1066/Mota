@@ -32,16 +32,18 @@ struct WorkoutNewScreen: View {
         }
         .navigationTitle(workout.name)
         .toolbar{
-            Button("Add superset", systemImage: "plus") {
+            Button("Add Set") {
                 isSelectInitialExercisePresented = true
             }
         }
-        .sheet(isPresented: $isSelectInitialExercisePresented,
+        .fullScreenCover(isPresented: $isSelectInitialExercisePresented,
                onDismiss: {
-            addSuperSet(with: selectedExercise)
+            if selectedExercise != nil {
+                addSuperSet(with: selectedExercise)
+            }
         },
                content: {
-            SelectExerciseScreen(selectedExercise: $selectedExercise)
+                SelectExerciseScreen(selectedExercise: $selectedExercise)
         })
         
         
