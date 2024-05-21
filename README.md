@@ -1,4 +1,4 @@
-# SetSwiftUI
+# Mota
 
 ![Usage gif](usage.gif)
 
