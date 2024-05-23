@@ -175,35 +175,7 @@ struct EditButtonBespoke: View {
     }
 }
 
-struct DeleteItemButton: View {
-    @State private var showingAlert = false
-    var deletionClosure: () -> Void
-    var body: some View {
-        Button {
-            //
-        } label: {
-            Image(systemName: "trash")
-        }
-        .onTapGesture {
-            hideKeyboard()
-            //showingAlert = true
-                        withAnimation {
-                            deletionClosure()
-                        }
-        }
-//        .alert(isPresented:$showingAlert) {
-//            Alert(
-//                title: Text("Are you sure you want to delete this item?"),
-//                primaryButton: .destructive(Text("Delete")) {
-//                    withAnimation {
-//                        deletionClosure()
-//                    }
-//                },
-//                secondaryButton: .cancel()
-//            )
-//        }
-    }
-}
+
 
 //#Preview {
 //    WorkoutScreen(workout: Workout(supersets: []))

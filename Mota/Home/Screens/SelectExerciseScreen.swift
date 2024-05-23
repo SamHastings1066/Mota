@@ -39,8 +39,10 @@ struct SelectExerciseScreen: View {
     
     var body: some View {
         NavigationStack {
-            Text("Current selection: \(selectedExercise?.name ?? "None")")
-            .padding(.leading)
+            if let currentExerciseName = selectedExercise?.name {
+                Text("Current selection: \(currentExerciseName)")
+                    .padding(.leading)
+            }
             List {
                 ForEach(filteredExercises) { exercise in
                     Button {

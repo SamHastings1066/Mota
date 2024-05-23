@@ -45,9 +45,13 @@ struct SupersetNewView: View {
                 HStack {
                     VStack {
                         ForEach(collapsedSuperset.collapsedSinglesets) { collapsedSingleset in
-                            CollapsedSinglesetView(collapsedSingleset: collapsedSingleset)
+                            CollapsedSinglesetView(collapsedSingleset: collapsedSingleset){
+                                collapsedSuperset.removeSingleSet(collapsedSingleset)
+                                collapsedSuperset = CollapsedSuperset(superset: collapsedSuperset.superset)
+                            }
                                 .logCreation()
                         }
+                        CollapsedRoundControlView(collapsedSuperset: $collapsedSuperset)
                     }
                     CollapsedRoundInfoView(collapsedSuperset: $collapsedSuperset)
                         .padding()

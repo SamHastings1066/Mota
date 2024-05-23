@@ -11,13 +11,19 @@ import SwiftData
 struct CollapsedSinglesetView: View {
     
     @Bindable var collapsedSingleset: CollapsedSingleset
+    var removeSinglesetClosure: (() -> Void)?
     
     var body: some View {
         HStack {
             
-            SafeImageView(imageName: collapsedSingleset.imageName, fullSizeImageURL: nil)
-                .frame(width: 70, height: 70)
+            VStack {
+                SafeImageView(imageName: collapsedSingleset.imageName, fullSizeImageURL: nil)
+                    .frame(width: 70, height: 70)
                 .logCreation()
+                DeleteItemButton {
+                    removeSinglesetClosure?()
+                }
+            }
             
             Grid {
                 Text(collapsedSingleset.exercise?.name ?? "")

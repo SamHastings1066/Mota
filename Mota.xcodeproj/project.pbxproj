@@ -14,7 +14,6 @@
 		842AD5B12BD06C0A009DF530 /* RestNewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 842AD5B02BD06C0A009DF530 /* RestNewView.swift */; };
 		842AD5B72BD08097009DF530 /* WorkoutNew.swift in Sources */ = {isa = PBXBuildFile; fileRef = 842AD5B62BD08097009DF530 /* WorkoutNew.swift */; };
 		842AD5B92BD080B9009DF530 /* SupersetNew.swift in Sources */ = {isa = PBXBuildFile; fileRef = 842AD5B82BD080B9009DF530 /* SupersetNew.swift */; };
-		842AD5BD2BD2C817009DF530 /* CollapsedRoundView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 842AD5BC2BD2C817009DF530 /* CollapsedRoundView.swift */; };
 		842AD5BF2BD2C833009DF530 /* CollapsedSinglesetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 842AD5BE2BD2C833009DF530 /* CollapsedSinglesetView.swift */; };
 		842AD5C12BD2C84C009DF530 /* CollapsedRoundInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 842AD5C02BD2C84C009DF530 /* CollapsedRoundInfoView.swift */; };
 		842AD5C32BD2C862009DF530 /* CollapsedRoundControlView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 842AD5C22BD2C862009DF530 /* CollapsedRoundControlView.swift */; };
@@ -48,6 +47,7 @@
 		8469DE932B5D646E00D617D2 /* SignupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8469DE922B5D646E00D617D2 /* SignupView.swift */; };
 		8469DE952B5D6B0A00D617D2 /* AuthenticationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8469DE942B5D6B0A00D617D2 /* AuthenticationView.swift */; };
 		847E349F2B6A8F890004864D /* ExerciseData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 847E349E2B6A8F890004864D /* ExerciseData.swift */; };
+		849414272BFF751C00C95477 /* DeleteItemButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 849414262BFF751C00C95477 /* DeleteItemButton.swift */; };
 		849472ED2B97C6F400410885 /* EditableSingleSetRowCollapsedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 849472EC2B97C6F400410885 /* EditableSingleSetRowCollapsedView.swift */; };
 		849472EF2B98D99F00410885 /* CollapsedSupersetEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 849472EE2B98D99F00410885 /* CollapsedSupersetEditView.swift */; };
 		849472F12B98DB4100410885 /* ExpandedSupersetEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 849472F02B98DB4100410885 /* ExpandedSupersetEditView.swift */; };
@@ -110,7 +110,6 @@
 		842AD5B02BD06C0A009DF530 /* RestNewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestNewView.swift; sourceTree = "<group>"; };
 		842AD5B62BD08097009DF530 /* WorkoutNew.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutNew.swift; sourceTree = "<group>"; };
 		842AD5B82BD080B9009DF530 /* SupersetNew.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SupersetNew.swift; sourceTree = "<group>"; };
-		842AD5BC2BD2C817009DF530 /* CollapsedRoundView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollapsedRoundView.swift; sourceTree = "<group>"; };
 		842AD5BE2BD2C833009DF530 /* CollapsedSinglesetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollapsedSinglesetView.swift; sourceTree = "<group>"; };
 		842AD5C02BD2C84C009DF530 /* CollapsedRoundInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollapsedRoundInfoView.swift; sourceTree = "<group>"; };
 		842AD5C22BD2C862009DF530 /* CollapsedRoundControlView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollapsedRoundControlView.swift; sourceTree = "<group>"; };
@@ -143,6 +142,7 @@
 		8469DE922B5D646E00D617D2 /* SignupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignupView.swift; sourceTree = "<group>"; };
 		8469DE942B5D6B0A00D617D2 /* AuthenticationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationView.swift; sourceTree = "<group>"; };
 		847E349E2B6A8F890004864D /* ExerciseData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseData.swift; sourceTree = "<group>"; };
+		849414262BFF751C00C95477 /* DeleteItemButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteItemButton.swift; sourceTree = "<group>"; };
 		849472EC2B97C6F400410885 /* EditableSingleSetRowCollapsedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditableSingleSetRowCollapsedView.swift; sourceTree = "<group>"; };
 		849472EE2B98D99F00410885 /* CollapsedSupersetEditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollapsedSupersetEditView.swift; sourceTree = "<group>"; };
 		849472F02B98DB4100410885 /* ExpandedSupersetEditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpandedSupersetEditView.swift; sourceTree = "<group>"; };
@@ -213,6 +213,7 @@
 		842AD5A72BD066AB009DF530 /* Workout Views */ = {
 			isa = PBXGroup;
 			children = (
+				849414212BFF74DC00C95477 /* Component Views */,
 				842AD5BB2BD2C7FA009DF530 /* Collapsed View */,
 				842AD5BA2BD2C7E1009DF530 /* Expanded View */,
 				842AD5A82BD06B85009DF530 /* SupersetNewView.swift */,
@@ -234,7 +235,6 @@
 		842AD5BB2BD2C7FA009DF530 /* Collapsed View */ = {
 			isa = PBXGroup;
 			children = (
-				842AD5BC2BD2C817009DF530 /* CollapsedRoundView.swift */,
 				842AD5BE2BD2C833009DF530 /* CollapsedSinglesetView.swift */,
 				842AD5C02BD2C84C009DF530 /* CollapsedRoundInfoView.swift */,
 				842AD5C22BD2C862009DF530 /* CollapsedRoundControlView.swift */,
@@ -430,6 +430,14 @@
 				84EAF4282BB5C1A4002AC464 /* SafeImageView.swift */,
 			);
 			path = View;
+			sourceTree = "<group>";
+		};
+		849414212BFF74DC00C95477 /* Component Views */ = {
+			isa = PBXGroup;
+			children = (
+				849414262BFF751C00C95477 /* DeleteItemButton.swift */,
+			);
+			path = "Component Views";
 			sourceTree = "<group>";
 		};
 		84C5ACF82B61858D0002AAE3 /* Utils */ = {
@@ -664,6 +672,7 @@
 				84DD2D9B2B60086300633123 /* EmailTextField.swift in Sources */,
 				84C5AD0F2B6822840002AAE3 /* FeedView.swift in Sources */,
 				8469DE772B5ADDC400D617D2 /* FirebaseAuthMock.swift in Sources */,
+				849414272BFF751C00C95477 /* DeleteItemButton.swift in Sources */,
 				844393692BF640C5007CAC76 /* CollapsedSuperset.swift in Sources */,
 				84C5AD112B6822F00002AAE3 /* FeedViewModel.swift in Sources */,
 				842AD5B72BD08097009DF530 /* WorkoutNew.swift in Sources */,
@@ -675,7 +684,6 @@
 				849472F12B98DB4100410885 /* ExpandedSupersetEditView.swift in Sources */,
 				842AD5B92BD080B9009DF530 /* SupersetNew.swift in Sources */,
 				843C52CD2BA87C9800F72CE0 /* WorkoutListScreen.swift in Sources */,
-				842AD5BD2BD2C817009DF530 /* CollapsedRoundView.swift in Sources */,
 				844393672BF574E8007CAC76 /* EditSupersetScreen.swift in Sources */,
 				84ACF9D62B76EA9000DDB3F7 /* SingleSetRowView.swift in Sources */,
 				84C659C72B82906C001899DE /* EditableSingleSetRowView.swift in Sources */,

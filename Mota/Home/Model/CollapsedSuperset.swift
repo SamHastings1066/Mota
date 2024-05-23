@@ -12,7 +12,7 @@ class CollapsedSuperset: Identifiable {
     var id = UUID()
     var superset: SupersetNew
     
-    /// A collections of `CollapsedSingleset` objects. Each `CollapsedSingleset` has a stored property `singleSets` which is a collection the progressions of a specific `Singleset` through the rounds of a `Superset`
+    /// A collection of `CollapsedSingleset` objects. Each `CollapsedSingleset` has a stored property `singleSets` which is a collection the progressions of a specific `Singleset` through the rounds of a `Superset`
     var collapsedSinglesets: [CollapsedSingleset] {
         generateCollapsedSinglesets(from: superset.orderedRounds)
     }
@@ -52,6 +52,7 @@ class CollapsedSuperset: Identifiable {
     
     func generateCollapsedSinglesets(from orderedRounds: [Round]) -> [CollapsedSingleset] {
         var collapsedSinglesets = [CollapsedSingleset]()
+        guard !superset.rounds[0].singlesets.isEmpty else {return collapsedSinglesets}
         let singlesetsCount = orderedRounds[0].singlesets.count
         
         // Ensure all rounds of superset have the same number of singlesets.
@@ -88,6 +89,21 @@ class CollapsedSuperset: Identifiable {
         // Create a new Round with these new Singleset instances
         let newRound = Round(singlesets: newSinglesets, rest: round.rest)
         return newRound
+    }
+    
+    func addSingleset(with exercise: DatabaseExercise) {
+        for roundIndex in superset.rounds.indices {
+            superset.rounds[roundIndex].singlesets.append(SinglesetNew(exercise: exercise, weight: 0, reps: 0))
+        }
+    }
+    func removeSingleSet(_ collapsedSingleset: CollapsedSingleset) {
+        let exerciseToRemove = collapsedSingleset.exercise
+        if let exerciseToRemove {
+            for roundIndex in superset.rounds.indices {
+                // Filter out the SingleSet that matches the exercise to remove
+                superset.rounds[roundIndex].singlesets = superset.rounds[roundIndex].singlesets.filter { $0.exercise?.id ?? "1" != exerciseToRemove.id }
+            }
+        }
     }
 
 }
