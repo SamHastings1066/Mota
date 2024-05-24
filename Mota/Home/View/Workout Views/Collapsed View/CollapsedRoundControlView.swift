@@ -12,6 +12,7 @@ struct CollapsedRoundControlView: View {
     
     @Binding var collapsedSuperset: CollapsedSuperset
     @State private var isAddExercisePresented = false
+    @State private var isRearrangeExercisesPresented = false
     @State private var addedExercise: DatabaseExercise? = nil
     
     var body: some View {
@@ -25,7 +26,7 @@ struct CollapsedRoundControlView: View {
                         .imageScale(.large)
                 }
                 .onTapGesture {
-                    print("Arrows tapped")
+                    isRearrangeExercisesPresented.toggle()
                     //selectedSuperSet = superSet
                 }
             }
@@ -41,6 +42,9 @@ struct CollapsedRoundControlView: View {
             Spacer()
         }
         .padding(.top, 10)
+        .popover(isPresented: $isRearrangeExercisesPresented, content: {
+            RearrangeExerciseScreen(collapsedSuperset: collapsedSuperset)
+        })
 //        .popover(item: $selectedSuperSet) { _ in
 //            RearrangeExerceriseRoundsView(superSet: superSet)
 //        }

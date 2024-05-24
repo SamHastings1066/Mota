@@ -17,6 +17,26 @@ class CollapsedSuperset: Identifiable {
         generateCollapsedSinglesets(from: superset.orderedRounds)
     }
     
+    var exercises: [DatabaseExercise] {
+        get {
+            var exercises = [DatabaseExercise]()
+            for collapsedSingleset in collapsedSinglesets {
+                if let exercise = collapsedSingleset.exercise {
+                    exercises.append(exercise)
+                }
+            }
+            return exercises
+        }
+        set(newExerciseOrder) {
+            for round in superset.orderedRounds {
+                newExerciseOrder.forEach { exercise in
+                    let nextSinglet = round.singlesets.first(where: {$0.exercise == exercise})
+                    nextSinglet?.updateTimeStamp()
+                }
+            }
+        }
+    }
+    
     var numRounds: Int {
         get { superset.rounds.count }
         set {

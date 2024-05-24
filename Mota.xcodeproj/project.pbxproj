@@ -49,6 +49,7 @@
 		847E349F2B6A8F890004864D /* ExerciseData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 847E349E2B6A8F890004864D /* ExerciseData.swift */; };
 		849414272BFF751C00C95477 /* DeleteItemButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 849414262BFF751C00C95477 /* DeleteItemButton.swift */; };
 		849414292BFF7E0E00C95477 /* ExerciseImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 849414282BFF7E0E00C95477 /* ExerciseImageView.swift */; };
+		849414472C00F16E00C95477 /* RearrangeExerciseScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 849414462C00F16E00C95477 /* RearrangeExerciseScreen.swift */; };
 		849472ED2B97C6F400410885 /* EditableSingleSetRowCollapsedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 849472EC2B97C6F400410885 /* EditableSingleSetRowCollapsedView.swift */; };
 		849472EF2B98D99F00410885 /* CollapsedSupersetEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 849472EE2B98D99F00410885 /* CollapsedSupersetEditView.swift */; };
 		849472F12B98DB4100410885 /* ExpandedSupersetEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 849472F02B98DB4100410885 /* ExpandedSupersetEditView.swift */; };
@@ -145,6 +146,7 @@
 		847E349E2B6A8F890004864D /* ExerciseData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseData.swift; sourceTree = "<group>"; };
 		849414262BFF751C00C95477 /* DeleteItemButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteItemButton.swift; sourceTree = "<group>"; };
 		849414282BFF7E0E00C95477 /* ExerciseImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseImageView.swift; sourceTree = "<group>"; };
+		849414462C00F16E00C95477 /* RearrangeExerciseScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RearrangeExerciseScreen.swift; sourceTree = "<group>"; };
 		849472EC2B97C6F400410885 /* EditableSingleSetRowCollapsedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditableSingleSetRowCollapsedView.swift; sourceTree = "<group>"; };
 		849472EE2B98D99F00410885 /* CollapsedSupersetEditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollapsedSupersetEditView.swift; sourceTree = "<group>"; };
 		849472F02B98DB4100410885 /* ExpandedSupersetEditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpandedSupersetEditView.swift; sourceTree = "<group>"; };
@@ -261,6 +263,7 @@
 				84C848472BCEB3D700CA1611 /* WorkoutNewScreen.swift */,
 				844393662BF574E8007CAC76 /* EditSupersetScreen.swift */,
 				8443936A2BF64B37007CAC76 /* SelectExerciseScreen.swift */,
+				849414462C00F16E00C95477 /* RearrangeExerciseScreen.swift */,
 			);
 			path = Screens;
 			sourceTree = "<group>";
@@ -438,6 +441,7 @@
 			isa = PBXGroup;
 			children = (
 				849414262BFF751C00C95477 /* DeleteItemButton.swift */,
+				84C5AD172B6962750002AAE3 /* ExerciseRowView.swift */,
 				849414282BFF7E0E00C95477 /* ExerciseImageView.swift */,
 			);
 			path = "Component Views";
@@ -484,7 +488,6 @@
 			isa = PBXGroup;
 			children = (
 				84C5AD142B682F550002AAE3 /* AddExerciseView.swift */,
-				84C5AD172B6962750002AAE3 /* ExerciseRowView.swift */,
 				84D045882B6AAA19005CA5BE /* ExerciseDetailView.swift */,
 				84ACF9D52B76EA9000DDB3F7 /* SingleSetRowView.swift */,
 				84C659C62B82906C001899DE /* EditableSingleSetRowView.swift */,
@@ -669,6 +672,7 @@
 				8469DE912B5C54D000D617D2 /* UserView.swift in Sources */,
 				842AD5AB2BD06B9C009DF530 /* SupersetHeaderNewView.swift in Sources */,
 				8469DE822B5AF75400D617D2 /* LoginView.swift in Sources */,
+				849414472C00F16E00C95477 /* RearrangeExerciseScreen.swift in Sources */,
 				842AD5AF2BD06BF9009DF530 /* ExpandedSinglesetNewView.swift in Sources */,
 				84C848482BCEB3D700CA1611 /* WorkoutNewScreen.swift in Sources */,
 				84C5ACFF2B6349080002AAE3 /* AuthenticationService.swift in Sources */,

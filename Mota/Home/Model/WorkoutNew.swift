@@ -69,7 +69,7 @@ class Round {
 
 @Model
 class SinglesetNew {
-    let timestamp: Date
+    var timestamp: Date
     var exercise: DatabaseExercise?
     var weight: Int
     var reps: Int
@@ -99,5 +99,9 @@ class SinglesetNew {
     
     func updateExercise(_ exercise: DatabaseExercise?) {
         self.exercise = exercise
+    }
+    
+    func updateTimeStamp() {
+        self.timestamp = Date()
     }
 }
