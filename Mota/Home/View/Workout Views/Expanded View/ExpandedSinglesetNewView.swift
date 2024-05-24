@@ -15,7 +15,7 @@ struct ExpandedSinglesetNewView: View {
     var body: some View {
             HStack {
 
-                SafeImageView(imageName: singleset.imageName, fullSizeImageURL: nil)
+                ExerciseImageView(exercise: singleset.exercise)
                     .frame(width: 70, height: 70)
                 Grid {
                     Text(singleset.exercise?.name ?? "")
