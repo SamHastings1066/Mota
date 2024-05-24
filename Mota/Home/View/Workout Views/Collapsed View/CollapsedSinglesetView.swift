@@ -12,14 +12,13 @@ struct CollapsedSinglesetView: View {
     
     @Bindable var collapsedSingleset: CollapsedSingleset
     var removeSinglesetClosure: (() -> Void)?
-    
+    @State private var isExerciseDetailPresented = false
+ 
     var body: some View {
         HStack {
             
             VStack {
-                SafeImageView(imageName: collapsedSingleset.imageName, fullSizeImageURL: nil)
-                    .frame(width: 70, height: 70)
-                .logCreation()
+                ExerciseImageView(exercise: collapsedSingleset.exercise).frame(width: 70, height: 70)
                 DeleteItemButton {
                     removeSinglesetClosure?()
                 }
