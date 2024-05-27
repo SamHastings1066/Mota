@@ -15,18 +15,23 @@ struct WorkoutNewScreen: View {
     @State private var isSelectInitialExercisePresented = false
     @State var selectedExercise: DatabaseExercise?
     
-    func addSuperSet(with exercise: DatabaseExercise?) {
+    func addSuperset(with exercise: DatabaseExercise?) {
         let newRound = Round(singlesets: [SinglesetNew(exercise: selectedExercise, weight: 0, reps: 0)])
         let newSuperset = SupersetNew(rounds: [newRound])
         context.insert(newSuperset)
         workout.addSuperset(newSuperset)
     }
     
+    func removeSuperset(_ superset: SupersetNew) {
+        workout.deleteSuperset(superset)
+    }
     
     var body: some View {
         List {
             ForEach(workout.orderedSupersets) { superset in
-                SupersetNewView(superset: superset, orderedSupersets: workout.orderedSupersets)
+                SupersetNewView(superset: superset, orderedSupersets: workout.orderedSupersets) {
+                    removeSuperset(superset)
+                }
                     .logCreation()
             }
         }
@@ -39,7 +44,7 @@ struct WorkoutNewScreen: View {
         .fullScreenCover(isPresented: $isSelectInitialExercisePresented,
                onDismiss: {
             if selectedExercise != nil {
-                addSuperSet(with: selectedExercise)
+                addSuperset(with: selectedExercise)
             }
         },
                content: {

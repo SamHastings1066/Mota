@@ -11,6 +11,7 @@ struct SupersetHeaderNewView: View {
     @Binding var isExpanded: Bool
     @Binding var isEditable: Bool
     var index: Int
+    var removeSupsersetClosure: (() -> Void)?
     var body: some View {
         Grid {
             GridRow {
@@ -18,6 +19,9 @@ struct SupersetHeaderNewView: View {
                 Spacer()
                 ChevronButtonNew(isChevronTapped: isExpanded) {isExpanded.toggle()}
                 Spacer()
+                DeleteItemButton {
+                    removeSupsersetClosure?()
+                }
                 EditButtonBespokeNew(isEditable: isEditable) {isEditable.toggle()}
             }
         }

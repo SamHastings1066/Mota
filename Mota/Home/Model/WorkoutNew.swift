@@ -31,6 +31,13 @@ class WorkoutNew {
         supersets.append(superset)
     }
     
+    func deleteSuperset(_ superset: SupersetNew) {
+        let index = supersets.firstIndex(of: superset)
+        if let index = index {
+            supersets.remove(at: index)
+        }
+    }
+    
 }
 
 @Model

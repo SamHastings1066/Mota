@@ -13,16 +13,18 @@ struct SupersetNewView: View {
     @Bindable var superset: SupersetNew
     @State var isExpanded: Bool
     @State private var isEditable : Bool
-    var orderedSupersets: [SupersetNew]
-    
     @State var collapsedSuperset: CollapsedSuperset
+    
+    var orderedSupersets: [SupersetNew]
+    var removeSupsersetClosure: (() -> Void)?
         
-    init(superset: SupersetNew, isExpanded: Bool = false, isEditable: Bool = false, orderedSupersets: [SupersetNew]) {
+    init(superset: SupersetNew, isExpanded: Bool = false, isEditable: Bool = false, orderedSupersets: [SupersetNew], removeSupersetClosure: (() -> Void)? = nil) {
         self.superset = superset
         self.isExpanded = isExpanded
         self.isEditable = isEditable
         self.orderedSupersets = orderedSupersets
         self.collapsedSuperset = CollapsedSuperset(superset: superset)
+        self.removeSupsersetClosure = removeSupersetClosure
     }
     
     var index: Int {
@@ -34,7 +36,9 @@ struct SupersetNewView: View {
     }
     
     var body: some View {
-            SupersetHeaderNewView(isExpanded: $isExpanded, isEditable: $isEditable, index: index)
+        SupersetHeaderNewView(isExpanded: $isExpanded, isEditable: $isEditable, index: index){
+         removeSupsersetClosure?()
+        }
             .logCreation()
             if isExpanded {
                 ForEach(superset.orderedRounds) { round in
