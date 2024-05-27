@@ -19,6 +19,11 @@ class WorkoutNew {
         get {
             supersets.sorted{$0.timestamp < $1.timestamp}
         }
+        set {
+            for superset in newValue {
+                superset.timestamp = Date()
+            }
+        }
     }
     
     init(name: String = "New Workout", timestamp: Date = Date(), supersets: [SupersetNew] = [] ) {
@@ -42,7 +47,7 @@ class WorkoutNew {
 
 @Model
 class SupersetNew {
-    let timestamp: Date
+    var timestamp: Date
     @Relationship(deleteRule: .cascade)
     var rounds: [Round]
     var orderedRounds: [Round] {

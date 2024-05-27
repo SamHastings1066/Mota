@@ -13,6 +13,7 @@ struct WorkoutNewScreen: View {
     @Environment(\.modelContext) private var context
     @Bindable var workout: WorkoutNew
     @State private var isSelectInitialExercisePresented = false
+    @State private var isReorderSupersetsPresented = false
     @State var selectedExercise: DatabaseExercise?
     
     func addSuperset(with exercise: DatabaseExercise?) {
@@ -36,10 +37,16 @@ struct WorkoutNewScreen: View {
             }
         }
         .navigationTitle(workout.name)
-        .toolbar{
-            Button("Add Set") {
-                isSelectInitialExercisePresented = true
+        .toolbar {
+            Menu("Edit Workout", systemImage: "ellipsis.circle") {
+                Button("Add New Set") {
+                    isSelectInitialExercisePresented = true
+                }
+                Button("Reorder Sets") {
+                    isReorderSupersetsPresented = true
+                }
             }
+            
         }
         .fullScreenCover(isPresented: $isSelectInitialExercisePresented,
                onDismiss: {
@@ -49,6 +56,10 @@ struct WorkoutNewScreen: View {
         },
                content: {
                 SelectExerciseScreen(selectedExercise: $selectedExercise)
+        })
+        .sheet(isPresented: $isReorderSupersetsPresented,
+               content: {
+            ReorderSupersetsScreen(workout: workout)
         })
         
         

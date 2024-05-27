@@ -82,6 +82,7 @@
 		84DD2D9F2B60199600633123 /* ResetPasswordView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84DD2D9E2B60199600633123 /* ResetPasswordView.swift */; };
 		84DE653F2B7276FD009A9D40 /* WorkoutTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84DE653E2B7276FD009A9D40 /* WorkoutTests.swift */; };
 		84DE65412B72784B009A9D40 /* Workout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84DE65402B72784B009A9D40 /* Workout.swift */; };
+		84E153422C04F3B000E47541 /* ReorderSupersetsScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84E153412C04F3B000E47541 /* ReorderSupersetsScreen.swift */; };
 		84EAF4292BB5C1A4002AC464 /* SafeImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84EAF4282BB5C1A4002AC464 /* SafeImageView.swift */; };
 		84EAF42B2BB5DBBA002AC464 /* ImageLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84EAF42A2BB5DBBA002AC464 /* ImageLoader.swift */; };
 		84F2F05A2B83B28B00663BCA /* ChangeExerciseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84F2F0592B83B28B00663BCA /* ChangeExerciseView.swift */; };
@@ -179,6 +180,7 @@
 		84DD2D9E2B60199600633123 /* ResetPasswordView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResetPasswordView.swift; sourceTree = "<group>"; };
 		84DE653E2B7276FD009A9D40 /* WorkoutTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutTests.swift; sourceTree = "<group>"; };
 		84DE65402B72784B009A9D40 /* Workout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Workout.swift; sourceTree = "<group>"; };
+		84E153412C04F3B000E47541 /* ReorderSupersetsScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReorderSupersetsScreen.swift; sourceTree = "<group>"; };
 		84EAF4282BB5C1A4002AC464 /* SafeImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SafeImageView.swift; sourceTree = "<group>"; };
 		84EAF42A2BB5DBBA002AC464 /* ImageLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageLoader.swift; sourceTree = "<group>"; };
 		84F2F0592B83B28B00663BCA /* ChangeExerciseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangeExerciseView.swift; sourceTree = "<group>"; };
@@ -264,6 +266,7 @@
 				844393662BF574E8007CAC76 /* EditSupersetScreen.swift */,
 				8443936A2BF64B37007CAC76 /* SelectExerciseScreen.swift */,
 				849414462C00F16E00C95477 /* RearrangeExerciseScreen.swift */,
+				84E153412C04F3B000E47541 /* ReorderSupersetsScreen.swift */,
 			);
 			path = Screens;
 			sourceTree = "<group>";
@@ -679,6 +682,7 @@
 				84DD2D9B2B60086300633123 /* EmailTextField.swift in Sources */,
 				84C5AD0F2B6822840002AAE3 /* FeedView.swift in Sources */,
 				8469DE772B5ADDC400D617D2 /* FirebaseAuthMock.swift in Sources */,
+				84E153422C04F3B000E47541 /* ReorderSupersetsScreen.swift in Sources */,
 				849414272BFF751C00C95477 /* DeleteItemButton.swift in Sources */,
 				844393692BF640C5007CAC76 /* CollapsedSuperset.swift in Sources */,
 				84C5AD112B6822F00002AAE3 /* FeedViewModel.swift in Sources */,
