@@ -24,7 +24,7 @@ struct WorkoutListNewScreen: View {
     
     func addSampleWorkouts() {
         var rounds = [Round]()
-        for _ in 0..<200 {
+        for _ in 0..<2 {
             let round = Round(singlesets: [SinglesetNew(exercise: sampleExercises[0], weight: 100, reps: 10), SinglesetNew(exercise: sampleExercises[1], weight: 90, reps: 15)])
             rounds.append(round)
         }

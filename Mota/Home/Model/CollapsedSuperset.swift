@@ -45,9 +45,15 @@ class CollapsedSuperset: Identifiable {
             if newValue <= superset.rounds.count {
                 superset.rounds = Array(superset.orderedRounds[..<newValue])
             } else {
-                for _ in superset.rounds.count..<newValue {
-                    superset.rounds.append(createRound(copying: superset.orderedRounds.last!))
+                let start = Date()
+                var rounds: [Round] = []
+                if let lastRound = superset.orderedRounds.last {
+                    for _ in superset.rounds.count..<newValue {
+                        rounds.append(createRound(copying: lastRound))
+                    }
                 }
+                superset.rounds.append(contentsOf: rounds)
+                print("Copying took: \(Date().timeIntervalSince(start))")
             }
         }
     }

@@ -15,6 +15,7 @@ struct WorkoutNewScreen: View {
     @State private var isSelectInitialExercisePresented = false
     @State private var isReorderSupersetsPresented = false
     @State var selectedExercise: DatabaseExercise?
+    @Query var rounds: [Round]
     
     func addSuperset(with exercise: DatabaseExercise?) {
         let newRound = Round(singlesets: [SinglesetNew(exercise: selectedExercise, weight: 0, reps: 0)])
@@ -36,7 +37,8 @@ struct WorkoutNewScreen: View {
                     .logCreation()
             }
         }
-        .navigationTitle(workout.name)
+        .navigationTitle($workout.name)
+        .navigationBarTitleDisplayMode(.inline)
         .toolbar {
             Menu("Edit Workout", systemImage: "ellipsis.circle") {
                 Button("Add New Set") {
@@ -62,6 +64,14 @@ struct WorkoutNewScreen: View {
             ReorderSupersetsScreen(workout: workout)
         })
         
+        Text("Num rounds: \(rounds.count)")
+        Button("Save") {
+            do {
+                try context.save()
+            } catch {
+                print(error)
+            }
+        }
         
     }
 }
