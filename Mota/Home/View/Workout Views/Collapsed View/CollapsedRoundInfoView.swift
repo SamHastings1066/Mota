@@ -14,7 +14,7 @@ import SwiftData
 struct CollapsedRoundInfoView: View {
     @Environment(\.modelContext) private var context
     @Binding var collapsedSuperset: CollapsedSuperset
-    @FocusState var isNumRoundsFocused: Bool
+    //@FocusState var isNumRoundsFocused: Bool
     
     @State private var numRounds: Int = 1
     
@@ -38,7 +38,7 @@ struct CollapsedRoundInfoView: View {
 
                     //TextField("", value: $collapsedSuperset.numRounds, formatter: NumberFormatter())
                 TextField("", value: $numRounds, formatter: NumberFormatter())
-                    .focused($isNumRoundsFocused)
+                    //.focused($isNumRoundsFocused)
                     .fixedSize()
                     .textFieldStyle(RoundedBorderTextFieldStyle())
                     .keyboardType(.numberPad)
@@ -47,12 +47,12 @@ struct CollapsedRoundInfoView: View {
             .onAppear{
                 numRounds = collapsedSuperset.numRounds
             }
-            .onChange(of: isNumRoundsFocused) { oldValue, newValue in
-                if oldValue == true && newValue == false{
-                    print("Lost focus")
-                    updateNumRounds()
-                }
-            }
+//            .onChange(of: isNumRoundsFocused) { oldValue, newValue in
+//                if oldValue == true && newValue == false{
+//                    print("Lost focus")
+//                    updateNumRounds()
+//                }
+//            }
             
             VStack {
                 Text("Rest")

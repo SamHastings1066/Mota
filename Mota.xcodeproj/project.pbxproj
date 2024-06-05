@@ -261,6 +261,7 @@
 			children = (
 				843C52CC2BA87C9800F72CE0 /* WorkoutListScreen.swift */,
 				84C5AD122B68266C0002AAE3 /* WorkoutScreen.swift */,
+				84D045882B6AAA19005CA5BE /* ExerciseDetailView.swift */,
 				84C848422BCDDE5B00CA1611 /* WorkoutListNewScreen.swift */,
 				84C848472BCEB3D700CA1611 /* WorkoutNewScreen.swift */,
 				844393662BF574E8007CAC76 /* EditSupersetScreen.swift */,
@@ -491,7 +492,6 @@
 			isa = PBXGroup;
 			children = (
 				84C5AD142B682F550002AAE3 /* AddExerciseView.swift */,
-				84D045882B6AAA19005CA5BE /* ExerciseDetailView.swift */,
 				84ACF9D52B76EA9000DDB3F7 /* SingleSetRowView.swift */,
 				84C659C62B82906C001899DE /* EditableSingleSetRowView.swift */,
 				84F2F0592B83B28B00663BCA /* ChangeExerciseView.swift */,

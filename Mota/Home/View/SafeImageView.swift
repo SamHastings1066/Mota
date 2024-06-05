@@ -33,8 +33,9 @@ struct RemoteImage: View {
         if let image = imageLoader.image {
             Image(uiImage: image)
                 .resizable()
-                .scaledToFit()
-                .frame(maxWidth: .infinity)
+                .aspectRatio(contentMode: .fill)
+//                .scaledToFit()
+//                .frame(maxWidth: .infinity)
         } else {
             thumbnailImage
                 .frame(maxWidth: .infinity)

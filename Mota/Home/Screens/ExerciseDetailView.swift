@@ -113,9 +113,9 @@ struct exerciseAnimationView: View {
             }
         }
         .onReceive(timer) { _ in
-            withAnimation(.easeInOut(duration: 0.5)) {
+            //withAnimation(.easeInOut(duration: 0.5)) {
                 self.showFirstImage.toggle()
-            }
+            //}
         }
     }
 }

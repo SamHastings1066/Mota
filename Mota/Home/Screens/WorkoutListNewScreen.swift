@@ -22,9 +22,10 @@ struct WorkoutListNewScreen: View {
     }) var sampleExercises: [DatabaseExercise]
     
     
-    func addSampleWorkouts() {
+    private func createSampleWorkouts() async -> [WorkoutNew] {
+        let startCreatingModels = Date()
         var rounds = [Round]()
-        for _ in 0..<2 {
+        for _ in 0..<20000 {
             let round = Round(singlesets: [SinglesetNew(exercise: sampleExercises[0], weight: 100, reps: 10), SinglesetNew(exercise: sampleExercises[1], weight: 90, reps: 15)])
             rounds.append(round)
         }
@@ -44,29 +45,44 @@ struct WorkoutListNewScreen: View {
         )
         
         let workout2 = WorkoutNew(name: "Arms workout",
-            supersets: [
-                SupersetNew(
-                    rounds: [
-                        Round(singlesets: [SinglesetNew(exercise: sampleExercises[0], weight: 100, reps: 10), SinglesetNew(exercise: sampleExercises[1], weight: 90, reps: 15)])
-                    ]
-                ),
-                SupersetNew(
-                    rounds: [
-                        Round(singlesets: [SinglesetNew(exercise: sampleExercises[2], weight: 10, reps: 20)]),
-                    ]
-                )
-            ]
+                                  supersets: [
+                                    SupersetNew(
+                                        rounds: [
+                                            Round(singlesets: [SinglesetNew(exercise: sampleExercises[0], weight: 100, reps: 10), SinglesetNew(exercise: sampleExercises[1], weight: 90, reps: 15)])
+                                        ]
+                                    ),
+                                    SupersetNew(
+                                        rounds: [
+                                            Round(singlesets: [SinglesetNew(exercise: sampleExercises[2], weight: 10, reps: 20)]),
+                                        ]
+                                    )
+                                  ]
         )
-
+        print("Time to create models: \(Date().timeIntervalSince(startCreatingModels))")
         
-        modelContext.insert(workout1)
-        modelContext.insert(workout2)
+        return [workout1, workout2]
+    }
+    
+    private func addSampleWorkouts() {
+        Task {
+            let workouts = await createSampleWorkouts()
+            
+            await MainActor.run {
+                let startInsertingModels = Date()
+                workouts.forEach { modelContext.insert($0) }
+                print("Time to insert models: \(Date().timeIntervalSince(startInsertingModels))")
+            }
+        }
     }
     
     private func removeWorkout(_ offsets: IndexSet) {
-        for offset in offsets {
-            let workout = workouts[offset]
-            modelContext.delete(workout)
+        Task {
+            await MainActor.run {
+                for offset in offsets {
+                    let workout = workouts[offset]
+                    modelContext.delete(workout)
+                }
+            }
         }
     }
     
@@ -120,8 +136,10 @@ struct WorkoutListNewScreen: View {
         print("DATABASE created")
         
         
-        return WorkoutListNewScreen()
-            .modelContainer(container)
+        return NavigationStack{
+            WorkoutListNewScreen()
+                .modelContainer(container)
+        }
     } catch {
         fatalError("Failed to create model container")
     }
