@@ -11,68 +11,115 @@ import SwiftData
 struct WorkoutNewScreen: View {
     
     @Environment(\.modelContext) private var context
-    @Bindable var workout: WorkoutNew
+    //@Bindable var workout: WorkoutNew
+    @State private var workout: WorkoutNew?
+    @State private var isLoading = true
     @State private var isSelectInitialExercisePresented = false
     @State private var isReorderSupersetsPresented = false
     @State var selectedExercise: DatabaseExercise?
-    //@Query var rounds: [Round]
+    @Query private var workouts: [WorkoutNew]
+    
+    let workoutID: UUID
+    
+    mutating func retrieveWorkout() async {
+        _workouts = await Query(
+            filter: #Predicate {
+                return $0.id == workoutID
+            }
+        )
+        self.isLoading = false
+    }
+    
+    init(workoutID: UUID) {
+        self.workoutID = workoutID
+        _workouts = Query(
+            filter: #Predicate {
+                return $0.id == workoutID
+            }
+        )
+        print("workout ID: \(workoutID)")
+        print("workout count Initializer: \(workouts.count)")
+    }
+    
+    var body: some View {
+        Group {
+            if isLoading {
+                ProgressView("Retrieving workout information")
+            } else if let workout = workout {
+                List {
+                    ForEach(workout.orderedSupersets) { superset in
+                        SupersetNewView(superset: superset, orderedSupersets: workout.orderedSupersets) {
+                            removeSuperset(superset)
+                        }
+                        .logCreation()
+                    }
+                }
+//                .navigationTitle($workout.name)
+                .navigationBarTitleDisplayMode(.inline)
+                .toolbar {
+                    Menu("Edit Workout", systemImage: "ellipsis.circle") {
+                        Button("Add New Set") {
+                            isSelectInitialExercisePresented = true
+                        }
+                        Button("Reorder Sets") {
+                            isReorderSupersetsPresented = true
+                        }
+                    }
+                    
+                }
+                .fullScreenCover(isPresented: $isSelectInitialExercisePresented,
+                                 onDismiss: {
+                    if selectedExercise != nil {
+                        addSuperset(with: selectedExercise)
+                    }
+                },
+                                 content: {
+                    SelectExerciseScreen(selectedExercise: $selectedExercise)
+                })
+                .sheet(isPresented: $isReorderSupersetsPresented,
+                       content: {
+                    ReorderSupersetsScreen(workout: workout)
+                })
+            } else {
+                Text("Workout not found")
+            }
+        }
+        .onAppear {
+            loadWorkout()
+        }
+        
+    }
+    
+    private func loadWorkout() {
+        Task {
+            if let workout = await fetchWorkout() {
+                await MainActor.run {
+                    self.workout = workout
+                    self.isLoading = false
+                }
+            }             
+            else {
+                print("cannot load workout")
+                self.isLoading = false
+            }
+        }
+    }
+    
+    private func fetchWorkout() async -> WorkoutNew? {
+        // Simulate a delay for demonstration purposes
+        //try? await Task.sleep(nanoseconds: 3_000_000_000)
+        return workouts.first
+    }
     
     func addSuperset(with exercise: DatabaseExercise?) {
         let newRound = Round(singlesets: [SinglesetNew(exercise: selectedExercise, weight: 0, reps: 0)])
         let newSuperset = SupersetNew(rounds: [newRound])
         context.insert(newSuperset)
-        workout.addSuperset(newSuperset)
+        workout?.addSuperset(newSuperset)
     }
     
     func removeSuperset(_ superset: SupersetNew) {
-        workout.deleteSuperset(superset)
-    }
-    
-    var body: some View {
-        List {
-            ForEach(workout.orderedSupersets) { superset in
-                SupersetNewView(superset: superset, orderedSupersets: workout.orderedSupersets) {
-                    removeSuperset(superset)
-                }
-                    .logCreation()
-            }
-        }
-        .navigationTitle($workout.name)
-        .navigationBarTitleDisplayMode(.inline)
-        .toolbar {
-            Menu("Edit Workout", systemImage: "ellipsis.circle") {
-                Button("Add New Set") {
-                    isSelectInitialExercisePresented = true
-                }
-                Button("Reorder Sets") {
-                    isReorderSupersetsPresented = true
-                }
-            }
-            
-        }
-        .fullScreenCover(isPresented: $isSelectInitialExercisePresented,
-               onDismiss: {
-            if selectedExercise != nil {
-                addSuperset(with: selectedExercise)
-            }
-        },
-               content: {
-                SelectExerciseScreen(selectedExercise: $selectedExercise)
-        })
-        .sheet(isPresented: $isReorderSupersetsPresented,
-               content: {
-            ReorderSupersetsScreen(workout: workout)
-        })
-        
-        //Text("Num rounds: \(rounds.count)")
-//        Button("Save") {
-//            do {
-//                try context.save()
-//            } catch {
-//                print(error)
-//            }
-//        }
-        
+        workout?.deleteSuperset(superset)
     }
 }
 
@@ -99,7 +146,7 @@ struct WorkoutNewScreen: View {
         container.mainContext.insert(workout2)
         
         return NavigationStack {
-            WorkoutNewScreen(workout: workout2)
+            WorkoutNewScreen(workoutID: workout2.id)
                 .modelContainer(container)
         }
     } catch {

@@ -25,7 +25,7 @@ struct WorkoutListNewScreen: View {
     private func createSampleWorkouts() async -> [WorkoutNew] {
         let startCreatingModels = Date()
         var rounds = [Round]()
-        for _ in 0..<20000 {
+        for _ in 0..<2000 {
             let round = Round(singlesets: [SinglesetNew(exercise: sampleExercises[0], weight: 100, reps: 10), SinglesetNew(exercise: sampleExercises[1], weight: 90, reps: 15)])
             rounds.append(round)
         }
@@ -77,12 +77,29 @@ struct WorkoutListNewScreen: View {
     
     private func removeWorkout(_ offsets: IndexSet) {
         Task {
+            let startDeletingModels = Date()
+            for offset in offsets {
+                let workout = workouts[offset]
+                await modelContext.delete(workout) // or to delete in batches use: deleteWorkout(workout)
+            }
+            print("Time to Delete models: \(Date().timeIntervalSince(startDeletingModels))")
+        }
+    }
+    
+    private func deleteWorkout(_ workout: WorkoutNew) async {
+        let batchSize = 1000
+        let roundsToDelete = workout.supersets.flatMap { $0.rounds }
+        
+        for chunk in roundsToDelete.chunked(into: batchSize) {
             await MainActor.run {
-                for offset in offsets {
-                    let workout = workouts[offset]
-                    modelContext.delete(workout)
+                for round in chunk {
+                    modelContext.delete(round)
                 }
             }
+        }
+        
+        await MainActor.run {
+            modelContext.delete(workout)
         }
     }
     
@@ -105,7 +122,7 @@ struct WorkoutListNewScreen: View {
             }
             .navigationTitle("Workout List")
             .navigationDestination(for: WorkoutNew.self) { workout in
-                WorkoutNewScreen(workout: workout)
+                WorkoutNewScreen(workoutID: workout.id)
             }
             .toolbar {
                 Button("Add Samples", action: addSampleWorkouts)

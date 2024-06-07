@@ -10,6 +10,7 @@ import SwiftData
 
 @Model
 class WorkoutNew {
+    var id = UUID()
     var name: String
     let timeStamp: Date
     @Relationship(deleteRule: .cascade)
