@@ -153,10 +153,7 @@ struct WorkoutListNewScreen: View {
         print("DATABASE created")
         
         
-        return NavigationStack{
-            WorkoutListNewScreen()
-                .modelContainer(container)
-        }
+        return NavigationStack{ WorkoutListNewScreen()}.modelContainer(container)
     } catch {
         fatalError("Failed to create model container")
     }

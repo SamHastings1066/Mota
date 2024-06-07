@@ -37,8 +37,6 @@ struct WorkoutNewScreen: View {
                 return $0.id == workoutID
             }
         )
-        print("workout ID: \(workoutID)")
-        print("workout count Initializer: \(workouts.count)")
     }
     
     var body: some View {
