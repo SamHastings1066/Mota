@@ -11,7 +11,6 @@ import SwiftData
 struct WorkoutNewScreen: View {
     
     @Environment(\.modelContext) private var context
-    //@Bindable var workout: WorkoutNew
     @State private var workout: WorkoutNew?
     @State private var isLoading = true
     @State private var isSelectInitialExercisePresented = false
@@ -21,14 +20,6 @@ struct WorkoutNewScreen: View {
     
     let workoutID: UUID
     
-    mutating func retrieveWorkout() async {
-        _workouts = await Query(
-            filter: #Predicate {
-                return $0.id == workoutID
-            }
-        )
-        self.isLoading = false
-    }
     
     init(workoutID: UUID) {
         self.workoutID = workoutID
@@ -43,7 +34,7 @@ struct WorkoutNewScreen: View {
         Group {
             if isLoading {
                 ProgressView("Retrieving workout information")
-            } else if let workout = workout {
+            } else if let workout {
                 List {
                     ForEach(workout.orderedSupersets) { superset in
                         SupersetNewView(superset: superset, orderedSupersets: workout.orderedSupersets) {
@@ -90,24 +81,23 @@ struct WorkoutNewScreen: View {
     
     private func loadWorkout() {
         Task {
-            if let workout = await fetchWorkout() {
+            //if let workout = await fetchWorkout() {
+            if let workout = workouts.first {
+                self.workout = workout
+                try? await Task.sleep(nanoseconds: 3_000_000_000) // This line ensures the function suspends and resigns control of the main threda to allow it to process user interactions.
                 await MainActor.run {
-                    self.workout = workout
                     self.isLoading = false
                 }
             }             
             else {
                 print("cannot load workout")
-                self.isLoading = false
+                await MainActor.run {
+                    self.isLoading = false
+                }
             }
         }
     }
     
-    private func fetchWorkout() async -> WorkoutNew? {
-        // Simulate a delay for demonstration purposes
-        //try? await Task.sleep(nanoseconds: 3_000_000_000)
-        return workouts.first
-    }
     
     func addSuperset(with exercise: DatabaseExercise?) {
         let newRound = Round(singlesets: [SinglesetNew(exercise: selectedExercise, weight: 0, reps: 0)])
