@@ -107,33 +107,42 @@ class CollapsedSuperset: Identifiable {
         return collapsedSinglesets
     }
     
+    // TODO: improve the effiency of this function
     func generateSinglesets(from orderedRounds: [Round]) async -> [CollapsedSingleset] {
-        var collapsedSinglesets = [CollapsedSingleset]()
-        guard !superset.rounds[0].singlesets.isEmpty else {return collapsedSinglesets}
-        let singlesetsCount = orderedRounds[0].singlesets.count
+        let start = Date()
+        var collapsedSinglesets = [CollapsedSingleset]() // O(1)
+        guard !superset.rounds[0].singlesets.isEmpty else {return collapsedSinglesets} // O(1)
+        let singlesetsCount = orderedRounds[0].singlesets.count // O(#singlesets in first round)
         
-        // Ensure all rounds of superset have the same number of singlesets.
-        guard orderedRounds.allSatisfy({ $0.singlesets.count == singlesetsCount }) else { return collapsedSinglesets }
-        
-        
+        let startFlattening = Date()
         var flatSinglesets = [SinglesetNew]()
-        for round in orderedRounds {
-            flatSinglesets.append(contentsOf: round.orderedSinglesets)
+        //let dummySets = [SinglesetNew(),SinglesetNew()]
+        for round in orderedRounds { // O(n)
+            // Ensure all rounds of superset have the same number of singlesets.
+            //if round.singlesets.count != singlesetsCount {return [CollapsedSingleset]()}
+            flatSinglesets.append(contentsOf: round.orderedSinglesets) // This is the line that takes ages. It is not the sorting of the singlesets since using round.singlesets takes just as long
+            //flatSinglesets.append(contentsOf: dummySets) // this happens lightning fast!
         }
+        print("flattening takes \(Date().timeIntervalSince(startFlattening))s")
         
+        let start2DArray = Date()
         // Stores the the evolution of singlesets as user progresses through rounds
         let singlesetProgressions: [[SinglesetNew]] = {
             var returnArray = Array(repeating: Array(repeating: SinglesetNew(), count: flatSinglesets.count/singlesetsCount), count: singlesetsCount)
-            for (index, element) in flatSinglesets.enumerated() {
+            for (index, element) in flatSinglesets.enumerated() { //O(n) - could do all of this in the loop above.
                 returnArray[index % singlesetsCount][index / singlesetsCount] = element
             }
             return returnArray
         }()
+        print("2D array takes \(Date().timeIntervalSince(start2DArray))s")
         
+        let startCreatingCollapsedSinglesets = Date()
         for singlesetProgression in singlesetProgressions {
             collapsedSinglesets.append(CollapsedSingleset(singlesets: singlesetProgression))
         }
+        print("singlesets take \(Date().timeIntervalSince(startCreatingCollapsedSinglesets))s")
         
+        print("collapsedSinglesets generated in \(Date().timeIntervalSince(start))s")
         return collapsedSinglesets
     }
     
@@ -170,6 +179,7 @@ class CollapsedSingleset: Identifiable {
 
     var id = UUID()
     var singlesets: [SinglesetNew]
+    // TODO: Notice that weight, reps and exercise getters are all required to do a full pas through singlesets. Consider adding additional property to calculate them all in one pass, opr else consider making this more efficeint another way.
     var weight: Int {
         get {
             let initialWeight = singlesets[0].weight
