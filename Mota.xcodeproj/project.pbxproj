@@ -46,6 +46,7 @@
 		8469DE912B5C54D000D617D2 /* UserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8469DE902B5C54D000D617D2 /* UserView.swift */; };
 		8469DE932B5D646E00D617D2 /* SignupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8469DE922B5D646E00D617D2 /* SignupView.swift */; };
 		8469DE952B5D6B0A00D617D2 /* AuthenticationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8469DE942B5D6B0A00D617D2 /* AuthenticationView.swift */; };
+		847362352C18B3340050C9B2 /* BackgroundSerialPersistenceActor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 847362342C18B3340050C9B2 /* BackgroundSerialPersistenceActor.swift */; };
 		847E349F2B6A8F890004864D /* ExerciseData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 847E349E2B6A8F890004864D /* ExerciseData.swift */; };
 		849414272BFF751C00C95477 /* DeleteItemButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 849414262BFF751C00C95477 /* DeleteItemButton.swift */; };
 		849414292BFF7E0E00C95477 /* ExerciseImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 849414282BFF7E0E00C95477 /* ExerciseImageView.swift */; };
@@ -145,6 +146,7 @@
 		8469DE902B5C54D000D617D2 /* UserView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserView.swift; sourceTree = "<group>"; };
 		8469DE922B5D646E00D617D2 /* SignupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignupView.swift; sourceTree = "<group>"; };
 		8469DE942B5D6B0A00D617D2 /* AuthenticationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationView.swift; sourceTree = "<group>"; };
+		847362342C18B3340050C9B2 /* BackgroundSerialPersistenceActor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackgroundSerialPersistenceActor.swift; sourceTree = "<group>"; };
 		847E349E2B6A8F890004864D /* ExerciseData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseData.swift; sourceTree = "<group>"; };
 		849414262BFF751C00C95477 /* DeleteItemButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteItemButton.swift; sourceTree = "<group>"; };
 		849414282BFF7E0E00C95477 /* ExerciseImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseImageView.swift; sourceTree = "<group>"; };
@@ -300,6 +302,7 @@
 		8469DE272B582E6900D617D2 /* Mota */ = {
 			isa = PBXGroup;
 			children = (
+				847362312C1899ED0050C9B2 /* SwiftData */,
 				84C5AD192B6963210002AAE3 /* exercises.json */,
 				8469DE282B582E6900D617D2 /* MotaApp.swift */,
 				84C5AD0B2B65C97B0002AAE3 /* Utils */,
@@ -441,6 +444,14 @@
 				84EAF4282BB5C1A4002AC464 /* SafeImageView.swift */,
 			);
 			path = View;
+			sourceTree = "<group>";
+		};
+		847362312C1899ED0050C9B2 /* SwiftData */ = {
+			isa = PBXGroup;
+			children = (
+				847362342C18B3340050C9B2 /* BackgroundSerialPersistenceActor.swift */,
+			);
+			path = SwiftData;
 			sourceTree = "<group>";
 		};
 		849414212BFF74DC00C95477 /* Component Views */ = {
@@ -724,6 +735,7 @@
 				84C5AD052B64657A0002AAE3 /* MockAuthService.swift in Sources */,
 				84DD2D9D2B600D1A00633123 /* PasswordSecureField.swift in Sources */,
 				842AD5AD2BD06BB3009DF530 /* ExpandedRoundNewView.swift in Sources */,
+				847362352C18B3340050C9B2 /* BackgroundSerialPersistenceActor.swift in Sources */,
 				849472EF2B98D99F00410885 /* CollapsedSupersetEditView.swift in Sources */,
 				84C5AD0D2B65C9890002AAE3 /* String+Ext.swift in Sources */,
 				84EBD77B2C120813003068CE /* Array+Ext.swift in Sources */,

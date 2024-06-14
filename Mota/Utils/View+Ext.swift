@@ -28,11 +28,19 @@ extension ViewLogging where Self: View {
 
 struct LoggerModifier: ViewModifier {
     let viewName: String
-
+    let startTime: DispatchTime
+    
+    init(viewName: String) {
+        self.viewName = viewName
+        self.startTime = DispatchTime.now()
+    }
+    
     func body(content: Content) -> some View {
         content
             .onAppear {
-                print("\(viewName) is created")
+                let endTime = DispatchTime.now()
+                let creationTime = Double(endTime.uptimeNanoseconds - startTime.uptimeNanoseconds) / 1_000_000_000
+                print("\(viewName) is created in \(creationTime)s")
             }
     }
 }

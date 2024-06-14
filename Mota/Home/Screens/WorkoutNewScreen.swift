@@ -16,19 +16,19 @@ struct WorkoutNewScreen: View {
     @State private var isSelectInitialExercisePresented = false
     @State private var isReorderSupersetsPresented = false
     @State var selectedExercise: DatabaseExercise?
-    @Query private var workouts: [WorkoutNew]
+    //@Query private var workouts: [WorkoutNew]
     
     let workoutID: UUID
     
     
-    init(workoutID: UUID) {
-        self.workoutID = workoutID
-        _workouts = Query(
-            filter: #Predicate {
-                return $0.id == workoutID
-            }
-        )
-    }
+//    init(workoutID: UUID) {
+//        self.workoutID = workoutID
+//        _workouts = Query(
+//            filter: #Predicate {
+//                return $0.id == workoutID
+//            }
+//        )
+//    }
     
     var body: some View {
         Group {
@@ -80,11 +80,15 @@ struct WorkoutNewScreen: View {
     }
     
     private func loadWorkout() {
-        Task {
+        Task(priority: .background) {
             //if let workout = await fetchWorkout() {
-            if let workout = workouts.first {
+            let backgroundActor = BackgroundSerialPersistenceActor(modelContainer: context.container)
+            let start = Date()
+            let workouts = try? await backgroundActor.fetchData(predicate: #Predicate {return $0.id == workoutID} ) as [WorkoutNew]
+            print("Fetch takes \(Date().timeIntervalSince(start))")
+            if let workout = workouts?.first {
                 self.workout = workout
-                try? await Task.sleep(nanoseconds: 3_000_000_000) // This line ensures the function suspends and resigns control of the main threda to allow it to process user interactions.
+                //try? await Task.sleep(nanoseconds: 3_000_000_000) // This line ensures the function suspends and resigns control of the main threda to allow it to process user interactions.
                 await MainActor.run {
                     self.isLoading = false
                 }

@@ -14,17 +14,23 @@ struct SupersetNewView: View {
     @State var isExpanded: Bool
     @State private var isEditable : Bool
     @State var collapsedSuperset: CollapsedSuperset
+    @State var collapsedSinglesets: [CollapsedSingleset] = []
     
     var orderedSupersets: [SupersetNew]
     var removeSupsersetClosure: (() -> Void)?
         
     init(superset: SupersetNew, isExpanded: Bool = false, isEditable: Bool = false, orderedSupersets: [SupersetNew], removeSupersetClosure: (() -> Void)? = nil) {
+        let start = Date()
         self.superset = superset
         self.isExpanded = isExpanded
         self.isEditable = isEditable
         self.orderedSupersets = orderedSupersets
         self.collapsedSuperset = CollapsedSuperset(superset: superset)
+        //self.collapsedSinglesets = CollapsedSuperset(superset: superset).collapsedSinglesets
         self.removeSupsersetClosure = removeSupersetClosure
+        
+        //print(collapsedSuperset.numRounds)
+        print("SupersetNewView init takes \(Date().timeIntervalSince(start))s")
     }
     
     var index: Int {
@@ -36,6 +42,7 @@ struct SupersetNewView: View {
     }
     
     var body: some View {
+        // TODO: Make the work done in this view async, and make the work done in a more time efficient
         SupersetHeaderNewView(isExpanded: $isExpanded, isEditable: $isEditable, index: index){
          removeSupsersetClosure?()
         }
@@ -48,22 +55,32 @@ struct SupersetNewView: View {
             } else {
                 HStack {
                     VStack {
-                        ForEach(collapsedSuperset.collapsedSinglesets) { collapsedSingleset in
+                        ForEach(collapsedSinglesets) { collapsedSingleset in
+                        //ForEach(collapsedSuperset.collapsedSinglesets) { collapsedSingleset in // THIS IS THE LINE
                             CollapsedSinglesetView(collapsedSingleset: collapsedSingleset){
                                 collapsedSuperset.removeSingleSet(collapsedSingleset)
                                 collapsedSuperset = CollapsedSuperset(superset: collapsedSuperset.superset)
                             }
                                 .logCreation()
-                        }
+                        }.logCreation()
+                        // TODO: Make the work done in this view async, and make the work done in a more time efficient
                         CollapsedRoundControlView(collapsedSuperset: $collapsedSuperset)
-                    }
+                            .logCreation()
+                    }.logCreation()
+                    // TODO: Make the work done in this view async, and make the work done in a more time efficient
                     CollapsedRoundInfoView(collapsedSuperset: $collapsedSuperset)
                         .padding()
                         .logCreation()
                 }
+                .onAppear{
+                    Task {
+                        // TODO: make this async
+                        collapsedSinglesets = await collapsedSuperset.generateSinglesets(from: superset.orderedRounds)
+                    }
+                }
             }
-            
     }
+        
 }
 
 #Preview {

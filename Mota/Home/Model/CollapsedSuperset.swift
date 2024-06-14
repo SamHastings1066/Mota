@@ -76,7 +76,38 @@ class CollapsedSuperset: Identifiable {
         self.superset = superset
     }
     
+    // TODO: Refactor this function and generateSinglesets. Merge them into one async function and make it more time efficient
     func generateCollapsedSinglesets(from orderedRounds: [Round]) -> [CollapsedSingleset] {
+        var collapsedSinglesets = [CollapsedSingleset]()
+        guard !superset.rounds[0].singlesets.isEmpty else {return collapsedSinglesets}
+        let singlesetsCount = orderedRounds[0].singlesets.count
+        
+        // Ensure all rounds of superset have the same number of singlesets.
+        guard orderedRounds.allSatisfy({ $0.singlesets.count == singlesetsCount }) else { return collapsedSinglesets }
+        
+        
+        var flatSinglesets = [SinglesetNew]()
+        for round in orderedRounds {
+            flatSinglesets.append(contentsOf: round.orderedSinglesets)
+        }
+        
+        // Stores the the evolution of singlesets as user progresses through rounds
+        let singlesetProgressions: [[SinglesetNew]] = {
+            var returnArray = Array(repeating: Array(repeating: SinglesetNew(), count: flatSinglesets.count/singlesetsCount), count: singlesetsCount)
+            for (index, element) in flatSinglesets.enumerated() {
+                returnArray[index % singlesetsCount][index / singlesetsCount] = element
+            }
+            return returnArray
+        }()
+        
+        for singlesetProgression in singlesetProgressions {
+            collapsedSinglesets.append(CollapsedSingleset(singlesets: singlesetProgression))
+        }
+        
+        return collapsedSinglesets
+    }
+    
+    func generateSinglesets(from orderedRounds: [Round]) async -> [CollapsedSingleset] {
         var collapsedSinglesets = [CollapsedSingleset]()
         guard !superset.rounds[0].singlesets.isEmpty else {return collapsedSinglesets}
         let singlesetsCount = orderedRounds[0].singlesets.count
