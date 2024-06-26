@@ -14,7 +14,8 @@ import SwiftData
 struct CollapsedRoundInfoView: View {
     @Environment(\.modelContext) private var context
     @Binding var collapsedSuperset: CollapsedSuperset
-    //@FocusState var isNumRoundsFocused: Bool
+    @FocusState var isNumRoundsFocused: Bool
+    @FocusState var isRestFocused: Bool
     
     @State private var numRounds: Int = 1
     @State private var rest: Int = 0
@@ -31,15 +32,19 @@ struct CollapsedRoundInfoView: View {
         }
     }
     
+    private func updateRest() {
+        collapsedSuperset.rest = rest
+    }
+    
     var body: some View {
         VStack(alignment: .center){
             VStack {
                 Text("Rounds")
                     .font(.headline)
-
-                    //TextField("", value: $collapsedSuperset.numRounds, formatter: NumberFormatter())
+                
+                //TextField("", value: $collapsedSuperset.numRounds, formatter: NumberFormatter())
                 TextField("", value: $numRounds, formatter: NumberFormatter())
-                    //.focused($isNumRoundsFocused)
+                    .focused($isNumRoundsFocused)
                     .fixedSize()
                     .textFieldStyle(RoundedBorderTextFieldStyle())
                     .keyboardType(.numberPad)
@@ -51,22 +56,27 @@ struct CollapsedRoundInfoView: View {
                     rest = await collapsedSuperset.getRest()
                 }
             }
-//            .onChange(of: isNumRoundsFocused) { oldValue, newValue in
-//                if oldValue == true && newValue == false{
-//                    print("Lost focus")
-//                    updateNumRounds()
-//                }
-//            }
+            .onChange(of: isNumRoundsFocused) { oldValue, newValue in
+                if oldValue == true && newValue == false{
+                    updateNumRounds()
+                }
+            }
+            .onChange(of: isRestFocused) { oldValue, newValue in
+                if oldValue == true && newValue == false{
+                    updateRest()
+                }
+            }
             
             VStack {
                 Text("Rest")
                     .font(.headline)
-
-                    TextField("", value: $rest, formatter: NumberFormatter())
-                        .fixedSize()
-                        .textFieldStyle(RoundedBorderTextFieldStyle())
-                        .keyboardType(.numberPad)
-
+                
+                TextField("", value: $rest, formatter: NumberFormatter())
+                    .focused($isRestFocused)
+                    .fixedSize()
+                    .textFieldStyle(RoundedBorderTextFieldStyle())
+                    .keyboardType(.numberPad)
+                
             }
         }
         .padding(.all, 10)
