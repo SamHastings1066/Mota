@@ -36,11 +36,20 @@ struct WorkoutNewScreen: View {
                 ProgressView("Retrieving workout information")
             } else if let workout {
                 List {
-                    ForEach(workout.orderedSupersets) { superset in
-                        SupersetNewView(superset: superset, orderedSupersets: workout.orderedSupersets) {
-                            removeSuperset(superset)
+                    if workout.supersets.isEmpty {
+                        //Spacer()
+                        Button("Add set") {
+                            isSelectInitialExercisePresented = true
                         }
-                        .logCreation()
+                        //Spacer()
+                    }
+                    else {
+                        ForEach(workout.orderedSupersets) { superset in
+                            SupersetNewView(superset: superset, orderedSupersets: workout.orderedSupersets) {
+                                removeSuperset(superset)
+                            }
+                            .logCreation()
+                        }
                     }
                 }
 //                .navigationTitle($workout.name)
@@ -120,7 +129,8 @@ struct WorkoutNewScreen: View {
         let config = ModelConfiguration(isStoredInMemoryOnly: true)
         let container = try ModelContainer(for: WorkoutNew.self, configurations: config)
         
-        let workout2 = WorkoutNew(name: "Arms workout",
+        let emptyWorkout = WorkoutNew(name: "Empty workout")
+        let armsWorkout = WorkoutNew(name: "Arms workout",
                                   supersets: [
                                     SupersetNew(
                                         rounds: [
@@ -135,10 +145,10 @@ struct WorkoutNewScreen: View {
                                   ]
         )
         
-        container.mainContext.insert(workout2)
+        container.mainContext.insert(emptyWorkout)
         
         return NavigationStack {
-            WorkoutNewScreen(workoutID: workout2.id)
+            WorkoutNewScreen(workoutID: emptyWorkout.id)
                 .modelContainer(container)
         }
     } catch {
