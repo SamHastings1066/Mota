@@ -120,7 +120,7 @@ class CollapsedSuperset: Identifiable {
         for round in orderedRounds { // O(n)
             // Ensure all rounds of superset have the same number of singlesets.
             //if round.singlesets.count != singlesetsCount {return [CollapsedSingleset]()}
-            flatSinglesets.append(contentsOf: round.orderedSinglesets) // This is the line that takes ages. It is not the sorting of the singlesets since using round.singlesets takes just as long
+            flatSinglesets.append(contentsOf: round.orderedSinglesets) // This is the line that takes ages. It is not the sorting of the singlesets since using round.singlesets takes almost as long
             //flatSinglesets.append(contentsOf: dummySets) // this happens lightning fast!
         }
         print("flattening takes \(Date().timeIntervalSince(startFlattening))s")
@@ -144,6 +144,15 @@ class CollapsedSuperset: Identifiable {
         
         print("collapsedSinglesets generated in \(Date().timeIntervalSince(start))s")
         return collapsedSinglesets
+    }
+    
+    func getNumRounds() async -> Int {
+        return superset.rounds.count
+    }
+    
+    func getRest() async -> Int {
+        let initialRest = superset.rounds[0].rest
+        return superset.rounds.allSatisfy({ $0.rest == initialRest }) ? initialRest : 0
     }
     
     func createRound(copying round: Round) -> Round {

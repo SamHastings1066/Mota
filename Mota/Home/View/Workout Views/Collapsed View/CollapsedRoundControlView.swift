@@ -18,7 +18,7 @@ struct CollapsedRoundControlView: View {
     var body: some View {
         HStack {
             Spacer()
-            if collapsedSuperset.collapsedSinglesets.count > 1 {
+            //if collapsedSuperset.collapsedSinglesets.count > 1 {
                 Button {
                     // use .onTapGesture
                 } label: {
@@ -29,7 +29,7 @@ struct CollapsedRoundControlView: View {
                     isRearrangeExercisesPresented.toggle()
                     //selectedSuperSet = superSet
                 }
-            }
+            //}
             
             Button {
                 

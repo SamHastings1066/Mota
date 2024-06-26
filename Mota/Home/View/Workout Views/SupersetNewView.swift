@@ -42,7 +42,7 @@ struct SupersetNewView: View {
     }
     
     var body: some View {
-        // TODO: Make the work done in this view async, and make the work done in a more time efficient
+        // TODO: Make the work done in this view more time efficient
         SupersetHeaderNewView(isExpanded: $isExpanded, isEditable: $isEditable, index: index){
          removeSupsersetClosure?()
         }
@@ -63,18 +63,17 @@ struct SupersetNewView: View {
                             }
                                 .logCreation()
                         }.logCreation()
-                        // TODO: Make the work done in this view async, and make the work done in a more time efficient
+                        // TODO: Make the work done in this view more time efficient
                         CollapsedRoundControlView(collapsedSuperset: $collapsedSuperset)
                             .logCreation()
                     }.logCreation()
-                    // TODO: Make the work done in this view async, and make the work done in a more time efficient
+                    // TODO: Make the work done in this view more time efficient
                     CollapsedRoundInfoView(collapsedSuperset: $collapsedSuperset)
                         .padding()
                         .logCreation()
                 }
                 .onAppear{
                     Task {
-                        // TODO: make this async
                         collapsedSinglesets = await collapsedSuperset.generateSinglesets(from: superset.orderedRounds)
                     }
                 }
@@ -87,6 +86,20 @@ struct SupersetNewView: View {
     do {
         let config = ModelConfiguration(isStoredInMemoryOnly: true)
         let container = try ModelContainer(for: WorkoutNew.self, configurations: config)
+        
+        var rounds = [Round]()
+        for _ in 0..<2000 {
+            let round = Round(singlesets: [SinglesetNew(exercise: DatabaseExercise.sampleExercises[0], weight: 100, reps: 10), SinglesetNew(exercise: DatabaseExercise.sampleExercises[1], weight: 90, reps: 15)])
+            rounds.append(round)
+        }
+        let workout1 = WorkoutNew(
+            name: "Legs workout",
+            supersets: [
+                SupersetNew(
+                    rounds: rounds
+                )
+            ]
+        )
         
         let workout2 = WorkoutNew(name: "Arms workout",
             supersets: [
@@ -110,12 +123,12 @@ struct SupersetNewView: View {
             ]
         )
         
-        container.mainContext.insert(workout2)
+        container.mainContext.insert(workout1)
         
         return Group {
 //            SupersetNewView(superset: workout2.orderedSupersets[0], isExpanded: true, orderedSupersets: workout2.orderedSupersets)
 //                .modelContainer(container)
-            SupersetNewView(superset: workout2.orderedSupersets[0], isExpanded: false, orderedSupersets: workout2.orderedSupersets)
+            SupersetNewView(superset: workout1.orderedSupersets[0], isExpanded: false, orderedSupersets: workout1.orderedSupersets)
                 .modelContainer(container)
         }
     } catch {

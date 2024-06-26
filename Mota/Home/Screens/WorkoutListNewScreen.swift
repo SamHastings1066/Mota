@@ -35,12 +35,12 @@ struct WorkoutListNewScreen: View {
                 SupersetNew(
                     rounds: rounds
                 ),
-                SupersetNew(
-                    rounds: [
-                        Round(singlesets: [SinglesetNew(exercise: sampleExercises[2], weight: 10, reps: 20), SinglesetNew(exercise: sampleExercises[3], weight: 40, reps: 3)]),
-                        Round(singlesets: [SinglesetNew(exercise: sampleExercises[2], weight: 10, reps: 20), SinglesetNew(exercise: sampleExercises[3], weight: 40, reps: 3)])
-                    ]
-                )
+//                SupersetNew(
+//                    rounds: [
+//                        Round(singlesets: [SinglesetNew(exercise: sampleExercises[2], weight: 10, reps: 20), SinglesetNew(exercise: sampleExercises[3], weight: 40, reps: 3)]),
+//                        Round(singlesets: [SinglesetNew(exercise: sampleExercises[2], weight: 10, reps: 20), SinglesetNew(exercise: sampleExercises[3], weight: 40, reps: 3)])
+//                    ]
+//                )
             ]
         )
         

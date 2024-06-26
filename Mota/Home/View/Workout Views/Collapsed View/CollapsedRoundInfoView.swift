@@ -17,6 +17,7 @@ struct CollapsedRoundInfoView: View {
     //@FocusState var isNumRoundsFocused: Bool
     
     @State private var numRounds: Int = 1
+    @State private var rest: Int = 0
     
     private func updateNumRounds() {
         if numRounds > collapsedSuperset.numRounds {
@@ -45,7 +46,10 @@ struct CollapsedRoundInfoView: View {
                 
             }
             .onAppear{
-                numRounds = collapsedSuperset.numRounds
+                Task {
+                    numRounds = await collapsedSuperset.getNumRounds()
+                    rest = await collapsedSuperset.getRest()
+                }
             }
 //            .onChange(of: isNumRoundsFocused) { oldValue, newValue in
 //                if oldValue == true && newValue == false{
@@ -58,7 +62,7 @@ struct CollapsedRoundInfoView: View {
                 Text("Rest")
                     .font(.headline)
 
-                    TextField("", value: $collapsedSuperset.rest, formatter: NumberFormatter())
+                    TextField("", value: $rest, formatter: NumberFormatter())
                         .fixedSize()
                         .textFieldStyle(RoundedBorderTextFieldStyle())
                         .keyboardType(.numberPad)
