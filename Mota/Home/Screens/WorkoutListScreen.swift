@@ -58,5 +58,5 @@ struct WorkoutListScreen: View {
 }
 
 #Preview {
-    WorkoutListScreen()
+    WorkoutListScreen().modelContainer(for: [Workout.self])
 }

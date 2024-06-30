@@ -37,11 +37,9 @@ struct WorkoutNewScreen: View {
             } else if let workout {
                 List {
                     if workout.supersets.isEmpty {
-                        //Spacer()
                         Button("Add set") {
                             isSelectInitialExercisePresented = true
                         }
-                        //Spacer()
                     }
                     else {
                         ForEach(workout.orderedSupersets) { superset in
@@ -89,7 +87,7 @@ struct WorkoutNewScreen: View {
     }
     
     private func loadWorkout() {
-        Task(priority: .background) {
+        Task {
             //if let workout = await fetchWorkout() {
             let backgroundActor = BackgroundSerialPersistenceActor(modelContainer: context.container)
             let start = Date()
@@ -116,7 +114,7 @@ struct WorkoutNewScreen: View {
         let newRound = Round(singlesets: [SinglesetNew(exercise: selectedExercise, weight: 0, reps: 0)])
         let newSuperset = SupersetNew(rounds: [newRound])
         context.insert(newSuperset)
-        workout?.addSuperset(newSuperset)
+        workout?.addSuperset(newSuperset) // This line causing the issue
     }
     
     func removeSuperset(_ superset: SupersetNew) {
@@ -145,10 +143,10 @@ struct WorkoutNewScreen: View {
                                   ]
         )
         
-        container.mainContext.insert(emptyWorkout)
+        container.mainContext.insert(armsWorkout)
         
         return NavigationStack {
-            WorkoutNewScreen(workoutID: emptyWorkout.id)
+            WorkoutNewScreen(workoutID: armsWorkout.id)
                 .modelContainer(container)
         }
     } catch {
