@@ -49,7 +49,7 @@ final class BackgroundDatabase: Database {
     }
     
     
-    func fetch(_ descriptor: FetchDescriptor<WorkoutNew>) async throws -> [WorkoutNew] {
+    func fetch<T>(_ descriptor: FetchDescriptor<T>) async throws -> [T] {
         try await container.database.fetch(descriptor)
     }
     
@@ -61,7 +61,7 @@ final class BackgroundDatabase: Database {
         try await container.database.delete()
     }
     
-    func insert(_ model: WorkoutNew) async {
+    func insert(_ model: some PersistentModel) async {
         return await container.database.insert(model)
     }
         

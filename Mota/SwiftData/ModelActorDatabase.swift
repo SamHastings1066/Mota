@@ -10,7 +10,7 @@ import SwiftData
 
 @ModelActor
 actor ModelActorDatabase: Database {
-    func insert(_ model: WorkoutNew) async {
+    func insert(_ model: some PersistentModel) async {
         modelContext.insert(model)
     }
     
@@ -18,7 +18,7 @@ actor ModelActorDatabase: Database {
         try modelContext.delete(model: WorkoutNew.self)
     }
     
-    func fetch(_ descriptor: FetchDescriptor<WorkoutNew>) async throws -> [WorkoutNew] {
+    func fetch<T>(_ descriptor: FetchDescriptor<T>) async throws -> [T] {
         return try modelContext.fetch(descriptor)
     }
     

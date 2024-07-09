@@ -16,7 +16,7 @@ struct DefaultDatabase: Database {
     
     static let instance = DefaultDatabase()
     
-    func fetch(_ descriptor: FetchDescriptor<WorkoutNew>) async throws -> [WorkoutNew] {
+    func fetch<T>(_ descriptor: FetchDescriptor<T>) async throws -> [T] {
         assertionFailure("No Database set.")
         throw NotImplementedError.instance
     }
@@ -30,7 +30,7 @@ struct DefaultDatabase: Database {
         assertionFailure("No Database set.")
     }
     
-    func insert(_ model: WorkoutNew) async {
+    func insert(_ model: some PersistentModel) async {
         assertionFailure("No Database set.")
     }
 }

@@ -9,10 +9,10 @@ import Foundation
 import SwiftData
 
 protocol Database: Sendable {
-    func fetch(_ descriptor: FetchDescriptor<WorkoutNew>) async throws -> [WorkoutNew]
+    func fetch<T>(_ descriptor: FetchDescriptor<T>) async throws -> [T] where T: PersistentModel
     func save() async throws
     func delete() async throws
-    func insert(_ model: WorkoutNew) async
+    func insert<T>(_ model: T) async where T: PersistentModel
 }
 
 // TODO: Extend Database protocol to add necessary helper functions.
