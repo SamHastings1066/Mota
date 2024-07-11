@@ -187,6 +187,15 @@ struct WorkoutListNewScreen: View {
         path = [newWorkout]
     }
     
+    func addBackgroundWorkout() {
+        Task {
+            let newWorkout = WorkoutNew()
+            await database.insert(newWorkout)
+            try await database.save()
+            path = [newWorkout]
+        }
+    }
+    
     var body: some View {
         NavigationStack(path: $path) {
             List {
@@ -204,7 +213,7 @@ struct WorkoutListNewScreen: View {
             }
             .toolbar {
                 Button("Add Samples", action: addBackgroundWorkouts)
-                Button("Add workout", systemImage: "plus", action: addWorkout)
+                Button("Add workout", systemImage: "plus", action: addBackgroundWorkout)
             }
         }
         .task {
