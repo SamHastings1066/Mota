@@ -20,6 +20,8 @@ struct WorkoutListNewScreen: View {
         $0.id.localizedStandardContains("Seated_Cable_Rows")
         
     }) var sampleExercises: [DatabaseExercise]
+    @State private var backgroundWorkouts: [WorkoutNew] = []
+    @Environment(\.database) private var database
     
     
     private func createSampleWorkouts() async -> [WorkoutNew] {
@@ -75,6 +77,21 @@ struct WorkoutListNewScreen: View {
         }
     }
     
+    private func addBackgroundWorkouts() {
+        Task {
+            let workouts = await createSampleWorkouts()
+            
+            
+            let startInsertingModels = Date()
+            for workout in workouts {
+                await database.insert(workout)
+            }
+            print("Time to insert models: \(Date().timeIntervalSince(startInsertingModels))")
+            let descriptor = FetchDescriptor<WorkoutNew>()
+            backgroundWorkouts = try await database.fetch(descriptor)
+        }
+    }
+    
     private func removeWorkout(_ offsets: IndexSet) {
         Task {
             let startDeletingModels = Date()
@@ -112,7 +129,7 @@ struct WorkoutListNewScreen: View {
     var body: some View {
         NavigationStack(path: $path) {
             List {
-                ForEach(workouts) { workout in
+                ForEach(backgroundWorkouts) { workout in
                     NavigationLink(value: workout) {
                         Text(workout.name)
                             .font(.headline)
@@ -125,8 +142,16 @@ struct WorkoutListNewScreen: View {
                 WorkoutNewScreen(workoutID: workout.id)
             }
             .toolbar {
-                Button("Add Samples", action: addSampleWorkouts)
+                Button("Add Samples", action: addBackgroundWorkouts)
                 Button("Add workout", systemImage: "plus", action: addWorkout)
+            }
+        }
+        .task {
+            do {
+                let descriptor = FetchDescriptor<WorkoutNew>()
+                backgroundWorkouts = try await database.fetch(descriptor)
+            } catch {
+                
             }
         }
     }
