@@ -57,8 +57,8 @@ final class BackgroundDatabase: Database {
         try await container.database.save()
     }
     
-    func delete() async throws {
-        try await container.database.delete()
+    func delete<T: PersistentModel>(_ model: T) async {
+        await container.database.delete(model)
     }
     
     func insert(_ model: some PersistentModel) async {

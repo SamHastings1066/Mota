@@ -18,7 +18,7 @@ struct SharedDatabase {
     private init(inMemory: Bool = false,
         modelContainer: ModelContainer? = nil,
         database: (any Database)? = nil) {
-            let schema = Schema([WorkoutNew.self])
+        let schema = Schema([WorkoutNew.self, DatabaseExercise.self])
             let config = ModelConfiguration(schema: schema, isStoredInMemoryOnly: inMemory)
             // TODO: remove forced unwrap
             let container = try! ModelContainer(for: schema, configurations: config)

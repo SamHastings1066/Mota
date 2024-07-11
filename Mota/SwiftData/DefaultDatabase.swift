@@ -26,7 +26,7 @@ struct DefaultDatabase: Database {
         throw NotImplementedError.instance
     }
     
-    func delete() async {
+    func delete<T: PersistentModel>(_ model: T) async {
         assertionFailure("No Database set.")
     }
     

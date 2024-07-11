@@ -14,8 +14,8 @@ actor ModelActorDatabase: Database {
         modelContext.insert(model)
     }
     
-    func delete() async throws {
-        try modelContext.delete(model: WorkoutNew.self)
+    func delete<T: PersistentModel>(_ model: T) async {
+        modelContext.delete(model)
     }
     
     func fetch<T>(_ descriptor: FetchDescriptor<T>) async throws -> [T] {

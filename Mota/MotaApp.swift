@@ -59,29 +59,29 @@ struct MotaApp: App {
         WindowGroup {
             content()
         }
-        .modelContainer(for: [Workout.self, SuperSet.self, DatabaseExercise.self, WorkoutNew.self]) { result in
-            do {
-                let container = try result.get()
+//        .modelContainer(for: [Workout.self, SuperSet.self, DatabaseExercise.self, WorkoutNew.self]) { result in
+//            do {
+//                let container = try result.get()
+//                
+//                // check we haven't already added the exercises
+//                let descriptor = FetchDescriptor<DatabaseExercise>()
+//                let existingExercises = try container.mainContext.fetchCount(descriptor)
+//                guard existingExercises == 0 else { return }
                 
-                // check we haven't already added the exercises
-                let descriptor = FetchDescriptor<DatabaseExercise>()
-                let existingExercises = try container.mainContext.fetchCount(descriptor)
-                guard existingExercises == 0 else { return }
+//                guard let url = Bundle.main.url(forResource: "exercises", withExtension: "json") else {
+//                    fatalError("Failed to find exercises.json")
+//                }
+//                let data = try Data(contentsOf: url)
+//                let exercises = try JSONDecoder().decode([DatabaseExercise].self, from: data)
+//                for exercise in exercises {
+//                    container.mainContext.insert(exercise)
+//                }
+//                print("DATABASE created")
                 
-                guard let url = Bundle.main.url(forResource: "exercises", withExtension: "json") else {
-                    fatalError("Failed to find exercises.json")
-                }
-                let data = try Data(contentsOf: url)
-                let exercises = try JSONDecoder().decode([DatabaseExercise].self, from: data)
-                for exercise in exercises {
-                    container.mainContext.insert(exercise)
-                }
-                print("DATABASE created")
-                
-            } catch {
-                print("Failed to pre-seed database")
-            }
-        }
+//            } catch {
+//                print("Failed to pre-seed database")
+//            }
+//        }
         .database(SharedDatabase.shared.database)
     }
         

@@ -23,6 +23,7 @@ struct HomeView: View {
                         let descriptor = FetchDescriptor<DatabaseExercise>()
                         let existingExercises = try await database.fetchCount(fetchDescriptor: descriptor)
                         guard existingExercises == 0 else {
+                            print("Exercises already exist")
                             loadingExercises = false
                             return
                         }
@@ -34,6 +35,7 @@ struct HomeView: View {
                         for exercise in exercises {
                             await database.insert(exercise)
                         }
+                        try await database.save()
                         print("Exercises created")
                         loadingExercises = false
                     } catch {
