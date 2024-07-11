@@ -134,13 +134,30 @@ struct WorkoutListNewScreen: View {
 
 #Preview {
     
+    struct AsyncPreviewView: View {
+        @State var loadingExercises = true
+        
+        var body: some View {
+            if loadingExercises {
+                ProgressView("loading exercises")
+                    .task {
+                        await SharedDatabase.preview.loadExercises()
+                        loadingExercises = false
+                    }
+            } else {
+                NavigationStack{ WorkoutListNewScreen() }
+            }
+        }
+    }
+    
+    
     do {
         let config = ModelConfiguration(isStoredInMemoryOnly: true)
         let container = try ModelContainer(for: WorkoutNew.self, configurations: config)
         // check we haven't already added the exercises
         let descriptor = FetchDescriptor<DatabaseExercise>()
         let existingExercises = try container.mainContext.fetchCount(descriptor)
-        guard existingExercises == 0 else { return WorkoutListNewScreen().modelContainer(container) }
+        guard existingExercises == 0 else { return AsyncPreviewView().modelContainer(container) }
         
         guard let url = Bundle.main.url(forResource: "exercises", withExtension: "json") else {
             fatalError("Failed to find exercises.json")
@@ -153,10 +170,13 @@ struct WorkoutListNewScreen: View {
         print("DATABASE created")
         
         
-        return NavigationStack{ WorkoutListNewScreen()}.modelContainer(container)
+        return AsyncPreviewView()
+            .modelContainer(container)
+            .environment(\.database, SharedDatabase.preview.database)
     } catch {
         fatalError("Failed to create model container")
     }
+    
     
     
 }

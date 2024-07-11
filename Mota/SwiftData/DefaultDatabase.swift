@@ -33,4 +33,9 @@ struct DefaultDatabase: Database {
     func insert(_ model: some PersistentModel) async {
         assertionFailure("No Database set.")
     }
+    
+    func fetchCount<T: PersistentModel>( fetchDescriptor: FetchDescriptor<T>) async throws -> Int {
+        assertionFailure("No Database set.")
+        throw NotImplementedError.instance
+    }
 }

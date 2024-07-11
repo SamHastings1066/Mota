@@ -82,6 +82,7 @@ struct MotaApp: App {
                 print("Failed to pre-seed database")
             }
         }
+        .database(SharedDatabase.shared.database)
     }
         
     @ViewBuilder

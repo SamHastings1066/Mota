@@ -26,5 +26,8 @@ actor ModelActorDatabase: Database {
         try modelContext.save()
     }
     
+    func fetchCount<T: PersistentModel>( fetchDescriptor: FetchDescriptor<T>) async throws -> Int {
+        return try modelContext.fetchCount(fetchDescriptor)
+    }
     
 }

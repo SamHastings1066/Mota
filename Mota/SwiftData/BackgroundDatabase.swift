@@ -64,5 +64,9 @@ final class BackgroundDatabase: Database {
     func insert(_ model: some PersistentModel) async {
         return await container.database.insert(model)
     }
+    
+    func fetchCount<T: PersistentModel>( fetchDescriptor: FetchDescriptor<T>) async throws -> Int {
+        return try await container.database.fetchCount(fetchDescriptor: fetchDescriptor)
+    }
         
 }
