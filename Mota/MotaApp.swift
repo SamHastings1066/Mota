@@ -55,6 +55,7 @@ struct MotaApp: App {
         
     }
     
+    
     var body: some Scene {
         WindowGroup {
             content()
@@ -91,10 +92,29 @@ struct MotaApp: App {
         case false:
             AuthenticationView(viewModel: LoginViewModel(authService: authService))
         case true:
-            HomeView(viewModel: HomeViewModel(authService: authService))
+            //HomeView(viewModel: HomeViewModel(authService: authService))
+            LoadingExercisesView(authService: authService)
         default:
             // TODO: Create better loading screen. Possibly the Mota Icon?
             Text("LOADING...")
+        }
+    }
+}
+
+
+struct LoadingExercisesView: View {
+    @State var loadingExercises = true
+    var authService: AuthenticationService
+    
+    var body: some View {
+        if loadingExercises {
+            ProgressView("loading exercises")
+                .task {
+                    await SharedDatabase.shared.loadExercises()
+                    loadingExercises = false
+                }
+        } else {
+            HomeView(viewModel: HomeViewModel(authService: authService))
         }
     }
 }
