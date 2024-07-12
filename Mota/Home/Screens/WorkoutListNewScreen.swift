@@ -241,7 +241,7 @@ struct WorkoutListNewScreen: View {
                         loadingExercises = false
                     }
             } else {
-                NavigationStack{ WorkoutListNewScreen() }
+                    WorkoutListNewScreen()
             }
         }
     }
