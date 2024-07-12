@@ -11,7 +11,6 @@ import SwiftData
 struct HomeView: View {
         
     var viewModel: HomeViewModel
-    @Environment(\.database) private var database
     
     var body: some View {
         TabView {
@@ -33,6 +32,24 @@ struct HomeView: View {
 }
 
 #Preview {
+    
+    struct AsyncPreviewView: View {
+        @State var loadingExercises = true
+        var viewModel: HomeViewModel
+        
+        var body: some View {
+            if loadingExercises {
+                ProgressView("loading exercises")
+                    .task {
+                        await SharedDatabase.preview.loadExercises()
+                        loadingExercises = false
+                    }
+            } else {
+                HomeView(viewModel: viewModel)
+            }
+        }
+    }
+    
     var viewModel = HomeViewModel(authService: FirebaseAuthService())
-    return HomeView(viewModel: viewModel).environment(\.database, SharedDatabase.preview.database)
+    return AsyncPreviewView(viewModel: viewModel).environment(\.database, SharedDatabase.preview.database)
 }
