@@ -49,7 +49,7 @@ final class BackgroundDatabase: Database {
     }
     
     
-    func fetch<T>(_ descriptor: FetchDescriptor<T>) async throws -> [T] {
+    func fetch<T: PersistentModel>(_ descriptor: FetchDescriptor<T>) async throws -> [T] {
         try await container.database.fetch(descriptor)
     }
     

@@ -18,7 +18,7 @@ actor ModelActorDatabase: Database {
         modelContext.delete(model)
     }
     
-    func fetch<T>(_ descriptor: FetchDescriptor<T>) async throws -> [T] {
+    func fetch<T: PersistentModel>(_ descriptor: FetchDescriptor<T>) async throws -> [T] {
         return try modelContext.fetch(descriptor)
     }
     
