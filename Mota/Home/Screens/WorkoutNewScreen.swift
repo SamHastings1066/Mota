@@ -58,7 +58,8 @@ struct WorkoutNewScreen: View {
                 .fullScreenCover(isPresented: $isSelectInitialExercisePresented,
                                  onDismiss: {
                     if selectedExercise != nil {
-                        addSuperset(with: selectedExercise)
+                        //addSuperset(with: selectedExercise)
+                        addBackgroundSuperset(with: selectedExercise)
                     }
                 },
                                  content: {
@@ -133,6 +134,17 @@ struct WorkoutNewScreen: View {
         let newSuperset = SupersetNew(rounds: [newRound])
         context.insert(newSuperset)
         workout?.addSuperset(newSuperset) // This line causing the issue
+    }
+    
+    func addBackgroundSuperset(with exercise: DatabaseExercise?) {
+        let newRound = Round(singlesets: [SinglesetNew(exercise: selectedExercise, weight: 0, reps: 0)])
+        let newSuperset = SupersetNew(rounds: [newRound])
+        Task {
+            await database.insert(newSuperset)
+            try? await database.save()
+            workout?.addSuperset(newSuperset) // This line causing the issue
+            
+        }
     }
     
     func removeSuperset(_ superset: SupersetNew) {

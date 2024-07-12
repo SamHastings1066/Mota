@@ -14,27 +14,31 @@ struct SelectExerciseScreen: View {
     @Binding var selectedExercise: DatabaseExercise?
     @State var exerciseToBePresented: DatabaseExercise?
     @Environment(\.dismiss) private var dismiss
-    @Query(sort: \DatabaseExercise.name, order: .forward) private var exercises: [DatabaseExercise]
+    //@Query(sort: \DatabaseExercise.name, order: .forward) private var exercises: [DatabaseExercise]
     @State var filterString: String = ""
     
-    var filteredExercises: [DatabaseExercise] {
+    @Environment(\.database) private var database
+    @State private var backgroundExercises: [DatabaseExercise] = []
+    
+    var filteredBackgroundExercises: [DatabaseExercise] {
         if filterString.isEmpty {
-            return exercises
+            return backgroundExercises
         } else {
-            return exercises.filter { exercise in
+            return backgroundExercises.filter { exercise in
                 exercise.name.lowercased().contains(filterString.lowercased())
             }
         }
     }
-//    var dummyExercises = {
-//        var result = [DatabaseExercise]()
-//        for _ in 0..<2000   { // 0..<2 removes hang
-//            let ex = DatabaseExercise.sampleExercises[0] // DatabaseExercise.sampleExercises[0] // DatabaseExercise() removes hang
-//            result.append(ex)
+    
+//    var filteredExercises: [DatabaseExercise] {
+//        if filterString.isEmpty {
+//            return exercises
+//        } else {
+//            return exercises.filter { exercise in
+//                exercise.name.lowercased().contains(filterString.lowercased())
+//            }
 //        }
-//        print("dummy created")
-//        return result
-//    }()
+//    }
 
     
     var body: some View {
@@ -44,7 +48,7 @@ struct SelectExerciseScreen: View {
                     .padding(.leading)
             }
             List {
-                ForEach(filteredExercises) { exercise in
+                ForEach(filteredBackgroundExercises) { exercise in
                     Button {
                         selectedExercise = exercise
                         dismiss()
@@ -66,6 +70,14 @@ struct SelectExerciseScreen: View {
                 }
             }
             .navigationTitle("Select exercise")
+            .task {
+                do {
+                    let descriptor = FetchDescriptor<DatabaseExercise>(sortBy: [ SortDescriptor(\.name, order: .forward)])
+                    backgroundExercises = try await database.fetch(descriptor)
+                } catch {
+                    print(error)
+                }
+            }
 
         }
         .searchable(text: $filterString, placement: .navigationBarDrawer(displayMode: .always))
@@ -83,37 +95,55 @@ struct SelectExerciseScreen: View {
 
 
 #Preview {
-    do {
-        let config = ModelConfiguration(isStoredInMemoryOnly: true)
-        let container = try ModelContainer(for: WorkoutNew.self, configurations: config)
-        // check we haven't already added the exercises
-        let descriptor = FetchDescriptor<DatabaseExercise>()
-        let existingExercises = try container.mainContext.fetchCount(descriptor)
-        guard existingExercises == 0 else { 
-            return 
-            //NavigationStack {
-                SelectExerciseScreen(selectedExercise: .constant(nil))
-                    .modelContainer(container)
-            //}
-        }
+    
+    struct AsyncPreviewView: View {
+        @State var loadingExercises = true
         
-        guard let url = Bundle.main.url(forResource: "exercises", withExtension: "json") else {
-            fatalError("Failed to find exercises.json")
+        var body: some View {
+            if loadingExercises {
+                ProgressView("loading exercises")
+                    .task {
+                        await SharedDatabase.preview.loadExercises()
+                        loadingExercises = false
+                    }
+            } else {
+                SelectExerciseScreen(selectedExercise: .constant(nil))
+            }
         }
-        let data = try Data(contentsOf: url)
-        let exercises = try JSONDecoder().decode([DatabaseExercise].self, from: data)
-        for exercise in exercises {
-            container.mainContext.insert(exercise)
-        }
-        print("DATABASE created")
+    }
+    
+//    do {
+//        let config = ModelConfiguration(isStoredInMemoryOnly: true)
+//        let container = try ModelContainer(for: WorkoutNew.self, configurations: config)
+//        // check we haven't already added the exercises
+//        let descriptor = FetchDescriptor<DatabaseExercise>()
+//        let existingExercises = try container.mainContext.fetchCount(descriptor)
+//        guard existingExercises == 0 else { 
+//            return 
+//            //NavigationStack {
+//                SelectExerciseScreen(selectedExercise: .constant(nil))
+//                    .modelContainer(container)
+//            //}
+//        }
+//        
+//        guard let url = Bundle.main.url(forResource: "exercises", withExtension: "json") else {
+//            fatalError("Failed to find exercises.json")
+//        }
+//        let data = try Data(contentsOf: url)
+//        let exercises = try JSONDecoder().decode([DatabaseExercise].self, from: data)
+//        for exercise in exercises {
+//            container.mainContext.insert(exercise)
+//        }
+//        print("DATABASE created")
         
         
             return 
         //NavigationStack {
-             SelectExerciseScreen(selectedExercise: .constant(nil))
-                .modelContainer(container)
+        AsyncPreviewView()
+            .environment(\.database, SharedDatabase.preview.database)
+            //.modelContainer(container)
         //}
-    } catch {
-        fatalError("Failed to create model container")
-    }
+//    } catch {
+//        fatalError("Failed to create model container")
+//    }
 }
