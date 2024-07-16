@@ -10,7 +10,7 @@ import SwiftData
 
 struct WorkoutNewScreen: View {
     
-    @Environment(\.modelContext) private var context
+    //@Environment(\.modelContext) private var context
     @State private var workout: WorkoutNew?
     @State private var isLoading = true
     @State private var isSelectInitialExercisePresented = false
@@ -38,7 +38,7 @@ struct WorkoutNewScreen: View {
                             SupersetNewView(superset: superset, orderedSupersets: workout.orderedSupersets) {
                                 removeSuperset(superset)
                             }
-                            .logCreation()
+                            //.logCreation()
                         }
                     }
                 }
@@ -81,7 +81,7 @@ struct WorkoutNewScreen: View {
     }
     
     private func loadBackgroundWorkout() {
-       
+        isLoading = true
         Task {
             let start = Date()
             let descriptor = FetchDescriptor<WorkoutNew>(
@@ -129,12 +129,12 @@ struct WorkoutNewScreen: View {
 //    }
     
     
-    func addSuperset(with exercise: DatabaseExercise?) {
-        let newRound = Round(singlesets: [SinglesetNew(exercise: selectedExercise, weight: 0, reps: 0)])
-        let newSuperset = SupersetNew(rounds: [newRound])
-        context.insert(newSuperset)
-        workout?.addSuperset(newSuperset) // This line causing the issue
-    }
+//    func addSuperset(with exercise: DatabaseExercise?) {
+//        let newRound = Round(singlesets: [SinglesetNew(exercise: selectedExercise, weight: 0, reps: 0)])
+//        let newSuperset = SupersetNew(rounds: [newRound])
+//        context.insert(newSuperset)
+//        workout?.addSuperset(newSuperset) // This line causing the issue
+//    }
     
     func addBackgroundSuperset(with exercise: DatabaseExercise?) {
         let newRound = Round(singlesets: [SinglesetNew(exercise: selectedExercise, weight: 0, reps: 0)])
@@ -142,8 +142,7 @@ struct WorkoutNewScreen: View {
         Task {
             await database.insert(newSuperset)
             try? await database.save()
-            workout?.addSuperset(newSuperset) // This line causing the issue
-            
+            workout?.addSuperset(newSuperset) 
         }
     }
     
