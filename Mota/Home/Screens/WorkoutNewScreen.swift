@@ -15,7 +15,9 @@ struct WorkoutNewScreen: View {
     @State private var isLoading = true
     @State private var isSelectInitialExercisePresented = false
     @State private var isReorderSupersetsPresented = false
-    @State var selectedExercise: DatabaseExercise?
+    @State private var selectedExercise: DatabaseExercise?
+    @State private var renameWorkout = false
+    @State private var title = ""
     @Environment(\.database) private var database
     
     let workoutID: UUID
@@ -40,8 +42,6 @@ struct WorkoutNewScreen: View {
                         }
                     }
                 }
-//                .navigationTitle($workout.name)
-                .navigationBarTitleDisplayMode(.inline)
                 .toolbar {
                     Menu("Edit Workout", systemImage: "ellipsis.circle") {
                         Button("Add New Set") {
@@ -50,7 +50,14 @@ struct WorkoutNewScreen: View {
                         Button("Reorder Sets") {
                             isReorderSupersetsPresented = true
                         }
+                        Button("Rename Workout") {
+                            renameWorkout.toggle()
+                        }
                     }
+                }
+                .alert("Rename workout", isPresented: $renameWorkout) {
+                    TextField("Workout Name", text: $title)
+                    Button("OK", action: updateName)
                 }
                 .fullScreenCover(isPresented: $isSelectInitialExercisePresented,
                                  onDismiss: {
@@ -70,6 +77,7 @@ struct WorkoutNewScreen: View {
                 Text("Workout not found")
             }
         }
+        .navigationTitle(workout?.name ?? "")
         .onAppear {
             loadBackgroundWorkout()
         }
@@ -88,6 +96,7 @@ struct WorkoutNewScreen: View {
             if let workout = workouts?.first {
                 self.workout = workout
                 await MainActor.run {
+                    title = workout.name
                     self.isLoading = false
                 }
             }
@@ -99,6 +108,10 @@ struct WorkoutNewScreen: View {
             }
         }
         
+    }
+    
+    private func updateName() {
+        workout?.name = title
     }
     
     func addBackgroundSuperset(with exercise: DatabaseExercise?) {
