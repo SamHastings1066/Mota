@@ -77,7 +77,7 @@ struct WorkoutNewScreen: View {
                 Text("Workout not found")
             }
         }
-        .navigationTitle(workout?.name ?? "")
+        .navigationTitle(title)
         .onAppear {
             loadBackgroundWorkout()
         }
