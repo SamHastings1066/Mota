@@ -95,6 +95,7 @@ struct WorkoutListNewScreen: View {
             await database.insert(newWorkout)
             try await database.save()
             path = [newWorkout]
+            backgroundWorkouts.append(newWorkout)
         }
     }
     
