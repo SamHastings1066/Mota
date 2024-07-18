@@ -10,13 +10,13 @@ import SwiftData
 
 struct WorkoutListNewScreen: View {
     
-    @State private var backgroundWorkouts: [WorkoutNew] = []
+    @State private var workouts: [WorkoutNew] = []
     @State private var sampleBackgroundExercises: [DatabaseExercise] = []
     @Environment(\.database) private var database
     @State private var path = [WorkoutNew]()
     
     
-    private func createBackgroundWorkouts() async -> [WorkoutNew] {
+    private func createExampleWorkouts() async -> [WorkoutNew] {
         let startCreatingModels = Date()
         var rounds = [Round]()
         for _ in 0..<2000 {
@@ -51,78 +51,69 @@ struct WorkoutListNewScreen: View {
         return [workout1, workout2]
     }
     
-    private func addBackgroundWorkouts() {
+    private func addExampleWorkouts() {
         Task {
-            let workouts = await createBackgroundWorkouts()
+            let exampleWorkouts = await createExampleWorkouts()
             
             
             let startInsertingModels = Date()
-            for workout in workouts {
+            for workout in exampleWorkouts {
                 await database.insert(workout)
             }
+            workouts.append(contentsOf: exampleWorkouts)
             print("Time to insert models: \(Date().timeIntervalSince(startInsertingModels))")
-            do {
-                try await database.save()
-                let descriptor = FetchDescriptor<WorkoutNew>()
-                backgroundWorkouts = try await database.fetch(descriptor)
-            } catch {
-                print(error)
-            }
+            try? await database.save()
+
         }
     }
     
-    private func removeBackgroundWorkout(_ offsets: IndexSet) {
+    private func removeWorkout(_ offsets: IndexSet) {
         Task {
             let startDeletingModels = Date()
             for offset in offsets {
-                let workout = backgroundWorkouts[offset]
+                let workout = workouts[offset]
                 await database.delete(workout) // causes error
+                workouts.remove(at: offset)
             }
             print("Time to Delete models: \(Date().timeIntervalSince(startDeletingModels))")
-            do {
-                try await database.save()
-                let descriptor = FetchDescriptor<WorkoutNew>()
-                backgroundWorkouts = try await database.fetch(descriptor) // causing error
-            } catch {
-                print(error)
-            }
+            try? await database.save()
         }
     }
     
-    func addBackgroundWorkout() {
+    func addNewWorkout() {
         Task {
             let newWorkout = WorkoutNew()
             await database.insert(newWorkout)
             try await database.save()
             path = [newWorkout]
-            backgroundWorkouts.append(newWorkout)
+            workouts.append(newWorkout)
         }
     }
     
     var body: some View {
         NavigationStack(path: $path) {
             List {
-                ForEach(backgroundWorkouts) { workout in
+                ForEach(workouts) { workout in
                     NavigationLink(value: workout) {
                         Text(workout.name)
                             .font(.headline)
                     }
                 }
-                .onDelete(perform: removeBackgroundWorkout)
+                .onDelete(perform: removeWorkout)
             }
             .navigationTitle("Workout List")
             .navigationDestination(for: WorkoutNew.self) { workout in
                 WorkoutNewScreen(workoutID: workout.id)
             }
             .toolbar {
-                Button("Add Samples", action: addBackgroundWorkouts)
-                Button("Add workout", systemImage: "plus", action: addBackgroundWorkout)
+                Button("Add Samples", action: addExampleWorkouts)
+                Button("Add workout", systemImage: "plus", action: addNewWorkout)
             }
         }
         .task {
             do {
                 let descriptor = FetchDescriptor<WorkoutNew>()
-                backgroundWorkouts = try await database.fetch(descriptor)
+                workouts = try await database.fetch(descriptor)
                 sampleBackgroundExercises = try await database.fetch(FetchDescriptor<DatabaseExercise>())
             } catch {
                 
