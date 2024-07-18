@@ -30,4 +30,10 @@ actor ModelActorDatabase: Database {
         return try modelContext.fetchCount(fetchDescriptor)
     }
     
+    func update<T: PersistentModel>(_ model: T, with changes: (inout T) -> Void) async throws {
+        var updatedModel = model
+        changes(&updatedModel)
+        try await self.save()
+    }
+    
 }

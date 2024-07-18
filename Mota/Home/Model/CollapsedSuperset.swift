@@ -8,7 +8,11 @@
 import Foundation
 
 @Observable
-class CollapsedSuperset: Identifiable {
+class CollapsedSuperset: Identifiable, Equatable {
+    static func == (lhs: CollapsedSuperset, rhs: CollapsedSuperset) -> Bool {
+        lhs.id == rhs.id
+    }
+    
     var id = UUID()
     var superset: SupersetNew
     

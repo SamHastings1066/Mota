@@ -54,7 +54,7 @@ struct SelectExerciseScreen: View {
                         dismiss()
                     } label: {
                         ExerciseRowView(exercise: exercise)
-                            .logCreation()
+                            //.logCreation()
                     }
                     .swipeActions {
                         Button("Info") {

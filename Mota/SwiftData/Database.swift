@@ -14,6 +14,7 @@ protocol Database: Sendable {
     func delete<T: PersistentModel>(_ model: T) async
     func insert<T>(_ model: T) async where T: PersistentModel
     func fetchCount<T: PersistentModel>( fetchDescriptor: FetchDescriptor<T>) async throws -> Int
+    func update<T: PersistentModel>(_ model: T, with changes: (inout T) -> Void) async throws
 }
 
 // TODO: Extend Database protocol to add necessary helper functions.

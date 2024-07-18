@@ -26,10 +26,7 @@ struct SupersetNewView: View {
         self.isEditable = isEditable
         self.orderedSupersets = orderedSupersets
         self.collapsedSuperset = CollapsedSuperset(superset: superset)
-        //self.collapsedSinglesets = CollapsedSuperset(superset: superset).collapsedSinglesets
         self.removeSupsersetClosure = removeSupersetClosure
-        
-        //print(collapsedSuperset.numRounds)
         print("SupersetNewView init takes \(Date().timeIntervalSince(start))s")
     }
     
@@ -46,11 +43,9 @@ struct SupersetNewView: View {
         SupersetHeaderNewView(isExpanded: $isExpanded, isEditable: $isEditable, index: index){
          removeSupsersetClosure?()
         }
-            .logCreation()
             if isExpanded {
                 ForEach(superset.orderedRounds) { round in
                     ExpandedRoundNewView(round: round, isEditable: $isEditable)
-                        .logCreation()
                 }
             } else {
                 HStack {
@@ -61,18 +56,21 @@ struct SupersetNewView: View {
                                 collapsedSuperset.removeSingleSet(collapsedSingleset)
                                 collapsedSuperset = CollapsedSuperset(superset: collapsedSuperset.superset)
                             }
-                                .logCreation()
-                        }.logCreation()
+                        }
                         // TODO: Make the work done in this view more time efficient
                         CollapsedRoundControlView(collapsedSuperset: $collapsedSuperset)
-                            .logCreation()
-                    }.logCreation()
+                    }
                     // TODO: Make the work done in this view more time efficient
                     CollapsedRoundInfoView(collapsedSuperset: $collapsedSuperset)
                         .padding()
-                        .logCreation()
                 }
                 .onAppear{
+                    Task {
+                        collapsedSinglesets = await collapsedSuperset.generateSinglesets(from: superset.orderedRounds)
+                    }
+                }
+                // TODO: Using .onChange here fixes the problem that collapsedSinglesets is used in the ForEach instead of directly using collapsedSuperset.collapsedSinglesets. CollapsedRoundInfoView makes changes to collapsedSuperset, therefore must use .onChange to watch for these changes and then ensure that collapsedSinglesets is updated separately. The reason why collapsedSinglesets is used in the ForEach instead of directly using collapsedSuperset.collapsedSinglesets is so that collapsedSinglesets can be generated asynchronously because it is a time consuming operation. The better solution is to make the generation of collapsedSinglesets quick. There is no reason for it to take so long that it causes a hang if performed synchronously.
+                .onChange(of: collapsedSuperset) { _, _ in
                     Task {
                         collapsedSinglesets = await collapsedSuperset.generateSinglesets(from: superset.orderedRounds)
                     }
@@ -83,6 +81,7 @@ struct SupersetNewView: View {
 }
 
 #Preview {
+    // TODO: update this preview to use background database
     do {
         let config = ModelConfiguration(isStoredInMemoryOnly: true)
         let container = try ModelContainer(for: WorkoutNew.self, configurations: config)

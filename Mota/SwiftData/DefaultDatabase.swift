@@ -38,4 +38,9 @@ struct DefaultDatabase: Database {
         assertionFailure("No Database set.")
         throw NotImplementedError.instance
     }
+    
+    func update<T: PersistentModel>(_ model: T, with changes: (inout T) -> Void) async throws {
+        assertionFailure("No Database set.")
+        throw NotImplementedError.instance
+    }
 }
