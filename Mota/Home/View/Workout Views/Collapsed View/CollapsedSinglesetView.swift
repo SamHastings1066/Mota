@@ -13,6 +13,7 @@ struct CollapsedSinglesetView: View {
     @Bindable var collapsedSingleset: CollapsedSingleset
     var removeSinglesetClosure: (() -> Void)?
     @State private var isExerciseDetailPresented = false
+    @Environment(\.database) private var database
  
     var body: some View {
         HStack {
@@ -31,7 +32,7 @@ struct CollapsedSinglesetView: View {
                     VStack {
                         Text("Reps")
                         
-                        TextField("", value: $collapsedSingleset.reps, formatter: NumberFormatter())
+                        TextField("", value: $collapsedSingleset.reps, formatter: NumberFormatter(), onEditingChanged: saveDatabase)
                             .fixedSize()
                             .textFieldStyle(RoundedBorderTextFieldStyle())
                             .keyboardType(.numberPad)
@@ -40,7 +41,7 @@ struct CollapsedSinglesetView: View {
                     VStack {
                         Text("kgs")
                         
-                        TextField("", value: $collapsedSingleset.weight, formatter: NumberFormatter())
+                        TextField("", value: $collapsedSingleset.weight, formatter: NumberFormatter(), onEditingChanged: saveDatabase)
                             .fixedSize()
                             .textFieldStyle(RoundedBorderTextFieldStyle())
                             .keyboardType(.numberPad)
@@ -55,6 +56,12 @@ struct CollapsedSinglesetView: View {
         .padding([.vertical, .leading], 10)
         .background(Color(UIColor.systemGray5))
         .cornerRadius(10)
+    }
+    
+    private func saveDatabase(focused: Bool) {
+        if focused == false {
+            Task { try? await database.save() }
+        }
     }
 }
 

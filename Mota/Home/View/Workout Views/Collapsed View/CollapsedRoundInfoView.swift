@@ -12,7 +12,6 @@ import SwiftData
 // instead, use another state object `numRounds` which is initialised to the value of the collapsedSuperset.numRounds, and when numRounds is reduced it deletes the excess rounds in collapsedsuperset.superset.orderedrounds from the model context and
 
 struct CollapsedRoundInfoView: View {
-    //@Environment(\.modelContext) private var context
     @Environment(\.database) private var database
     @Binding var collapsedSuperset: CollapsedSuperset
     @FocusState var isNumRoundsFocused: Bool
