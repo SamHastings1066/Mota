@@ -40,6 +40,13 @@ struct WorkoutNewScreen: View {
                             }
                             //.logCreation()
                         }
+                        HStack {
+                            Spacer()
+                            Button("", systemImage: "plus") {
+                                isSelectInitialExercisePresented = true
+                            }
+                            Spacer()
+                        }
                     }
                 }
                 .toolbar {
