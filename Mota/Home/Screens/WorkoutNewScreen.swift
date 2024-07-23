@@ -119,7 +119,10 @@ struct WorkoutNewScreen: View {
     }
     
     private func updateName() {
-        workout?.name = title
+        Task {
+            workout?.name = title
+            try? await database.save()
+        }
     }
     
     func addBackgroundSuperset(with exercise: DatabaseExercise?) {
@@ -127,13 +130,16 @@ struct WorkoutNewScreen: View {
         let newSuperset = SupersetNew(rounds: [newRound])
         Task {
             await database.insert(newSuperset)
-            try? await database.save()
             workout?.addSuperset(newSuperset) 
+            try? await database.save()
         }
     }
     
     func removeSuperset(_ superset: SupersetNew) {
         workout?.deleteSuperset(superset)
+        Task {
+            try? await database.save()
+        }
     }
 }
 
