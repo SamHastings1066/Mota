@@ -72,6 +72,7 @@ struct WorkoutNewScreen: View {
                         //addSuperset(with: selectedExercise)
                         addBackgroundSuperset(with: selectedExercise)
                     }
+                    selectedExercise = nil
                 },
                                  content: {
                     SelectExerciseScreen(selectedExercise: $selectedExercise)
