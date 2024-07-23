@@ -15,6 +15,7 @@ struct SupersetNewView: View {
     @State private var isEditable : Bool
     @State var collapsedSuperset: CollapsedSuperset
     @State var collapsedSinglesets: [CollapsedSingleset] = []
+    @Environment(\.database) private var database
     
     var orderedSupersets: [SupersetNew]
     var removeSupsersetClosure: (() -> Void)?
@@ -55,6 +56,9 @@ struct SupersetNewView: View {
                             CollapsedSinglesetView(collapsedSingleset: collapsedSingleset){
                                 collapsedSuperset.removeSingleSet(collapsedSingleset)
                                 collapsedSuperset = CollapsedSuperset(superset: collapsedSuperset.superset)
+                                Task {
+                                    try? await database.save()
+                                }
                             }
                         }
                         // TODO: Make the work done in this view more time efficient
