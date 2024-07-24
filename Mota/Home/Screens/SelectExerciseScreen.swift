@@ -87,7 +87,7 @@ struct SelectExerciseScreen: View {
             }
         }
         .sheet(item: $exerciseToBePresented) { exercise in
-            ExerciseDetailView(exercise: exercise)
+            ExerciseDetailScreen(exercise: exercise)
         }
     }
 }

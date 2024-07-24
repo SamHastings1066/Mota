@@ -32,7 +32,7 @@ struct ExerciseImageView: View {
             isExerciseDetailPresented.toggle()
         }
         .sheet(isPresented: $isExerciseDetailPresented) {
-            ExerciseDetailView(exercise: exercise)
+            ExerciseDetailScreen(exercise: exercise)
         }
 
        

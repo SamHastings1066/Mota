@@ -114,7 +114,7 @@ struct LoadingExercisesView: View {
                     loadingExercises = false
                 }
         } else {
-            HomeView(viewModel: HomeViewModel(authService: authService))
+            HomeTabViewScreen(viewModel: HomeViewModel(authService: authService))
         }
     }
 }

@@ -1,5 +1,5 @@
 //
-//  UserView.swift
+//  UserScreen.swift
 //  Mota
 //
 //  Created by sam hastings on 20/01/2024.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct UserView: View {
+struct UserScreen: View {
     
     var viewModel: UserViewModel
     @State var presentingConfirmationDialog = false
@@ -77,5 +77,5 @@ struct UserView: View {
 }
 
 #Preview {
-    return UserView(viewModel: UserViewModel(authService: FirebaseAuthService()))
+    return UserScreen(viewModel: UserViewModel(authService: FirebaseAuthService()))
 }

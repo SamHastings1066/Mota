@@ -1,5 +1,5 @@
 //
-//  ExerciseDetailView.swift
+//  ExerciseDetailScreen.swift
 //  Mota
 //
 //  Created by sam hastings on 31/01/2024.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct ExerciseDetailView: View {
+struct ExerciseDetailScreen: View {
     var exercise: DatabaseExercise?
     
     
@@ -40,7 +40,7 @@ struct ExerciseDetailView: View {
         if let exercise = exercise {
             Text("\(exercise.name)")
                 .font(.title)
-            exerciseAnimationView(imageNames: imageNames, fullSizeImageURLs: fullSizeImageURLs)
+            ExerciseAnimationView(imageNames: imageNames, fullSizeImageURLs: fullSizeImageURLs)
             Grid {
                 GridRow {
                     Text("Primary Muscle")
@@ -94,28 +94,7 @@ struct ExerciseDetailView: View {
 }
 
 //#Preview {
-//    ExerciseDetailView(exercise: databaseExercises[0])
+//    ExerciseDetailScreen(exercise: databaseExercises[0])
 //}
 
-struct exerciseAnimationView: View {
-    var imageNames: [String?]
-    var fullSizeImageURLs: [String?]
-    @State private var showFirstImage = true
-    @State private var timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
-    var body: some View {
-        Group {
-            if showFirstImage {
-                SafeImageView(imageName: imageNames[0], fullSizeImageURL: fullSizeImageURLs[0])
-                    .transition(.opacity)
-            } else {
-                SafeImageView(imageName: imageNames[1], fullSizeImageURL: fullSizeImageURLs[1])
-                    .transition(.opacity)
-            }
-        }
-        .onReceive(timer) { _ in
-            //withAnimation(.easeInOut(duration: 0.5)) {
-                self.showFirstImage.toggle()
-            //}
-        }
-    }
-}
+

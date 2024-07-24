@@ -60,7 +60,7 @@ struct ChangeExerciseView: View {
             }
         }
         .sheet(isPresented: $isInfoPresented) {
-            ExerciseDetailView(exercise: exerciseToBePresented)
+            ExerciseDetailScreen(exercise: exerciseToBePresented)
         }
         .navigationTitle("Exercises")
     }

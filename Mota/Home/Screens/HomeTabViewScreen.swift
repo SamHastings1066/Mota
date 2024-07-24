@@ -8,13 +8,13 @@
 import SwiftUI
 import SwiftData
 
-struct HomeView: View {
+struct HomeTabViewScreen: View {
         
     var viewModel: HomeViewModel
     
     var body: some View {
         TabView {
-            FeedView(viewModel: FeedViewModel(authService: viewModel.authService))
+            FeedScreen(viewModel: FeedViewModel(authService: viewModel.authService))
                 .tabItem {
                     Label("Users", systemImage: "person.2.fill")
                 }
@@ -23,7 +23,7 @@ struct HomeView: View {
                 .tabItem {
                     Label("Workouts", systemImage: "dumbbell.fill")
                 }
-            UserView(viewModel: UserViewModel(authService: viewModel.authService))
+            UserScreen(viewModel: UserViewModel(authService: viewModel.authService))
                 .tabItem {
                     Label("Profile", systemImage: "person.crop.circle.fill")
                 }
@@ -45,7 +45,7 @@ struct HomeView: View {
                         loadingExercises = false
                     }
             } else {
-                HomeView(viewModel: viewModel)
+                HomeTabViewScreen(viewModel: viewModel)
             }
         }
     }

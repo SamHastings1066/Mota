@@ -1,5 +1,5 @@
 //
-//  FeedView.swift
+//  FeedScreen.swift
 //  Mota
 //
 //  Created by sam hastings on 29/01/2024.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct FeedView: View {
+struct FeedScreen: View {
         
     var viewModel: FeedViewModel
 
@@ -18,7 +18,7 @@ struct FeedView: View {
                 Text("You're logged in as \(viewModel.authService.currentUser?.email ?? "").")
                     .accessibilityIdentifier("homeScreenGreetingText")
                 NavigationLink("View Profile") {
-                    UserView(viewModel: UserViewModel(authService: viewModel.authService))
+                    UserScreen(viewModel: UserViewModel(authService: viewModel.authService))
                 }
             }
         }
@@ -27,5 +27,5 @@ struct FeedView: View {
 
 #Preview {
     var viewModel = FeedViewModel(authService: FirebaseAuthService())
-    return FeedView(viewModel: viewModel)
+    return FeedScreen(viewModel: viewModel)
 }

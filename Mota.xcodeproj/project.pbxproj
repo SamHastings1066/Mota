@@ -30,6 +30,7 @@
 		8456E4C42C3D98E200426F3B /* DatabaseKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8456E4C32C3D98E200426F3B /* DatabaseKey.swift */; };
 		8456E4C62C3D9A2700426F3B /* BackgroundDatabase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8456E4C52C3D9A2700426F3B /* BackgroundDatabase.swift */; };
 		8456E4C82C3D9DBB00426F3B /* SharedDatabase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8456E4C72C3D9DBB00426F3B /* SharedDatabase.swift */; };
+		84622E1F2C513EB5006728D6 /* ExerciseAnimationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84622E1E2C513EB5006728D6 /* ExerciseAnimationView.swift */; };
 		8469DE292B582E6900D617D2 /* MotaApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8469DE282B582E6900D617D2 /* MotaApp.swift */; };
 		8469DE2D2B582E6D00D617D2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8469DE2C2B582E6D00D617D2 /* Assets.xcassets */; };
 		8469DE302B582E6D00D617D2 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8469DE2F2B582E6D00D617D2 /* Preview Assets.xcassets */; };
@@ -47,9 +48,9 @@
 		8469DE772B5ADDC400D617D2 /* FirebaseAuthMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8469DE752B5AD65300D617D2 /* FirebaseAuthMock.swift */; };
 		8469DE802B5AF6CC00D617D2 /* LoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8469DE7F2B5AF6CC00D617D2 /* LoginViewModel.swift */; };
 		8469DE822B5AF75400D617D2 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8469DE812B5AF75400D617D2 /* LoginView.swift */; };
-		8469DE8A2B5C510100D617D2 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8469DE892B5C510100D617D2 /* HomeView.swift */; };
+		8469DE8A2B5C510100D617D2 /* HomeTabViewScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8469DE892B5C510100D617D2 /* HomeTabViewScreen.swift */; };
 		8469DE8F2B5C53C200D617D2 /* UserViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8469DE8E2B5C53C200D617D2 /* UserViewModel.swift */; };
-		8469DE912B5C54D000D617D2 /* UserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8469DE902B5C54D000D617D2 /* UserView.swift */; };
+		8469DE912B5C54D000D617D2 /* UserScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8469DE902B5C54D000D617D2 /* UserScreen.swift */; };
 		8469DE932B5D646E00D617D2 /* SignupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8469DE922B5D646E00D617D2 /* SignupView.swift */; };
 		8469DE952B5D6B0A00D617D2 /* AuthenticationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8469DE942B5D6B0A00D617D2 /* AuthenticationView.swift */; };
 		847362352C18B3340050C9B2 /* BackgroundSerialPersistenceActor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 847362342C18B3340050C9B2 /* BackgroundSerialPersistenceActor.swift */; };
@@ -72,7 +73,7 @@
 		84C5AD072B65693C0002AAE3 /* EndToEndTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C5AD062B65693C0002AAE3 /* EndToEndTestCase.swift */; };
 		84C5AD0A2B656A170002AAE3 /* LoginEndToEndTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C5AD092B656A170002AAE3 /* LoginEndToEndTests.swift */; };
 		84C5AD0D2B65C9890002AAE3 /* String+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C5AD0C2B65C9890002AAE3 /* String+Ext.swift */; };
-		84C5AD0F2B6822840002AAE3 /* FeedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C5AD0E2B6822840002AAE3 /* FeedView.swift */; };
+		84C5AD0F2B6822840002AAE3 /* FeedScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C5AD0E2B6822840002AAE3 /* FeedScreen.swift */; };
 		84C5AD112B6822F00002AAE3 /* FeedViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C5AD102B6822F00002AAE3 /* FeedViewModel.swift */; };
 		84C5AD132B68266C0002AAE3 /* WorkoutScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C5AD122B68266C0002AAE3 /* WorkoutScreen.swift */; };
 		84C5AD152B682F550002AAE3 /* AddExerciseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C5AD142B682F550002AAE3 /* AddExerciseView.swift */; };
@@ -83,7 +84,7 @@
 		84C659C72B82906C001899DE /* EditableSingleSetRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C659C62B82906C001899DE /* EditableSingleSetRowView.swift */; };
 		84C848432BCDDE5B00CA1611 /* WorkoutListNewScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C848422BCDDE5B00CA1611 /* WorkoutListNewScreen.swift */; };
 		84C848482BCEB3D700CA1611 /* WorkoutNewScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C848472BCEB3D700CA1611 /* WorkoutNewScreen.swift */; };
-		84D045892B6AAA19005CA5BE /* ExerciseDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84D045882B6AAA19005CA5BE /* ExerciseDetailView.swift */; };
+		84D045892B6AAA19005CA5BE /* ExerciseDetailScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84D045882B6AAA19005CA5BE /* ExerciseDetailScreen.swift */; };
 		84DD2D9B2B60086300633123 /* EmailTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84DD2D9A2B60086300633123 /* EmailTextField.swift */; };
 		84DD2D9D2B600D1A00633123 /* PasswordSecureField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84DD2D9C2B600D1A00633123 /* PasswordSecureField.swift */; };
 		84DD2D9F2B60199600633123 /* ResetPasswordView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84DD2D9E2B60199600633123 /* ResetPasswordView.swift */; };
@@ -137,6 +138,7 @@
 		8456E4C32C3D98E200426F3B /* DatabaseKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseKey.swift; sourceTree = "<group>"; };
 		8456E4C52C3D9A2700426F3B /* BackgroundDatabase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackgroundDatabase.swift; sourceTree = "<group>"; };
 		8456E4C72C3D9DBB00426F3B /* SharedDatabase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharedDatabase.swift; sourceTree = "<group>"; };
+		84622E1E2C513EB5006728D6 /* ExerciseAnimationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseAnimationView.swift; sourceTree = "<group>"; };
 		8469DE252B582E6900D617D2 /* Mota.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Mota.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8469DE282B582E6900D617D2 /* MotaApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MotaApp.swift; sourceTree = "<group>"; };
 		8469DE2C2B582E6D00D617D2 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -153,9 +155,9 @@
 		8469DE752B5AD65300D617D2 /* FirebaseAuthMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseAuthMock.swift; sourceTree = "<group>"; };
 		8469DE7F2B5AF6CC00D617D2 /* LoginViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewModel.swift; sourceTree = "<group>"; };
 		8469DE812B5AF75400D617D2 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
-		8469DE892B5C510100D617D2 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
+		8469DE892B5C510100D617D2 /* HomeTabViewScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeTabViewScreen.swift; sourceTree = "<group>"; };
 		8469DE8E2B5C53C200D617D2 /* UserViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserViewModel.swift; sourceTree = "<group>"; };
-		8469DE902B5C54D000D617D2 /* UserView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserView.swift; sourceTree = "<group>"; };
+		8469DE902B5C54D000D617D2 /* UserScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserScreen.swift; sourceTree = "<group>"; };
 		8469DE922B5D646E00D617D2 /* SignupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignupView.swift; sourceTree = "<group>"; };
 		8469DE942B5D6B0A00D617D2 /* AuthenticationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationView.swift; sourceTree = "<group>"; };
 		847362342C18B3340050C9B2 /* BackgroundSerialPersistenceActor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackgroundSerialPersistenceActor.swift; sourceTree = "<group>"; };
@@ -178,7 +180,7 @@
 		84C5AD062B65693C0002AAE3 /* EndToEndTestCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EndToEndTestCase.swift; sourceTree = "<group>"; };
 		84C5AD092B656A170002AAE3 /* LoginEndToEndTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginEndToEndTests.swift; sourceTree = "<group>"; };
 		84C5AD0C2B65C9890002AAE3 /* String+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Ext.swift"; sourceTree = "<group>"; };
-		84C5AD0E2B6822840002AAE3 /* FeedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedView.swift; sourceTree = "<group>"; };
+		84C5AD0E2B6822840002AAE3 /* FeedScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedScreen.swift; sourceTree = "<group>"; };
 		84C5AD102B6822F00002AAE3 /* FeedViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedViewModel.swift; sourceTree = "<group>"; };
 		84C5AD122B68266C0002AAE3 /* WorkoutScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutScreen.swift; sourceTree = "<group>"; };
 		84C5AD142B682F550002AAE3 /* AddExerciseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddExerciseView.swift; sourceTree = "<group>"; };
@@ -189,7 +191,7 @@
 		84C659C62B82906C001899DE /* EditableSingleSetRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditableSingleSetRowView.swift; sourceTree = "<group>"; };
 		84C848422BCDDE5B00CA1611 /* WorkoutListNewScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutListNewScreen.swift; sourceTree = "<group>"; };
 		84C848472BCEB3D700CA1611 /* WorkoutNewScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutNewScreen.swift; sourceTree = "<group>"; };
-		84D045882B6AAA19005CA5BE /* ExerciseDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseDetailView.swift; sourceTree = "<group>"; };
+		84D045882B6AAA19005CA5BE /* ExerciseDetailScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseDetailScreen.swift; sourceTree = "<group>"; };
 		84DD2D9A2B60086300633123 /* EmailTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailTextField.swift; sourceTree = "<group>"; };
 		84DD2D9C2B600D1A00633123 /* PasswordSecureField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordSecureField.swift; sourceTree = "<group>"; };
 		84DD2D9E2B60199600633123 /* ResetPasswordView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResetPasswordView.swift; sourceTree = "<group>"; };
@@ -275,10 +277,11 @@
 		843C52CB2BA87C6900F72CE0 /* Screens */ = {
 			isa = PBXGroup;
 			children = (
-				843C52CC2BA87C9800F72CE0 /* WorkoutListScreen.swift */,
-				84C5AD122B68266C0002AAE3 /* WorkoutScreen.swift */,
-				84D045882B6AAA19005CA5BE /* ExerciseDetailView.swift */,
+				8469DE892B5C510100D617D2 /* HomeTabViewScreen.swift */,
+				84C5AD0E2B6822840002AAE3 /* FeedScreen.swift */,
+				8469DE902B5C54D000D617D2 /* UserScreen.swift */,
 				84C848422BCDDE5B00CA1611 /* WorkoutListNewScreen.swift */,
+				84D045882B6AAA19005CA5BE /* ExerciseDetailScreen.swift */,
 				84C848472BCEB3D700CA1611 /* WorkoutNewScreen.swift */,
 				844393662BF574E8007CAC76 /* EditSupersetScreen.swift */,
 				8443936A2BF64B37007CAC76 /* SelectExerciseScreen.swift */,
@@ -286,6 +289,21 @@
 				84E153412C04F3B000E47541 /* ReorderSupersetsScreen.swift */,
 			);
 			path = Screens;
+			sourceTree = "<group>";
+		};
+		84622E1D2C5139D3006728D6 /* Archive */ = {
+			isa = PBXGroup;
+			children = (
+				84C5AD122B68266C0002AAE3 /* WorkoutScreen.swift */,
+				843C52CC2BA87C9800F72CE0 /* WorkoutListScreen.swift */,
+				849472EE2B98D99F00410885 /* CollapsedSupersetEditView.swift */,
+				84C5AD142B682F550002AAE3 /* AddExerciseView.swift */,
+				84ACF9D52B76EA9000DDB3F7 /* SingleSetRowView.swift */,
+				8449E59D2B90F42100138CE8 /* RearrangeExerceriseRoundsView.swift */,
+				849472F02B98DB4100410885 /* ExpandedSupersetEditView.swift */,
+				84DE65402B72784B009A9D40 /* Workout.swift */,
+			);
+			path = Archive;
 			sourceTree = "<group>";
 		};
 		8469DE1C2B582E6900D617D2 = {
@@ -427,6 +445,7 @@
 		8469DE8B2B5C52E400D617D2 /* Home */ = {
 			isa = PBXGroup;
 			children = (
+				84622E1D2C5139D3006728D6 /* Archive */,
 				84C5AD1B2B6963490002AAE3 /* Model */,
 				8469DE8D2B5C530A00D617D2 /* View */,
 				8469DE8C2B5C530100D617D2 /* ViewModel */,
@@ -450,10 +469,6 @@
 			children = (
 				842AD5A72BD066AB009DF530 /* Workout Views */,
 				84C5AD162B6830320002AAE3 /* EditWorkout */,
-				8469DE892B5C510100D617D2 /* HomeView.swift */,
-				8469DE902B5C54D000D617D2 /* UserView.swift */,
-				84C5AD0E2B6822840002AAE3 /* FeedView.swift */,
-				84EAF4282BB5C1A4002AC464 /* SafeImageView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -475,9 +490,11 @@
 		849414212BFF74DC00C95477 /* Component Views */ = {
 			isa = PBXGroup;
 			children = (
+				84EAF4282BB5C1A4002AC464 /* SafeImageView.swift */,
 				849414262BFF751C00C95477 /* DeleteItemButton.swift */,
 				84C5AD172B6962750002AAE3 /* ExerciseRowView.swift */,
 				849414282BFF7E0E00C95477 /* ExerciseImageView.swift */,
+				84622E1E2C513EB5006728D6 /* ExerciseAnimationView.swift */,
 			);
 			path = "Component Views";
 			sourceTree = "<group>";
@@ -523,14 +540,9 @@
 		84C5AD162B6830320002AAE3 /* EditWorkout */ = {
 			isa = PBXGroup;
 			children = (
-				84C5AD142B682F550002AAE3 /* AddExerciseView.swift */,
-				84ACF9D52B76EA9000DDB3F7 /* SingleSetRowView.swift */,
 				84C659C62B82906C001899DE /* EditableSingleSetRowView.swift */,
 				84F2F0592B83B28B00663BCA /* ChangeExerciseView.swift */,
-				8449E59D2B90F42100138CE8 /* RearrangeExerceriseRoundsView.swift */,
 				849472EC2B97C6F400410885 /* EditableSingleSetRowCollapsedView.swift */,
-				849472EE2B98D99F00410885 /* CollapsedSupersetEditView.swift */,
-				849472F02B98DB4100410885 /* ExpandedSupersetEditView.swift */,
 				849472F22B99263A00410885 /* SinglesetInfoView.swift */,
 			);
 			path = EditWorkout;
@@ -541,7 +553,6 @@
 			children = (
 				84C5AD1C2B69635B0002AAE3 /* Exercise.swift */,
 				847E349E2B6A8F890004864D /* ExerciseData.swift */,
-				84DE65402B72784B009A9D40 /* Workout.swift */,
 				842AD5B62BD08097009DF530 /* WorkoutNew.swift */,
 				842AD5B82BD080B9009DF530 /* SupersetNew.swift */,
 				844393682BF640C5007CAC76 /* CollapsedSuperset.swift */,
@@ -702,10 +713,10 @@
 				8469DE952B5D6B0A00D617D2 /* AuthenticationView.swift in Sources */,
 				84C5AD032B640D640002AAE3 /* HomeViewModel.swift in Sources */,
 				84C5ACFD2B6348C30002AAE3 /* AppUser.swift in Sources */,
-				84D045892B6AAA19005CA5BE /* ExerciseDetailView.swift in Sources */,
-				8469DE8A2B5C510100D617D2 /* HomeView.swift in Sources */,
+				84D045892B6AAA19005CA5BE /* ExerciseDetailScreen.swift in Sources */,
+				8469DE8A2B5C510100D617D2 /* HomeTabViewScreen.swift in Sources */,
 				84C5AD182B6962750002AAE3 /* ExerciseRowView.swift in Sources */,
-				8469DE912B5C54D000D617D2 /* UserView.swift in Sources */,
+				8469DE912B5C54D000D617D2 /* UserScreen.swift in Sources */,
 				842AD5AB2BD06B9C009DF530 /* SupersetHeaderNewView.swift in Sources */,
 				8456E4C82C3D9DBB00426F3B /* SharedDatabase.swift in Sources */,
 				8469DE822B5AF75400D617D2 /* LoginView.swift in Sources */,
@@ -715,7 +726,7 @@
 				84C848482BCEB3D700CA1611 /* WorkoutNewScreen.swift in Sources */,
 				84C5ACFF2B6349080002AAE3 /* AuthenticationService.swift in Sources */,
 				84DD2D9B2B60086300633123 /* EmailTextField.swift in Sources */,
-				84C5AD0F2B6822840002AAE3 /* FeedView.swift in Sources */,
+				84C5AD0F2B6822840002AAE3 /* FeedScreen.swift in Sources */,
 				8469DE772B5ADDC400D617D2 /* FirebaseAuthMock.swift in Sources */,
 				84E153422C04F3B000E47541 /* ReorderSupersetsScreen.swift in Sources */,
 				849414272BFF751C00C95477 /* DeleteItemButton.swift in Sources */,
@@ -759,6 +770,7 @@
 				84C5AD052B64657A0002AAE3 /* MockAuthService.swift in Sources */,
 				84DD2D9D2B600D1A00633123 /* PasswordSecureField.swift in Sources */,
 				842AD5AD2BD06BB3009DF530 /* ExpandedRoundNewView.swift in Sources */,
+				84622E1F2C513EB5006728D6 /* ExerciseAnimationView.swift in Sources */,
 				847362352C18B3340050C9B2 /* BackgroundSerialPersistenceActor.swift in Sources */,
 				849472EF2B98D99F00410885 /* CollapsedSupersetEditView.swift in Sources */,
 				84C5AD0D2B65C9890002AAE3 /* String+Ext.swift in Sources */,
