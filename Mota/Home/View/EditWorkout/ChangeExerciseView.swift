@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import SwiftData
 
 struct ChangeExerciseView: View {
     @Binding var selectedExercise: DatabaseExercise?
@@ -19,17 +20,21 @@ struct ChangeExerciseView: View {
     
     var filteredExercises: [DatabaseExercise] {
         if filterString.isEmpty {
-            return ExerciseDataLoader.shared.databaseExercises
+            return exercisesQuery
         } else {
-            return ExerciseDataLoader.shared.databaseExercises.filter { exercise in
+            return exercisesQuery.filter { exercise in
                 exercise.name.lowercased().contains(filterString.lowercased())
             }
         }
-        
     }
+    
+    @Query(sort: \DatabaseExercise.name, order: .forward) var exercisesQuery: [DatabaseExercise]
     
     var body: some View {
         Text("Selected exercise: \(selectedExercise?.name ?? "")")
+            .onAppear{
+                print("ChangeExerciseView created")
+            }
         TextField(
             "Filter exercises",
             text: $filterString
@@ -51,12 +56,11 @@ struct ChangeExerciseView: View {
                         }
                         .tint(.blue)
                     }
-                    .sheet(isPresented: $isInfoPresented) {
-                        ExerciseDetailView(exercise: exerciseToBePresented)
-                    }
-                    
                 }
             }
+        }
+        .sheet(isPresented: $isInfoPresented) {
+            ExerciseDetailScreen(exercise: exerciseToBePresented)
         }
         .navigationTitle("Exercises")
     }

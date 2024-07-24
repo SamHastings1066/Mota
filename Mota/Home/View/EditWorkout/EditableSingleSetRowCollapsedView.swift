@@ -74,7 +74,7 @@ struct EditableSingleSetRowCollapsedView: View {
                     Button(action: {
                         
                     }) {
-                        exerciseAnimationView(imageNames: imageNames)
+                        ExerciseAnimationView(imageNames: imageNames, fullSizeImageURLs: [nil, nil])
                             .frame(width: 70, height: 70)
                     }
                     .onTapGesture {
@@ -103,7 +103,7 @@ struct EditableSingleSetRowCollapsedView: View {
                 Button {
                     
                 } label: {
-                    exerciseAnimationView(imageNames: imageNames)
+                    ExerciseAnimationView(imageNames: imageNames, fullSizeImageURLs: [nil,nil])
                         .frame(width: 70, height: 70)
                 }
                 .onTapGesture {
@@ -111,11 +111,12 @@ struct EditableSingleSetRowCollapsedView: View {
                     
                 }
                 .sheet(isPresented: $isExerciseDetailPresented) {
-                    ExerciseDetailView(exercise: exercise)
+                    ExerciseDetailScreen(exercise: exercise)
                 }
             }
             
             SinglesetInfoView(name: exercise.name, reps: repsString, weight: weightString, isEditable: isEditable)
+                .frame(maxWidth: .infinity, alignment: .center)
             
             Spacer()
             
@@ -131,7 +132,7 @@ struct EditableSingleSetRowCollapsedView: View {
 //#Preview {
 // 
 //    Group {
-//        EditableSingleSetRowCollapsedView(exercise: .constant(databaseExercises[0]), weight: .constant(nil), reps: .constant(12))
-//        EditableSingleSetRowCollapsedView(exercise: .constant(databaseExercises[1]), weight: .constant(60), reps: .constant(10))
+//        EditableSingleSetRowCollapsedView(exercise: .constant(DatabaseExercise.sampleExercises[0]), weight: .constant(nil), reps: .constant(12))
+//        EditableSingleSetRowCollapsedView(exercise: .constant(DatabaseExercise.sampleExercises[1]), weight: .constant(60), reps: .constant(10))
 //    }
 //}

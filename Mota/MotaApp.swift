@@ -24,11 +24,7 @@ import SwiftData
 @main
 struct MotaApp: App {
     
-    //@State var authService: AuthenticationService = FirebaseAuthService()
-
-    //@State var authService: FirebaseAuthService = FirebaseAuthService()
     var authService: AuthenticationService
-    //var homeViewModel: HomeViewModel
     
     init() {
         FirebaseApp.configure()
@@ -59,14 +55,66 @@ struct MotaApp: App {
         
     }
     
+    
     var body: some Scene {
         WindowGroup {
-            if authService.currentUser != nil {
-                HomeView(viewModel: HomeViewModel(authService: authService))
-                //.environment(authService as? MockAuthService)
-            } else {
-                AuthenticationView(viewModel: LoginViewModel(authService: authService))
-            }
-        }.modelContainer(for: [Workout.self, SuperSet.self, DatabaseExercise.self])
+            content()
+        }
+//        .modelContainer(for: [Workout.self, SuperSet.self, DatabaseExercise.self, WorkoutNew.self]) { result in
+//            do {
+//                let container = try result.get()
+//                
+//                // check we haven't already added the exercises
+//                let descriptor = FetchDescriptor<DatabaseExercise>()
+//                let existingExercises = try container.mainContext.fetchCount(descriptor)
+//                guard existingExercises == 0 else { return }
+                
+//                guard let url = Bundle.main.url(forResource: "exercises", withExtension: "json") else {
+//                    fatalError("Failed to find exercises.json")
+//                }
+//                let data = try Data(contentsOf: url)
+//                let exercises = try JSONDecoder().decode([DatabaseExercise].self, from: data)
+//                for exercise in exercises {
+//                    container.mainContext.insert(exercise)
+//                }
+//                print("DATABASE created")
+                
+//            } catch {
+//                print("Failed to pre-seed database")
+//            }
+//        }
+        .database(SharedDatabase.shared.database)
+    }
+        
+    @ViewBuilder
+    func content() -> some View {
+        switch authService.loggedIn {
+        case false:
+            AuthenticationView(viewModel: LoginViewModel(authService: authService))
+        case true:
+            //HomeView(viewModel: HomeViewModel(authService: authService))
+            LoadingExercisesView(authService: authService)
+        default:
+            // TODO: Create better loading screen. Possibly the Mota Icon?
+            Text("LOADING...")
+        }
+    }
+}
+
+
+struct LoadingExercisesView: View {
+    @State var loadingExercises = true
+    var authService: AuthenticationService
+    
+    var body: some View {
+        if loadingExercises {
+            ProgressView("loading exercises")
+                .task {
+                    await SharedDatabase.shared.loadExercises()
+                    loadingExercises = false
+                }
+        } else {
+            HomeTabViewScreen(viewModel: HomeViewModel(authService: authService))
+        }
     }
 }

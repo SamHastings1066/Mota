@@ -20,6 +20,7 @@ extension AppUser {
 @Observable class FirebaseAuthService: AuthenticationService {
     
     var currentUser: AppUser?
+    var loggedIn: Bool? = nil
     var firebaseUser: FirebaseAuth.User?
     private let auth = Auth.auth()
     private var authStateHandler: AuthStateDidChangeListenerHandle?
@@ -29,7 +30,10 @@ extension AppUser {
             authStateHandler = auth.addStateDidChangeListener { auth, user in
                 self.firebaseUser = user
                 if self.firebaseUser != nil {
+                    self.loggedIn = true
                     self.currentUser = AppUser(firebaseUser: self.firebaseUser!)
+                } else {
+                    self.loggedIn = false
                 }
             }
         }
@@ -61,11 +65,13 @@ extension AppUser {
     func signOut() throws {
         try auth.signOut()
         currentUser = nil
+        loggedIn = false
     }
     
     func deleteAccount() async throws {
         try await firebaseUser?.delete()
         currentUser = nil
+        loggedIn = false
     }
     
     func resetPassword(email: String) async throws {

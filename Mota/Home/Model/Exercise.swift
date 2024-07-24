@@ -10,28 +10,6 @@
 import Foundation
 import SwiftData
 
-//protocol Exercise {
-//    var name: String { get }
-//    var id: String { get }
-//}
-//
-//// TODO: use IdentifiableExercise rather than Exercise wherever I am currently using exercise
-//struct IdentifiableExercise: Identifiable {
-//    let id: String
-//    let exercise: Exercise
-//
-//    init(exercise: Exercise) {
-//        self.id = exercise.id
-//        self.exercise = exercise
-//    }
-//}
-//
-//struct UserDefinedExercise: Exercise {
-//    var id = UUID().uuidString
-//    let name: String
-//
-//}
-
 @Model
 class DatabaseExercise: Codable, Hashable, Identifiable {
     
@@ -58,11 +36,10 @@ class DatabaseExercise: Codable, Hashable, Identifiable {
     let instructions: [String]
     let category: Category
     let images: [String]
-    var singleSet: SingleSet?
-    let timeStamp = Date()
+    //var singleSet: SingleSet?
     
     init() {
-        id = ""
+        id = UUID().uuidString
         name = ""
         level = Level.beginner
         primaryMuscles = [Muscle.abdominals]
@@ -84,7 +61,7 @@ class DatabaseExercise: Codable, Hashable, Identifiable {
         self.instructions = exercise.instructions
         self.category = exercise.category
         self.images = exercise.images
-        self.singleSet = exercise.singleSet
+        //self.singleSet = exercise.singleSet
     }
 
     
@@ -149,6 +126,7 @@ class DatabaseExercise: Codable, Hashable, Identifiable {
     }
 }
 
+// TODO: Delete this
 extension DatabaseExercise {
     static var sampleExercises: [DatabaseExercise] {
         let jsonData = """
@@ -238,21 +216,9 @@ extension DatabaseExercise {
     }
 }
 
+// TODO: Delete this
 extension DatabaseExercise {
     static var placeholder: DatabaseExercise {
-//        return DatabaseExercise(
-//            id: "placeholder",
-//            name: "Placeholder Exercise",
-//            force: Force.pull,
-//            level: Level.beginner,
-//            mechanic: Mechanic.compound,
-//            equipment: Equipment.bands,
-//            primaryMuscles: [],
-//            secondaryMuscles: [],
-//            instructions: [],
-//            category: Category.cardio,
-//            images: []
-//        )
         return DatabaseExercise()
     }
 }

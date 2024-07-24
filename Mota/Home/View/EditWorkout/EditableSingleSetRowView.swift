@@ -51,9 +51,10 @@ struct EditableSingleSetRowView: View {
     
     var body: some View {
         HStack {
-            exerciseAnimationView(imageNames: imageNames)
+            ExerciseAnimationView(imageNames: imageNames, fullSizeImageURLs: [nil,nil])
                 .frame(width: 70, height: 70)
             SinglesetInfoView(name: exercise?.name ?? "", reps: repsString, weight: weightString, isEditable: isEditable)
+                .frame(maxWidth: .infinity, alignment: .center)
             Spacer()
         }
         .padding([.vertical, .leading], 10)

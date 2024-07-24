@@ -1,5 +1,5 @@
 //
-//  ExerciseDetailView.swift
+//  ExerciseDetailScreen.swift
 //  Mota
 //
 //  Created by sam hastings on 31/01/2024.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct ExerciseDetailView: View {
+struct ExerciseDetailScreen: View {
     var exercise: DatabaseExercise?
     
     
@@ -20,11 +20,27 @@ struct ExerciseDetailView: View {
         }
     }
     
+    var fullSizeImageURLs: [String?] {
+        if let exercise {
+            let baseURLString = "https://dbdf01bxei1cc.cloudfront.net/exercisesCleaned/"
+//            return [
+//                URL(string: baseURLString + "\(exercise.imageURLs[0]).jpg"),
+//                URL(string: baseURLString + "\(exercise.imageURLs[1]).jpg")
+//            ]
+            return [
+                baseURLString + "\(exercise.imageURLs[0]).jpg",
+                baseURLString + "\(exercise.imageURLs[1]).jpg"
+            ]
+        } else {
+            return [nil, nil]
+        }
+    }
+    
     var body: some View {
         if let exercise = exercise {
             Text("\(exercise.name)")
                 .font(.title)
-            exerciseAnimationView(imageNames: imageNames)
+            ExerciseAnimationView(imageNames: imageNames, fullSizeImageURLs: fullSizeImageURLs)
             Grid {
                 GridRow {
                     Text("Primary Muscle")
@@ -78,27 +94,7 @@ struct ExerciseDetailView: View {
 }
 
 //#Preview {
-//    ExerciseDetailView(exercise: databaseExercises[0])
+//    ExerciseDetailScreen(exercise: databaseExercises[0])
 //}
 
-struct exerciseAnimationView: View {
-    var imageNames: [String?]
-    @State private var showFirstImage = true
-    @State private var timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
-    var body: some View {
-        Group {
-            if showFirstImage {
-                SafeImage(imageName: imageNames[0])
-                    .transition(.opacity)
-            } else {
-                SafeImage(imageName: imageNames[1])
-                    .transition(.opacity)
-            }
-        }
-        .onReceive(timer) { _ in
-            withAnimation(.easeInOut(duration: 0.5)) {
-                self.showFirstImage.toggle()
-            }
-        }
-    }
-}
+

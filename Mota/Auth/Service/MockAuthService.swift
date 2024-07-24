@@ -14,7 +14,13 @@ enum MockError: Error {
 //1:44:26
 @Observable
 class MockAuthService: AuthenticationService {
+    var loggedIn: Bool?
+    
     var currentUser: AppUser?
+    
+    init() {
+        self.loggedIn = false
+    }
     
     func validateForm(email: String, password: String) throws {
         if !email.isValidEmail() {
@@ -46,6 +52,7 @@ class MockAuthService: AuthenticationService {
         }
         let userEmail = try signUp(email: email, password: password)
         currentUser = AppUser(uid: nil, email: userEmail)
+        loggedIn = true
     }
     
     func signOut() throws {

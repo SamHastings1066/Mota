@@ -14,16 +14,17 @@ struct SinglesetInfoView: View {
     let isEditable: Bool
 
     var body: some View {
-        VStack(alignment: .center) {
+        Grid {
             Text(name)
                 .font(.headline)
-            HStack {
+            GridRow {
                 VStack {
                     Text("Reps")
                     if isEditable {
                         // TODO: Change to below to use reps directly as an int:
                         // TextField("-", value: $repsInt, format: .number)
                         TextField("", text: reps)
+                            .fixedSize()
                             .textFieldStyle(RoundedBorderTextFieldStyle())
                             .keyboardType(.numberPad)
                     } else {
@@ -34,6 +35,7 @@ struct SinglesetInfoView: View {
                     Text("kgs")
                     if isEditable {
                         TextField("", text: weight)
+                            .fixedSize()
                             .textFieldStyle(RoundedBorderTextFieldStyle())
                             .keyboardType(.numberPad)
                     } else {

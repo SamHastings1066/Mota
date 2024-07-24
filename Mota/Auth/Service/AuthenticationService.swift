@@ -29,6 +29,7 @@ enum AuthError: Error {
 
 protocol AuthenticationService: Observable {
     var currentUser: AppUser? { get }
+    var loggedIn: Bool? { get }
     func signUpWithEmailPassword(email: String, password: String) async throws
     func signInWithEmailPassword(email: String, password: String) async throws
     func signOut() throws
