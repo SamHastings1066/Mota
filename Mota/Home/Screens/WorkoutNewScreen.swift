@@ -30,8 +30,9 @@ struct WorkoutNewScreen: View {
                         loadBackgroundWorkout()
                     }
             } else if let workout {
-                List {
-
+                ZStack(alignment: .bottom) {
+                    List {
+                        
                         ForEach(workout.orderedSupersets) { superset in
                             SupersetNewView(superset: superset, orderedSupersets: workout.orderedSupersets) {
                                 removeSuperset(superset)
@@ -39,7 +40,7 @@ struct WorkoutNewScreen: View {
                         }
                         .onMove {
                             workout.orderedSupersets.move(fromOffsets: $0, toOffset: $1)
-                            Task { try? await database.save() } 
+                            Task { try? await database.save() }
                         }
                         .onDelete { indexSet in
                             for offset in indexSet {
@@ -47,49 +48,60 @@ struct WorkoutNewScreen: View {
                                 removeSuperset(superset)
                             }
                         }
-//                        HStack {
-//                            Spacer()
-//                            Button("", systemImage: "plus") {
-//                                isSelectInitialExercisePresented = true
-//                            }
-//                            Spacer()
-//                        }
-                }
-                
-                //.onDelete(perform: () -> Void)
-                .navigationTitle(title)
-                .toolbar {
-                    Menu("Edit Workout", systemImage: "ellipsis.circle") {
-                        Button("Add New Set") {
-                            isSelectInitialExercisePresented = true
-                        }
-                        Button("Reorder Sets") {
-                            isReorderSupersetsPresented = true
-                        }
-                        Button("Rename Workout") {
-                            renameWorkout.toggle()
+                        //                        HStack {
+                        //                            Spacer()
+                        //                            Button("", systemImage: "plus") {
+                        //                                isSelectInitialExercisePresented = true
+                        //                            }
+                        //                            Spacer()
+                        //                        }
+                    }
+                    .navigationTitle(title)
+                    .toolbar {
+                        Menu("Edit Workout", systemImage: "ellipsis.circle") {
+                            Button("Add New Set") {
+                                isSelectInitialExercisePresented = true
+                            }
+                            Button("Reorder Sets") {
+                                isReorderSupersetsPresented = true
+                            }
+                            Button("Rename Workout") {
+                                renameWorkout.toggle()
+                            }
                         }
                     }
-                }
-                .alert("Rename workout", isPresented: $renameWorkout) {
-                    TextField("Workout Name", text: $title)
-                    Button("OK", action: updateName)
-                }
-                .fullScreenCover(isPresented: $isSelectInitialExercisePresented,
-                                 onDismiss: {
-                    if selectedExercise != nil {
-                        //addSuperset(with: selectedExercise)
-                        addBackgroundSuperset(with: selectedExercise)
+                    .alert("Rename workout", isPresented: $renameWorkout) {
+                        TextField("Workout Name", text: $title)
+                        Button("OK", action: updateName)
                     }
-                    selectedExercise = nil
-                },
-                                 content: {
-                    SelectExerciseScreen(selectedExercise: $selectedExercise)
-                })
-                .sheet(isPresented: $isReorderSupersetsPresented,
-                       content: {
-                    ReorderSupersetsScreen(workout: workout)
-                })
+                    .fullScreenCover(isPresented: $isSelectInitialExercisePresented,
+                                     onDismiss: {
+                        if selectedExercise != nil {
+                            //addSuperset(with: selectedExercise)
+                            addBackgroundSuperset(with: selectedExercise)
+                        }
+                        selectedExercise = nil
+                    },
+                                     content: {
+                        SelectExerciseScreen(selectedExercise: $selectedExercise)
+                    })
+                    .sheet(isPresented: $isReorderSupersetsPresented,
+                           content: {
+                        ReorderSupersetsScreen(workout: workout)
+                    })
+                    Button {
+                        isSelectInitialExercisePresented = true
+                    } label: {
+                        Image(systemName: "plus")
+                            .font(.headline.weight(.semibold))
+                            .padding()
+                            .background(Color.blue)
+                            .foregroundColor(.white)
+                            .clipShape(Circle())
+                            .shadow(radius: 4, x: 0, y: 4)
+                    }
+                    .padding()
+                }
             } else {
                 Text("Workout not found")
             }
