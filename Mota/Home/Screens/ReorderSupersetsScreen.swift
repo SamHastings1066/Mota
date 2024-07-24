@@ -10,6 +10,8 @@ import SwiftData
 
 struct ReorderSupersetsScreen: View {
     @Bindable var workout: WorkoutNew
+    @Environment(\.database) private var database
+    
     var body: some View {
         Text("Drag and drop to reorder Sets")
         List {
@@ -23,39 +25,40 @@ struct ReorderSupersetsScreen: View {
             }
             .onMove{
                 workout.orderedSupersets.move(fromOffsets: $0, toOffset: $1)
+                Task { try? await database.save() }
             }
         }
     }
 }
 
-#Preview {
-    do {
-        let config = ModelConfiguration(isStoredInMemoryOnly: true)
-        let container = try ModelContainer(for: WorkoutNew.self, configurations: config)
-        
-        let workout = WorkoutNew(name: "Arms workout",
-                                  supersets: [
-                                    SupersetNew(
-                                        rounds: [
-                                            Round(singlesets: [SinglesetNew(exercise: DatabaseExercise.sampleExercises[0], weight: 100, reps: 10), SinglesetNew(exercise: DatabaseExercise.sampleExercises[1], weight: 90, reps: 15)])
-                                        ]
-                                    ),
-                                    SupersetNew(
-                                        rounds: [
-                                            Round(singlesets: [SinglesetNew(exercise: DatabaseExercise.sampleExercises[2], weight: 10, reps: 20)]),
-                                        ]
-                                    )
-                                  ]
-        )
-        
-        container.mainContext.insert(workout)
-        
-        return NavigationStack {
-            ReorderSupersetsScreen(workout: workout)
-                .modelContainer(container)
-        }
-    } catch {
-        fatalError("Failed to create model container")
-    }
-    
-}
+//#Preview {
+//    do {
+//        let config = ModelConfiguration(isStoredInMemoryOnly: true)
+//        let container = try ModelContainer(for: WorkoutNew.self, configurations: config)
+//        
+//        let workout = WorkoutNew(name: "Arms workout",
+//                                  supersets: [
+//                                    SupersetNew(
+//                                        rounds: [
+//                                            Round(singlesets: [SinglesetNew(exercise: DatabaseExercise.sampleExercises[0], weight: 100, reps: 10), SinglesetNew(exercise: DatabaseExercise.sampleExercises[1], weight: 90, reps: 15)])
+//                                        ]
+//                                    ),
+//                                    SupersetNew(
+//                                        rounds: [
+//                                            Round(singlesets: [SinglesetNew(exercise: DatabaseExercise.sampleExercises[2], weight: 10, reps: 20)]),
+//                                        ]
+//                                    )
+//                                  ]
+//        )
+//        
+//        container.mainContext.insert(workout)
+//        
+//        return NavigationStack {
+//            ReorderSupersetsScreen(workout: workout)
+//                .modelContainer(container)
+//        }
+//    } catch {
+//        fatalError("Failed to create model container")
+//    }
+//    
+//}
