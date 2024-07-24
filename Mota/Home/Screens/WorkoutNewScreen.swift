@@ -27,7 +27,7 @@ struct WorkoutNewScreen: View {
             if isLoading {
                 ProgressView("Retrieving workout information")
                     .onAppear {
-                        loadBackgroundWorkout()
+                        loadWorkout()
                     }
             } else if let workout {
                 ZStack(alignment: .bottom) {
@@ -48,13 +48,6 @@ struct WorkoutNewScreen: View {
                                 removeSuperset(superset)
                             }
                         }
-                        //                        HStack {
-                        //                            Spacer()
-                        //                            Button("", systemImage: "plus") {
-                        //                                isSelectInitialExercisePresented = true
-                        //                            }
-                        //                            Spacer()
-                        //                        }
                     }
                     .navigationTitle(title)
                     .toolbar {
@@ -77,8 +70,7 @@ struct WorkoutNewScreen: View {
                     .fullScreenCover(isPresented: $isSelectInitialExercisePresented,
                                      onDismiss: {
                         if selectedExercise != nil {
-                            //addSuperset(with: selectedExercise)
-                            addBackgroundSuperset(with: selectedExercise)
+                            addSuperset(with: selectedExercise)
                         }
                         selectedExercise = nil
                     },
@@ -108,12 +100,12 @@ struct WorkoutNewScreen: View {
         //}
         //.navigationTitle(title)
 //        .onAppear {
-//            loadBackgroundWorkout()
+//            loadWorkout()
 //        }
         
     }
     
-    private func loadBackgroundWorkout() {
+    private func loadWorkout() {
         isLoading = true
         Task {
             let start = Date()
@@ -146,7 +138,7 @@ struct WorkoutNewScreen: View {
         }
     }
     
-    func addBackgroundSuperset(with exercise: DatabaseExercise?) {
+    func addSuperset(with exercise: DatabaseExercise?) {
         let newRound = Round(singlesets: [SinglesetNew(exercise: selectedExercise, weight: 0, reps: 0)])
         let newSuperset = SupersetNew(rounds: [newRound])
         Task {

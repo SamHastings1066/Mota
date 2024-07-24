@@ -93,7 +93,7 @@ struct SupersetNewView: View {
         let container = try ModelContainer(for: WorkoutNew.self, configurations: config)
         
         var rounds = [Round]()
-        for _ in 0..<2000 {
+        for _ in 0..<2 {
             let round = Round(singlesets: [SinglesetNew(exercise: DatabaseExercise.sampleExercises[0], weight: 100, reps: 10), SinglesetNew(exercise: DatabaseExercise.sampleExercises[1], weight: 90, reps: 15)])
             rounds.append(round)
         }
@@ -133,7 +133,7 @@ struct SupersetNewView: View {
         return Group {
             //            SupersetNewView(superset: workout2.orderedSupersets[0], isExpanded: true, orderedSupersets: workout2.orderedSupersets)
             //                .modelContainer(container)
-            SupersetNewView(superset: workout1.orderedSupersets[0], isExpanded: false, orderedSupersets: workout1.orderedSupersets)
+            SupersetNewView(superset: workout1.orderedSupersets[0], isExpanded: true, orderedSupersets: workout1.orderedSupersets)
                 .modelContainer(container)
         }
     } catch {
