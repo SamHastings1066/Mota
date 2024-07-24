@@ -23,32 +23,41 @@ struct WorkoutNewScreen: View {
     let workoutID: UUID
 
     var body: some View {
-        Group {
+        //Group {
             if isLoading {
                 ProgressView("Retrieving workout information")
+                    .onAppear {
+                        loadBackgroundWorkout()
+                    }
             } else if let workout {
                 List {
-                    if workout.supersets.isEmpty {
-                        Button("Add set") {
-                            isSelectInitialExercisePresented = true
-                        }
-                    }
-                    else {
+
                         ForEach(workout.orderedSupersets) { superset in
                             SupersetNewView(superset: superset, orderedSupersets: workout.orderedSupersets) {
                                 removeSuperset(superset)
                             }
-                            //.logCreation()
                         }
-                        HStack {
-                            Spacer()
-                            Button("", systemImage: "plus") {
-                                isSelectInitialExercisePresented = true
+                        .onMove {
+                            workout.orderedSupersets.move(fromOffsets: $0, toOffset: $1)
+                            Task { try? await database.save() } 
+                        }
+                        .onDelete { indexSet in
+                            for offset in indexSet {
+                                let superset = workout.orderedSupersets[offset]
+                                removeSuperset(superset)
                             }
-                            Spacer()
                         }
-                    }
+//                        HStack {
+//                            Spacer()
+//                            Button("", systemImage: "plus") {
+//                                isSelectInitialExercisePresented = true
+//                            }
+//                            Spacer()
+//                        }
                 }
+                
+                //.onDelete(perform: () -> Void)
+                .navigationTitle(title)
                 .toolbar {
                     Menu("Edit Workout", systemImage: "ellipsis.circle") {
                         Button("Add New Set") {
@@ -84,11 +93,11 @@ struct WorkoutNewScreen: View {
             } else {
                 Text("Workout not found")
             }
-        }
-        .navigationTitle(title)
-        .onAppear {
-            loadBackgroundWorkout()
-        }
+        //}
+        //.navigationTitle(title)
+//        .onAppear {
+//            loadBackgroundWorkout()
+//        }
         
     }
     

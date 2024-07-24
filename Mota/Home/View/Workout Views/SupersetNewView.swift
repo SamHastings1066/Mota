@@ -19,7 +19,7 @@ struct SupersetNewView: View {
     
     var orderedSupersets: [SupersetNew]
     var removeSupsersetClosure: (() -> Void)?
-        
+    
     init(superset: SupersetNew, isExpanded: Bool = false, isEditable: Bool = false, orderedSupersets: [SupersetNew], removeSupersetClosure: (() -> Void)? = nil) {
         let start = Date()
         self.superset = superset
@@ -40,10 +40,11 @@ struct SupersetNewView: View {
     }
     
     var body: some View {
-        // TODO: Make the work done in this view more time efficient
-        SupersetHeaderNewView(isExpanded: $isExpanded, isEditable: $isEditable, index: index){
-         removeSupsersetClosure?()
-        }
+        VStack {
+            // TODO: Make the work done in this view more time efficient
+            SupersetHeaderNewView(isExpanded: $isExpanded, isEditable: $isEditable, index: index){
+                removeSupsersetClosure?()
+            }
             if isExpanded {
                 ForEach(superset.orderedRounds) { round in
                     ExpandedRoundNewView(round: round, isEditable: $isEditable)
@@ -52,7 +53,7 @@ struct SupersetNewView: View {
                 HStack {
                     VStack {
                         ForEach(collapsedSinglesets) { collapsedSingleset in
-                        //ForEach(collapsedSuperset.collapsedSinglesets) { collapsedSingleset in // THIS IS THE LINE
+                            //ForEach(collapsedSuperset.collapsedSinglesets) { collapsedSingleset in // THIS IS THE LINE
                             CollapsedSinglesetView(collapsedSingleset: collapsedSingleset){
                                 collapsedSuperset.removeSingleSet(collapsedSingleset)
                                 collapsedSuperset = CollapsedSuperset(superset: collapsedSuperset.superset)
@@ -80,8 +81,9 @@ struct SupersetNewView: View {
                     }
                 }
             }
+        }
     }
-        
+    
 }
 
 #Preview {
@@ -105,32 +107,32 @@ struct SupersetNewView: View {
         )
         
         let workout2 = WorkoutNew(name: "Arms workout",
-            supersets: [
-                SupersetNew(
-                    rounds: [
-                        Round(
-                            singlesets: [SinglesetNew(exercise: DatabaseExercise.sampleExercises[0], weight: 100, reps: 10), SinglesetNew(exercise: DatabaseExercise.sampleExercises[1], weight: 90, reps: 15)],
-                            rest:  60
-                        ),
-                        Round(
-                            singlesets: [SinglesetNew(exercise: DatabaseExercise.sampleExercises[0], weight: 90, reps: 10), SinglesetNew(exercise: DatabaseExercise.sampleExercises[1], weight: 90, reps: 15)],
-                            rest:  70
-                        )
-                    ]
-                ),
-                SupersetNew(
-                    rounds: [
-                        Round(singlesets: [SinglesetNew(exercise: DatabaseExercise.sampleExercises[2], weight: 10, reps: 20)]),
-                    ]
-                )
-            ]
+                                  supersets: [
+                                    SupersetNew(
+                                        rounds: [
+                                            Round(
+                                                singlesets: [SinglesetNew(exercise: DatabaseExercise.sampleExercises[0], weight: 100, reps: 10), SinglesetNew(exercise: DatabaseExercise.sampleExercises[1], weight: 90, reps: 15)],
+                                                rest:  60
+                                            ),
+                                            Round(
+                                                singlesets: [SinglesetNew(exercise: DatabaseExercise.sampleExercises[0], weight: 90, reps: 10), SinglesetNew(exercise: DatabaseExercise.sampleExercises[1], weight: 90, reps: 15)],
+                                                rest:  70
+                                            )
+                                        ]
+                                    ),
+                                    SupersetNew(
+                                        rounds: [
+                                            Round(singlesets: [SinglesetNew(exercise: DatabaseExercise.sampleExercises[2], weight: 10, reps: 20)]),
+                                        ]
+                                    )
+                                  ]
         )
         
         container.mainContext.insert(workout1)
         
         return Group {
-//            SupersetNewView(superset: workout2.orderedSupersets[0], isExpanded: true, orderedSupersets: workout2.orderedSupersets)
-//                .modelContainer(container)
+            //            SupersetNewView(superset: workout2.orderedSupersets[0], isExpanded: true, orderedSupersets: workout2.orderedSupersets)
+            //                .modelContainer(container)
             SupersetNewView(superset: workout1.orderedSupersets[0], isExpanded: false, orderedSupersets: workout1.orderedSupersets)
                 .modelContainer(container)
         }
