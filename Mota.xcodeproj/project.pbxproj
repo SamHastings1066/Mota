@@ -31,6 +31,7 @@
 		8456E4C62C3D9A2700426F3B /* BackgroundDatabase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8456E4C52C3D9A2700426F3B /* BackgroundDatabase.swift */; };
 		8456E4C82C3D9DBB00426F3B /* SharedDatabase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8456E4C72C3D9DBB00426F3B /* SharedDatabase.swift */; };
 		84622E1F2C513EB5006728D6 /* ExerciseAnimationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84622E1E2C513EB5006728D6 /* ExerciseAnimationView.swift */; };
+		84622E212C528A67006728D6 /* AuthServiceKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84622E202C528A66006728D6 /* AuthServiceKey.swift */; };
 		8469DE292B582E6900D617D2 /* MotaApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8469DE282B582E6900D617D2 /* MotaApp.swift */; };
 		8469DE2D2B582E6D00D617D2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8469DE2C2B582E6D00D617D2 /* Assets.xcassets */; };
 		8469DE302B582E6D00D617D2 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8469DE2F2B582E6D00D617D2 /* Preview Assets.xcassets */; };
@@ -139,6 +140,7 @@
 		8456E4C52C3D9A2700426F3B /* BackgroundDatabase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackgroundDatabase.swift; sourceTree = "<group>"; };
 		8456E4C72C3D9DBB00426F3B /* SharedDatabase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharedDatabase.swift; sourceTree = "<group>"; };
 		84622E1E2C513EB5006728D6 /* ExerciseAnimationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseAnimationView.swift; sourceTree = "<group>"; };
+		84622E202C528A66006728D6 /* AuthServiceKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthServiceKey.swift; sourceTree = "<group>"; };
 		8469DE252B582E6900D617D2 /* Mota.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Mota.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8469DE282B582E6900D617D2 /* MotaApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MotaApp.swift; sourceTree = "<group>"; };
 		8469DE2C2B582E6D00D617D2 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -419,6 +421,7 @@
 				84C5ACFE2B6349080002AAE3 /* AuthenticationService.swift */,
 				84C5AD002B634A450002AAE3 /* FirebaseAuthService.swift */,
 				84C5AD042B64657A0002AAE3 /* MockAuthService.swift */,
+				84622E202C528A66006728D6 /* AuthServiceKey.swift */,
 			);
 			path = Service;
 			sourceTree = "<group>";
@@ -751,6 +754,7 @@
 				84EAF42B2BB5DBBA002AC464 /* ImageLoader.swift in Sources */,
 				84C5AD152B682F550002AAE3 /* AddExerciseView.swift in Sources */,
 				84DD2D9F2B60199600633123 /* ResetPasswordView.swift in Sources */,
+				84622E212C528A67006728D6 /* AuthServiceKey.swift in Sources */,
 				842F8A452BA1D90B00A2FB3F /* MockContainer.swift in Sources */,
 				84C5AD1D2B69635B0002AAE3 /* Exercise.swift in Sources */,
 				8449E59E2B90F42100138CE8 /* RearrangeExerceriseRoundsView.swift in Sources */,

@@ -139,16 +139,9 @@ struct WorkoutListNewScreen: View {
             }
         }
     }
-    
-    
-    do {
-        let config = ModelConfiguration(isStoredInMemoryOnly: true)
-        let container = try ModelContainer(for: WorkoutNew.self, configurations: config)
-        return AsyncPreviewView()
-            .environment(\.database, SharedDatabase.preview.database)
-    } catch {
-        fatalError("Failed to create model container")
-    }
+
+    return AsyncPreviewView()
+        .environment(\.database, SharedDatabase.preview.database)
     
     
     
