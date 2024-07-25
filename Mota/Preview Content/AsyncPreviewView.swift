@@ -7,12 +7,24 @@
 
 import SwiftUI
 
-struct AsyncPreviewView: View {
-    var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
-    }
+protocol AsyncSetup: Sendable {
+    func performSetup() async
 }
 
-#Preview {
-    AsyncPreviewView()
+struct AsyncPreviewView<Content: View, Setup: AsyncSetup>: View {
+    @State private var isLoading = true
+    var setup: Setup
+    var content: () -> Content
+    
+    var body: some View {
+        if isLoading {
+            ProgressView("Loading...")
+                .task {
+                    await setup.performSetup()
+                    isLoading = false
+                }
+        } else {
+            content()
+        }
+    }
 }

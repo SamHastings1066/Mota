@@ -63,7 +63,7 @@ struct WorkoutListNewScreen: View {
             workouts.append(contentsOf: exampleWorkouts)
             print("Time to insert models: \(Date().timeIntervalSince(startInsertingModels))")
             try? await database.save()
-
+            
         }
     }
     
@@ -124,24 +124,17 @@ struct WorkoutListNewScreen: View {
 
 #Preview {
     
-    struct AsyncPreviewView: View {
-        @State var loadingExercises = true
-        
-        var body: some View {
-            if loadingExercises {
-                ProgressView("loading exercises")
-                    .task {
-                        await SharedDatabase.preview.loadExercises()
-                        loadingExercises = false
-                    }
-            } else {
-                    WorkoutListNewScreen()
-            }
+    
+    struct WorkoutListNewSetup: AsyncSetup {
+        func performSetup() async {
+            await SharedDatabase.preview.loadExercises()
         }
     }
-
-    return AsyncPreviewView()
-        .environment(\.database, SharedDatabase.preview.database)
+    
+    return AsyncPreviewView(setup: WorkoutListNewSetup()){
+        WorkoutListNewScreen()
+    }
+    .environment(\.database, SharedDatabase.preview.database)
     
     
     
