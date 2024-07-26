@@ -60,7 +60,7 @@ extension SharedDatabase {
                     $0.id.localizedStandardContains("Barbell_Deadlift") ||
                     $0.id.localizedStandardContains("Barbell_Bench_Press_-_Medium_Grip") ||
                     $0.id.localizedStandardContains("Seated_Cable_Rows")
-                }
+                }, sortBy: [ SortDescriptor(\.name, order: .forward)]
             )
             let exercises = try await database.fetch(descriptor)
             let fullBodyWorkout = WorkoutNew(name: "Full body",
@@ -90,22 +90,4 @@ extension SharedDatabase {
         }
     }
     
-    
-    
-    func loadDummyExercise() async -> DatabaseExercise? {
-        do {
-            let descriptor = FetchDescriptor<DatabaseExercise>(
-                predicate: #Predicate {
-                    $0.id.localizedStandardContains("Barbell_Bench_Press_-_Medium_Grip")
-                }
-            )
-            let exercises = try await database.fetch(descriptor)
-            
-            print("Dummy exercise fetched")
-            return exercises[0]
-        } catch {
-            print("Dummy exercise could not be fetched")
-            return nil
-        }
-    }
 }

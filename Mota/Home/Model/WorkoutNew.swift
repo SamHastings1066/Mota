@@ -9,7 +9,7 @@ import Foundation
 import SwiftData
 
 @Model
-class WorkoutNew {
+final class WorkoutNew: Sendable {
     var id = UUID()
     var name: String
     let timeStamp: Date

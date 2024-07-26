@@ -31,19 +31,19 @@ import SwiftUI
 
 struct AsyncPreviewView<Content: View>: View {
     @State private var isLoading = true
-    @State private var additionalState: Any?
-    var asyncTasks: () async -> Any?
-    @ViewBuilder var content: (Any?) -> Content
+    @State private var workout: WorkoutNew?
+    var asyncTasks: () async -> WorkoutNew?
+    @ViewBuilder var content: (WorkoutNew?) -> Content
 
     var body: some View {
         if isLoading {
             ProgressView("Loading...")
                 .task {
-                    additionalState = await asyncTasks()
+                    workout = await asyncTasks()
                     isLoading = false
                 }
         } else {
-            content(additionalState)
+            content(workout)
         }
     }
 }

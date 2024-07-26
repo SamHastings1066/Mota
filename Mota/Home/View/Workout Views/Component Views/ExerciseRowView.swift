@@ -33,20 +33,39 @@ struct ExerciseRowView: View {
 
 
 #Preview {
+//    return AsyncPreviewView(
+//        asyncTasks: {
+//            await SharedDatabase.preview.loadExercises()
+//            return await SharedDatabase.preview.loadDummyExercise()
+//        },
+//        content: { exercise in
+//            if let exercise = exercise as? DatabaseExercise {
+//                ExerciseRowView(exercise: exercise)
+//            } else {
+//                Text("No superset found.")
+//            }
+//        }
+//    )
+//    .environment(\.database, SharedDatabase.preview.database) 
     return AsyncPreviewView(
-        asyncTasks: {
-            await SharedDatabase.preview.loadExercises()
-            return await SharedDatabase.preview.loadDummyExercise()
-        },
-        content: { exercise in
-            if let exercise = exercise as? DatabaseExercise {
-                ExerciseRowView(exercise: exercise)
-            } else {
-                Text("No superset found.")
+            asyncTasks: {
+                await SharedDatabase.preview.loadExercises()
+                let workout =  await SharedDatabase.preview.loadDummyWorkout()
+                return workout
+            },
+            content: { workout in
+                if let workout = workout as? WorkoutNew {
+                    if let exercise = workout.orderedSupersets[0].orderedRounds[0].orderedSinglesets[0].exercise {
+                        ExerciseRowView(exercise: exercise)
+                    } else {
+                        Text("No exercise found.")
+                    }
+                } else {
+                    Text("No workout found.")
+                }
             }
-        }
-    )
-    .environment(\.database, SharedDatabase.preview.database) 
+        )
+    .environment(\.database, SharedDatabase.preview.database)
 }
 
 
