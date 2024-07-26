@@ -134,19 +134,6 @@ struct WorkoutListNewScreen: View {
         }
     )
     .environment(\.database, SharedDatabase.preview.database)
-
-    
-//    struct WorkoutListNewSetup: AsyncSetup {
-//        func performSetup() async {
-//            await SharedDatabase.preview.loadExercises()
-//        }
-//    }
-//    
-//    return AsyncPreviewView(setup: WorkoutListNewSetup()){
-//        WorkoutListNewScreen()
-//    }
-//    .environment(\.database, SharedDatabase.preview.database)
-    
     
     
 }

@@ -47,23 +47,41 @@ struct EditSupersetScreen: View {
 }
 
 #Preview {
-    do {
-        let config = ModelConfiguration(isStoredInMemoryOnly: true)
-        let container = try ModelContainer(for: WorkoutNew.self, configurations: config)
+    
         
-        let superset = SupersetNew(
-            rounds: [
-                Round(singlesets: [SinglesetNew(exercise: DatabaseExercise.sampleExercises[0], weight: 100, reps: 10), SinglesetNew(exercise: DatabaseExercise.sampleExercises[1], weight: 90, reps: 15)])
-            ]
-        )
-        
-        container.mainContext.insert(superset)
-        
-        return NavigationStack {
-            EditSupersetScreen(collapsedSuperset: CollapsedSuperset(superset:  superset))
-                .modelContainer(container)
+    return AsyncPreviewView(
+        asyncTasks: {
+            await SharedDatabase.preview.loadExercises()
+            return await SharedDatabase.preview.loadDummyWorkout()
+        },
+        content: { workout in
+            if let workout = workout as? WorkoutNew {
+                let superset = workout.orderedSupersets[0]
+                EditSupersetScreen(collapsedSuperset: CollapsedSuperset(superset: superset))
+            } else {
+                Text("No superset found.")
+            }
         }
-    } catch {
-        fatalError("Failed to create model container")
-    }
+    )
+        .environment(\.database, SharedDatabase.preview.database)
+    
+//    do {
+//        let config = ModelConfiguration(isStoredInMemoryOnly: true)
+//        let container = try ModelContainer(for: WorkoutNew.self, configurations: config)
+//        
+//        let superset = SupersetNew(
+//            rounds: [
+//                Round(singlesets: [SinglesetNew(exercise: DatabaseExercise.sampleExercises[0], weight: 100, reps: 10), SinglesetNew(exercise: DatabaseExercise.sampleExercises[1], weight: 90, reps: 15)])
+//            ]
+//        )
+//        
+//        container.mainContext.insert(superset)
+//        
+//        return NavigationStack {
+//            EditSupersetScreen(collapsedSuperset: CollapsedSuperset(superset:  superset))
+//                .modelContainer(container)
+//        }
+//    } catch {
+//        fatalError("Failed to create model container")
+//    }
 }

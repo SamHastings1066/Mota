@@ -31,34 +31,23 @@ struct ReorderSupersetsScreen: View {
     }
 }
 
-//#Preview {
-//    do {
-//        let config = ModelConfiguration(isStoredInMemoryOnly: true)
-//        let container = try ModelContainer(for: WorkoutNew.self, configurations: config)
-//        
-//        let workout = WorkoutNew(name: "Arms workout",
-//                                  supersets: [
-//                                    SupersetNew(
-//                                        rounds: [
-//                                            Round(singlesets: [SinglesetNew(exercise: DatabaseExercise.sampleExercises[0], weight: 100, reps: 10), SinglesetNew(exercise: DatabaseExercise.sampleExercises[1], weight: 90, reps: 15)])
-//                                        ]
-//                                    ),
-//                                    SupersetNew(
-//                                        rounds: [
-//                                            Round(singlesets: [SinglesetNew(exercise: DatabaseExercise.sampleExercises[2], weight: 10, reps: 20)]),
-//                                        ]
-//                                    )
-//                                  ]
-//        )
-//        
-//        container.mainContext.insert(workout)
-//        
-//        return NavigationStack {
-//            ReorderSupersetsScreen(workout: workout)
-//                .modelContainer(container)
-//        }
-//    } catch {
-//        fatalError("Failed to create model container")
-//    }
-//    
-//}
+#Preview {
+    
+    return NavigationStack {
+        AsyncPreviewView(
+            asyncTasks: {
+                await SharedDatabase.preview.loadExercises()
+                let workout =  await SharedDatabase.preview.loadDummyWorkout()
+                return workout
+            },
+            content: { workout in
+                if let workout = workout as? WorkoutNew {
+                    ReorderSupersetsScreen(workout: workout)
+                } else {
+                    Text("No workout found.")
+                }
+            }
+        )
+    }
+    .environment(\.database, SharedDatabase.preview.database)
+}

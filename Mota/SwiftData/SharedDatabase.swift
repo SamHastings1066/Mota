@@ -48,7 +48,11 @@ struct SharedDatabase {
         }
     }
     
-    func loadDummyWorkout() async -> UUID? {
+}
+
+// Xcode Preview methods
+extension SharedDatabase {
+    func loadDummyWorkout() async -> WorkoutNew? {
         do {
             let descriptor = FetchDescriptor<DatabaseExercise>(
                 predicate: #Predicate {
@@ -63,12 +67,13 @@ struct SharedDatabase {
                                              supersets: [
                                                 SupersetNew(
                                                     rounds: [
-                                                        Round(singlesets: [SinglesetNew(exercise: exercises[0], weight: 100, reps: 10), SinglesetNew(exercise: exercises[1], weight: 90, reps: 15)])
+                                                        Round(singlesets: [SinglesetNew(exercise: exercises[0], weight: 100, reps: 10), SinglesetNew(exercise: exercises[1], weight: 90, reps: 15)], rest: 60),
+                                                        Round(singlesets: [SinglesetNew(exercise: exercises[0], weight: 100, reps: 10), SinglesetNew(exercise: exercises[1], weight: 90, reps: 15)], rest: 60)
                                                     ]
                                                 ),
                                                 SupersetNew(
                                                     rounds: [
-                                                        Round(singlesets: [SinglesetNew(exercise: exercises[3], weight: 10, reps: 20)]),
+                                                        Round(singlesets: [SinglesetNew(exercise: exercises[3], weight: 10, reps: 20)], rest: 60),
                                                     ]
                                                 )
                                              ]
@@ -78,9 +83,28 @@ struct SharedDatabase {
             try? await database.save()
             
             print("Dummy workout created")
-            return fullBodyWorkout.id
+            return fullBodyWorkout
         } catch {
             print("Dummy workout could not be created")
+            return nil
+        }
+    }
+    
+    
+    
+    func loadDummyExercise() async -> DatabaseExercise? {
+        do {
+            let descriptor = FetchDescriptor<DatabaseExercise>(
+                predicate: #Predicate {
+                    $0.id.localizedStandardContains("Barbell_Bench_Press_-_Medium_Grip")
+                }
+            )
+            let exercises = try await database.fetch(descriptor)
+            
+            print("Dummy exercise fetched")
+            return exercises[0]
+        } catch {
+            print("Dummy exercise could not be fetched")
             return nil
         }
     }

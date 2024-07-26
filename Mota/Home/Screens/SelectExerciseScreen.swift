@@ -96,27 +96,12 @@ struct SelectExerciseScreen: View {
 
 #Preview {
     
-    struct AsyncPreviewView: View {
-        @State var loadingExercises = true
-        
-        var body: some View {
-            if loadingExercises {
-                ProgressView("loading exercises")
-                    .task {
-                        await SharedDatabase.preview.loadExercises()
-                        loadingExercises = false
-                    }
-            } else {
-                SelectExerciseScreen(selectedExercise: .constant(nil))
-            }
-        }
+    return AsyncPreviewView {
+        await SharedDatabase.preview.loadExercises()
+        return nil
+    } content: { _ in
+        SelectExerciseScreen(selectedExercise: .constant(nil))
     }
-    
-
-        
-        
-            return
-        AsyncPreviewView()
-            .environment(\.database, SharedDatabase.preview.database)
+    .environment(\.database, SharedDatabase.preview.database)
 
 }

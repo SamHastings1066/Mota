@@ -158,19 +158,22 @@ struct WorkoutNewScreen: View {
 
 #Preview {
     
-    return AsyncPreviewView(
-        asyncTasks: {
-            await SharedDatabase.preview.loadExercises()
-            return await SharedDatabase.preview.loadDummyWorkout()
-        },
-        content: { uuid in
-            if let workoutID = uuid {
-                WorkoutNewScreen(workoutID: workoutID)
-            } else {
-                Text("No workout found.")
+    return NavigationStack {
+        AsyncPreviewView(
+            asyncTasks: {
+                await SharedDatabase.preview.loadExercises()
+                let workout =  await SharedDatabase.preview.loadDummyWorkout()
+                return workout
+            },
+            content: { workout in
+                if let workout = workout as? WorkoutNew {
+                    WorkoutNewScreen(workoutID: workout.id)
+                } else {
+                    Text("No workout found.")
+                }
             }
-        }
-    )
+        )
+    }
     .environment(\.database, SharedDatabase.preview.database)
     
 //    struct AsyncPreviewView: View {
@@ -194,5 +197,7 @@ struct WorkoutNewScreen: View {
 //            }
 //        }
 //    }
+//    return NavigationStack{ AsyncPreviewView() }
+//        .environment(\.database, SharedDatabase.preview.database)
     
 }

@@ -55,17 +55,35 @@ struct ExpandedSinglesetNewView: View {
 }
 
 #Preview {
-    do {
-        let config = ModelConfiguration(isStoredInMemoryOnly: true)
-        let container = try ModelContainer(for: WorkoutNew.self, configurations: config)
-        
-        let singleset = SinglesetNew(exercise: DatabaseExercise.sampleExercises[0], weight: 100, reps: 10)
-        
-        container.mainContext.insert(singleset)
-        
-        return ExpandedSinglesetNewView(singleset: singleset)
-            .modelContainer(container)
-    } catch {
-        fatalError("Failed to create model container")
+//    do {
+//        let config = ModelConfiguration(isStoredInMemoryOnly: true)
+//        let container = try ModelContainer(for: WorkoutNew.self, configurations: config)
+//        
+//        let singleset = SinglesetNew(exercise: DatabaseExercise.sampleExercises[0], weight: 100, reps: 10)
+//        
+//        container.mainContext.insert(singleset)
+//        
+//        return ExpandedSinglesetNewView(singleset: singleset)
+//            .modelContainer(container)
+//    } catch {
+//        fatalError("Failed to create model container")
+//    }
+    return NavigationStack {
+        AsyncPreviewView(
+            asyncTasks: {
+                await SharedDatabase.preview.loadExercises()
+                let workout =  await SharedDatabase.preview.loadDummyWorkout()
+                return workout
+            },
+            content: { workout in
+                if let workout = workout as? WorkoutNew {
+                    let singleset = workout.orderedSupersets[0].orderedRounds[0].singlesets[0]
+                    ExpandedSinglesetNewView(singleset: singleset)
+                } else {
+                    Text("No workout found.")
+                }
+            }
+        )
     }
+    .environment(\.database, SharedDatabase.preview.database)
 }

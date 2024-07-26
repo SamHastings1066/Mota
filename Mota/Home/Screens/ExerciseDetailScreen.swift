@@ -92,9 +92,22 @@ struct ExerciseDetailScreen: View {
 
     }
 }
-
-//#Preview {
-//    ExerciseDetailScreen(exercise: databaseExercises[0])
-//}
+#Preview {
+    
+    return AsyncPreviewView(
+        asyncTasks: {
+            await SharedDatabase.preview.loadExercises()
+            return await SharedDatabase.preview.loadDummyExercise()
+        },
+        content: { exercise in
+            if let exercise = exercise as? DatabaseExercise {
+                ExerciseDetailScreen(exercise: exercise)
+            } else {
+                Text("No superset found.")
+            }
+        }
+    )
+    .environment(\.database, SharedDatabase.preview.database)
+}
 
 

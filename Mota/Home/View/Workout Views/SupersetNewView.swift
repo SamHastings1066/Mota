@@ -87,56 +87,22 @@ struct SupersetNewView: View {
 }
 
 #Preview {
-    // TODO: update this preview to use background database
-    do {
-        let config = ModelConfiguration(isStoredInMemoryOnly: true)
-        let container = try ModelContainer(for: WorkoutNew.self, configurations: config)
-        
-        var rounds = [Round]()
-        for _ in 0..<2 {
-            let round = Round(singlesets: [SinglesetNew(exercise: DatabaseExercise.sampleExercises[0], weight: 100, reps: 10), SinglesetNew(exercise: DatabaseExercise.sampleExercises[1], weight: 90, reps: 15)])
-            rounds.append(round)
-        }
-        let workout1 = WorkoutNew(
-            name: "Legs workout",
-            supersets: [
-                SupersetNew(
-                    rounds: rounds
-                )
-            ]
+
+    return NavigationStack {
+        AsyncPreviewView(
+            asyncTasks: {
+                await SharedDatabase.preview.loadExercises()
+                let workout =  await SharedDatabase.preview.loadDummyWorkout()
+                return workout
+            },
+            content: { workout in
+                if let workout = workout as? WorkoutNew {
+                    SupersetNewView(superset: workout.orderedSupersets[0], isExpanded: false, orderedSupersets: workout.orderedSupersets)
+                } else {
+                    Text("No workout found.")
+                }
+            }
         )
-        
-        let workout2 = WorkoutNew(name: "Arms workout",
-                                  supersets: [
-                                    SupersetNew(
-                                        rounds: [
-                                            Round(
-                                                singlesets: [SinglesetNew(exercise: DatabaseExercise.sampleExercises[0], weight: 100, reps: 10), SinglesetNew(exercise: DatabaseExercise.sampleExercises[1], weight: 90, reps: 15)],
-                                                rest:  60
-                                            ),
-                                            Round(
-                                                singlesets: [SinglesetNew(exercise: DatabaseExercise.sampleExercises[0], weight: 90, reps: 10), SinglesetNew(exercise: DatabaseExercise.sampleExercises[1], weight: 90, reps: 15)],
-                                                rest:  70
-                                            )
-                                        ]
-                                    ),
-                                    SupersetNew(
-                                        rounds: [
-                                            Round(singlesets: [SinglesetNew(exercise: DatabaseExercise.sampleExercises[2], weight: 10, reps: 20)]),
-                                        ]
-                                    )
-                                  ]
-        )
-        
-        container.mainContext.insert(workout1)
-        
-        return Group {
-            //            SupersetNewView(superset: workout2.orderedSupersets[0], isExpanded: true, orderedSupersets: workout2.orderedSupersets)
-            //                .modelContainer(container)
-            SupersetNewView(superset: workout1.orderedSupersets[0], isExpanded: true, orderedSupersets: workout1.orderedSupersets)
-                .modelContainer(container)
-        }
-    } catch {
-        fatalError("Failed to create model container")
     }
+    .environment(\.database, SharedDatabase.preview.database)
 }

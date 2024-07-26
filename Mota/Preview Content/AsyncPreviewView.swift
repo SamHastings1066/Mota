@@ -31,9 +31,9 @@ import SwiftUI
 
 struct AsyncPreviewView<Content: View>: View {
     @State private var isLoading = true
-    @State private var additionalState: UUID?
-    var asyncTasks: () async -> UUID?
-    @ViewBuilder var content: (UUID?) -> Content
+    @State private var additionalState: Any?
+    var asyncTasks: () async -> Any?
+    @ViewBuilder var content: (Any?) -> Content
 
     var body: some View {
         if isLoading {
