@@ -30,6 +30,8 @@ struct ExerciseAnimationView: View {
     }
 }
 
-//#Preview {
-//    ExerciseAnimationView()
-//}
+#Preview {
+    var imageNames = ["90_90_Hamstring/0","90_90_Hamstring/1"]
+    var fullSizeImageURLs: [String?] = [nil, nil]
+    return ExerciseAnimationView(imageNames: imageNames, fullSizeImageURLs: fullSizeImageURLs)
+}

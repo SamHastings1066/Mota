@@ -40,13 +40,20 @@ struct ExerciseImageView: View {
 }
 
 #Preview {
-    do {
-        let config = ModelConfiguration(isStoredInMemoryOnly: true)
-        let container = try ModelContainer(for: WorkoutNew.self, configurations: config)
-        return ExerciseImageView(exercise: DatabaseExercise.sampleExercises[0])
-            .modelContainer(container)
-    } catch {
-        fatalError("Failed to create model container")
-    }
 
+    return AsyncPreviewView(
+        asyncTasks: {
+            await SharedDatabase.preview.loadExercises()
+            return await SharedDatabase.preview.loadDummyExercise()
+        },
+        content: { exercise in
+            if let exercise = exercise as? DatabaseExercise {
+                ExerciseImageView(exercise: exercise)
+            } else {
+                Text("No superset found.")
+            }
+        }
+    )
+    .environment(\.database, SharedDatabase.preview.database)
+    
 }

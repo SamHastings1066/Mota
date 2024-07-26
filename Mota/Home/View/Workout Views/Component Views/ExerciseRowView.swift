@@ -32,13 +32,21 @@ struct ExerciseRowView: View {
 
 
 
-//#Preview {
-//    Group {
-//        ExerciseRowView(exercise: databaseExercises[0])
-//        ExerciseRowView(exercise: databaseExercises[4])
-//        
-//    }
-//    
-//}
+#Preview {
+    return AsyncPreviewView(
+        asyncTasks: {
+            await SharedDatabase.preview.loadExercises()
+            return await SharedDatabase.preview.loadDummyExercise()
+        },
+        content: { exercise in
+            if let exercise = exercise as? DatabaseExercise {
+                ExerciseRowView(exercise: exercise)
+            } else {
+                Text("No superset found.")
+            }
+        }
+    )
+    .environment(\.database, SharedDatabase.preview.database) 
+}
 
 
