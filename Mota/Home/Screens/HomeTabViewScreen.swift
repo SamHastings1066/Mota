@@ -33,33 +33,30 @@ struct HomeTabViewScreen: View {
 
 #Preview {
     
-//    struct AsyncPreviewView: View {
-//        @State var loadingExercises = true
-//        var viewModel: HomeViewModel
-//        
-//        var body: some View {
-//            if loadingExercises {
-//                ProgressView("loading exercises")
-//                    .task {
-//                        await SharedDatabase.preview.loadExercises()
-//                        loadingExercises = false
-//                    }
-//            } else {
-//                HomeTabViewScreen(viewModel: viewModel)
-//            }
-//        }
-//    }
-    struct HomeTabViewSetup: AsyncSetup {
-        func performSetup() async {
+    let viewModel = HomeViewModel(authService: FirebaseAuthService())
+    return AsyncPreviewView(
+        asyncTasks: {
             await SharedDatabase.preview.loadExercises()
+            return nil
+        },
+        content: { _ in
+            HomeTabViewScreen(viewModel: viewModel)
         }
-        
-    }
-    
-    var viewModel = HomeViewModel(authService: FirebaseAuthService())
-//    return AsyncPreviewView(viewModel: viewModel).environment(\.database, SharedDatabase.preview.database)
-    return AsyncPreviewView(setup: HomeTabViewSetup()) {
-        HomeTabViewScreen(viewModel: viewModel)
-    }
+    )
     .environment(\.database, SharedDatabase.preview.database)
+    
+    
+
+//    struct HomeTabViewSetup: AsyncSetup {
+//        func performSetup() async {
+//            await SharedDatabase.preview.loadExercises()
+//        }
+//        
+//    }
+//    
+//    var viewModel = HomeViewModel(authService: FirebaseAuthService())
+//    return AsyncPreviewView(setup: HomeTabViewSetup()) {
+//        HomeTabViewScreen(viewModel: viewModel)
+//    }
+//    .environment(\.database, SharedDatabase.preview.database)
 }

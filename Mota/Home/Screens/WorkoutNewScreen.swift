@@ -158,29 +158,41 @@ struct WorkoutNewScreen: View {
 
 #Preview {
     
-    struct AsyncPreviewView: View {
-        @State var loadingExercises = true
-        @State var workoutID: UUID?
-        
-        var body: some View {
-            if loadingExercises {
-                ProgressView("loading exercises")
-                    .task {
-                        await SharedDatabase.preview.loadExercises()
-                        workoutID = await SharedDatabase.preview.loadDummyWorkout()
-                        loadingExercises = false
-                    }
+    return AsyncPreviewView(
+        asyncTasks: {
+            await SharedDatabase.preview.loadExercises()
+            return await SharedDatabase.preview.loadDummyWorkout()
+        },
+        content: { uuid in
+            if let workoutID = uuid {
+                WorkoutNewScreen(workoutID: workoutID)
             } else {
-                if let workoutID {
-                    WorkoutNewScreen(workoutID: workoutID)
-                } else {
-                    Text("No workout found.")
-                }
+                Text("No workout found.")
             }
         }
-    }
+    )
+    .environment(\.database, SharedDatabase.preview.database)
     
-    return NavigationStack{ AsyncPreviewView() }
-        .environment(\.database, SharedDatabase.preview.database)
+//    struct AsyncPreviewView: View {
+//        @State var loadingExercises = true
+//        @State var workoutID: UUID?
+//        
+//        var body: some View {
+//            if loadingExercises {
+//                ProgressView("loading exercises")
+//                    .task {
+//                        await SharedDatabase.preview.loadExercises()
+//                        workoutID = await SharedDatabase.preview.loadDummyWorkout()
+//                        loadingExercises = false
+//                    }
+//            } else {
+//                if let workoutID {
+//                    WorkoutNewScreen(workoutID: workoutID)
+//                } else {
+//                    Text("No workout found.")
+//                }
+//            }
+//        }
+//    }
     
 }

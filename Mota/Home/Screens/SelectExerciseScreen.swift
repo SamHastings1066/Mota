@@ -112,38 +112,11 @@ struct SelectExerciseScreen: View {
         }
     }
     
-//    do {
-//        let config = ModelConfiguration(isStoredInMemoryOnly: true)
-//        let container = try ModelContainer(for: WorkoutNew.self, configurations: config)
-//        // check we haven't already added the exercises
-//        let descriptor = FetchDescriptor<DatabaseExercise>()
-//        let existingExercises = try container.mainContext.fetchCount(descriptor)
-//        guard existingExercises == 0 else { 
-//            return 
-//            //NavigationStack {
-//                SelectExerciseScreen(selectedExercise: .constant(nil))
-//                    .modelContainer(container)
-//            //}
-//        }
-//        
-//        guard let url = Bundle.main.url(forResource: "exercises", withExtension: "json") else {
-//            fatalError("Failed to find exercises.json")
-//        }
-//        let data = try Data(contentsOf: url)
-//        let exercises = try JSONDecoder().decode([DatabaseExercise].self, from: data)
-//        for exercise in exercises {
-//            container.mainContext.insert(exercise)
-//        }
-//        print("DATABASE created")
+
         
         
-            return 
-        //NavigationStack {
+            return
         AsyncPreviewView()
             .environment(\.database, SharedDatabase.preview.database)
-            //.modelContainer(container)
-        //}
-//    } catch {
-//        fatalError("Failed to create model container")
-//    }
+
 }
