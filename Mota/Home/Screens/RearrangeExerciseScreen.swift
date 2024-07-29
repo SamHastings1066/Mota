@@ -32,7 +32,7 @@ struct RearrangeExerciseScreen: View {
             return await SharedDatabase.preview.loadDummyWorkout()
         },
         content: { workout in
-            if let workout = workout as? WorkoutNew {
+            if let workout = workout as? WorkoutTemplate {
                 let superset = workout.orderedSupersets[0]
                 RearrangeExerciseScreen(collapsedSuperset: CollapsedSuperset(superset: superset))
             } else {

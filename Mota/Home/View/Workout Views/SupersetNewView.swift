@@ -96,7 +96,7 @@ struct SupersetNewView: View {
                 return workout
             },
             content: { workout in
-                if let workout = workout as? WorkoutNew {
+                if let workout = workout as? WorkoutTemplate {
                     SupersetNewView(superset: workout.orderedSupersets[0], isExpanded: false, orderedSupersets: workout.orderedSupersets)
                 } else {
                     Text("No workout found.")

@@ -54,7 +54,7 @@ struct ExerciseRowView: View {
                 return workout
             },
             content: { workout in
-                if let workout = workout as? WorkoutNew {
+                if let workout = workout as? WorkoutTemplate {
                     if let exercise = workout.orderedSupersets[0].orderedRounds[0].orderedSinglesets[0].exercise {
                         ExerciseRowView(exercise: exercise)
                     } else {

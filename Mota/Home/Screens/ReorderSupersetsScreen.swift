@@ -9,7 +9,7 @@ import SwiftUI
 import SwiftData
 
 struct ReorderSupersetsScreen: View {
-    @Bindable var workout: WorkoutNew
+    @Bindable var workout: WorkoutTemplate
     @Environment(\.database) private var database
     
     var body: some View {
@@ -41,7 +41,7 @@ struct ReorderSupersetsScreen: View {
                 return workout
             },
             content: { workout in
-                if let workout = workout as? WorkoutNew {
+                if let workout = workout as? WorkoutTemplate {
                     ReorderSupersetsScreen(workout: workout)
                 } else {
                     Text("No workout found.")

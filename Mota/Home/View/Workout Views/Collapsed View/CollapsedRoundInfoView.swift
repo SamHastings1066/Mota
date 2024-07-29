@@ -93,7 +93,7 @@ struct CollapsedRoundInfoView: View {
 #Preview {
 //    do {
 //        let config = ModelConfiguration(isStoredInMemoryOnly: true)
-//        let container = try ModelContainer(for: WorkoutNew.self, configurations: config)
+//        let container = try ModelContainer(for: WorkoutTemplate.self, configurations: config)
 //        
 //        let superset1 = SupersetNew(
 //            rounds: [
@@ -122,7 +122,7 @@ struct CollapsedRoundInfoView: View {
                 return workout
             },
             content: { workout in
-                if let workout = workout as? WorkoutNew {
+                if let workout = workout as? WorkoutTemplate {
                     let superset = workout.orderedSupersets[0]
                     let collapsedSuperset = CollapsedSuperset(superset: superset)
                     CollapsedRoundInfoView(collapsedSuperset: .constant(collapsedSuperset))

@@ -68,7 +68,7 @@ struct CollapsedSinglesetView: View {
 #Preview {
 //    do {
 //        let config = ModelConfiguration(isStoredInMemoryOnly: true)
-//        let container = try ModelContainer(for: WorkoutNew.self, configurations: config)
+//        let container = try ModelContainer(for: WorkoutTemplate.self, configurations: config)
 //        
 //        let singlesetRound1 = SinglesetNew(exercise: DatabaseExercise.sampleExercises[0], weight: 100, reps: 10)
 //        let singlesetRound2 = SinglesetNew(exercise: DatabaseExercise.sampleExercises[0], weight: 100, reps: 15)
@@ -92,7 +92,7 @@ struct CollapsedSinglesetView: View {
             return workout
         },
         content: { workout in
-            if let workout = workout as? WorkoutNew {
+            if let workout = workout as? WorkoutTemplate {
                 let superset = workout.orderedSupersets[0]
                 let collapsedSuperset = CollapsedSuperset(superset: superset)
                 Group {

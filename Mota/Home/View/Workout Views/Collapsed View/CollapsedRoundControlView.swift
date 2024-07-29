@@ -82,7 +82,7 @@ struct CollapsedRoundControlView: View {
                 return workout
             },
             content: { workout in
-                if let workout = workout as? WorkoutNew {
+                if let workout = workout as? WorkoutTemplate {
                     let superset = workout.orderedSupersets[0]
                     let collapsedSuperset = CollapsedSuperset(superset: superset)
                     CollapsedRoundControlView(collapsedSuperset: .constant(collapsedSuperset))

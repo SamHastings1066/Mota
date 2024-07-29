@@ -26,7 +26,7 @@ struct ExpandedRoundNewView: View {
 #Preview {
 //    do {
 //        let config = ModelConfiguration(isStoredInMemoryOnly: true)
-//        let container = try ModelContainer(for: WorkoutNew.self, configurations: config)
+//        let container = try ModelContainer(for: WorkoutTemplate.self, configurations: config)
 //        
 //        let round = Round(singlesets: [SinglesetNew(exercise: DatabaseExercise.sampleExercises[0], weight: 100, reps: 10), SinglesetNew(exercise: DatabaseExercise.sampleExercises[1], weight: 90, reps: 15)])
 //        
@@ -45,7 +45,7 @@ struct ExpandedRoundNewView: View {
                 return workout
             },
             content: { workout in
-                if let workout = workout as? WorkoutNew {
+                if let workout = workout as? WorkoutTemplate {
                     let round = workout.orderedSupersets[0].orderedRounds[0]
                     ExpandedRoundNewView(round: round, isEditable: .constant(false))
                 } else {

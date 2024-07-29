@@ -10,20 +10,20 @@ import SwiftData
 
 struct WorkoutListNewScreen: View {
     
-    @State private var workouts: [WorkoutNew] = []
+    @State private var workouts: [WorkoutTemplate] = []
     @State private var sampleBackgroundExercises: [DatabaseExercise] = []
     @Environment(\.database) private var database
-    @State private var path = [WorkoutNew]()
+    @State private var path = [WorkoutTemplate]()
     
     
-    private func createExampleWorkouts() async -> [WorkoutNew] {
+    private func createExampleWorkouts() async -> [WorkoutTemplate] {
         let startCreatingModels = Date()
         var rounds = [Round]()
         for _ in 0..<2000 {
             let round = Round(singlesets: [SinglesetNew(exercise: sampleBackgroundExercises[0], weight: 100, reps: 10), SinglesetNew(exercise: sampleBackgroundExercises[1], weight: 90, reps: 15)])
             rounds.append(round)
         }
-        let workout1 = WorkoutNew(
+        let workout1 = WorkoutTemplate(
             name: "Legs workout",
             supersets: [
                 SupersetNew(
@@ -32,7 +32,7 @@ struct WorkoutListNewScreen: View {
             ]
         )
         
-        let workout2 = WorkoutNew(name: "Arms workout",
+        let workout2 = WorkoutTemplate(name: "Arms workout",
                                   supersets: [
                                     SupersetNew(
                                         rounds: [
@@ -82,7 +82,7 @@ struct WorkoutListNewScreen: View {
     
     func addNewWorkout() {
         Task {
-            let newWorkout = WorkoutNew()
+            let newWorkout = WorkoutTemplate()
             await database.insert(newWorkout)
             try await database.save()
             path = [newWorkout]
@@ -102,7 +102,7 @@ struct WorkoutListNewScreen: View {
                 .onDelete(perform: removeWorkout)
             }
             .navigationTitle("Workout List")
-            .navigationDestination(for: WorkoutNew.self) { workout in
+            .navigationDestination(for: WorkoutTemplate.self) { workout in
                 WorkoutNewScreen(workoutID: workout.id)
             }
             .toolbar {
@@ -112,7 +112,7 @@ struct WorkoutListNewScreen: View {
         }
         .task {
             do {
-                let descriptor = FetchDescriptor<WorkoutNew>()
+                let descriptor = FetchDescriptor<WorkoutTemplate>()
                 workouts = try await database.fetch(descriptor)
                 sampleBackgroundExercises = try await database.fetch(FetchDescriptor<DatabaseExercise>())
             } catch {

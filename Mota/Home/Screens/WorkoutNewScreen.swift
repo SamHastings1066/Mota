@@ -11,7 +11,7 @@ import SwiftData
 struct WorkoutNewScreen: View {
     
     //@Environment(\.modelContext) private var context
-    @State private var workout: WorkoutNew?
+    @State private var workout: WorkoutTemplate?
     @State private var isLoading = true
     @State private var isSelectInitialExercisePresented = false
     @State private var isReorderSupersetsPresented = false
@@ -109,10 +109,10 @@ struct WorkoutNewScreen: View {
         isLoading = true
         Task {
             let start = Date()
-            let descriptor = FetchDescriptor<WorkoutNew>(
+            let descriptor = FetchDescriptor<WorkoutTemplate>(
                 predicate: #Predicate { $0.id == workoutID }
             )
-            let workouts: [WorkoutNew]? = try? await database.fetch(descriptor)
+            let workouts: [WorkoutTemplate]? = try? await database.fetch(descriptor)
             print("Fetch takes \(Date().timeIntervalSince(start))")
             if let workout = workouts?.first {
                 self.workout = workout
@@ -166,7 +166,7 @@ struct WorkoutNewScreen: View {
                 return workout
             },
             content: { workout in
-                if let workout = workout as? WorkoutNew {
+                if let workout = workout as? WorkoutTemplate {
                     WorkoutNewScreen(workoutID: workout.id)
                 } else {
                     Text("No workout found.")
@@ -176,28 +176,5 @@ struct WorkoutNewScreen: View {
     }
     .environment(\.database, SharedDatabase.preview.database)
     
-//    struct AsyncPreviewView: View {
-//        @State var loadingExercises = true
-//        @State var workoutID: UUID?
-//        
-//        var body: some View {
-//            if loadingExercises {
-//                ProgressView("loading exercises")
-//                    .task {
-//                        await SharedDatabase.preview.loadExercises()
-//                        workoutID = await SharedDatabase.preview.loadDummyWorkout()
-//                        loadingExercises = false
-//                    }
-//            } else {
-//                if let workoutID {
-//                    WorkoutNewScreen(workoutID: workoutID)
-//                } else {
-//                    Text("No workout found.")
-//                }
-//            }
-//        }
-//    }
-//    return NavigationStack{ AsyncPreviewView() }
-//        .environment(\.database, SharedDatabase.preview.database)
     
 }

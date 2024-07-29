@@ -18,7 +18,7 @@ struct SharedDatabase {
     private init(inMemory: Bool = false,
         modelContainer: ModelContainer? = nil,
         database: (any Database)? = nil) {
-        let schema = Schema([WorkoutNew.self, DatabaseExercise.self])
+        let schema = Schema([WorkoutTemplate.self, DatabaseExercise.self])
             let config = ModelConfiguration(schema: schema, isStoredInMemoryOnly: inMemory)
             // TODO: remove forced unwrap
             let container = try! ModelContainer(for: schema, configurations: config)
@@ -52,7 +52,7 @@ struct SharedDatabase {
 
 // Xcode Preview methods
 extension SharedDatabase {
-    func loadDummyWorkout() async -> WorkoutNew? {
+    func loadDummyWorkout() async -> WorkoutTemplate? {
         do {
             let descriptor = FetchDescriptor<DatabaseExercise>(
                 predicate: #Predicate {
@@ -63,7 +63,7 @@ extension SharedDatabase {
                 }, sortBy: [ SortDescriptor(\.name, order: .forward)]
             )
             let exercises = try await database.fetch(descriptor)
-            let fullBodyWorkout = WorkoutNew(name: "Full body",
+            let fullBodyWorkout = WorkoutTemplate(name: "Full body",
                                              supersets: [
                                                 SupersetNew(
                                                     rounds: [

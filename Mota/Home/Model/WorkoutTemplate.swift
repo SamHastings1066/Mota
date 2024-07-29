@@ -1,5 +1,5 @@
 //
-//  WorkoutNew.swift
+//  WorkoutTemplate.swift
 //  Mota
 //
 //  Created by sam hastings on 17/04/2024.
@@ -9,7 +9,7 @@ import Foundation
 import SwiftData
 
 @Model
-final class WorkoutNew: Sendable {
+final class WorkoutTemplate: Sendable {
     var id = UUID()
     var name: String
     let timeStamp: Date
