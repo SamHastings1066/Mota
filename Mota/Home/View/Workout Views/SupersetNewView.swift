@@ -28,7 +28,7 @@ struct SupersetNewView: View {
         self.orderedSupersets = orderedSupersets
         self.collapsedSuperset = CollapsedSuperset(superset: superset)
         self.removeSupsersetClosure = removeSupersetClosure
-        print("SupersetNewView init takes \(Date().timeIntervalSince(start))s")
+        //print("SupersetNewView init takes \(Date().timeIntervalSince(start))s")
     }
     
     var index: Int {

@@ -10,7 +10,6 @@ import SwiftData
 
 struct WorkoutNewScreen: View {
     
-    //@Environment(\.modelContext) private var context
     @State private var workout: WorkoutTemplate?
     @State private var isLoading = true
     @State private var isSelectInitialExercisePresented = false
@@ -99,9 +98,6 @@ struct WorkoutNewScreen: View {
             }
         //}
         //.navigationTitle(title)
-//        .onAppear {
-//            loadWorkout()
-//        }
         
     }
     
@@ -113,7 +109,7 @@ struct WorkoutNewScreen: View {
                 predicate: #Predicate { $0.id == workoutID }
             )
             let workouts: [WorkoutTemplate]? = try? await database.fetch(descriptor)
-            print("Fetch takes \(Date().timeIntervalSince(start))")
+            //print("Fetch takes \(Date().timeIntervalSince(start))")
             if let workout = workouts?.first {
                 self.workout = workout
                 await MainActor.run {
@@ -132,8 +128,8 @@ struct WorkoutNewScreen: View {
     }
     
     private func updateName() {
+        workout?.name = title
         Task {
-            workout?.name = title
             try? await database.save()
         }
     }
@@ -141,9 +137,9 @@ struct WorkoutNewScreen: View {
     func addSuperset(with exercise: DatabaseExercise?) {
         let newRound = Round(singlesets: [SinglesetNew(exercise: selectedExercise, weight: 0, reps: 0)])
         let newSuperset = SupersetNew(rounds: [newRound])
+        workout?.addSuperset(newSuperset)
         Task {
             await database.insert(newSuperset)
-            workout?.addSuperset(newSuperset) 
             try? await database.save()
         }
     }
@@ -166,7 +162,7 @@ struct WorkoutNewScreen: View {
                 return workout
             },
             content: { workout in
-                if let workout = workout as? WorkoutTemplate {
+                if let workout = workout {
                     WorkoutNewScreen(workoutID: workout.id)
                 } else {
                     Text("No workout found.")

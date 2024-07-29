@@ -26,7 +26,7 @@ struct ExerciseImageView: View {
         } label: {
             SafeImageView(imageName: imageName, fullSizeImageURL: nil)
                 .frame(width: 70, height: 70)
-            .logCreation()
+            //.logCreation()
         }
         .onTapGesture {
             isExerciseDetailPresented.toggle()
