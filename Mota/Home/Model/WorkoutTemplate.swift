@@ -47,6 +47,46 @@ final class WorkoutTemplate: Sendable {
 }
 
 @Model
+final class WorkoutCompleted: Sendable {
+    var id = UUID()
+    var name: String
+    let timeStamp: Date
+    @Relationship(deleteRule: .cascade)
+    var supersets: [SupersetNew]
+    var startTime: Date
+    var endTime: Date
+    
+    var orderedSupersets: [SupersetNew] {
+        get {
+            supersets.sorted { $0.timestamp < $1.timestamp }
+        }
+        set {
+            for superset in newValue {
+                superset.timestamp = Date()
+            }
+        }
+    }
+    
+    init(name: String = "Completed Workout", timestamp: Date = Date(), supersets: [SupersetNew] = [], startTime: Date = Date(), endTime: Date = Date()) {
+        self.name = name
+        self.timeStamp = timestamp
+        self.supersets = supersets
+        self.startTime = startTime
+        self.endTime = endTime
+    }
+    
+    func addSuperset(_ superset: SupersetNew) {
+        supersets.append(superset)
+    }
+    
+    func deleteSuperset(_ superset: SupersetNew) {
+        if let index = supersets.firstIndex(of: superset) {
+            supersets.remove(at: index)
+        }
+    }
+}
+
+@Model
 class SupersetNew {
     var timestamp: Date
     @Relationship(deleteRule: .cascade)
