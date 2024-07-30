@@ -15,7 +15,7 @@ struct WorkoutNewScreen: View {
     @State private var isSelectInitialExercisePresented = false
     @State private var isReorderSupersetsPresented = false
     @State private var selectedExercise: DatabaseExercise?
-    @State private var renameWorkout = false
+    @Binding var renameWorkout: Bool
     @State private var title = ""
     @Environment(\.database) private var database
     
@@ -163,7 +163,7 @@ struct WorkoutNewScreen: View {
             },
             content: { workout in
                 if let workout = workout {
-                    WorkoutNewScreen(workoutID: workout.id)
+                    WorkoutNewScreen(renameWorkout: .constant(false), workoutID: workout.id)
                 } else {
                     Text("No workout found.")
                 }

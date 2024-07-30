@@ -14,6 +14,7 @@ struct WorkoutListNewScreen: View {
     @State private var sampleBackgroundExercises: [DatabaseExercise] = []
     @Environment(\.database) private var database
     @State private var path = [WorkoutTemplate]()
+    @State private var shouldRenameWorkout = false
     
     
     private func createExampleWorkouts() async -> [WorkoutTemplate] {
@@ -87,6 +88,7 @@ struct WorkoutListNewScreen: View {
             try await database.save()
             path = [newWorkout]
             workouts.append(newWorkout)
+            shouldRenameWorkout = true
         }
     }
     
@@ -103,7 +105,7 @@ struct WorkoutListNewScreen: View {
             }
             .navigationTitle("Workout List")
             .navigationDestination(for: WorkoutTemplate.self) { workout in
-                WorkoutNewScreen(workoutID: workout.id)
+                WorkoutNewScreen(renameWorkout: $shouldRenameWorkout, workoutID: workout.id)
             }
             .toolbar {
                 Button("Add Samples", action: addExampleWorkouts)
