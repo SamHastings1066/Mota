@@ -14,14 +14,15 @@ struct SupersetNewView: View {
     @State var isExpanded: Bool
     @State private var isEditable : Bool
     @State var collapsedSuperset: CollapsedSuperset
-    @State var collapsedSinglesets: [CollapsedSingleset] = []
+    //@State var collapsedSinglesets: [CollapsedSingleset] = []
     @Environment(\.database) private var database
+    @State var changed = false
     
     var orderedSupersets: [SupersetNew]
     var removeSupsersetClosure: (() -> Void)?
     
     init(superset: SupersetNew, isExpanded: Bool = false, isEditable: Bool = false, orderedSupersets: [SupersetNew], removeSupersetClosure: (() -> Void)? = nil) {
-        let start = Date()
+        //let start = Date()
         self.superset = superset
         self.isExpanded = isExpanded
         self.isEditable = isEditable
@@ -52,8 +53,8 @@ struct SupersetNewView: View {
             } else {
                 HStack {
                     VStack {
-                        ForEach(collapsedSinglesets) { collapsedSingleset in
-                            //ForEach(collapsedSuperset.collapsedSinglesets) { collapsedSingleset in // THIS IS THE LINE
+                        //ForEach(collapsedSinglesets) { collapsedSingleset in
+                            ForEach(collapsedSuperset.collapsedSinglesets) { collapsedSingleset in // THIS IS THE LINE that is slow
                             CollapsedSinglesetView(collapsedSingleset: collapsedSingleset){
                                 collapsedSuperset.removeSingleSet(collapsedSingleset)
                                 collapsedSuperset = CollapsedSuperset(superset: collapsedSuperset.superset)
@@ -69,17 +70,18 @@ struct SupersetNewView: View {
                     CollapsedRoundInfoView(collapsedSuperset: $collapsedSuperset)
                         .padding()
                 }
-                .onAppear{
-                    Task {
-                        collapsedSinglesets = await collapsedSuperset.generateSinglesets(from: superset.orderedRounds)
-                    }
-                }
+//                .onAppear{
+//                    Task {
+//                        collapsedSinglesets = await collapsedSuperset.generateSinglesets(from: superset.orderedRounds)
+//                    }
+//                }
                 // TODO: Using .onChange here fixes the problem that collapsedSinglesets is used in the ForEach instead of directly using collapsedSuperset.collapsedSinglesets. CollapsedRoundInfoView makes changes to collapsedSuperset, therefore must use .onChange to watch for these changes and then ensure that collapsedSinglesets is updated separately. The reason why collapsedSinglesets is used in the ForEach instead of directly using collapsedSuperset.collapsedSinglesets is so that collapsedSinglesets can be generated asynchronously because it is a time consuming operation. The better solution is to make the generation of collapsedSinglesets quick. There is no reason for it to take so long that it causes a hang if performed synchronously.
-                .onChange(of: collapsedSuperset) { _, _ in
-                    Task {
-                        collapsedSinglesets = await collapsedSuperset.generateSinglesets(from: superset.orderedRounds)
-                    }
-                }
+//                .onChange(of: collapsedSuperset) { _, _ in
+//                    // print("ONCE") // this happens multiple times and since shared mutable state of CollapsedSuperset is being concurrently manipulated the function causes an error data races occur
+//                    Task {
+//                        collapsedSinglesets = await collapsedSuperset.generateSinglesets(from: superset.orderedRounds)
+//                    }
+//                }
             }
         }
     }
@@ -96,7 +98,7 @@ struct SupersetNewView: View {
                 return workout
             },
             content: { workout in
-                if let workout = workout as? WorkoutTemplate {
+                if let workout = workout {
                     SupersetNewView(superset: workout.orderedSupersets[0], isExpanded: false, orderedSupersets: workout.orderedSupersets)
                 } else {
                     Text("No workout found.")

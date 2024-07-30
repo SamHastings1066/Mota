@@ -134,7 +134,7 @@ class CollapsedSuperset: Identifiable, Equatable {
         let singlesetProgressions: [[SinglesetNew]] = {
             var returnArray = Array(repeating: Array(repeating: SinglesetNew(), count: flatSinglesets.count/singlesetsCount), count: singlesetsCount)
             for (index, element) in flatSinglesets.enumerated() { //O(n) - could do all of this in the loop above.
-                returnArray[index % singlesetsCount][index / singlesetsCount] = element
+                returnArray[index % singlesetsCount][index / singlesetsCount] = element //Fatal error: Index out of range
             }
             return returnArray
         }()
