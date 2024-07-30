@@ -10,20 +10,21 @@ import SwiftData
 
 struct WorkoutListNewScreen: View {
     
-    @State private var workouts: [WorkoutNew] = []
+    @State private var workouts: [WorkoutTemplate] = []
     @State private var sampleBackgroundExercises: [DatabaseExercise] = []
     @Environment(\.database) private var database
-    @State private var path = [WorkoutNew]()
+    @State private var path = [WorkoutTemplate]()
+    @State private var shouldRenameWorkout = false
     
     
-    private func createExampleWorkouts() async -> [WorkoutNew] {
+    private func createExampleWorkouts() async -> [WorkoutTemplate] {
         let startCreatingModels = Date()
         var rounds = [Round]()
         for _ in 0..<2000 {
             let round = Round(singlesets: [SinglesetNew(exercise: sampleBackgroundExercises[0], weight: 100, reps: 10), SinglesetNew(exercise: sampleBackgroundExercises[1], weight: 90, reps: 15)])
             rounds.append(round)
         }
-        let workout1 = WorkoutNew(
+        let workout1 = WorkoutTemplate(
             name: "Legs workout",
             supersets: [
                 SupersetNew(
@@ -32,7 +33,7 @@ struct WorkoutListNewScreen: View {
             ]
         )
         
-        let workout2 = WorkoutNew(name: "Arms workout",
+        let workout2 = WorkoutTemplate(name: "Arms workout",
                                   supersets: [
                                     SupersetNew(
                                         rounds: [
@@ -63,7 +64,7 @@ struct WorkoutListNewScreen: View {
             workouts.append(contentsOf: exampleWorkouts)
             print("Time to insert models: \(Date().timeIntervalSince(startInsertingModels))")
             try? await database.save()
-
+            
         }
     }
     
@@ -82,11 +83,12 @@ struct WorkoutListNewScreen: View {
     
     func addNewWorkout() {
         Task {
-            let newWorkout = WorkoutNew()
+            let newWorkout = WorkoutTemplate()
             await database.insert(newWorkout)
             try await database.save()
             path = [newWorkout]
             workouts.append(newWorkout)
+            shouldRenameWorkout = true
         }
     }
     
@@ -102,8 +104,8 @@ struct WorkoutListNewScreen: View {
                 .onDelete(perform: removeWorkout)
             }
             .navigationTitle("Workout List")
-            .navigationDestination(for: WorkoutNew.self) { workout in
-                WorkoutNewScreen(workoutID: workout.id)
+            .navigationDestination(for: WorkoutTemplate.self) { workout in
+                WorkoutNewScreen(renameWorkout: $shouldRenameWorkout, workoutID: workout.id)
             }
             .toolbar {
                 Button("Add Samples", action: addExampleWorkouts)
@@ -112,7 +114,7 @@ struct WorkoutListNewScreen: View {
         }
         .task {
             do {
-                let descriptor = FetchDescriptor<WorkoutNew>()
+                let descriptor = FetchDescriptor<WorkoutTemplate>()
                 workouts = try await database.fetch(descriptor)
                 sampleBackgroundExercises = try await database.fetch(FetchDescriptor<DatabaseExercise>())
             } catch {
@@ -124,32 +126,16 @@ struct WorkoutListNewScreen: View {
 
 #Preview {
     
-    struct AsyncPreviewView: View {
-        @State var loadingExercises = true
-        
-        var body: some View {
-            if loadingExercises {
-                ProgressView("loading exercises")
-                    .task {
-                        await SharedDatabase.preview.loadExercises()
-                        loadingExercises = false
-                    }
-            } else {
-                    WorkoutListNewScreen()
-            }
+    return AsyncPreviewView(
+        asyncTasks: {
+            await SharedDatabase.preview.loadExercises()
+            return nil
+        },
+        content: { _ in
+            WorkoutListNewScreen()
         }
-    }
-    
-    
-    do {
-        let config = ModelConfiguration(isStoredInMemoryOnly: true)
-        let container = try ModelContainer(for: WorkoutNew.self, configurations: config)
-        return AsyncPreviewView()
-            .environment(\.database, SharedDatabase.preview.database)
-    } catch {
-        fatalError("Failed to create model container")
-    }
-    
+    )
+    .environment(\.database, SharedDatabase.preview.database)
     
     
 }

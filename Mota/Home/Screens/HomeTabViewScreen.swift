@@ -33,23 +33,39 @@ struct HomeTabViewScreen: View {
 
 #Preview {
     
-    struct AsyncPreviewView: View {
-        @State var loadingExercises = true
-        var viewModel: HomeViewModel
-        
-        var body: some View {
-            if loadingExercises {
-                ProgressView("loading exercises")
-                    .task {
-                        await SharedDatabase.preview.loadExercises()
-                        loadingExercises = false
-                    }
-            } else {
-                HomeTabViewScreen(viewModel: viewModel)
-            }
+    let viewModel = HomeViewModel(authService: FirebaseAuthService())
+    return AsyncPreviewView(
+        asyncTasks: {
+            await SharedDatabase.preview.loadExercises()
+            return nil
+        },
+        content: { _ in
+            HomeTabViewScreen(viewModel: viewModel)
         }
-    }
+    )
+    .environment(\.database, SharedDatabase.preview.database)
     
-    var viewModel = HomeViewModel(authService: FirebaseAuthService())
-    return AsyncPreviewView(viewModel: viewModel).environment(\.database, SharedDatabase.preview.database)
+//    struct AsyncPreviewView: View {
+//        @State var loadingExercises = true
+//        var viewModel: HomeViewModel
+//        
+//        var body: some View {
+//            if loadingExercises {
+//                ProgressView("loading exercises")
+//                    .task {
+//                        await SharedDatabase.preview.loadExercises()
+//                        loadingExercises = false
+//                    }
+//            } else {
+//                HomeTabViewScreen(viewModel: viewModel)
+//            }
+//        }
+//    }
+//    
+//    var viewModel = HomeViewModel(authService: FirebaseAuthService())
+//    return AsyncPreviewView(viewModel: viewModel)
+//        .environment(\.database, SharedDatabase.preview.database)
+    
+
+
 }

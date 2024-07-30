@@ -21,11 +21,11 @@ public actor BackgroundSerialPersistenceActor {
     }
     
     func fetchWorkout(
-        predicate: Predicate<WorkoutNew>? = nil,
-        sortBy: [SortDescriptor<WorkoutNew>] = []
-    ) async throws -> [WorkoutNew] {
-        let fetchDescriptor = FetchDescriptor<WorkoutNew>(predicate: predicate, sortBy: sortBy)
-        let list: [WorkoutNew] = try modelContext.fetch(fetchDescriptor)
+        predicate: Predicate<WorkoutTemplate>? = nil,
+        sortBy: [SortDescriptor<WorkoutTemplate>] = []
+    ) async throws -> [WorkoutTemplate] {
+        let fetchDescriptor = FetchDescriptor<WorkoutTemplate>(predicate: predicate, sortBy: sortBy)
+        let list: [WorkoutTemplate] = try modelContext.fetch(fetchDescriptor)
         return list
     }
 
@@ -55,7 +55,7 @@ public actor BackgroundSerialPersistenceActor {
 //        modelExecutor = DefaultSerialModelExecutor(modelContext: context)
 //    }
 //    
-//    func fetchWorkout(by id: UUID) throws -> WorkoutNew? {
+//    func fetchWorkout(by id: UUID) throws -> WorkoutTemplate? {
 //        let fetchDescriptor = FetchDescriptor<WorkoutNew>(predicate: #Predicate { $0.id == id })
 //        return try context.fetch(fetchDescriptor).first
 //    }

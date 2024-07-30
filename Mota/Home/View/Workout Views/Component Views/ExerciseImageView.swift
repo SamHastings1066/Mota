@@ -26,7 +26,7 @@ struct ExerciseImageView: View {
         } label: {
             SafeImageView(imageName: imageName, fullSizeImageURL: nil)
                 .frame(width: 70, height: 70)
-            .logCreation()
+            //.logCreation()
         }
         .onTapGesture {
             isExerciseDetailPresented.toggle()
@@ -40,13 +40,39 @@ struct ExerciseImageView: View {
 }
 
 #Preview {
-    do {
-        let config = ModelConfiguration(isStoredInMemoryOnly: true)
-        let container = try ModelContainer(for: WorkoutNew.self, configurations: config)
-        return ExerciseImageView(exercise: DatabaseExercise.sampleExercises[0])
-            .modelContainer(container)
-    } catch {
-        fatalError("Failed to create model container")
-    }
 
+//    return AsyncPreviewView(
+//        asyncTasks: {
+//            await SharedDatabase.preview.loadExercises()
+//            return await SharedDatabase.preview.loadDummyExercise()
+//        },
+//        content: { exercise in
+//            if let exercise = exercise as? DatabaseExercise {
+//                ExerciseImageView(exercise: exercise)
+//            } else {
+//                Text("No superset found.")
+//            }
+//        }
+//    )
+//    .environment(\.database, SharedDatabase.preview.database)
+    return AsyncPreviewView(
+            asyncTasks: {
+                await SharedDatabase.preview.loadExercises()
+                let workout =  await SharedDatabase.preview.loadDummyWorkout()
+                return workout
+            },
+            content: { workout in
+                if let workout = workout as? WorkoutTemplate {
+                    if let exercise = workout.orderedSupersets[0].orderedRounds[0].orderedSinglesets[0].exercise {
+                        ExerciseImageView(exercise: exercise)
+                    } else {
+                        Text("No exercise found.")
+                    }
+                } else {
+                    Text("No workout found.")
+                }
+            }
+        )
+    .environment(\.database, SharedDatabase.preview.database)
+    
 }

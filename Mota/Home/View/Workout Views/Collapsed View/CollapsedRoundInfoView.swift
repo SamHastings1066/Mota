@@ -91,29 +91,45 @@ struct CollapsedRoundInfoView: View {
 }
 
 #Preview {
-    do {
-        let config = ModelConfiguration(isStoredInMemoryOnly: true)
-        let container = try ModelContainer(for: WorkoutNew.self, configurations: config)
-        
-        let superset1 = SupersetNew(
-            rounds: [
-                Round(
-                    singlesets: [SinglesetNew(exercise: DatabaseExercise.sampleExercises[0], weight: 100, reps: 10), SinglesetNew(exercise: DatabaseExercise.sampleExercises[1], weight: 90, reps: 15)],
-                    rest:  60
-                ),
-                Round(
-                    singlesets: [SinglesetNew(exercise: DatabaseExercise.sampleExercises[0], weight: 90, reps: 10), SinglesetNew(exercise: DatabaseExercise.sampleExercises[1], weight: 90, reps: 15)],
-                    rest:  60
-                )
-            ]
+//    do {
+//        let config = ModelConfiguration(isStoredInMemoryOnly: true)
+//        let container = try ModelContainer(for: WorkoutTemplate.self, configurations: config)
+//        
+//        let superset1 = SupersetNew(
+//            rounds: [
+//                Round(
+//                    singlesets: [SinglesetNew(exercise: DatabaseExercise.sampleExercises[0], weight: 100, reps: 10), SinglesetNew(exercise: DatabaseExercise.sampleExercises[1], weight: 90, reps: 15)],
+//                    rest:  60
+//                ),
+//                Round(
+//                    singlesets: [SinglesetNew(exercise: DatabaseExercise.sampleExercises[0], weight: 90, reps: 10), SinglesetNew(exercise: DatabaseExercise.sampleExercises[1], weight: 90, reps: 15)],
+//                    rest:  60
+//                )
+//            ]
+//        )
+//        let collapsedSuperset1 = CollapsedSuperset(superset: superset1)
+//        
+//        container.mainContext.insert(superset1)
+//        
+//        return CollapsedRoundInfoView(collapsedSuperset: .constant(collapsedSuperset1))
+//    } catch {
+//        fatalError("Failed to create model container")
+//    }
+    return AsyncPreviewView(
+            asyncTasks: {
+                await SharedDatabase.preview.loadExercises()
+                let workout =  await SharedDatabase.preview.loadDummyWorkout()
+                return workout
+            },
+            content: { workout in
+                if let workout = workout as? WorkoutTemplate {
+                    let superset = workout.orderedSupersets[0]
+                    let collapsedSuperset = CollapsedSuperset(superset: superset)
+                    CollapsedRoundInfoView(collapsedSuperset: .constant(collapsedSuperset))
+                } else {
+                    Text("No workout found.")
+                }
+            }
         )
-        let collapsedSuperset1 = CollapsedSuperset(superset: superset1)
-        
-        container.mainContext.insert(superset1)
-        
-        return CollapsedRoundInfoView(collapsedSuperset: .constant(collapsedSuperset1))
-    } catch {
-        fatalError("Failed to create model container")
-    }
-    
+    .environment(\.database, SharedDatabase.preview.database)
 }

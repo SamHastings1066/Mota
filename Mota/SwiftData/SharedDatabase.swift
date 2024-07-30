@@ -18,7 +18,7 @@ struct SharedDatabase {
     private init(inMemory: Bool = false,
         modelContainer: ModelContainer? = nil,
         database: (any Database)? = nil) {
-        let schema = Schema([WorkoutNew.self, DatabaseExercise.self])
+        let schema = Schema([WorkoutTemplate.self, DatabaseExercise.self])
             let config = ModelConfiguration(schema: schema, isStoredInMemoryOnly: inMemory)
             // TODO: remove forced unwrap
             let container = try! ModelContainer(for: schema, configurations: config)
@@ -48,7 +48,11 @@ struct SharedDatabase {
         }
     }
     
-    func loadDummyWorkout() async -> UUID? {
+}
+
+// Xcode Preview methods
+extension SharedDatabase {
+    func loadDummyWorkout() async -> WorkoutTemplate? {
         do {
             let descriptor = FetchDescriptor<DatabaseExercise>(
                 predicate: #Predicate {
@@ -56,19 +60,20 @@ struct SharedDatabase {
                     $0.id.localizedStandardContains("Barbell_Deadlift") ||
                     $0.id.localizedStandardContains("Barbell_Bench_Press_-_Medium_Grip") ||
                     $0.id.localizedStandardContains("Seated_Cable_Rows")
-                }
+                }, sortBy: [ SortDescriptor(\.name, order: .forward)]
             )
             let exercises = try await database.fetch(descriptor)
-            let fullBodyWorkout = WorkoutNew(name: "Full body",
+            let fullBodyWorkout = WorkoutTemplate(name: "Full body",
                                              supersets: [
                                                 SupersetNew(
                                                     rounds: [
-                                                        Round(singlesets: [SinglesetNew(exercise: exercises[0], weight: 100, reps: 10), SinglesetNew(exercise: exercises[1], weight: 90, reps: 15)])
+                                                        Round(singlesets: [SinglesetNew(exercise: exercises[0], weight: 100, reps: 10), SinglesetNew(exercise: exercises[1], weight: 90, reps: 15)], rest: 60),
+                                                        Round(singlesets: [SinglesetNew(exercise: exercises[0], weight: 100, reps: 10), SinglesetNew(exercise: exercises[1], weight: 90, reps: 15)], rest: 60)
                                                     ]
                                                 ),
                                                 SupersetNew(
                                                     rounds: [
-                                                        Round(singlesets: [SinglesetNew(exercise: exercises[3], weight: 10, reps: 20)]),
+                                                        Round(singlesets: [SinglesetNew(exercise: exercises[3], weight: 10, reps: 20)], rest: 60),
                                                     ]
                                                 )
                                              ]
@@ -78,10 +83,11 @@ struct SharedDatabase {
             try? await database.save()
             
             print("Dummy workout created")
-            return fullBodyWorkout.id
+            return fullBodyWorkout
         } catch {
             print("Dummy workout could not be created")
             return nil
         }
     }
+    
 }

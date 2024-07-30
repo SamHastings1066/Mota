@@ -42,6 +42,7 @@ struct MotaApp: App {
             authService = FirebaseAuthService()
         }
         
+        // TODO: Change this to use "ProcessInfo.processInfo.arguments.contains" pattern as above.
         if CommandLine.arguments.contains("reset") {
             // Ensure app launches in logged out state
             do {
@@ -60,29 +61,6 @@ struct MotaApp: App {
         WindowGroup {
             content()
         }
-//        .modelContainer(for: [Workout.self, SuperSet.self, DatabaseExercise.self, WorkoutNew.self]) { result in
-//            do {
-//                let container = try result.get()
-//                
-//                // check we haven't already added the exercises
-//                let descriptor = FetchDescriptor<DatabaseExercise>()
-//                let existingExercises = try container.mainContext.fetchCount(descriptor)
-//                guard existingExercises == 0 else { return }
-                
-//                guard let url = Bundle.main.url(forResource: "exercises", withExtension: "json") else {
-//                    fatalError("Failed to find exercises.json")
-//                }
-//                let data = try Data(contentsOf: url)
-//                let exercises = try JSONDecoder().decode([DatabaseExercise].self, from: data)
-//                for exercise in exercises {
-//                    container.mainContext.insert(exercise)
-//                }
-//                print("DATABASE created")
-                
-//            } catch {
-//                print("Failed to pre-seed database")
-//            }
-//        }
         .database(SharedDatabase.shared.database)
     }
         
@@ -92,7 +70,6 @@ struct MotaApp: App {
         case false:
             AuthenticationView(viewModel: LoginViewModel(authService: authService))
         case true:
-            //HomeView(viewModel: HomeViewModel(authService: authService))
             LoadingExercisesView(authService: authService)
         default:
             // TODO: Create better loading screen. Possibly the Mota Icon?

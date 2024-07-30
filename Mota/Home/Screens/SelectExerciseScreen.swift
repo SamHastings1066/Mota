@@ -96,54 +96,12 @@ struct SelectExerciseScreen: View {
 
 #Preview {
     
-    struct AsyncPreviewView: View {
-        @State var loadingExercises = true
-        
-        var body: some View {
-            if loadingExercises {
-                ProgressView("loading exercises")
-                    .task {
-                        await SharedDatabase.preview.loadExercises()
-                        loadingExercises = false
-                    }
-            } else {
-                SelectExerciseScreen(selectedExercise: .constant(nil))
-            }
-        }
+    return AsyncPreviewView {
+        await SharedDatabase.preview.loadExercises()
+        return nil
+    } content: { _ in
+        SelectExerciseScreen(selectedExercise: .constant(nil))
     }
-    
-//    do {
-//        let config = ModelConfiguration(isStoredInMemoryOnly: true)
-//        let container = try ModelContainer(for: WorkoutNew.self, configurations: config)
-//        // check we haven't already added the exercises
-//        let descriptor = FetchDescriptor<DatabaseExercise>()
-//        let existingExercises = try container.mainContext.fetchCount(descriptor)
-//        guard existingExercises == 0 else { 
-//            return 
-//            //NavigationStack {
-//                SelectExerciseScreen(selectedExercise: .constant(nil))
-//                    .modelContainer(container)
-//            //}
-//        }
-//        
-//        guard let url = Bundle.main.url(forResource: "exercises", withExtension: "json") else {
-//            fatalError("Failed to find exercises.json")
-//        }
-//        let data = try Data(contentsOf: url)
-//        let exercises = try JSONDecoder().decode([DatabaseExercise].self, from: data)
-//        for exercise in exercises {
-//            container.mainContext.insert(exercise)
-//        }
-//        print("DATABASE created")
-        
-        
-            return 
-        //NavigationStack {
-        AsyncPreviewView()
-            .environment(\.database, SharedDatabase.preview.database)
-            //.modelContainer(container)
-        //}
-//    } catch {
-//        fatalError("Failed to create model container")
-//    }
+    .environment(\.database, SharedDatabase.preview.database)
+
 }

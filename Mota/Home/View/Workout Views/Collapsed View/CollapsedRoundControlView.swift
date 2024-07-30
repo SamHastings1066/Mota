@@ -75,55 +75,22 @@ struct CollapsedRoundControlView: View {
 
 #Preview {
     
-    struct AsyncPreviewView: View {
-        @State var loadingExercises = true
-        @State var collapsedSuperset: CollapsedSuperset?
-        
-        var body: some View {
-            if loadingExercises {
-                ProgressView("loading exercises")
-                    .task {
-                        await SharedDatabase.preview.loadExercises()
-                        let descriptor = FetchDescriptor<DatabaseExercise>(
-                            predicate: #Predicate {
-                                $0.id.localizedStandardContains("Barbell_Squat") ||
-                                $0.id.localizedStandardContains("Barbell_Deadlift") ||
-                                $0.id.localizedStandardContains("Barbell_Bench_Press_-_Medium_Grip") ||
-                                $0.id.localizedStandardContains("Seated_Cable_Rows")
-                            }
-                        )
-                        do {
-                            let exercises = try await SharedDatabase.preview.database.fetch(descriptor)
-                        } catch {
-                            print(error)
-                        }
-                        let superset = SupersetNew(
-                            rounds: [
-                                Round(
-                                    singlesets: [SinglesetNew(exercise: DatabaseExercise.sampleExercises[0], weight: 100, reps: 10), SinglesetNew(exercise: DatabaseExercise.sampleExercises[1], weight: 90, reps: 15)],
-                                    rest:  60
-                                ),
-                                Round(
-                                    singlesets: [SinglesetNew(exercise: DatabaseExercise.sampleExercises[0], weight: 90, reps: 10), SinglesetNew(exercise: DatabaseExercise.sampleExercises[1], weight: 90, reps: 15)],
-                                    rest:  60
-                                )
-                            ]
-                        )
-                        await SharedDatabase.preview.database.insert(superset)
-                        collapsedSuperset = CollapsedSuperset(superset: superset)
-                        loadingExercises = false
-                    }
-            } else {
-                if let collapsedSuperset {
+    return AsyncPreviewView(
+            asyncTasks: {
+                await SharedDatabase.preview.loadExercises()
+                let workout =  await SharedDatabase.preview.loadDummyWorkout()
+                return workout
+            },
+            content: { workout in
+                if let workout = workout as? WorkoutTemplate {
+                    let superset = workout.orderedSupersets[0]
+                    let collapsedSuperset = CollapsedSuperset(superset: superset)
                     CollapsedRoundControlView(collapsedSuperset: .constant(collapsedSuperset))
                 } else {
-                    Text("No superset found.")
+                    Text("No workout found.")
                 }
             }
-        }
-    }
-    
-    return AsyncPreviewView()
-        .environment(\.database, SharedDatabase.preview.database)
+        )
+    .environment(\.database, SharedDatabase.preview.database)
     
 }

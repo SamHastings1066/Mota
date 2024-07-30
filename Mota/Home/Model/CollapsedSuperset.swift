@@ -127,26 +127,26 @@ class CollapsedSuperset: Identifiable, Equatable {
             flatSinglesets.append(contentsOf: round.orderedSinglesets) // This is the line that takes ages. It is not the sorting of the singlesets since using round.singlesets takes almost as long
             //flatSinglesets.append(contentsOf: dummySets) // this happens lightning fast!
         }
-        print("flattening takes \(Date().timeIntervalSince(startFlattening))s")
+        //print("flattening takes \(Date().timeIntervalSince(startFlattening))s")
         
         let start2DArray = Date()
         // Stores the the evolution of singlesets as user progresses through rounds
         let singlesetProgressions: [[SinglesetNew]] = {
             var returnArray = Array(repeating: Array(repeating: SinglesetNew(), count: flatSinglesets.count/singlesetsCount), count: singlesetsCount)
             for (index, element) in flatSinglesets.enumerated() { //O(n) - could do all of this in the loop above.
-                returnArray[index % singlesetsCount][index / singlesetsCount] = element
+                returnArray[index % singlesetsCount][index / singlesetsCount] = element //Fatal error: Index out of range
             }
             return returnArray
         }()
-        print("2D array takes \(Date().timeIntervalSince(start2DArray))s")
+        //print("2D array takes \(Date().timeIntervalSince(start2DArray))s")
         
         let startCreatingCollapsedSinglesets = Date()
         for singlesetProgression in singlesetProgressions {
             collapsedSinglesets.append(CollapsedSingleset(singlesets: singlesetProgression))
         }
-        print("singlesets take \(Date().timeIntervalSince(startCreatingCollapsedSinglesets))s")
+        //print("singlesets take \(Date().timeIntervalSince(startCreatingCollapsedSinglesets))s")
         
-        print("collapsedSinglesets generated in \(Date().timeIntervalSince(start))s")
+        //print("collapsedSinglesets generated in \(Date().timeIntervalSince(start))s")
         return collapsedSinglesets
     }
     

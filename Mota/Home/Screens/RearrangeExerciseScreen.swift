@@ -25,24 +25,20 @@ struct RearrangeExerciseScreen: View {
 }
 
 #Preview {
-    do {
-        let config = ModelConfiguration(isStoredInMemoryOnly: true)
-        let container = try ModelContainer(for: WorkoutNew.self, configurations: config)
-        
-        let singleset1 = SinglesetNew(exercise: DatabaseExercise.sampleExercises[0], weight: 100, reps: 10)
-        let singleset2 = SinglesetNew(exercise: DatabaseExercise.sampleExercises[1], weight: 100, reps: 15)
-        let superset = SupersetNew(rounds: [Round(singlesets: [singleset1, singleset2]), Round(singlesets: [singleset1, singleset2])])
-                            
-        container.mainContext.insert(superset)
-        
-        
-        let collapsedSuperset = CollapsedSuperset(superset: superset)
-        
-        return RearrangeExerciseScreen(collapsedSuperset: collapsedSuperset)
-            .modelContainer(container)
     
-    } catch {
-        fatalError("Failed to create model container")
-    }
-    
+    return AsyncPreviewView(
+        asyncTasks: {
+            await SharedDatabase.preview.loadExercises()
+            return await SharedDatabase.preview.loadDummyWorkout()
+        },
+        content: { workout in
+            if let workout = workout as? WorkoutTemplate {
+                let superset = workout.orderedSupersets[0]
+                RearrangeExerciseScreen(collapsedSuperset: CollapsedSuperset(superset: superset))
+            } else {
+                Text("No superset found.")
+            }
+        }
+    )
+    .environment(\.database, SharedDatabase.preview.database)
 }
