@@ -48,7 +48,7 @@ struct WorkoutNewScreen: View {
                             }
                         }
                     }
-                    .navigationTitle(title)
+                    .navigationTitle(workout.name)
                     .toolbar {
                         Menu("Edit Workout", systemImage: "ellipsis.circle") {
                             Button("Add New Set") {
