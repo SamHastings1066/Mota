@@ -19,8 +19,8 @@ struct WorkoutCalendarScreen: View {
     let endDate: Date
     
     init () {
-        startDate = calendar.date(from: DateComponents(year: 2020, month: 01, day: 01))!
-        endDate = calendar.date(from: DateComponents(year: 2021, month: 12, day: 31))!
+        startDate = calendar.date(from: DateComponents(year: 2024, month: 07, day: 01))!
+        endDate = calendar.date(from: DateComponents(year: 2024, month: 09, day: 30))!
     }
     
     
@@ -37,9 +37,30 @@ struct WorkoutCalendarScreen: View {
                 visibleDateRange: startDate...endDate,
                 monthsLayout: .vertical(options: VerticalMonthsLayoutOptions()),
                 dataDependency: nil)
+            .days { day in
+                let dateComponents = day.components
+                if let date = calendar.date(from: dateComponents){
+                    let filteredWorkouts = completedWorkouts.filter { workout in
+                        calendar.isDate(workout.startTime, equalTo: date, toGranularity: .day)
+                    }
+                    Text("\(day.day)")
+                        .font(.system(size: 18))
+                        .foregroundColor(Color(UIColor.label))
+                        .frame(maxWidth: .infinity, maxHeight: .infinity)
+                        .overlay {
+                            Circle()
+                                .stroke(
+                                    filteredWorkouts.count > 0 ? Color(UIColor.systemGreen) : Color(UIColor.clear),
+                                    lineWidth: 3)
+                        }
+                } else {
+                    Text("Error")
+                }
+            }
             .layoutMargins(.init(top: 8, leading: 8, bottom: 8, trailing: 8))
             .padding(.horizontal, 16)
             .frame(maxWidth: .infinity, maxHeight: .infinity)
+            
         }
     }
     
@@ -68,20 +89,19 @@ struct WorkoutCalendarScreen: View {
 }
 
 #Preview {
-//    WorkoutCalendarScreen()
-//        .environment(\.database, SharedDatabase.preview.database)
+    //    WorkoutCalendarScreen()
+    //        .environment(\.database, SharedDatabase.preview.database)
     
-    return
-        AsyncPreviewView(
-            asyncTasks: {
-                await SharedDatabase.preview.loadExercises()
-                _ = await SharedDatabase.preview.loadDummyCompletedWorkout()
-                return nil
-            },
-            content: { _ in
-                WorkoutCalendarScreen()
-            }
-        )
+    return AsyncPreviewView(
+        asyncTasks: {
+            await SharedDatabase.preview.loadExercises()
+            _ = await SharedDatabase.preview.loadDummyCompletedWorkout()
+            return nil
+        },
+        content: { _ in
+            WorkoutCalendarScreen()
+        }
+    )
     
     .environment(\.database, SharedDatabase.preview.database)
 }
