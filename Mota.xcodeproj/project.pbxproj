@@ -34,6 +34,7 @@
 		84622E212C528A67006728D6 /* AuthServiceKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84622E202C528A66006728D6 /* AuthServiceKey.swift */; };
 		84622E232C52A2FC006728D6 /* AsyncPreviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84622E222C52A2FB006728D6 /* AsyncPreviewView.swift */; };
 		84651D1D2C59605A009D5708 /* HorizonCalendar in Frameworks */ = {isa = PBXBuildFile; productRef = 84651D1C2C59605A009D5708 /* HorizonCalendar */; };
+		84651D1F2C5AA18D009D5708 /* CompletedWorkoutsForDayScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84651D1E2C5AA18D009D5708 /* CompletedWorkoutsForDayScreen.swift */; };
 		8469DE292B582E6900D617D2 /* MotaApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8469DE282B582E6900D617D2 /* MotaApp.swift */; };
 		8469DE2D2B582E6D00D617D2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8469DE2C2B582E6D00D617D2 /* Assets.xcassets */; };
 		8469DE302B582E6D00D617D2 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8469DE2F2B582E6D00D617D2 /* Preview Assets.xcassets */; };
@@ -145,6 +146,7 @@
 		84622E1E2C513EB5006728D6 /* ExerciseAnimationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseAnimationView.swift; sourceTree = "<group>"; };
 		84622E202C528A66006728D6 /* AuthServiceKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthServiceKey.swift; sourceTree = "<group>"; };
 		84622E222C52A2FB006728D6 /* AsyncPreviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AsyncPreviewView.swift; sourceTree = "<group>"; };
+		84651D1E2C5AA18D009D5708 /* CompletedWorkoutsForDayScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompletedWorkoutsForDayScreen.swift; sourceTree = "<group>"; };
 		8469DE252B582E6900D617D2 /* Mota.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Mota.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8469DE282B582E6900D617D2 /* MotaApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MotaApp.swift; sourceTree = "<group>"; };
 		8469DE2C2B582E6D00D617D2 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -296,6 +298,7 @@
 				849414462C00F16E00C95477 /* RearrangeExerciseScreen.swift */,
 				84E153412C04F3B000E47541 /* ReorderSupersetsScreen.swift */,
 				846DA2F92C595D7D0070B6DE /* WorkoutCalendarScreen.swift */,
+				84651D1E2C5AA18D009D5708 /* CompletedWorkoutsForDayScreen.swift */,
 			);
 			path = Screens;
 			sourceTree = "<group>";
@@ -752,6 +755,7 @@
 				842AD5A92BD06B85009DF530 /* SupersetNewView.swift in Sources */,
 				84C5AD132B68266C0002AAE3 /* WorkoutScreen.swift in Sources */,
 				84F2F05A2B83B28B00663BCA /* ChangeExerciseView.swift in Sources */,
+				84651D1F2C5AA18D009D5708 /* CompletedWorkoutsForDayScreen.swift in Sources */,
 				849414292BFF7E0E00C95477 /* ExerciseImageView.swift in Sources */,
 				8456E4BC2C3D951400426F3B /* Database.swift in Sources */,
 				84C5AD012B634A450002AAE3 /* FirebaseAuthService.swift in Sources */,

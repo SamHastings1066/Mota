@@ -76,9 +76,16 @@ final class WorkoutCompleted: Sendable {
     }
     
     init(workout: WorkoutTemplate, startTime: Date = Date(), endTime: Date = Date()) {
+        let copiedSupersets: [SupersetNew] = {
+            var result = [SupersetNew]()
+            for superset in workout.supersets {
+                result.append(superset.copy())
+            }
+            return result
+        }()
         self.name = workout.name
         self.timeStamp = workout.timeStamp
-        self.supersets = workout.supersets
+        self.supersets = copiedSupersets
         self.startTime = startTime
         self.endTime = endTime
     }
@@ -107,6 +114,17 @@ class SupersetNew {
         self.timestamp = timestamp
         self.rounds = rounds
     }
+    
+    func copy() -> SupersetNew {
+        let copiedRounds: [Round] = {
+            var result = [Round]()
+            for round in rounds {
+                result.append(round.copy())
+            }
+            return result
+        }()
+        return SupersetNew(timestamp: timestamp, rounds: copiedRounds)
+    }
    
 }
 
@@ -124,6 +142,17 @@ class Round {
         self.timestamp = timestamp
         self.singlesets = singlesets
         self.rest = rest
+    }
+    
+    func copy() -> Round {
+        let copiedSinglesets: [SinglesetNew] = {
+            var result = [SinglesetNew]()
+            for singleset in singlesets {
+                result.append(singleset.copy())
+            }
+            return result
+        }()
+        return Round(timestamp: timestamp, singlesets: copiedSinglesets, rest: rest)
     }
     
 }
@@ -148,6 +177,10 @@ class SinglesetNew {
         self.exercise = exercise
         self.weight = weight
         self.reps = reps
+    }
+    
+    func copy() -> SinglesetNew {
+        return SinglesetNew(timestamp: timestamp, exercise: exercise, weight: weight, reps: reps)
     }
     
     func updateWeight(_ weight: Int) {

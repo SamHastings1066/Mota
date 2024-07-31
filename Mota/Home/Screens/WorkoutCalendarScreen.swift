@@ -43,20 +43,27 @@ struct WorkoutCalendarScreen: View {
                     let filteredWorkouts = completedWorkouts.filter { workout in
                         calendar.isDate(workout.startTime, equalTo: date, toGranularity: .day)
                     }
-                    Text("\(day.day)")
-                        .font(.system(size: 18))
-                        .foregroundColor(Color(UIColor.label))
-                        .frame(maxWidth: .infinity, maxHeight: .infinity)
-                        .overlay {
+                    VStack {
+                        ZStack {
                             Circle()
                                 .stroke(
                                     filteredWorkouts.count > 0 ? Color(UIColor.systemGreen) : Color(UIColor.clear),
                                     lineWidth: 3)
+                                .frame(width: 40, height: 40)
+                            Text("\(day.day)")
+                                .font(.system(size: 20))
+                                .foregroundColor(Color(UIColor.label))
+                                .frame(maxWidth: .infinity, maxHeight: .infinity)
                         }
+                        Text("~")
+                    }
                 } else {
                     Text("Error")
                 }
             }
+            .interMonthSpacing(24)
+            .verticalDayMargin(38)
+            .horizontalDayMargin(8)
             .layoutMargins(.init(top: 8, leading: 8, bottom: 8, trailing: 8))
             .padding(.horizontal, 16)
             .frame(maxWidth: .infinity, maxHeight: .infinity)
