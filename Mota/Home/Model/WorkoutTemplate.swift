@@ -75,6 +75,14 @@ final class WorkoutCompleted: Sendable {
         self.endTime = endTime
     }
     
+    init(workout: WorkoutTemplate, startTime: Date = Date(), endTime: Date = Date()) {
+        self.name = workout.name
+        self.timeStamp = workout.timeStamp
+        self.supersets = workout.supersets
+        self.startTime = startTime
+        self.endTime = endTime
+    }
+    
     func addSuperset(_ superset: SupersetNew) {
         supersets.append(superset)
     }

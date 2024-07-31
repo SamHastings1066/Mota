@@ -88,7 +88,7 @@ struct CollapsedSinglesetView: View {
     return AsyncPreviewView(
         asyncTasks: {
             await SharedDatabase.preview.loadExercises()
-            let workout =  await SharedDatabase.preview.loadDummyWorkout()
+            let workout =  await SharedDatabase.preview.loadDummyWorkoutTemplate()
             return workout
         },
         content: { workout in

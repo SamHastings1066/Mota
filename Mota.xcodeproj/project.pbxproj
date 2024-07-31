@@ -33,6 +33,7 @@
 		84622E1F2C513EB5006728D6 /* ExerciseAnimationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84622E1E2C513EB5006728D6 /* ExerciseAnimationView.swift */; };
 		84622E212C528A67006728D6 /* AuthServiceKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84622E202C528A66006728D6 /* AuthServiceKey.swift */; };
 		84622E232C52A2FC006728D6 /* AsyncPreviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84622E222C52A2FB006728D6 /* AsyncPreviewView.swift */; };
+		84651D1D2C59605A009D5708 /* HorizonCalendar in Frameworks */ = {isa = PBXBuildFile; productRef = 84651D1C2C59605A009D5708 /* HorizonCalendar */; };
 		8469DE292B582E6900D617D2 /* MotaApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8469DE282B582E6900D617D2 /* MotaApp.swift */; };
 		8469DE2D2B582E6D00D617D2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8469DE2C2B582E6D00D617D2 /* Assets.xcassets */; };
 		8469DE302B582E6D00D617D2 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8469DE2F2B582E6D00D617D2 /* Preview Assets.xcassets */; };
@@ -55,6 +56,7 @@
 		8469DE912B5C54D000D617D2 /* UserScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8469DE902B5C54D000D617D2 /* UserScreen.swift */; };
 		8469DE932B5D646E00D617D2 /* SignupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8469DE922B5D646E00D617D2 /* SignupView.swift */; };
 		8469DE952B5D6B0A00D617D2 /* AuthenticationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8469DE942B5D6B0A00D617D2 /* AuthenticationView.swift */; };
+		846DA2FA2C595D7D0070B6DE /* WorkoutCalendarScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 846DA2F92C595D7D0070B6DE /* WorkoutCalendarScreen.swift */; };
 		847362352C18B3340050C9B2 /* BackgroundSerialPersistenceActor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 847362342C18B3340050C9B2 /* BackgroundSerialPersistenceActor.swift */; };
 		847E349F2B6A8F890004864D /* ExerciseData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 847E349E2B6A8F890004864D /* ExerciseData.swift */; };
 		849414272BFF751C00C95477 /* DeleteItemButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 849414262BFF751C00C95477 /* DeleteItemButton.swift */; };
@@ -164,6 +166,7 @@
 		8469DE902B5C54D000D617D2 /* UserScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserScreen.swift; sourceTree = "<group>"; };
 		8469DE922B5D646E00D617D2 /* SignupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignupView.swift; sourceTree = "<group>"; };
 		8469DE942B5D6B0A00D617D2 /* AuthenticationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationView.swift; sourceTree = "<group>"; };
+		846DA2F92C595D7D0070B6DE /* WorkoutCalendarScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutCalendarScreen.swift; sourceTree = "<group>"; };
 		847362342C18B3340050C9B2 /* BackgroundSerialPersistenceActor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackgroundSerialPersistenceActor.swift; sourceTree = "<group>"; };
 		847E349E2B6A8F890004864D /* ExerciseData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseData.swift; sourceTree = "<group>"; };
 		849414262BFF751C00C95477 /* DeleteItemButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteItemButton.swift; sourceTree = "<group>"; };
@@ -217,6 +220,7 @@
 			files = (
 				8469DE642B58432200D617D2 /* FirebaseAnalyticsSwift in Frameworks */,
 				8469DE672B5845DA00D617D2 /* FirebaseAuth in Frameworks */,
+				84651D1D2C59605A009D5708 /* HorizonCalendar in Frameworks */,
 				8469DE622B58432200D617D2 /* FirebaseAnalytics in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -291,6 +295,7 @@
 				8443936A2BF64B37007CAC76 /* SelectExerciseScreen.swift */,
 				849414462C00F16E00C95477 /* RearrangeExerciseScreen.swift */,
 				84E153412C04F3B000E47541 /* ReorderSupersetsScreen.swift */,
+				846DA2F92C595D7D0070B6DE /* WorkoutCalendarScreen.swift */,
 			);
 			path = Screens;
 			sourceTree = "<group>";
@@ -595,6 +600,7 @@
 				8469DE612B58432200D617D2 /* FirebaseAnalytics */,
 				8469DE632B58432200D617D2 /* FirebaseAnalyticsSwift */,
 				8469DE662B5845DA00D617D2 /* FirebaseAuth */,
+				84651D1C2C59605A009D5708 /* HorizonCalendar */,
 			);
 			productName = Mota;
 			productReference = 8469DE252B582E6900D617D2 /* Mota.app */;
@@ -670,6 +676,7 @@
 			mainGroup = 8469DE1C2B582E6900D617D2;
 			packageReferences = (
 				8469DE602B58432200D617D2 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+				846DA2F82C595D5A0070B6DE /* XCRemoteSwiftPackageReference "HorizonCalendar" */,
 			);
 			productRefGroup = 8469DE262B582E6900D617D2 /* Products */;
 			projectDirPath = "";
@@ -762,6 +769,7 @@
 				842F8A452BA1D90B00A2FB3F /* MockContainer.swift in Sources */,
 				84C5AD1D2B69635B0002AAE3 /* Exercise.swift in Sources */,
 				8449E59E2B90F42100138CE8 /* RearrangeExerceriseRoundsView.swift in Sources */,
+				846DA2FA2C595D7D0070B6DE /* WorkoutCalendarScreen.swift in Sources */,
 				8443936B2BF64B37007CAC76 /* SelectExerciseScreen.swift in Sources */,
 				8469DE932B5D646E00D617D2 /* SignupView.swift in Sources */,
 				84EAF4292BB5C1A4002AC464 /* SafeImageView.swift in Sources */,
@@ -1136,9 +1144,22 @@
 				minimumVersion = 10.20.0;
 			};
 		};
+		846DA2F82C595D5A0070B6DE /* XCRemoteSwiftPackageReference "HorizonCalendar" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/airbnb/HorizonCalendar.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.0.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		84651D1C2C59605A009D5708 /* HorizonCalendar */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 846DA2F82C595D5A0070B6DE /* XCRemoteSwiftPackageReference "HorizonCalendar" */;
+			productName = HorizonCalendar;
+		};
 		8469DE612B58432200D617D2 /* FirebaseAnalytics */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 8469DE602B58432200D617D2 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;

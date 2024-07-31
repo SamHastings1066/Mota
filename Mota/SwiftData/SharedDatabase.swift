@@ -18,7 +18,7 @@ struct SharedDatabase {
     private init(inMemory: Bool = false,
         modelContainer: ModelContainer? = nil,
         database: (any Database)? = nil) {
-        let schema = Schema([WorkoutTemplate.self, DatabaseExercise.self])
+        let schema = Schema([WorkoutTemplate.self, WorkoutCompleted.self, DatabaseExercise.self])
             let config = ModelConfiguration(schema: schema, isStoredInMemoryOnly: inMemory)
             // TODO: remove forced unwrap
             let container = try! ModelContainer(for: schema, configurations: config)
@@ -52,7 +52,8 @@ struct SharedDatabase {
 
 // Xcode Preview methods
 extension SharedDatabase {
-    func loadDummyWorkout() async -> WorkoutTemplate? {
+    
+    private func loadDummyWorkout<T: PersistentModel>(creationClosure: ([DatabaseExercise]) -> T) async -> T? {
         do {
             let descriptor = FetchDescriptor<DatabaseExercise>(
                 predicate: #Predicate {
@@ -60,34 +61,59 @@ extension SharedDatabase {
                     $0.id.localizedStandardContains("Barbell_Deadlift") ||
                     $0.id.localizedStandardContains("Barbell_Bench_Press_-_Medium_Grip") ||
                     $0.id.localizedStandardContains("Seated_Cable_Rows")
-                }, sortBy: [ SortDescriptor(\.name, order: .forward)]
+                }, sortBy: [SortDescriptor(\.name, order: .forward)]
             )
             let exercises = try await database.fetch(descriptor)
-            let fullBodyWorkout = WorkoutTemplate(name: "Full body",
-                                             supersets: [
-                                                SupersetNew(
-                                                    rounds: [
-                                                        Round(singlesets: [SinglesetNew(exercise: exercises[0], weight: 100, reps: 10), SinglesetNew(exercise: exercises[1], weight: 90, reps: 15)], rest: 60),
-                                                        Round(singlesets: [SinglesetNew(exercise: exercises[0], weight: 100, reps: 10), SinglesetNew(exercise: exercises[1], weight: 90, reps: 15)], rest: 60)
-                                                    ]
-                                                ),
-                                                SupersetNew(
-                                                    rounds: [
-                                                        Round(singlesets: [SinglesetNew(exercise: exercises[3], weight: 10, reps: 20)], rest: 60),
-                                                    ]
-                                                )
-                                             ]
-            )
+            let dummyWorkout = creationClosure(exercises)
             
-            await database.insert(fullBodyWorkout)
+            await database.insert(dummyWorkout)
             try? await database.save()
             
             print("Dummy workout created")
-            return fullBodyWorkout
+            return dummyWorkout
         } catch {
             print("Dummy workout could not be created")
             return nil
         }
     }
     
+    func loadDummyWorkoutTemplate() async -> WorkoutTemplate? {
+        return await loadDummyWorkout { exercises in
+            WorkoutTemplate(name: "Full body",
+                            supersets: [
+                                SupersetNew(
+                                    rounds: [
+                                        Round(singlesets: [SinglesetNew(exercise: exercises[0], weight: 100, reps: 10), SinglesetNew(exercise: exercises[1], weight: 90, reps: 15)], rest: 60),
+                                        Round(singlesets: [SinglesetNew(exercise: exercises[0], weight: 100, reps: 10), SinglesetNew(exercise: exercises[1], weight: 90, reps: 15)], rest: 60)
+                                    ]
+                                ),
+                                SupersetNew(
+                                    rounds: [
+                                        Round(singlesets: [SinglesetNew(exercise: exercises[3], weight: 10, reps: 20)], rest: 60),
+                                    ]
+                                )
+                            ]
+            )
+        }
+    }
+    
+    func loadDummyCompletedWorkout() async -> WorkoutCompleted? {
+        return await loadDummyWorkout { exercises in
+            WorkoutCompleted(name: "Full body",
+                             supersets: [
+                                SupersetNew(
+                                    rounds: [
+                                        Round(singlesets: [SinglesetNew(exercise: exercises[0], weight: 100, reps: 10), SinglesetNew(exercise: exercises[1], weight: 90, reps: 15)], rest: 60),
+                                        Round(singlesets: [SinglesetNew(exercise: exercises[0], weight: 100, reps: 10), SinglesetNew(exercise: exercises[1], weight: 90, reps: 15)], rest: 60)
+                                    ]
+                                ),
+                                SupersetNew(
+                                    rounds: [
+                                        Round(singlesets: [SinglesetNew(exercise: exercises[3], weight: 10, reps: 20)], rest: 60),
+                                    ]
+                                )
+                             ]
+            )
+        }
+    }
 }

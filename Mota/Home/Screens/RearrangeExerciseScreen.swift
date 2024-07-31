@@ -29,7 +29,7 @@ struct RearrangeExerciseScreen: View {
     return AsyncPreviewView(
         asyncTasks: {
             await SharedDatabase.preview.loadExercises()
-            return await SharedDatabase.preview.loadDummyWorkout()
+            return await SharedDatabase.preview.loadDummyWorkoutTemplate()
         },
         content: { workout in
             if let workout = workout as? WorkoutTemplate {
