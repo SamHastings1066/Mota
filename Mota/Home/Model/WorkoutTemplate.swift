@@ -8,74 +8,56 @@
 import Foundation
 import SwiftData
 
+class WorkoutStats {
+    var totalReps: Int
+    var totalVolume: Int
+    var musclesUsed: [String: Int]
+    var uniqueExercises: [String]
+    
+    init(totalReps: Int = 0, totalVolume: Int = 0, musclesUsed: [String: Int] = [:], uniqueExercises: [String] = []) {
+        self.totalReps = totalReps
+        self.totalVolume = totalVolume
+        self.musclesUsed = musclesUsed
+        self.uniqueExercises = uniqueExercises
+    }
+}
+
 protocol WorkoutNew: Sendable {
-    
     var supersets: [SupersetNew] { get set }
-    
-    func computeTotalReps() -> Int
-    func computeTotalVolume() -> Int
-    func computeMusclesUsed() -> [String: Int]
-    func computeUniqueExercises() -> [String]
+    func computeWorkoutStats() -> WorkoutStats
 }
 
 extension WorkoutNew {
     
-    func computeTotalReps() -> Int {
-        var totalReps = 0
-        for superset in self.supersets {
-            for round in superset.rounds {
-                for singleset in round.singlesets {
-                    totalReps += singleset.reps
-                }
-            }
-        }
-        return totalReps
-    }
-    
-    func computeTotalVolume() -> Int {
-        var totalVolume = 0
-        for superset in self.supersets {
-            for round in superset.rounds {
-                for singleset in round.singlesets {
-                    totalVolume += singleset.reps * singleset.weight
-                }
-            }
-        }
-        return totalVolume
-    }
-    
-    func computeMusclesUsed() -> [String: Int] {
-        var muscleUsageDict = [String:Int]()
-        for superset in self.supersets {
-            for round in superset.rounds {
-                for singleset in round.singlesets {
-                    if let exercise = singleset.exercise {
-                        for primaryMuscle in exercise.primaryMuscles {
-                            muscleUsageDict[primaryMuscle.rawValue, default: 0] += singleset.reps * singleset.weight //* 6
+    func computeWorkoutStats() -> WorkoutStats {
+            var totalReps = 0
+            var totalVolume = 0
+            var muscleUsageDict = [String: Int]()
+            var exerciseNames: Set<String> = []
+
+            for superset in self.supersets {
+                for round in superset.rounds {
+                    for singleset in round.singlesets {
+                        totalReps += singleset.reps
+                        totalVolume += singleset.reps * singleset.weight
+                        
+                        if let exercise = singleset.exercise {
+                            exerciseNames.insert(exercise.name)
+                            
+                            for primaryMuscle in exercise.primaryMuscles {
+                                muscleUsageDict[primaryMuscle.rawValue, default: 0] += singleset.reps * singleset.weight
+                            }
+    //                        for secondaryMuscle in exercise.secondaryMuscles {
+    //                            muscleUsageDict[secondaryMuscle.rawValue, default: 0] += singleset.reps * singleset.weight
+    //                        }
                         }
-//                        for secondaryMuscle in exercise.secondaryMuscles {
-//                            muscleUsageDict[secondaryMuscle.rawValue, default: 0] += singleset.reps * singleset.weight //* 4
-//                        }
                     }
                 }
             }
+
+            return WorkoutStats(totalReps: totalReps, totalVolume: totalVolume, musclesUsed: muscleUsageDict, uniqueExercises: Array(exerciseNames))
         }
-        return muscleUsageDict
-    }
     
-    func computeUniqueExercises() -> [String] {
-        var exerciseNames: Set<String> = []
-        for superset in self.supersets {
-            for round in superset.rounds {
-                for singleset in round.singlesets {
-                    if let exercise = singleset.exercise {
-                        exerciseNames.insert(exercise.name)
-                    }
-                }
-            }
-        }
-        return Array(exerciseNames)
-    }
 }
 
 
