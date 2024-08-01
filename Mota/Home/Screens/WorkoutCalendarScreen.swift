@@ -14,6 +14,8 @@ struct WorkoutCalendarScreen: View {
     @Environment(\.database) private var database
     @State private var completedWorkouts: [WorkoutCompleted] = []
     @State private var isLoading = true
+    @State var selectedDate: Date?
+    @State private var workoutsForSelectedDay: [WorkoutCompleted] = []
     let calendar = Calendar.current
     let startDate: Date
     let endDate: Date
@@ -32,41 +34,53 @@ struct WorkoutCalendarScreen: View {
                     loadCompletedWorkouts()
                 }
         } else {
-            CalendarViewRepresentable(
-                calendar: calendar,
-                visibleDateRange: startDate...endDate,
-                monthsLayout: .vertical(options: VerticalMonthsLayoutOptions()),
-                dataDependency: nil)
-            .days { day in
-                let dateComponents = day.components
-                if let date = calendar.date(from: dateComponents){
-                    let filteredWorkouts = completedWorkouts.filter { workout in
-                        calendar.isDate(workout.startTime, equalTo: date, toGranularity: .day)
-                    }
-                    VStack {
-                        ZStack {
-                            Circle()
-                                .stroke(
-                                    filteredWorkouts.count > 0 ? Color(UIColor.systemGreen) : Color(UIColor.clear),
-                                    lineWidth: 3)
-                                .frame(width: 40, height: 40)
-                            Text("\(day.day)")
-                                .font(.system(size: 20))
-                                .foregroundColor(Color(UIColor.label))
-                                .frame(maxWidth: .infinity, maxHeight: .infinity)
+            NavigationStack {
+                CalendarViewRepresentable(
+                    calendar: calendar,
+                    visibleDateRange: startDate...endDate,
+                    monthsLayout: .vertical(options: VerticalMonthsLayoutOptions()),
+                    dataDependency: nil
+                )
+                .onDaySelection { day in
+                    selectedDate = calendar.date(from: day.components)
+                    let dateComponents = day.components
+                    if let date = calendar.date(from: dateComponents) {
+                        workoutsForSelectedDay = completedWorkouts.filter { workout in
+                            calendar.isDate(workout.startTime, equalTo: date, toGranularity: .day)
                         }
-                        Text("~")
                     }
-                } else {
-                    Text("Error")
                 }
+                .days { day in
+                    let dateComponents = day.components
+                    if let date = calendar.date(from: dateComponents){
+                        let filteredWorkouts = completedWorkouts.filter { workout in
+                            calendar.isDate(workout.startTime, equalTo: date, toGranularity: .day)
+                        }
+                        VStack {
+                            ZStack {
+                                Circle()
+                                    .stroke(
+                                        filteredWorkouts.count > 0 ? Color(UIColor.systemGreen) : Color(UIColor.clear),
+                                        lineWidth: 3)
+                                    .frame(width: 40, height: 40)
+                                Text("\(day.day)")
+                                    .font(.system(size: 20))
+                                    .foregroundColor(Color(UIColor.label))
+                                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+                            }
+                            Text("~")
+                        }
+                    } else {
+                        Text("Error")
+                    }
+                }
+                .interMonthSpacing(24)
+                .verticalDayMargin(38)
+                .horizontalDayMargin(8)
+                .layoutMargins(.init(top: 8, leading: 8, bottom: 8, trailing: 8))
+                .padding(.horizontal, 16)
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
             }
-            .interMonthSpacing(24)
-            .verticalDayMargin(38)
-            .horizontalDayMargin(8)
-            .layoutMargins(.init(top: 8, leading: 8, bottom: 8, trailing: 8))
-            .padding(.horizontal, 16)
-            .frame(maxWidth: .infinity, maxHeight: .infinity)
             
         }
     }
