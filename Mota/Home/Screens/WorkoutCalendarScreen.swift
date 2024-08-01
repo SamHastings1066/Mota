@@ -58,6 +58,13 @@ struct WorkoutCalendarScreen: View {
                         let filteredWorkouts = completedWorkouts.filter { workout in
                             calendar.isDate(workout.startTime, equalTo: date, toGranularity: .day)
                         }
+                        let totalVolume: Int = {
+                            var volume = 0
+                            for workout in filteredWorkouts {
+                                volume += workout.computeWorkoutStats().totalVolume
+                            }
+                            return volume
+                        }()
                         VStack {
                             ZStack {
                                 Circle()
@@ -70,7 +77,8 @@ struct WorkoutCalendarScreen: View {
                                     .foregroundColor(Color(UIColor.label))
                                     .frame(maxWidth: .infinity, maxHeight: .infinity)
                             }
-                            Text("~")
+                            Text(totalVolume == 0 ? "~" : "\(totalVolume)")
+                                .font(.system(size: 12))
                         }
                     } else {
                         Text("Error")
