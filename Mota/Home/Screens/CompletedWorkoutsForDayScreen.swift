@@ -9,26 +9,45 @@ import SwiftUI
 
 struct CompletedWorkoutsForDayScreen: View {
     var workoutsCompleted: [WorkoutCompleted]
+    var date: Date?
+    
+    private var formattedDate: String {
+        if let date {
+            let formatter = DateFormatter()
+            formatter.dateStyle = .long
+            return formatter.string(from: date)
+        } else {
+            return "No date found"
+        }
+    }
+    
     var body: some View {
-        Text("#workouts: \(workoutsCompleted.count)")
+        List(workoutsCompleted) { workout in
+            Text(workout.name)
+        }
+        .navigationBarTitleDisplayMode(.inline)
+        .navigationTitle(date != nil ? "Workouts on \(formattedDate)" : "No date found")
+        
     }
 }
 
 #Preview {
-        AsyncPreviewView(
-            asyncTasks: {
-                await SharedDatabase.preview.loadExercises()
-                let workout =  await SharedDatabase.preview.loadDummyWorkoutTemplate()
-                return workout
-            },
-            content: { workout in
-                if let workout = workout {
-                    let workoutsCompleted = [WorkoutCompleted(workout: workout)]
-                    CompletedWorkoutsForDayScreen(workoutsCompleted: workoutsCompleted)
-                } else {
-                    Text("No workout found.")
+        NavigationStack {
+            AsyncPreviewView(
+                asyncTasks: {
+                    await SharedDatabase.preview.loadExercises()
+                    let workout =  await SharedDatabase.preview.loadDummyWorkoutTemplate()
+                    return workout
+                },
+                content: { workout in
+                    if let workout = workout {
+                        let workoutsCompleted = [WorkoutCompleted(workout: workout)]
+                        CompletedWorkoutsForDayScreen(workoutsCompleted: workoutsCompleted, date: Date())
+                    } else {
+                        Text("No workout found.")
+                    }
                 }
-            }
-        )
+            )
+        }
     .environment(\.database, SharedDatabase.preview.database)
 }
