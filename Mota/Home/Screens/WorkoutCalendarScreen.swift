@@ -15,7 +15,8 @@ struct WorkoutCalendarScreen: View {
     @State private var completedWorkouts: [WorkoutCompleted] = []
     @State private var isLoading = true
     @State var selectedDate: Date?
-    @State private var workoutsForSelectedDay: [WorkoutCompleted] = []
+    //@State private var workoutsForSelectedDay: [WorkoutCompleted] = []
+    @State private var presentedWorkouts: [[WorkoutCompleted]] = []
     let calendar = Calendar.current
     let startDate: Date
     let endDate: Date
@@ -34,7 +35,7 @@ struct WorkoutCalendarScreen: View {
                     loadCompletedWorkouts()
                 }
         } else {
-            NavigationStack {
+            NavigationStack(path: $presentedWorkouts) {
                 CalendarViewRepresentable(
                     calendar: calendar,
                     visibleDateRange: startDate...endDate,
@@ -45,9 +46,10 @@ struct WorkoutCalendarScreen: View {
                     selectedDate = calendar.date(from: day.components)
                     let dateComponents = day.components
                     if let date = calendar.date(from: dateComponents) {
-                        workoutsForSelectedDay = completedWorkouts.filter { workout in
+                        let workoutsForSelectedDay = completedWorkouts.filter { workout in
                             calendar.isDate(workout.startTime, equalTo: date, toGranularity: .day)
                         }
+                        presentedWorkouts = [workoutsForSelectedDay]
                     }
                 }
                 .days { day in
@@ -80,6 +82,9 @@ struct WorkoutCalendarScreen: View {
                 .layoutMargins(.init(top: 8, leading: 8, bottom: 8, trailing: 8))
                 .padding(.horizontal, 16)
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
+                .navigationDestination(for: [WorkoutCompleted].self) { workoutsForSelectedDay in
+                    CompletedWorkoutsForDayScreen(workoutsCompleted: workoutsForSelectedDay, date: selectedDate)
+                }
             }
             
         }
@@ -88,7 +93,6 @@ struct WorkoutCalendarScreen: View {
     private func loadCompletedWorkouts() {
         isLoading = true
         Task {
-            let start = Date()
             let descriptor = FetchDescriptor<WorkoutCompleted>()
             let fetchedWorkouts: [WorkoutCompleted]? = try? await database.fetch(descriptor)
             if let fetchedWorkouts {

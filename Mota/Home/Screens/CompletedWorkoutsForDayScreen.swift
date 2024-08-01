@@ -22,11 +22,17 @@ struct CompletedWorkoutsForDayScreen: View {
     }
     
     var body: some View {
-        List(workoutsCompleted) { workout in
-            Text(workout.name)
+        if workoutsCompleted.isEmpty {
+            Text("No workouts")
+                .navigationBarTitleDisplayMode(.inline)
+                .navigationTitle(date != nil ? "Workouts on \(formattedDate)" : "No date found")
+        } else {
+            List(workoutsCompleted) { workout in
+                Text(workout.name)
+            }
+            .navigationBarTitleDisplayMode(.inline)
+            .navigationTitle(date != nil ? "Workouts on \(formattedDate)" : "No date found")
         }
-        .navigationBarTitleDisplayMode(.inline)
-        .navigationTitle(date != nil ? "Workouts on \(formattedDate)" : "No date found")
         
     }
 }
