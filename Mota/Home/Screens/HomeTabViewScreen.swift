@@ -18,7 +18,10 @@ struct HomeTabViewScreen: View {
                 .tabItem {
                     Label("Users", systemImage: "person.2.fill")
                 }
-            //WorkoutListScreen()
+            WorkoutCalendarScreen()
+                .tabItem {
+                    Label("Log", systemImage: "calendar")
+                }
             WorkoutListNewScreen()
                 .tabItem {
                     Label("Workouts", systemImage: "dumbbell.fill")

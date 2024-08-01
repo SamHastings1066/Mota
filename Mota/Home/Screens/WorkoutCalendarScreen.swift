@@ -22,8 +22,8 @@ struct WorkoutCalendarScreen: View {
     let endDate: Date
     
     init () {
-        startDate = calendar.date(from: DateComponents(year: 2024, month: 07, day: 01))!
-        endDate = calendar.date(from: DateComponents(year: 2024, month: 09, day: 30))!
+        startDate = calendar.date(from: DateComponents(year: 2024, month: 08, day: 01))!
+        endDate = calendar.date(from: DateComponents(year: 2024, month: 10, day: 30))!
     }
     
     
