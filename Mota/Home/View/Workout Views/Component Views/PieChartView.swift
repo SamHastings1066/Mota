@@ -27,7 +27,7 @@ struct PieChartView: View {
     }
     
     static func randomColor() -> Color {
-        Color(hue: .random(in: 0...1), saturation: 0.7, brightness: 0.7)
+        Color(hue: .random(in: 0...1), saturation: 0.7, brightness: 0.9)
     }
     
     var body: some View {
