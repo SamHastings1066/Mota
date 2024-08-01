@@ -14,7 +14,8 @@ protocol WorkoutNew: Sendable {
     
     func computeTotalReps() -> Int
     func computeTotalVolume() -> Int
-    func computeMusclesUsed() -> [DatabaseExercise.Muscle: Int]
+    func computeMusclesUsed() -> [String: Int]
+    func computeUniqueExercises() -> [String]
 }
 
 extension WorkoutNew {
@@ -43,8 +44,37 @@ extension WorkoutNew {
         return totalVolume
     }
     
-    func computeMusclesUsed() -> [DatabaseExercise.Muscle: Int] {
-        return [DatabaseExercise.Muscle.abdominals: 10]
+    func computeMusclesUsed() -> [String: Int] {
+        var muscleUsageDict = [String:Int]()
+        for superset in self.supersets {
+            for round in superset.rounds {
+                for singleset in round.singlesets {
+                    if let exercise = singleset.exercise {
+                        for primaryMuscle in exercise.primaryMuscles {
+                            muscleUsageDict[primaryMuscle.rawValue, default: 0] += singleset.reps * singleset.weight //* 6
+                        }
+//                        for secondaryMuscle in exercise.secondaryMuscles {
+//                            muscleUsageDict[secondaryMuscle.rawValue, default: 0] += singleset.reps * singleset.weight //* 4
+//                        }
+                    }
+                }
+            }
+        }
+        return muscleUsageDict
+    }
+    
+    func computeUniqueExercises() -> [String] {
+        var exerciseNames: Set<String> = []
+        for superset in self.supersets {
+            for round in superset.rounds {
+                for singleset in round.singlesets {
+                    if let exercise = singleset.exercise {
+                        exerciseNames.insert(exercise.name)
+                    }
+                }
+            }
+        }
+        return Array(exerciseNames)
     }
 }
 

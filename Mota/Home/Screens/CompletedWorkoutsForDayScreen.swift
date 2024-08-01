@@ -30,8 +30,11 @@ struct CompletedWorkoutsForDayScreen: View {
             List(workoutsCompleted) { workout in
                 VStack(alignment:.leading) {
                     Text(workout.name)
+                        .font(.headline)
                     Text("Total reps: \(workout.computeTotalReps())")
                     Text("Total volume: \(workout.computeTotalVolume()) kgs")
+                    Text("Excerises: \(workout.computeUniqueExercises().joined(separator: ", "))")
+                    Text("\(workout.computeMusclesUsed())")
                 }
             }
             .navigationBarTitleDisplayMode(.inline)
@@ -47,6 +50,7 @@ struct CompletedWorkoutsForDayScreen: View {
                 asyncTasks: {
                     await SharedDatabase.preview.loadExercises()
                     let workout =  await SharedDatabase.preview.loadDummyCompletedWorkout()
+                    print(workout!.computeUniqueExercises())
                     return workout
                 },
                 content: { workout in

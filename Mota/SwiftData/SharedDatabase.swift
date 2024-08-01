@@ -89,7 +89,7 @@ extension SharedDatabase {
                                 ),
                                 SupersetNew(
                                     rounds: [
-                                        Round(singlesets: [SinglesetNew(exercise: exercises[3], weight: 10, reps: 20)], rest: 60),
+                                        Round(singlesets: [SinglesetNew(exercise: exercises[3], weight: 100, reps: 20)], rest: 60),
                                     ]
                                 )
                             ]
@@ -109,7 +109,7 @@ extension SharedDatabase {
                                 ),
                                 SupersetNew(
                                     rounds: [
-                                        Round(singlesets: [SinglesetNew(exercise: exercises[3], weight: 10, reps: 20)], rest: 60),
+                                        Round(singlesets: [SinglesetNew(exercise: exercises[3], weight: 100, reps: 20)], rest: 60),
                                     ]
                                 )
                              ]
