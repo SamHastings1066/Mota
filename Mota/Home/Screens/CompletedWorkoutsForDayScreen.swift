@@ -28,7 +28,11 @@ struct CompletedWorkoutsForDayScreen: View {
                 .navigationTitle(date != nil ? "Workouts on \(formattedDate)" : "No date found")
         } else {
             List(workoutsCompleted) { workout in
-                Text(workout.name)
+                VStack(alignment:.leading) {
+                    Text(workout.name)
+                    Text("Total reps: \(workout.computeTotalReps())")
+                    Text("Total volume: \(workout.computeTotalVolume()) kgs")
+                }
             }
             .navigationBarTitleDisplayMode(.inline)
             .navigationTitle(date != nil ? "Workouts on \(formattedDate)" : "No date found")
@@ -42,13 +46,12 @@ struct CompletedWorkoutsForDayScreen: View {
             AsyncPreviewView(
                 asyncTasks: {
                     await SharedDatabase.preview.loadExercises()
-                    let workout =  await SharedDatabase.preview.loadDummyWorkoutTemplate()
+                    let workout =  await SharedDatabase.preview.loadDummyCompletedWorkout()
                     return workout
                 },
                 content: { workout in
-                    if let workout = workout {
-                        let workoutsCompleted = [WorkoutCompleted(workout: workout)]
-                        CompletedWorkoutsForDayScreen(workoutsCompleted: workoutsCompleted, date: Date())
+                    if let workout = workout as? WorkoutCompleted {
+                        CompletedWorkoutsForDayScreen(workoutsCompleted: [workout], date: Date())
                     } else {
                         Text("No workout found.")
                     }

@@ -162,7 +162,7 @@ struct WorkoutNewScreen: View {
                 return workout
             },
             content: { workout in
-                if let workout = workout {
+                if let workout = workout as? WorkoutTemplate {
                     WorkoutNewScreen(renameWorkout: .constant(false), workoutID: workout.id)
                 } else {
                     Text("No workout found.")

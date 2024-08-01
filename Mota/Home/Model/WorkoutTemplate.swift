@@ -8,8 +8,49 @@
 import Foundation
 import SwiftData
 
+protocol WorkoutNew: Sendable {
+    
+    var supersets: [SupersetNew] { get set }
+    
+    func computeTotalReps() -> Int
+    func computeTotalVolume() -> Int
+    func computeMusclesUsed() -> [DatabaseExercise.Muscle: Int]
+}
+
+extension WorkoutNew {
+    
+    func computeTotalReps() -> Int {
+        var totalReps = 0
+        for superset in self.supersets {
+            for round in superset.rounds {
+                for singleset in round.singlesets {
+                    totalReps += singleset.reps
+                }
+            }
+        }
+        return totalReps
+    }
+    
+    func computeTotalVolume() -> Int {
+        var totalVolume = 0
+        for superset in self.supersets {
+            for round in superset.rounds {
+                for singleset in round.singlesets {
+                    totalVolume += singleset.reps * singleset.weight
+                }
+            }
+        }
+        return totalVolume
+    }
+    
+    func computeMusclesUsed() -> [DatabaseExercise.Muscle: Int] {
+        return [DatabaseExercise.Muscle.abdominals: 10]
+    }
+}
+
+
 @Model
-final class WorkoutTemplate: Sendable {
+final class WorkoutTemplate: Sendable, WorkoutNew {
     var id = UUID()
     var name: String
     let timeStamp: Date
@@ -47,7 +88,7 @@ final class WorkoutTemplate: Sendable {
 }
 
 @Model
-final class WorkoutCompleted: Sendable {
+final class WorkoutCompleted: Sendable, WorkoutNew {
     var id = UUID()
     var name: String
     let timeStamp: Date
@@ -99,6 +140,9 @@ final class WorkoutCompleted: Sendable {
             supersets.remove(at: index)
         }
     }
+//    func computeTotalSupersets() -> Int {
+//        return supersets.count
+//    }
 }
 
 @Model

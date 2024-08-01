@@ -10,9 +10,9 @@ import SwiftUI
 
 struct AsyncPreviewView<Content: View>: View {
     @State private var isLoading = true
-    @State private var workout: WorkoutTemplate?
-    var asyncTasks: () async -> WorkoutTemplate?
-    @ViewBuilder var content: (WorkoutTemplate?) -> Content
+    @State private var workout: WorkoutNew?
+    var asyncTasks: () async -> WorkoutNew?
+    @ViewBuilder var content: (WorkoutNew?) -> Content
 
     var body: some View {
         if isLoading {
