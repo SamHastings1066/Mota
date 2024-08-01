@@ -35,7 +35,7 @@ struct CompletedWorkoutsForDayScreen: View {
                     Text("Total reps: \(stats.totalReps)")
                     Text("Total volume: \(stats.totalVolume) kgs")
                     Text("Excerises: \(stats.uniqueExercises.joined(separator: ", "))")
-                    Text("\(stats.musclesUsed)")
+                    PieChartView(musclesUsed: stats.musclesUsed, maxMuscles: 3)
                 }
             }
             .navigationBarTitleDisplayMode(.inline)
@@ -51,7 +51,7 @@ struct CompletedWorkoutsForDayScreen: View {
                 asyncTasks: {
                     await SharedDatabase.preview.loadExercises()
                     let workout =  await SharedDatabase.preview.loadDummyCompletedWorkout()
-                    print(workout!.computeWorkoutStats().uniqueExercises)
+                    print(workout!.computeWorkoutStats().musclesUsed)
                     return workout
                 },
                 content: { workout in

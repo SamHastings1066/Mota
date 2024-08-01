@@ -8,7 +8,7 @@
 import Foundation
 import SwiftData
 
-class WorkoutStats {
+struct WorkoutStats {
     var totalReps: Int
     var totalVolume: Int
     var musclesUsed: [String: Int]
