@@ -114,7 +114,9 @@ struct WorkoutListNewScreen: View {
         }
         .task {
             do {
-                let descriptor = FetchDescriptor<WorkoutTemplate>()
+                let descriptor = FetchDescriptor<WorkoutTemplate>(
+                    sortBy: [SortDescriptor(\.name)]
+                )
                 workouts = try await database.fetch(descriptor)
                 sampleBackgroundExercises = try await database.fetch(FetchDescriptor<DatabaseExercise>())
             } catch {
