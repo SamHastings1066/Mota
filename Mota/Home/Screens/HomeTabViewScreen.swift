@@ -48,27 +48,6 @@ struct HomeTabViewScreen: View {
     )
     .environment(\.database, SharedDatabase.preview.database)
     
-//    struct AsyncPreviewView: View {
-//        @State var loadingExercises = true
-//        var viewModel: HomeViewModel
-//        
-//        var body: some View {
-//            if loadingExercises {
-//                ProgressView("loading exercises")
-//                    .task {
-//                        await SharedDatabase.preview.loadExercises()
-//                        loadingExercises = false
-//                    }
-//            } else {
-//                HomeTabViewScreen(viewModel: viewModel)
-//            }
-//        }
-//    }
-//    
-//    var viewModel = HomeViewModel(authService: FirebaseAuthService())
-//    return AsyncPreviewView(viewModel: viewModel)
-//        .environment(\.database, SharedDatabase.preview.database)
-    
 
 
 }

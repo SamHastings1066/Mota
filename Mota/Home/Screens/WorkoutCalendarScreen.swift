@@ -10,33 +10,29 @@ import HorizonCalendar
 import SwiftData
 
 struct WorkoutCalendarScreen: View {
-    
     @Environment(\.database) private var database
     @State private var completedWorkouts: [WorkoutCompleted] = []
     @State private var isLoading = true
-    @State var selectedDate: Date?
-    //@State private var workoutsForSelectedDay: [WorkoutCompleted] = []
+    @State private var selectedDate: Date?
     @State private var presentedWorkouts: [[WorkoutCompleted]] = []
+    
     let calendar = Calendar.current
     let startDate: Date
     let endDate: Date
     
-    init () {
+    init() {
         startDate = calendar.date(from: DateComponents(year: 2024, month: 08, day: 01))!
         endDate = calendar.date(from: DateComponents(year: 2024, month: 10, day: 30))!
     }
     
-    
-    
     var body: some View {
-        if isLoading {
-            ProgressView("Retrieving workout information")
-                .onAppear {
-                    loadCompletedWorkouts()
-                    print("APPEARED")
-                }
-        } else {
-            NavigationStack(path: $presentedWorkouts) {
+        NavigationStack(path: $presentedWorkouts) {
+            if isLoading {
+                ProgressView("Retrieving workout information")
+                    .onAppear {
+                        loadCompletedWorkouts()
+                    }
+            } else {
                 CalendarViewRepresentable(
                     calendar: calendar,
                     visibleDateRange: startDate...endDate,
@@ -45,8 +41,7 @@ struct WorkoutCalendarScreen: View {
                 )
                 .onDaySelection { day in
                     selectedDate = calendar.date(from: day.components)
-                    let dateComponents = day.components
-                    if let date = calendar.date(from: dateComponents) {
+                    if let date = calendar.date(from: day.components) {
                         let workoutsForSelectedDay = completedWorkouts.filter { workout in
                             calendar.isDate(workout.startTime, equalTo: date, toGranularity: .day)
                         }
@@ -55,23 +50,19 @@ struct WorkoutCalendarScreen: View {
                 }
                 .days { day in
                     let dateComponents = day.components
-                    if let date = calendar.date(from: dateComponents){
+                    if let date = calendar.date(from: dateComponents) {
                         let filteredWorkouts = completedWorkouts.filter { workout in
                             calendar.isDate(workout.startTime, equalTo: date, toGranularity: .day)
                         }
-                        let totalVolume: Int = {
-                            var volume = 0
-                            for workout in filteredWorkouts {
-                                volume += workout.computeWorkoutStats().totalVolume
-                            }
-                            return volume
-                        }()
+                        let totalVolume: Int = filteredWorkouts.reduce(0) { $0 + $1.computeWorkoutStats().totalVolume }
+                        
                         VStack {
                             ZStack {
                                 Circle()
                                     .stroke(
                                         filteredWorkouts.count > 0 ? Color(UIColor.systemGreen) : Color(UIColor.clear),
-                                        lineWidth: 3)
+                                        lineWidth: 3
+                                    )
                                     .frame(width: 40, height: 40)
                                 Text("\(day.day)")
                                     .font(.system(size: 20))
@@ -95,30 +86,23 @@ struct WorkoutCalendarScreen: View {
                     CompletedWorkoutsForDayScreen(workoutsCompleted: workoutsForSelectedDay, date: selectedDate)
                 }
             }
-            
         }
     }
     
     private func loadCompletedWorkouts() {
-        isLoading = true
         Task {
             let descriptor = FetchDescriptor<WorkoutCompleted>()
             let fetchedWorkouts: [WorkoutCompleted]? = try? await database.fetch(descriptor)
             if let fetchedWorkouts {
                 self.completedWorkouts = fetchedWorkouts
                 print("Fetched workout count is \(fetchedWorkouts.count)")
-                await MainActor.run {
-                    self.isLoading = false
-                }
+            } else {
+                print("Cannot load completed workouts")
             }
-            else {
-                print("cannot load completedworkouts")
-                await MainActor.run {
-                    self.isLoading = false
-                }
+            await MainActor.run {
+                self.isLoading = false
             }
         }
-        
     }
 }
 
