@@ -29,9 +29,6 @@ struct WorkoutCalendarScreen: View {
         NavigationStack(path: $presentedWorkouts) {
             if isLoading {
                 ProgressView("Retrieving workout information")
-                    .onAppear {
-                        loadCompletedWorkouts()
-                    }
             } else {
                 CalendarViewRepresentable(
                     calendar: calendar,
@@ -87,9 +84,13 @@ struct WorkoutCalendarScreen: View {
                 }
             }
         }
+        .onAppear {
+            loadCompletedWorkouts()
+        }
     }
     
     private func loadCompletedWorkouts() {
+        isLoading = true
         Task {
             let descriptor = FetchDescriptor<WorkoutCompleted>()
             let fetchedWorkouts: [WorkoutCompleted]? = try? await database.fetch(descriptor)
