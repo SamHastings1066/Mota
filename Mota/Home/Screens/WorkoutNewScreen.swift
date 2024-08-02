@@ -15,6 +15,7 @@ struct WorkoutNewScreen: View {
     @State private var isSelectInitialExercisePresented = false
     @State private var isReorderSupersetsPresented = false
     @State private var selectedExercise: DatabaseExercise?
+    @State private var addToLog = false
     @Binding var renameWorkout: Bool
     @State private var title = ""
     @Environment(\.database) private var database
@@ -66,6 +67,12 @@ struct WorkoutNewScreen: View {
                         TextField("Workout Name", text: $title)
                         Button("OK", action: updateName)
                     }
+                    .alert("Add to log", isPresented: $addToLog) {
+                        Button("OK", action: addWorkoutToLog)
+                        Button("Cancel", role: .cancel, action: {})
+                    } message: {
+                        Text("This will add the workout to your workout log.")
+                    }
                     .fullScreenCover(isPresented: $isSelectInitialExercisePresented,
                                      onDismiss: {
                         if selectedExercise != nil {
@@ -80,16 +87,30 @@ struct WorkoutNewScreen: View {
                            content: {
                         ReorderSupersetsScreen(workout: workout)
                     })
-                    Button {
-                        isSelectInitialExercisePresented = true
-                    } label: {
-                        Image(systemName: "plus")
-                            .font(.headline.weight(.semibold))
-                            .padding()
-                            .background(Color.blue)
-                            .foregroundColor(.white)
-                            .clipShape(Circle())
-                            .shadow(radius: 4, x: 0, y: 4)
+                    HStack {
+                        Button {
+                            isSelectInitialExercisePresented = true
+                        } label: {
+                            Image(systemName: "plus")
+                                .font(.headline.weight(.semibold))
+                                .padding()
+                                .background(Color.blue)
+                                .foregroundColor(.white)
+                                .clipShape(Circle())
+                                .shadow(radius: 4, x: 0, y: 4)
+                        }
+                        Button {
+                            addToLog = true
+                        } label: {
+                            Text("Add to log")
+                                .font(.headline.weight(.semibold))
+                                .padding()
+                                .background(Color.blue)
+                                .foregroundColor(.white)
+                                .clipShape(RoundedRectangle(cornerSize: CGSize(width: 10, height: 10)))
+                                .shadow(radius: 4, x: 0, y: 4)
+                        }
+                    //.padding()
                     }
                     .padding()
                 }
@@ -131,6 +152,16 @@ struct WorkoutNewScreen: View {
         workout?.name = title
         Task {
             try? await database.save()
+        }
+    }
+    
+    private func addWorkoutToLog() {
+        if let workout {
+            let completedWorkout = WorkoutCompleted(workout: workout)
+            Task {
+                await database.insert(completedWorkout)
+                try? await database.save()
+            }
         }
     }
     

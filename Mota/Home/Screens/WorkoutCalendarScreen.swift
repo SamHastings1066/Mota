@@ -33,6 +33,7 @@ struct WorkoutCalendarScreen: View {
             ProgressView("Retrieving workout information")
                 .onAppear {
                     loadCompletedWorkouts()
+                    print("APPEARED")
                 }
         } else {
             NavigationStack(path: $presentedWorkouts) {
