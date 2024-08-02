@@ -87,6 +87,10 @@ struct WorkoutCalendarScreen: View {
         .onAppear {
             loadCompletedWorkouts()
         }
+        // TODO: this is being used to reload the completedWorkouts after a change has been made in the CompletedWorkoutsForDayScreen. It would be better to just pass these workouts to that screen as a Binding which get automatically updates across all screens.
+        .onChange(of: presentedWorkouts) { _ in
+            loadCompletedWorkouts()
+        }
     }
     
     private func loadCompletedWorkouts() {
