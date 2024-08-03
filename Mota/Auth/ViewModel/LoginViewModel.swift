@@ -25,7 +25,7 @@ enum FocusableField: Hashable {
 }
 
 @Observable
-class LoginViewModel {
+final class LoginViewModel: Sendable {
     var email = ""
     var password = ""
     var confirmPassword = ""
